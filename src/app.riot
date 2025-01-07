@@ -1,6 +1,5 @@
 <app>
   <div class="container">
-    <h1> Riotjs + ViteJS </h1>
     <router>
       <div class="row">
         <nav class="menu column">
@@ -29,8 +28,8 @@
   <script>
     import { Router, Route, route, toRegexp, match } from '@riotjs/route'
     import lazy from '@riotjs/lazy'
-    import Loader from './components/includes/loader/loader.riot'
-    import NotFound from './pages/not-found.riot'
+    import Loader from '@components/loader.riot'
+    import NotFound from '@/pages/not-found.riot'
     import pages from './pages'
 
     export default {
@@ -39,10 +38,16 @@
         Route,
         NotFound,
         Home: lazy(Loader, () => import(
-          './pages/home.riot'
+          '@/pages/home.riot'
         )),
         About: lazy(Loader, () => import(
-          './pages/about.riot'
+          '@/pages/about.riot'
+        )),
+        Output: lazy(Loader, () => import(
+          '@/pages/output.riot'
+        )),
+        Contact: lazy(Loader, () => import(
+          '@/pages/contact.riot'
         )),
       },
       state: {

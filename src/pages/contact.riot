@@ -1,0 +1,52 @@
+<contact>
+  <section id="contact" class="contact-section">
+    <h2>Contact Me</h2>
+    <sl-card class="contact-card">
+      <form onsubmit={ handleSubmit }>
+        <sl-input name="name" label="Name" required></sl-input>
+        <sl-input name="email" type="email" label="Email" required></sl-input>
+        <sl-textarea name="message" label="Message" required></sl-textarea>
+        <sl-button type="submit" variant="primary">Send Message</sl-button>
+      </form>
+    </sl-card>
+  </section>
+
+  <script>
+    export default {
+      handleSubmit(event) {
+        event.preventDefault();
+        // Handle form submission logic here
+        console.log('Form submitted');
+      }
+    }
+  </script>
+
+  <style>
+    .contact-section {
+      padding: 4rem 0;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .contact-card {
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    form {
+      display: grid;
+      gap: 1rem;
+    }
+
+    sl-input, sl-textarea {
+      width: 100%;
+    }
+
+    sl-button {
+      justify-self: start;
+    }
+  </style>
+</contact>

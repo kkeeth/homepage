@@ -1,0 +1,64 @@
+<output>
+  <section id="output" class="output-section">
+    <h2>My Output</h2>
+    <div class="output-grid">
+      <sl-card class="output-card">
+        <h3 slot="header">Podcast</h3>
+        <p>Explore my thoughts and insights on various topics in my podcast series.</p>
+        <div slot="footer">
+          <sl-button variant="primary" href="#podcast-link">Listen Now</sl-button>
+        </div>
+      </sl-card>
+      <sl-card class="output-card">
+        <h3 slot="header">Tech Blog</h3>
+        <p>Read about the latest in technology and my experiences in the tech world.</p>
+        <div slot="footer">
+          <sl-button variant="primary" href="#tech-blog-link">Read More</sl-button>
+        </div>
+      </sl-card>
+      <sl-card class="output-card">
+        <h3 slot="header">Design Blog</h3>
+        <p>Discover my thoughts on design principles and trends in the digital space.</p>
+        <div slot="footer">
+          <sl-button variant="primary" href="#design-blog-link">Explore</sl-button>
+        </div>
+      </sl-card>
+    </div>
+  </section>
+
+  <style>
+    .output-section {
+      padding: 4rem 0;
+      background-color: #f8f9fa;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .output-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+
+    .output-card {
+      height: 100%;
+    }
+
+    sl-card::part(base) {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+
+    sl-card::part(body) {
+      flex-grow: 1;
+    }
+
+    sl-card::part(header) {
+      color: #0077b6;
+    }
+  </style>
+</output>

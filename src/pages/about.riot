@@ -1,24 +1,42 @@
 <about>
-  <h2>Something about me</h2>
-  <div class="button-group">
-    <shoelace-button variant="primary">Primary Button</shoelace-button>
-    <shoelace-button variant="success" size="large">Success Button</shoelace-button>
-    <shoelace-button variant="neutral" size="small">Neutral Button</shoelace-button>
-    <sl-range min="0" max="10" step="1" onSlChange={hoge}></sl-range>
-  </div>
+  <section id="about" class="about-section">
+    <h2>About Me</h2>
+    <sl-card class="card-overview">
+      <h3 slot="header">My Philosophy</h3>
+      <p>
+        I believe in creating meaningful and impactful digital experiences that inspire and empower users.
+        My approach combines innovative design with cutting-edge technology to solve real-world problems.
+      </p>
+    </sl-card>
+    <sl-card class="card-message">
+      <h3 slot="header">My Message</h3>
+      <p>
+        In this ever-evolving digital landscape, I strive to be a catalyst for positive change.
+        Through my work, I aim to bridge the gap between technology and human needs, creating solutions that are not just functional, but also intuitive and enjoyable to use.
+      </p>
+    </sl-card>
+  </section>
 
-  <script>
-    import '@shoelace-style/shoelace/dist/components/range/range.js';
-
-    import ShoelaceButton from '@components/ShoelaceButton.riot'
-
-    export default {
-      components: {
-        ShoelaceButton
-      },
-      hoge(e) {
-        console.log(e)
-      }
+  <style>
+    .about-section {
+      padding: 4rem 0;
     }
-  </script>
+
+    h2 {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .card-overview, .card-message {
+      margin-bottom: 2rem;
+    }
+
+    sl-card::part(base) {
+      background-color: #fff;
+    }
+
+    sl-card::part(header) {
+      color: #0077b6;
+    }
+  </style>
 </about>
