@@ -1,30 +1,54 @@
 <about>
   <section id="about" class="about-section">
-    <h2>About Me</h2>
-    <sl-card class="card-overview">
-      <h3 slot="header">My Philosophy</h3>
-      <p>
-        I believe in creating meaningful and impactful digital experiences that inspire and empower users.
-        My approach combines innovative design with cutting-edge technology to solve real-world problems.
-      </p>
-    </sl-card>
-    <sl-card class="card-message">
-      <h3 slot="header">My Message</h3>
-      <p>
-        In this ever-evolving digital landscape, I strive to be a catalyst for positive change.
-        Through my work, I aim to bridge the gap between technology and human needs, creating solutions that are not just functional, but also intuitive and enjoyable to use.
-      </p>
-    </sl-card>
+    <h2 class="section-title">About Me</h2>
+    <div class="about-content">
+      <div class="about-image">
+        <img src="/placeholder.svg?height=400&width=400" alt="Your Name" />
+      </div>
+      <div class="about-text">
+        <sl-card class="card-overview">
+          <h3 slot="header">My Philosophy</h3>
+          <p>
+            I believe in creating meaningful and impactful digital experiences that inspire and empower users.
+            My approach combines innovative design with cutting-edge technology to solve real-world problems.
+          </p>
+        </sl-card>
+        <sl-card class="card-message">
+          <h3 slot="header">My Message</h3>
+          <p>
+            In this ever-evolving digital landscape, I strive to be a catalyst for positive change.
+            Through my work, I aim to bridge the gap between technology and human needs, creating solutions that are not just functional, but also intuitive and enjoyable to use.
+          </p>
+        </sl-card>
+      </div>
+    </div>
   </section>
 
   <style>
     .about-section {
-      padding: 4rem 0;
+      padding: 6rem 0;
+      background-color: var(--background-color);
     }
 
-    h2 {
-      text-align: center;
-      margin-bottom: 2rem;
+    .about-content {
+      display: flex;
+      gap: 4rem;
+      align-items: center;
+    }
+
+    .about-image {
+      flex: 1;
+    }
+
+    .about-image img {
+      width: 100%;
+      height: auto;
+      border-radius: 50%;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    }
+
+    .about-text {
+      flex: 2;
     }
 
     .card-overview, .card-message {
@@ -33,10 +57,13 @@
 
     sl-card::part(base) {
       background-color: #fff;
+      border: none;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
     }
 
     sl-card::part(header) {
-      color: #0077b6;
+      color: var(--primary-color);
+      font-size: 1.5rem;
     }
   </style>
 </about>

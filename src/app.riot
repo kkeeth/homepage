@@ -72,6 +72,12 @@
       line-height: 1.6;
     }
 
+    main {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+
     h1, h2, h3 {
       font-weight: 700;
     }
@@ -82,10 +88,20 @@
       line-height: 1.6;
     }
 
-    main {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 2rem;
+    .section-title {
+      font-size: 2.5rem;
+      text-align: center;
+      margin-bottom: 2rem;
+      position: relative;
+    }
+
+    .section-title::after {
+      content: '';
+      display: block;
+      width: 50px;
+      height: 3px;
+      background-color: var(--accent-color);
+      margin: 0.5rem auto;
     }
   </style>
 </app>

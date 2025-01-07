@@ -1,29 +1,57 @@
 <home>
   <section id="home" class="home-section">
-    <h1>Welcome to My Portfolio</h1>
-    <p>Discover my journey, philosophy, and creations</p>
-    <sl-button variant="primary" size="large" href="#about">Learn More</sl-button>
+    <div class="content">
+      <h1>Welcome to My Portfolio</h1>
+      <p>Discover my journey, philosophy, and creations</p>
+      <sl-button variant="primary" size="large" href="#about">Learn More</sl-button>
+    </div>
   </section>
 
   <style>
     .home-section {
       height: 100vh;
       display: flex;
-      flex-direction: column;
       justify-content: center;
       align-items: center;
+      background-image: url('/placeholder.svg?height=1080&width=1920');
+      background-size: cover;
+      background-position: center;
+      position: relative;
+    }
+
+    .home-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0, 0, 0, 0.5);
+    }
+
+    .content {
       text-align: center;
-      background-color: #f8f9fa;
+      color: #fff;
+      position: relative;
+      z-index: 1;
     }
 
     h1 {
-      font-size: 3rem;
+      font-size: 3.5rem;
       margin-bottom: 1rem;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
     }
 
     p {
-      font-size: 1.2rem;
+      font-size: 1.5rem;
       margin-bottom: 2rem;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+    }
+
+    sl-button::part(base) {
+      font-size: 1.2rem;
+      padding: 1rem 2rem;
     }
   </style>
 </home>
+

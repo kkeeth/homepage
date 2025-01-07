@@ -1,14 +1,34 @@
 <contact>
   <section id="contact" class="contact-section">
-    <h2>Contact Me</h2>
-    <sl-card class="contact-card">
-      <form onsubmit={ handleSubmit }>
-        <sl-input name="name" label="Name" required></sl-input>
-        <sl-input name="email" type="email" label="Email" required></sl-input>
-        <sl-textarea name="message" label="Message" required></sl-textarea>
-        <sl-button type="submit" variant="primary">Send Message</sl-button>
-      </form>
-    </sl-card>
+    <h2 class="section-title">Contact Me</h2>
+    <div class="contact-content">
+      <div class="contact-info">
+        <h3>Get in Touch</h3>
+        <p>I'd love to hear from you! Whether you have a question about my work or just want to say hello, feel free to reach out.</p>
+        <ul>
+          <li>
+            <sl-icon name="envelope"></sl-icon>
+            <span>email@example.com</span>
+          </li>
+          <li>
+            <sl-icon name="telephone"></sl-icon>
+            <span>+1 (123) 456-7890</span>
+          </li>
+          <li>
+            <sl-icon name="geo-alt"></sl-icon>
+            <span>New York, NY</span>
+          </li>
+        </ul>
+      </div>
+      <sl-card class="contact-card">
+        <form onsubmit={ handleSubmit }>
+          <sl-input name="name" label="Name" required></sl-input>
+          <sl-input name="email" type="email" label="Email" required></sl-input>
+          <sl-textarea name="message" label="Message" required></sl-textarea>
+          <sl-button type="submit" variant="primary">Send Message</sl-button>
+        </form>
+      </sl-card>
+    </div>
   </section>
 
   <script>
