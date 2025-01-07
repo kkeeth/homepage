@@ -1,0 +1,66 @@
+<my-header>
+  <div class="header">
+    <nav>
+      <ul>
+        <li>
+          <a
+            each={page in state.pages}
+            class={props.activePage === page ? 'active' : '' }
+            href={page.path}>{page.label}</a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+
+  <script>
+    import pages from '@/pages'
+
+    export default {
+      state: {
+        pages,
+      }
+    }
+  </script>
+
+  <style>
+    .header {
+      background-color: #fff;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    nav ul {
+      display: flex;
+      justify-content: center;
+      list-style-type: none;
+      padding: 1rem 0;
+    }
+
+    nav ul li {
+      margin: 0 1rem;
+    }
+
+    nav ul li a {
+      color: #333;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+
+    nav ul li a:hover {
+      color: #0077b6;
+      text-decoration: underline;
+    }
+
+    nav ul li a.active.active {
+      font-weight: bold;
+      color: #0077b6;
+      text-decoration: none;
+    }
+    nav ul li a:active {
+      text-decoration: underline;
+    }
+  </style>
+</my-header>
