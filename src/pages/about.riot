@@ -1,0 +1,24 @@
+<about>
+  <h2>Something about me</h2>
+  <div class="button-group">
+    <shoelace-button variant="primary">Primary Button</shoelace-button>
+    <shoelace-button variant="success" size="large">Success Button</shoelace-button>
+    <shoelace-button variant="neutral" size="small">Neutral Button</shoelace-button>
+    <sl-range min="0" max="10" step="1" onSlChange={hoge}></sl-range>
+  </div>
+
+  <script>
+    import '@shoelace-style/shoelace/dist/components/range/range.js';
+
+    import ShoelaceButton from '@components/ShoelaceButton.riot'
+
+    export default {
+      components: {
+        ShoelaceButton
+      },
+      hoge(e) {
+        console.log(e)
+      }
+    }
+  </script>
+</about>

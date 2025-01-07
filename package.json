@@ -1,47 +1,40 @@
 {
-  "name": "my-site",
-  "version": "0.0.0",
-  "private": true,
+  "name": "homepage",
+  "version": "1.0.0",
+  "description": "my home page",
+  "main": "app.js",
+  "type": "module",
   "scripts": {
-    "docusaurus": "docusaurus",
-    "start": "docusaurus start",
-    "build": "docusaurus build",
-    "swizzle": "docusaurus swizzle",
-    "deploy": "docusaurus deploy",
-    "clear": "docusaurus clear",
-    "serve": "docusaurus serve",
-    "write-translations": "docusaurus write-translations",
-    "write-heading-ids": "docusaurus write-heading-ids",
-    "typecheck": "tsc"
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kkeeth/homepage.git"
+  },
+  "keywords": [
+    "riotjs",
+    "vite"
+  ],
+  "author": "kkeeth",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kkeeth/homepage/issues"
+  },
+  "homepage": "https://github.com/kkeeth/homepage#readme",
   "dependencies": {
-    "@docusaurus/core": "3.1.1",
-    "@docusaurus/preset-classic": "3.1.1",
-    "@mdx-js/react": "^3.0.0",
-    "clsx": "^2.0.0",
-    "prism-react-renderer": "^2.3.0",
-    "react": "^18.0.0",
-    "react-dom": "^18.0.0"
+    "@riotjs/route": "^8.0.2",
+    "@shoelace-style/shoelace": "^2.19.1",
+    "riot": "^9.1.1"
   },
   "devDependencies": {
-    "@docusaurus/module-type-aliases": "3.1.1",
-    "@docusaurus/tsconfig": "3.1.1",
-    "@docusaurus/types": "3.1.1",
-    "typescript": "~5.2.2"
-  },
-  "browserslist": {
-    "production": [
-      ">0.5%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 3 chrome version",
-      "last 3 firefox version",
-      "last 5 safari version"
-    ]
-  },
-  "engines": {
-    "node": ">=18.0"
+    "@riotjs/compiler": "^9.0.6",
+    "@riotjs/hot-reload": "^9.0.1",
+    "@riotjs/lazy": "^9.0.0",
+    "rollup": "^4.4.1",
+    "rollup-plugin-riot": "^9.0.2",
+    "vite": "^5.0.0"
   }
 }

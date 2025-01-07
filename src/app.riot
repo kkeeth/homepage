@@ -1,0 +1,99 @@
+<app>
+  <div class="container">
+    <h1> Riotjs + ViteJS </h1>
+    <router>
+      <div class="row">
+        <nav class="menu column">
+          <a
+            each={page in state.pages}
+            class={state.activePage === page ? 'active' : '' }
+            href={page.path}>
+            {page.label}
+          </a>
+        </nav>
+      </div>
+      <div if={state.showNotFound} class="row">
+        <div class="column column-60">
+          <not-found />
+        </div>
+      </div>
+      <div if={!state.showNotFound} class="row">
+        <div class="column column-60">
+          <route each={page in state.pages} path={page.path}>
+            <main is={page.componentName}/>
+          </route>
+        </div>
+      </div>
+    </router>
+  </div>
+  <script>
+    import { Router, Route, route, toRegexp, match } from '@riotjs/route'
+    import lazy from '@riotjs/lazy'
+    import Loader from './components/includes/loader/loader.riot'
+    import NotFound from './pages/not-found.riot'
+    import pages from './pages'
+
+    export default {
+      components : {
+        Router,
+        Route,
+        NotFound,
+        Home: lazy(Loader, () => import(
+          './pages/home.riot'
+        )),
+        About: lazy(Loader, () => import(
+          './pages/about.riot'
+        )),
+      },
+      state: {
+        pages,
+        showNotFound: false,
+        activePage: null
+      },
+      onBeforeMount({ isServer }) {
+        this.anyRouteStream = route('(.*)')
+        this.anyRouteStream.on.value(this.onAnyRoute)
+      },
+      onAnyRoute(path) {
+        const activePage = pages.find(p => match(path.pathname, toRegexp(p.path)))
+
+        this.update({
+          activePage,
+          showNotFound: !activePage
+        })
+      },
+      onBeforeUnmount() {
+        this.anyRouteStream.end()
+      },
+    }
+  </script>
+
+  <style>
+    :host {
+      margin: 1rem;
+      padding: 4rem 2rem;
+      min-width: 60vw;
+      border: 1px solid #ccc;
+      border-radius: 16px;
+      box-shadow: 0px 5px 15px 0px rgba(0, 0, 0, 0.35);
+    }
+
+    .menu {
+      margin: 1rem -1rem;
+    }
+
+    .menu a + a {
+      margin-left: 1rem;
+    }
+
+    .menu a.active.active {
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+    .menu a:hover, .menu a:focus, .menu a:active {
+      text-decoration: underline;
+    }
+
+  </style>
+</app>
