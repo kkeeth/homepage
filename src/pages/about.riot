@@ -3,7 +3,7 @@
     <h2 class="section-title">About Me</h2>
     <div class="about-content">
       <div class="about-image">
-        <img src="/placeholder.svg?height=400&width=400" alt="Your Name" />
+        <img src={mySelf} alt="Kuwahara KEETH Kiyohito" />
       </div>
       <div class="about-text">
         <sl-card class="card-overview">
@@ -24,9 +24,17 @@
     </div>
   </section>
 
+  <script>
+    import mySelf from '@/assets/myself.png?height=400&width=400';
+
+    export default {
+      mySelf
+    }
+  </script>
+
   <style>
     .about-section {
-      padding: 6rem 0;
+      padding: 6rem 3rem;
       background-color: var(--background-color);
     }
 

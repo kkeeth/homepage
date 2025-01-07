@@ -1,6 +1,17 @@
 <app>
   <div class="container">
     <router>
+      <my-header>
+        <nav>
+          <ul>
+            <li each={page in state.pages}>
+              <a
+                class={props.activePage === page ? 'active' : '' }
+                href={page.path}>{page.label}</a>
+            </li>
+          </ul>
+        </nav>
+      </my-header>
       <div if={state.showNotFound} class="row">
         <div class="column column-60">
           <not-found />
@@ -9,8 +20,8 @@
       <div if={!state.showNotFound} class="row">
         <div class="column column-60">
           <route each={page in state.pages} path={page.path}>
-            <my-header activePage={state.activePage} />
             <main is={page.componentName}/>
+            <scroll-top />
             <my-footer />
           </route>
         </div>
@@ -66,16 +77,15 @@
   </script>
 
   <style>
-      .app {
+    .app {
       font-family: 'Poppins', sans-serif;
       color: var(--text-color);
       line-height: 1.6;
     }
 
     main {
-      max-width: 1200px;
       margin: 0 auto;
-      padding: 2rem;
+      padding-top: 6rem;
     }
 
     h1, h2, h3 {

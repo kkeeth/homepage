@@ -1,7 +1,6 @@
 <my-footer>
   <footer class="footer">
     <div class="footer-content">
-      <div class="footer-logo">Your Logo</div>
       <p>&copy; 2025 kkeeth. All rights reserved.</p>
       <div class="social-links">
         <a href="#twitter" aria-label="Twitter">
@@ -17,11 +16,16 @@
     </div>
   </footer>
 
+  <script>
+    import '@shoelace-style/shoelace/dist/components/icon/icon.js';
+  </script>
+
   <style>
     .footer {
+      width: 100%;
       background-color: var(--primary-color);
       color: #fff;
-      padding: 3rem 0;
+      padding: 4rem 2rem;
     }
 
     .footer-content {
@@ -30,11 +34,6 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-    }
-
-    .footer-logo {
-      font-size: 1.5rem;
-      font-weight: 700;
     }
 
     .social-links {

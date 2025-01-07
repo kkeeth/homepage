@@ -1,25 +1,15 @@
 <my-header>
-  <header class="header">
-    <div class="logo">Your Logo</div>
-    <nav>
-      <ul>
-        <li>
-          <a
-            each={page in state.pages}
-            class={props.activePage === page ? 'active' : '' }
-            href={page.path}>{page.label}</a>
-        </li>
-      </ul>
-    </nav>
+  <header class="header" id="anchor">
+    <div class="logo">
+      <img src={imgUrl} alt="Logo" width="80" />
+    </div>
+    <slot />
   </header>
 
   <script>
-    import pages from '@/pages'
-
+    import imgUrl from '@/assets/myself.png';
     export default {
-      state: {
-        pages,
-      }
+      imgUrl
     }
   </script>
 
@@ -36,6 +26,7 @@
       justify-content: space-between;
       align-items: center;
       padding: 1rem 2rem;
+      height: 6rem;
     }
 
     .logo {
@@ -49,7 +40,7 @@
       list-style-type: none;
     }
 
-    nav ul li {
+    nav ul li + li {
       margin-left: 2rem;
     }
 
@@ -60,8 +51,20 @@
       transition: color 0.3s ease;
     }
 
+    nav ul li a.active.active {
+      text-decoration: none;
+    }
+
     nav ul li a:hover {
       color: var(--primary-color);
+      text-decoration: underline;
+    }
+
+    nav ul li a:focus,
+    nav ul li a:active {
+      font-weight: bold;
+      color: var(--primary-color);
+      text-decoration: underline;
     }
   </style>
 </my-header>

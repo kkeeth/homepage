@@ -3,27 +3,41 @@
     <h2 class="section-title">My Output</h2>
     <div class="output-grid">
       <sl-card class="output-card">
-        <img slot="image" src="/placeholder.svg?height=300&width=400" alt="Podcast" />
-        <h3 slot="header">Podcast</h3>
-        <p>Explore my thoughts and insights on various topics in my podcast series.</p>
-        <div slot="footer">
-          <sl-button variant="primary" href="#podcast-link">Listen Now</sl-button>
+        <div class="card-image">
+          <img src="/placeholder.svg?height=300&width=400" alt="Podcast" />
+        </div>
+        <div class="card-content">
+          <h3>Podcast</h3>
+          <p>Explore my thoughts and insights on various topics in my podcast series.</p>
+          <div class="card-footer">
+            <sl-button variant="primary" href="#podcast-link">Listen Now</sl-button>
+          </div>
         </div>
       </sl-card>
+
       <sl-card class="output-card">
-        <img slot="image" src="/placeholder.svg?height=300&width=400" alt="Tech Blog" />
-        <h3 slot="header">Tech Blog</h3>
-        <p>Read about the latest in technology and my experiences in the tech world.</p>
-        <div slot="footer">
-          <sl-button variant="primary" href="#tech-blog-link">Read More</sl-button>
+        <div class="card-image">
+          <img src="/placeholder.svg?height=300&width=400" alt="Tech Blog" />
+        </div>
+        <div class="card-content">
+          <h3>Tech Blog</h3>
+          <p>Read about the latest in technology and my experiences in the tech world.</p>
+          <div class="card-footer">
+            <sl-button variant="primary" href="#tech-blog-link">Read More</sl-button>
+          </div>
         </div>
       </sl-card>
+
       <sl-card class="output-card">
-        <img slot="image" src="/placeholder.svg?height=300&width=400" alt="Design Blog" />
-        <h3 slot="header">Design Blog</h3>
-        <p>Discover my thoughts on design principles and trends in the digital space.</p>
-        <div slot="footer">
-          <sl-button variant="primary" href="#design-blog-link">Explore</sl-button>
+        <div class="card-image">
+          <img src="/placeholder.svg?height=300&width=400" alt="Design Blog" />
+        </div>
+        <div class="card-content">
+          <h3>Design Blog</h3>
+          <p>Discover my thoughts on design principles and trends in the digital space.</p>
+          <div class="card-footer">
+            <sl-button variant="primary" href="#design-blog-link">Explore</sl-button>
+          </div>
         </div>
       </sl-card>
     </div>
@@ -31,16 +45,20 @@
 
   <style>
     .output-section {
-      padding: 6rem 0;
+      padding: 6rem 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
     }
 
     .output-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
       gap: 2rem;
+      padding: 0 1rem;
     }
 
     .output-card {
+      display: block;
       height: 100%;
       transition: transform 0.3s ease;
     }
@@ -54,21 +72,68 @@
       display: flex;
       flex-direction: column;
       border: none;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
     }
 
-    sl-card::part(body) {
+    .card-image {
+      width: 100%;
+      height: 200px;
+      overflow: hidden;
+    }
+
+    .card-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .card-content {
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .card-content h3 {
+      font-size: 1.5rem;
+      color: var(--primary-color);
+      margin: 0;
+    }
+
+    .card-content p {
+      color: var(--text-color);
+      margin: 0;
       flex-grow: 1;
     }
 
-    sl-card::part(header) {
-      color: var(--primary-color);
-      font-size: 1.3rem;
+    .card-footer {
+      margin-top: auto;
     }
 
-    sl-card::part(image) {
-      height: 200px;
-      object-fit: cover;
+    sl-button::part(base) {
+      width: 100%;
+    }
+
+    @media (max-width: 768px) {
+      .output-section {
+        padding: 4rem 1rem;
+      }
+
+      .section-title {
+        font-size: 2rem;
+        margin-bottom: 2rem;
+      }
+
+      .output-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+      }
+
+      .card-content {
+        padding: 1rem;
+      }
     }
   </style>
 </output>

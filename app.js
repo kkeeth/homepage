@@ -6,9 +6,9 @@ setBasePath(
   'https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.12.0/cdn/',
 );
 
-import './src/style.css';
-import App from './src/app.riot';
-import registerGlobalComponents from './src/register-global-components';
+import '@/assets/style.css';
+import App from '@/app.riot';
+import registerGlobalComponents from '@/register-global-components';
 
 // register
 registerGlobalComponents();

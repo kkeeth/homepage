@@ -1,0 +1,107 @@
+<scroll-top>
+  <a class="scroll-to-top" aria-label="Scroll to top" onclick={scrollToTop}>
+    <div class="arrow">
+      <span class="line line1"></span>
+      <span class="line line2"></span>
+    </div>
+    <span class="text">Top</span>
+  </a>
+
+  <script>
+    export default {
+      onMounted() {
+        window.addEventListener('scroll', this.handleScroll);
+      },
+      scrollToTop() {
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth'
+        });
+      },
+      handleScroll() {
+        const scrollButton = document.querySelector('.scroll-to-top');
+        if (window.scrollY > 100) {
+          scrollButton.style.display = 'block';
+        } else {
+          scrollButton.style.display = 'none';
+        }
+      },
+
+    }
+    </script>
+
+  <style>
+    /* スクロールボタン全体 */
+    .scroll-to-top {
+      position: fixed;
+      bottom: 2rem; /* 画面下からの位置 */
+      right: 2rem; /* 画面右からの位置 */
+      display: none;
+      text-decoration: none;
+      color: #fff;
+      font-family: 'Arial', sans-serif;
+      font-size: 1.2rem;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+      z-index: 1000;
+    }
+
+    .scroll-to-top:hover {
+      cursor: pointer;
+    }
+
+    /* 矢印全体 */
+    .arrow {
+      position: relative;
+      width: 30px; /* 矢印の横幅 */
+      height: 30px; /* 矢印の縦幅 */
+    }
+
+    /* 矢印の線 */
+    .line {
+      position: absolute;
+      background-color: #333; /* 線の色 */
+      transition: all 0.3s ease;
+    }
+
+    /* 上向き矢印を作成 */
+    .line1 {
+      width: 2px;
+      height: 30px;
+      left: 50%;
+      top: 0;
+      transform: translateX(-50%);
+    }
+
+    .line2 {
+      width: 16px;
+      height: 2px;
+      top: 4px;
+      left: 10px;
+      transform: translateX(-50%) rotate(-45deg);
+    }
+
+    /* ボタンのテキスト */
+    .text {
+      margin-top: 0.5rem;
+      font-size: 1rem;
+      font-weight: bold;
+      color: #333;
+    }
+
+    /* ホバーアニメーション */
+    .scroll-to-top:hover {
+      transform: translateY(-5px);
+      opacity: 0.8;
+    }
+
+    /* スクロールで非表示にする場合 */
+    @keyframes fadeOut {
+      0% {
+        opacity: 1;
+      }
+      100% {
+        opacity: 0;
+      }
+    }
+  </style>
+</scroll-top>
