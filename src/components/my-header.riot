@@ -3,13 +3,15 @@
     <div class="logo">
       <img src={imgUrl} alt="Logo" width="80" />
     </div>
-    <slot />
+    <slot name="menu-nav" />
+    <slot name="menu-button" />
   </header>
 
   <script>
     import imgUrl from '@/assets/myself.png';
+
     export default {
-      imgUrl
+      imgUrl,
     }
   </script>
 
@@ -21,7 +23,7 @@
       top: 0;
       left: 0;
       right: 0;
-      z-index: 1000;
+      z-index: 1;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -35,36 +37,45 @@
       color: var(--primary-color);
     }
 
-    nav ul {
+    .desktop-nav ul {
       display: flex;
       list-style-type: none;
+      margin: 0;
+      padding: 0;
     }
 
-    nav ul li + li {
+    .desktop-nav ul li {
       margin-left: 2rem;
     }
 
-    nav ul li a {
+    .desktop-nav ul li a {
       color: var(--text-color);
       text-decoration: none;
       font-weight: 500;
       transition: color 0.3s ease;
     }
 
-    nav ul li a.active.active {
-      text-decoration: none;
+    .desktop-nav ul li a:hover {
+      color: var(--primary-color);
     }
 
-    nav ul li a:hover {
-      color: var(--primary-color);
-      text-decoration: underline;
+    .menu-toggle {
+      display: none;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      color: var(--text-color);
+      cursor: pointer;
     }
 
-    nav ul li a:focus,
-    nav ul li a:active {
-      font-weight: bold;
-      color: var(--primary-color);
-      text-decoration: underline;
+    @media (max-width: 768px) {
+      .desktop-nav {
+        display: none;
+      }
+
+      .menu-toggle {
+        display: block;
+      }
     }
   </style>
 </my-header>

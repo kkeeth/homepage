@@ -2,7 +2,7 @@
   <div class="container">
     <router>
       <my-header>
-        <nav>
+        <nav slot="menu-nav" class="desktop-nav">
           <ul>
             <li each={page in state.pages}>
               <a
@@ -11,7 +11,23 @@
             </li>
           </ul>
         </nav>
+        <button slot="menu-button" class="menu-toggle" onclick={ openMenu }>
+          <sl-icon name="list"></sl-icon>
+        </button>
       </my-header>
+      <sl-drawer placement="end" class="nav-drawer">
+        <nav class="mobile-nav">
+          <ul>
+            <li each={page in state.pages}>
+              <a
+                class={props.activePage === page ? 'active' : '' }
+                href={page.path}
+                onclick={closeMenu}>{page.label}</a>
+            </li>
+          </ul>
+        </nav>
+      </sl-drawer>
+
       <div if={state.showNotFound} class="row">
         <div class="column column-60">
           <not-found />
@@ -31,6 +47,8 @@
   <script>
     import { Router, Route, route, toRegexp, match } from '@riotjs/route'
     import lazy from '@riotjs/lazy'
+    import '@shoelace-style/shoelace/dist/components/drawer/drawer.js';
+
     import NotFound from '@/pages/not-found.riot'
     import Loader from '@components/loader.riot'
     import pages from './pages'
@@ -73,6 +91,13 @@
       onBeforeUnmount() {
         this.anyRouteStream.end()
       },
+      openMenu() {
+        this.$('.nav-drawer').show();
+      },
+      closeMenu() {
+        this.$('.nav-drawer').hide();
+      }
+
     }
   </script>
 
@@ -87,6 +112,7 @@
       margin: 0 auto;
       padding-top: 6rem;
       position: relative;
+      background-color: var(--background-color);
     }
 
     .section-title {
@@ -103,6 +129,41 @@
       height: 3px;
       background-color: var(--accent-color);
       margin: 0.5rem auto;
+    }
+
+    .nav-drawer::part(body) {
+      padding: 2rem;
+    }
+
+    .mobile-nav ul {
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .mobile-nav ul li {
+      margin-bottom: 2rem;
+    }
+
+    .mobile-nav ul li a {
+      display: block;
+      width: 100%;
+      color: var(--text-color);
+      text-decoration: none;
+      font-size: 1.5rem;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+
+    .mobile-nav ul li a:hover {
+      color: var(--primary-color);
+    }
+
+    @media (max-width: 768px) {
+      .section-title {
+        font-size: 2rem;
+        margin-bottom: 3rem;
+      }
     }
   </style>
 </app>
