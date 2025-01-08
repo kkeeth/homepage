@@ -3,13 +3,16 @@
     <div class="footer-content">
       <p>&copy; 2025 kkeeth. All rights reserved.</p>
       <div class="social-links">
-        <a href="#twitter" aria-label="Twitter">
-          <sl-icon name="twitter"></sl-icon>
+        <a href="https://x.com/kuwahara_jsri" target="_blank" aria-label="Twitter">
+          <sl-icon name="twitter-x"></sl-icon>
         </a>
-        <a href="#linkedin" aria-label="LinkedIn">
-          <sl-icon name="linkedin"></sl-icon>
+        <a href="https://open.spotify.com/show/4ZqUQtob7eJrz9DQV7lPVd" target="_blank" aria-label="Spotify">
+          <sl-icon name="spotify"></sl-icon>
         </a>
-        <a href="#github" aria-label="GitHub">
+        <a href="https://kkeeth.substack.com" target="_blank" aria-label="Substack">
+          <sl-icon name="substack"></sl-icon>
+        </a>
+        <a href="https://github.com/kkeeth" target="_blank" aria-label="GitHub">
           <sl-icon name="github"></sl-icon>
         </a>
       </div>
@@ -31,6 +34,7 @@
     .footer-content {
       max-width: 1200px;
       margin: 0 auto;
+      padding: 0 2rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -39,16 +43,30 @@
     .social-links {
       display: flex;
       gap: 1rem;
+      margin-right: 2rem;
     }
 
     .social-links a {
       color: #fff;
-      font-size: 1.5rem;
+      font-size: 1.2rem;
       transition: color 0.3s ease;
     }
 
     .social-links a:hover {
       color: var(--accent-color);
+    }
+
+    @media (max-width: 768px) {
+      .footer-content {
+        flex-direction: column;
+        text-align: center;
+        gap: 1.5rem;
+      }
+
+      .social-links {
+        justify-content: center;
+        margin-right: 0;
+      }
     }
   </style>
 </my-footer>
