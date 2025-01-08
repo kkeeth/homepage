@@ -7,6 +7,7 @@ setBasePath(
 );
 
 import '@/assets/style.css';
+import '@/utils/shoelace-components';
 import App from '@/app.riot';
 import registerGlobalComponents from '@/register-global-components';
 
