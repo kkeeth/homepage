@@ -1,15 +1,36 @@
 <home>
-  <section id="home" class="home-section">
-    <div class="content">
-      <h1>Welcome to My Portfolio</h1>
-      <p>Discover my journey, philosophy, and creations</p>
-      <sl-button variant="primary" size="large" href="#about">Learn More</sl-button>
+  <div id="home" class="home-section">
+    <div class="container">
+      <div class="content">
+        <hero-section />
+        <skills-section />
+        <projects-section />
+        <experience-section />
+        <contact-section />
+      </div>
     </div>
-  </section>
+  </div>
+
+  <script>
+    import HeroSection from '@components/home/hero-section.riot'
+    import SkillsSection from '@components/home/skills-section.riot'
+    import ProjectsSection from '@components/home/projects-section.riot'
+    import ExperienceSection from '@components/home/experience-section.riot'
+    import ContactSection from '@components/home/contact-section.riot'
+
+    export default {
+      components: {
+        HeroSection,
+        SkillsSection,
+        ProjectsSection,
+        ExperienceSection,
+        ContactSection,
+      }
+    }
+    </script>
 
   <style>
     .home-section {
-      height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -33,7 +54,6 @@
       text-align: center;
       color: #fff;
       position: relative;
-      z-index: 1;
     }
 
     h1 {

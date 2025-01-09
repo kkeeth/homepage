@@ -1,0 +1,93 @@
+<hero-section>
+  <section class="hero">
+    <div class="hero-content">
+      <h1 class="hero-title">Hi, I'm <span class="highlight">Kuwahara KEETH Kiyohito</span></h1>
+      <p class="hero-subtitle">A passionate web developer crafting beautiful and functional digital experiences</p>
+      <div class="hero-cta">
+        <sl-button variant="primary" size="large" href="#projects">View My Work</sl-button>
+        <sl-button variant="neutral" size="large" href="#contact">Get in Touch</sl-button>
+      </div>
+    </div>
+    <div class="hero-image">
+      <img src="https://placedog.net/400/400" alt="Your Name" />
+    </div>
+  </section>
+
+  <style>
+    .hero {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: calc(100vh - 80px);
+    }
+
+    .hero-content {
+      flex: 1;
+      max-width: 600px;
+    }
+
+    .hero-title {
+      font-size: 3.5rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      line-height: 1.2;
+    }
+
+    .highlight {
+      color: var(--primary-color);
+    }
+
+    .hero-subtitle {
+      font-size: 1.25rem;
+      margin-bottom: 2rem;
+      color: var(--text-color);
+      opacity: 0.8;
+    }
+
+    .hero-cta {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .hero-image {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .hero-image img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 50%;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    @media (max-width: 768px) {
+      .hero {
+        flex-direction: column-reverse;
+        text-align: center;
+      }
+
+      .hero-content {
+        margin-top: 2rem;
+      }
+
+      .hero-title {
+        font-size: 2.5rem;
+      }
+
+      .hero-cta {
+        justify-content: center;
+      }
+
+      .hero-image {
+        margin-bottom: 2rem;
+      }
+
+      .hero-image img {
+        max-width: 250px;
+      }
+    }
+  </style>
+</hero-section>
