@@ -26,6 +26,7 @@
             </li>
           </ul>
         </nav>
+        <social-links />
       </sl-drawer>
 
       <div if={state.showNotFound} class="row">
@@ -35,6 +36,7 @@
         <route each={page in state.pages} path={page.path}>
           <main is={page.componentName} class="main-content" />
           <scroll-top />
+
           <my-footer />
         </route>
       </div>
@@ -114,6 +116,11 @@
       padding-left: 5rem;
     }
 
+    .nav-drawer sl-icon {
+      margin-right: 1rem;
+      color: var(--primary-color);
+    }
+
     .mobile-nav ul {
       list-style-type: none;
       padding: 0;
@@ -129,7 +136,7 @@
       width: 100%;
       color: var(--text-color);
       text-decoration: underline;
-      font-size: 2rem;
+      font-size: 1.5rem;
       font-weight: 500;
       transition: color 0.3s ease;
     }
@@ -142,6 +149,11 @@
       .section-title {
         font-size: 2rem;
         margin-bottom: 3rem;
+      }
+
+      social-links {
+        position: absolute;
+        bottom: 2rem;
       }
     }
   </style>
