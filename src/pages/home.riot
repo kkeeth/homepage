@@ -2,30 +2,35 @@
   <div id="home" class="home-section">
     <div class="container">
       <div class="content">
-        <hero-section />
-        <skills-section />
-        <projects-section />
-        <experience-section />
-        <contact-section />
+        <hero-section img-url={imgUrl} />
+        <section-preview
+          each={ (preview, index) in sectionPreviews }
+          title={ preview.title }
+          description={ preview.description }
+          link={ preview.link }
+          index={ index }
+        />
       </div>
     </div>
   </div>
 
   <script>
-    import HeroSection from '@components/home/hero-section.riot'
-    import SkillsSection from '@components/home/skills-section.riot'
-    import ProjectsSection from '@components/home/projects-section.riot'
-    import ExperienceSection from '@components/home/experience-section.riot'
-    import ContactSection from '@components/home/contact-section.riot'
+    import HeroSection from '@components/hero-section.riot'
+    import SectionPreview from '@components/section-preview.riot'
+    import imgUrl from '@/assets/myface.png'
 
     export default {
+      imgUrl,
       components: {
         HeroSection,
-        SkillsSection,
-        ProjectsSection,
-        ExperienceSection,
-        ContactSection,
-      }
+        SectionPreview,
+      },
+      sectionPreviews: [
+        { title: 'Skills', description: 'Explore my technical expertise and capabilities.', link: '/skills' },
+        { title: 'Projects', description: 'Check out some of my recent work and projects.', link: '/projects' },
+        { title: 'Experience', description: 'Learn about my professional journey and accomplishments.', link: '/experience' },
+        { title: 'Contact', description: 'Get in touch with me for opportunities or collaborations.', link: '/contact' }
+      ]
     }
     </script>
 

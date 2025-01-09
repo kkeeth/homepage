@@ -1,0 +1,29 @@
+<section-preview>
+  <section class="section-preview { props.index % 2 === 0 ? 'even-section' : 'odd-section' }">
+    <h2 class="section-title">{ props.title }</h2>
+    <p class="section-description">{ props.description }</p>
+    <sl-button href={ props.link } variant="primary">Learn More</sl-button>
+  </section>
+
+  <style>
+    .section-preview {
+      padding: 4rem 2rem;
+      text-align: center;
+    }
+
+    .even-section {
+      background-color: var(--background-color);
+    }
+
+    .odd-section {
+      background-color: #fff;
+    }
+
+    .section-description {
+      max-width: 600px;
+      margin: 0 auto 2rem;
+      font-size: 1.1rem;
+    }
+  </style>
+</section-preview>
+

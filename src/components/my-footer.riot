@@ -1,6 +1,13 @@
 <my-footer>
   <footer class="footer">
     <div class="footer-content">
+      <!--
+      <div class="footer-logo">
+        <a href="/">
+          <img src={imgUrl} alt="Logo" width="80" />
+        </a>
+      </div>
+      -->
       <p>&copy; 2025 kkeeth. All rights reserved.</p>
       <div class="social-links">
         <a href="https://x.com/kuwahara_jsri" target="_blank" aria-label="Twitter">
@@ -20,35 +27,52 @@
   </footer>
 
   <script>
-    import '@shoelace-style/shoelace/dist/components/icon/icon.js';
+    import imgUrl from '@/assets/myself.png';
+
+    export default {
+      imgUrl,
+    }
   </script>
 
   <style>
     .footer {
-      width: 100%;
       background-color: var(--primary-color);
       color: #fff;
-      padding: 4rem 2rem;
+      padding: 3rem 0;
+      width: 100vw;
+      position: relative;
+      left: 50%;
+      right: 50%;
+      margin-left: -50vw;
+      margin-right: -50vw;
     }
 
     .footer-content {
       max-width: 1200px;
       margin: 0 auto;
-      padding: 0 2rem;
+      padding: 0 4rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
 
+    .footer-logo {
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+
+    .copyright {
+      margin: 0;
+    }
+
     .social-links {
       display: flex;
       gap: 1rem;
-      margin-right: 2rem;
     }
 
     .social-links a {
       color: #fff;
-      font-size: 1.2rem;
+      font-size: 1.5rem;
       transition: color 0.3s ease;
     }
 
@@ -61,11 +85,11 @@
         flex-direction: column;
         text-align: center;
         gap: 1.5rem;
+        padding: 0;
       }
 
       .social-links {
         justify-content: center;
-        margin-right: 0;
       }
     }
   </style>

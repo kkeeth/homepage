@@ -26,6 +26,13 @@ body {
   min-height: 100vh;
 }
 
+main {
+  margin: 0 auto;
+  padding-top: 6rem;
+  position: relative;
+  background-color: var(--background-color);
+}
+
 h1 {
   font-size: 3.2em;
   font-weight: bold;
@@ -38,8 +45,23 @@ h1 {
 
 section {
   padding: 6rem 3rem;
+
   margin: 0 auto;
   background-color: var(--background-color);
+}
+
+.section-title {
+  font-size: 2.5rem;
+  text-align: center;
+  margin-bottom: 3rem;
+  position: relative;
+  color: var(--text-color);
+}
+
+.page-content {
+  padding: var(--section-padding);
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 @media (prefers-color-scheme: light) {

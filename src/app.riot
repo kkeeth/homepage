@@ -29,45 +29,39 @@
       </sl-drawer>
 
       <div if={state.showNotFound} class="row">
-        <div class="">
-          <not-found />
-        </div>
+        <not-found />
       </div>
-      <div if={!state.showNotFound} class="row">
-        <div class="app">
-          <route each={page in state.pages} path={page.path}>
-            <main is={page.componentName} class="main-content" />
-            <scroll-top />
-            <my-footer />
-          </route>
-        </div>
+      <div if={!state.showNotFound} class="app">
+        <route each={page in state.pages} path={page.path}>
+          <main is={page.componentName} class="main-content" />
+          <scroll-top />
+          <my-footer />
+        </route>
       </div>
     </router>
   </div>
   <script>
     import { Router, Route, route, toRegexp, match } from '@riotjs/route'
-    import lazy from '@riotjs/lazy'
     import NotFound from '@/pages/not-found.riot'
-    import Loader from '@components/loader.riot'
     import pages from './pages'
+    import Home from '@/pages/home.riot'
+    import About from '@/pages/about.riot'
+    import Experience from '@/pages/experience.riot'
+    import Projects from '@/pages/projects.riot'
+    import Output from '@/pages/output.riot'
+    import Contact from '@/pages/contact.riot'
 
     export default {
       components : {
         Router,
         Route,
         NotFound,
-        Home: lazy(Loader, () => import(
-          '@/pages/home.riot'
-        )),
-        About: lazy(Loader, () => import(
-          '@/pages/about.riot'
-        )),
-        Output: lazy(Loader, () => import(
-          '@/pages/output.riot'
-        )),
-        Contact: lazy(Loader, () => import(
-          '@/pages/contact.riot'
-        )),
+        Home,
+        About,
+        Experience,
+        Projects,
+        Output,
+        Contact,
       },
       state: {
         pages,
@@ -106,21 +100,6 @@
       line-height: 1.6;
     }
 
-    main {
-      margin: 0 auto;
-      padding-top: 6rem;
-      position: relative;
-      background-color: var(--background-color);
-    }
-
-    .section-title {
-      font-size: 2.5rem;
-      text-align: center;
-      margin-bottom: 3rem;
-      position: relative;
-      color: var(--text-color);
-    }
-
     .section-title::after {
       content: '';
       display: block;
@@ -131,7 +110,8 @@
     }
 
     .nav-drawer::part(body) {
-      padding: 2rem;
+      padding-top: 2rem;
+      padding-left: 5rem;
     }
 
     .mobile-nav ul {
@@ -148,8 +128,8 @@
       display: block;
       width: 100%;
       color: var(--text-color);
-      text-decoration: none;
-      font-size: 1.5rem;
+      text-decoration: underline;
+      font-size: 2rem;
       font-weight: 500;
       transition: color 0.3s ease;
     }

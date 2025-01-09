@@ -2,7 +2,7 @@
   "name": "homepage",
   "version": "1.0.0",
   "description": "my home page",
-  "main": "app.js",
+  "main": "index.js",
   "type": "module",
   "scripts": {
     "dev": "vite",

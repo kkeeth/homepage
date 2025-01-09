@@ -1,5 +1,5 @@
-<experience-section>
-  <section class="experience" id="experience">
+<experience>
+  <section id="experience" class="experience-section">
     <h2 class="section-title">My Experience</h2>
     <div class="timeline">
       <div class="timeline-item" each={ job in state.experience }>
@@ -13,7 +13,7 @@
         </div>
       </div>
     </div>
-  </section>
+  </div>
 
   <script>
     export default {
@@ -55,11 +55,6 @@
   </script>
 
   <style>
-    .experience {
-      padding: var(--section-padding);
-      background-color: #fff;
-    }
-
     .timeline {
       position: relative;
       max-width: 800px;
@@ -89,7 +84,7 @@
       position: absolute;
       width: 25px;
       height: 25px;
-      right: -17px;
+      right: -12px;
       background-color: var(--background-color);
       border: 4px solid var(--primary-color);
       top: 15px;
@@ -106,12 +101,12 @@
     }
 
     .timeline-item:nth-child(even)::after {
-      left: -16px;
+      left: -12px;
     }
 
     .timeline-content {
       padding: 20px 30px;
-      background-color: var(--background-color);
+      background-color: #fff;
       position: relative;
       border-radius: 6px;
       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -146,10 +141,6 @@
     }
 
     @media (max-width: 768px) {
-      .section-title {
-        font-size: 2rem;
-      }
-
       .timeline::after {
         left: 31px;
       }
@@ -169,4 +160,4 @@
       }
     }
   </style>
-</experience-section>
+</experience>

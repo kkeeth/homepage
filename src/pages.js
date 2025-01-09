@@ -10,6 +10,16 @@ export default [
     componentName: 'about',
   },
   {
+    path: '/experience',
+    label: 'Experience',
+    componentName: 'experience',
+  },
+  {
+    path: '/projects',
+    label: 'Projects',
+    componentName: 'projects',
+  },
+  {
     path: '/output',
     label: 'Output',
     componentName: 'output',
