@@ -5,9 +5,9 @@ export default [
     componentName: 'home',
   },
   {
-    path: '/about',
-    label: 'About',
-    componentName: 'about',
+    path: '/profile',
+    label: 'Profile',
+    componentName: 'profile',
   },
   {
     path: '/experience',

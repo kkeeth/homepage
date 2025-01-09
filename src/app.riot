@@ -42,12 +42,13 @@
       </div>
     </router>
   </div>
+
   <script>
     import { Router, Route, route, toRegexp, match } from '@riotjs/route'
     import NotFound from '@/pages/not-found.riot'
     import pages from './pages'
     import Home from '@/pages/home.riot'
-    import About from '@/pages/about.riot'
+    import Profile from '@/pages/profile.riot'
     import Experience from '@/pages/experience.riot'
     import Projects from '@/pages/projects.riot'
     import Output from '@/pages/output.riot'
@@ -59,7 +60,7 @@
         Route,
         NotFound,
         Home,
-        About,
+        Profile,
         Experience,
         Projects,
         Output,
@@ -100,15 +101,6 @@
       font-family: 'Inter', sans-serif;
       color: var(--text-color);
       line-height: 1.6;
-    }
-
-    .section-title::after {
-      content: '';
-      display: block;
-      width: 50px;
-      height: 3px;
-      background-color: var(--accent-color);
-      margin: 0.5rem auto;
     }
 
     .nav-drawer::part(body) {

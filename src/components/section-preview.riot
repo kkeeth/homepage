@@ -1,13 +1,16 @@
 <section-preview>
   <section class="section-preview { props.index % 2 === 0 ? 'even-section' : 'odd-section' }">
     <h2 class="section-title">{ props.title }</h2>
-    <p class="section-description">{ props.description }</p>
-    <sl-button href={ props.link } variant="primary">Learn More</sl-button>
+    <div>
+      <p class="section-description">{ props.description }</p>
+      <sl-button href={ props.link } variant="primary">Learn More　<sl-icon name="box-arrow-up-right"></sl-icon></sl-button>
+    </div>
   </section>
 
   <style>
     .section-preview {
-      padding: 4rem 2rem;
+      padding: 4rem 4rem;
+      justify-content: space-between;
       text-align: center;
     }
 

@@ -9,7 +9,7 @@
           <img slot="image" src={ podcast.image } alt={ podcast.title } />
           <div class="card-content">
             <h4>{ podcast.title }</h4>
-            <p>{ podcast.description }</p>
+            <p if={state.isPc}>{ podcast.description }</p>
             <div class="card-footer">
               <sl-button variant="primary" href={ podcast.link } target="_blank">Listen Now</sl-button>
             </div>
@@ -21,8 +21,7 @@
     <div class="category-section">
       <h3 class="category-title">Blogs</h3>
       <div class="output-grid">
-        <sl-card class="output-card card-image" each={ post in state.blogs }>
-          <img slot="image" src={ post.image } alt={ post.title } />
+        <sl-card class="output-card" each={ post in state.blogs }>
           <div class="card-content">
             <h4>{ post.title }</h4>
             <p>{ post.description }</p>
@@ -44,6 +43,7 @@
 
     export default {
       state: {
+        isPc: false,
         podcasts: [
           {
             title: "雨宿りとWEBの小噺",
@@ -79,24 +79,34 @@
         blogs: [
           {
             title: "Zenn",
-            description: "A comprehensive guide to React fundamentals",
-            image: "/placeholder.svg?height=300&width=400",
+            description: "技術のナレッジシェア",
             link: "https://zenn.dev/kkeeth"
           },
           {
             title: "note",
-            description: "Exploring the latest JavaScript features",
-            image: "/placeholder.svg?height=300&width=400",
+            description: "日々の思考と気付きの整理",
             link: "https://note.com/clown0082"
           },
           {
             title: "Substack",
-            description: "Optimize your web applications",
-            image: "/placeholder.svg?height=300&width=400",
+            description: "日々の様々な気付きの短文雑記",
             link: "https://kkeeth.substack.com/s/blogs"
+          },
+          {
+            title: "ログ",
+            description: "開発日誌，ポッドキャスト台本，その他",
+            link: "https://kkeeth.github.io/my-development-log/"
           }
         ],
-      }
+      },
+      onMounted() {
+        this.state.isPc = window.innerWidth > 768;
+        window.addEventListener('resize', () => {
+          this.update({
+            isPc: window.innerWidth > 768
+          })
+        });
+      },
     }
   </script>
 
@@ -159,7 +169,7 @@
     }
 
     .card-content h4 {
-      font-size: 1.3rem;
+      font-size: 1.2rem;
       color: var(--text-color);
       margin: 0;
     }
@@ -178,25 +188,18 @@
       width: 100%;
     }
 
-    @media (max-width: 1024px) {
-      .output-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-    }
-
     @media (max-width: 768px) {
+      .card-image {
+        width: 100%;
+      }
 
       .category-title {
         font-size: 1.5rem;
       }
 
       .output-grid {
-        grid-template-columns: 1fr;
-        gap: 1.5rem;
-      }
-
-      .card-content {
-        padding: 1rem;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
       }
     }
   </style>

@@ -1,16 +1,14 @@
 <home>
   <div id="home" class="home-section">
-    <div class="container">
-      <div class="content">
-        <hero-section img-url={imgUrl} />
-        <section-preview
-          each={ (preview, index) in sectionPreviews }
-          title={ preview.title }
-          description={ preview.description }
-          link={ preview.link }
-          index={ index }
-        />
-      </div>
+    <div class="content">
+      <hero-section img-url={imgUrl} />
+      <section-preview
+        each={ (preview, index) in sectionPreviews }
+        title={ preview.title }
+        description={ preview.description }
+        link={ preview.link }
+        index={ index }
+      />
     </div>
   </div>
 
@@ -26,9 +24,9 @@
         SectionPreview,
       },
       sectionPreviews: [
-        { title: 'Skills', description: 'Explore my technical expertise and capabilities.', link: '/skills' },
+        { title: 'Profile', description: 'Explore my technical expertise and capabilities.', link: '/profile' },
         { title: 'Projects', description: 'Check out some of my recent work and projects.', link: '/projects' },
-        { title: 'Experience', description: 'Learn about my professional journey and accomplishments.', link: '/experience' },
+        { title: 'Output', description: 'Learn about my professional journey and accomplishments.', link: '/output' },
         { title: 'Contact', description: 'Get in touch with me for opportunities or collaborations.', link: '/contact' }
       ]
     }
@@ -39,26 +37,16 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      background-image: url('/placeholder.svg?height=1080&width=1920');
       background-size: cover;
       background-position: center;
       position: relative;
-    }
-
-    .home-section::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background-color: rgba(0, 0, 0, 0.5);
     }
 
     .content {
       text-align: center;
       color: #fff;
       position: relative;
+      width: 100%;
     }
 
     h1 {
@@ -77,6 +65,11 @@
       font-size: 1.2rem;
       padding: 1rem 2rem;
     }
+
+    .section-preview {
+      display: flex;
+    }
+
   </style>
 </home>
 
