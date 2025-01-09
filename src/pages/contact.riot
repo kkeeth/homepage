@@ -1,9 +1,9 @@
 <contact>
   <section id="contact" class="contact-section">
-    <h2 class="section-title">Contact Me</h2>
+    <h2 class="section-title">Get in Touch</h2>
     <div class="contact-content">
       <div class="contact-info">
-        <h3>Get in Touch</h3>
+        <h3>Let's Connect</h3>
         <p>I'm always open to new opportunities and collaborations. Feel free to reach out!</p>
         <ul>
           <li>
@@ -16,9 +16,10 @@
           </li>
         </ul>
         <social-links />
+      </div>
       <sl-card class="contact-form">
-        <form onsubmit={ handleSubmit }>
-          <sl-input name="name" label="Name" required></sl-input>
+        <form class="inline-validation">
+          <sl-input name="name" label="Name" autocomplete="off" required></sl-input>
           <sl-input name="email" type="email" label="Email" required></sl-input>
           <sl-textarea name="message" label="Message" required></sl-textarea>
           <sl-button type="submit" variant="primary">Send Message</sl-button>
@@ -62,6 +63,22 @@
 
     .contact-info sl-icon {
       margin-right: 1rem;
+      color: var(--primary-color);
+    }
+
+    .social-links {
+      display: flex;
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    .social-links a {
+      color: var(--text-color);
+      font-size: 1.5rem;
+      transition: color 0.3s ease;
+    }
+
+    .social-links a:hover {
       color: var(--primary-color);
     }
 
