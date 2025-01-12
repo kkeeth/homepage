@@ -2,7 +2,7 @@
   <section class="projects" id="projects">
     <h2 class="section-title">My Projects</h2>
     <div class="projects-grid">
-      <sl-card class="project-card" each={ project in state.projects }>
+      <sl-card class="project-card" each={ project in projects }>
         <img slot="image" src={ project.image } alt={ project.title } />
         <h3>{ project.title }</h3>
         <p>{ project.description }</p>
@@ -10,39 +10,56 @@
           <sl-badge variant="neutral" each={ tag in project.tags }>{ tag }</sl-badge>
         </div>
         <div slot="footer">
-          <sl-button href={ project.link } target="_blank" rel="noopener noreferrer">View Project</sl-button>
+          <sl-button href={ project.link } target="_blank">View Project</sl-button>
         </div>
       </sl-card>
     </div>
   </section>
 
+  <section class="skills" id="skills">
+    <h2 class="section-title">My Skills</h2>
+    <div class="skills-grid">
+      <div class="skill-card" each={ skill in skills }>
+        <sl-icon name={ skill.icon }></sl-icon>
+        <h3>{ skill.name }</h3>
+        <p>{ skill.description }</p>
+      </div>
+    </div>
+  </section>
+
   <script>
     export default {
-      state: {
-        projects: [
-          {
-            title: 'E-commerce Platform',
-            description: 'A full-stack e-commerce solution with user authentication, product management, and payment integration.',
-            image: '/placeholder.svg?height=300&width=400',
-            tags: ['React', 'Node.js', 'MongoDB', 'Stripe'],
-            link: '#'
-          },
-          {
-            title: 'Task Management App',
-            description: 'A responsive web application for managing tasks and projects with real-time updates.',
-            image: '/placeholder.svg?height=300&width=400',
-            tags: ['Vue.js', 'Firebase', 'Vuex'],
-            link: '#'
-          },
-          {
-            title: 'Weather Dashboard',
-            description: 'An interactive weather dashboard that displays current and forecasted weather data for multiple locations.',
-            image: '/placeholder.svg?height=300&width=400',
-            tags: ['JavaScript', 'OpenWeatherMap API', 'Chart.js'],
-            link: '#'
-          }
-        ]
-      }
+      projects: [
+        {
+          title: 'E-commerce Platform',
+          description: 'A full-stack e-commerce solution with user authentication, product management, and payment integration.',
+          image: '/placeholder.svg?height=300&width=400',
+          tags: ['React', 'Node.js', 'MongoDB', 'Stripe'],
+          link: '#'
+        },
+        {
+          title: 'Task Management App',
+          description: 'A responsive web application for managing tasks and projects with real-time updates.',
+          image: '/placeholder.svg?height=300&width=400',
+          tags: ['Vue.js', 'Firebase', 'Vuex'],
+          link: '#'
+        },
+        {
+          title: 'Weather Dashboard',
+          description: 'An interactive weather dashboard that displays current and forecasted weather data for multiple locations.',
+          image: '/placeholder.svg?height=300&width=400',
+          tags: ['JavaScript', 'OpenWeatherMap API', 'Chart.js'],
+          link: '#'
+        }
+      ],
+      skills: [
+        { name: 'Frontend Development', icon: 'braces', description: 'Creating responsive and interactive user interfaces using modern web technologies.' },
+        { name: 'Backend Development', icon: 'server', description: 'Building robust and scalable server-side applications and APIs.' },
+        { name: 'UI/UX Design', icon: 'palette', description: 'Designing intuitive and visually appealing user experiences.' },
+        { name: 'Database Management', icon: 'database', description: 'Working with various database systems to store and manage data efficiently.' },
+        { name: 'Version Control', icon: 'git', description: 'Using Git for efficient collaboration and code management.' },
+        { name: 'Agile Methodologies', icon: 'kanban', description: 'Implementing Agile practices for effective project management and delivery.' }
+      ]
     }
   </script>
 
@@ -93,6 +110,41 @@
     .project-card::part(image) {
       aspect-ratio: 16 / 9;
       object-fit: cover;
+    }
+
+        .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+    }
+
+    .skill-card {
+      background-color: var(--background-color);
+      padding: 2rem;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease;
+    }
+
+    .skill-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .skill-card sl-icon {
+      font-size: 2.5rem;
+      color: var(--primary-color);
+      margin-bottom: 1rem;
+    }
+
+    .skill-card h3 {
+      font-size: 1.25rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .skill-card p {
+      font-size: 0.9rem;
+      color: var(--text-color);
+      opacity: 0.8;
     }
 
     @media (max-width: 768px) {
