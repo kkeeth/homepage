@@ -1,16 +1,29 @@
 <section-preview>
   <section class="section-preview { props.index % 2 === 0 ? 'even-section' : 'odd-section' }">
-    <h2 class="section-title">{ props.title }</h2>
-    <div>
-      <p class="section-description">{ props.description }</p>
-      <sl-button href={ props.link } variant="primary">Learn More　<sl-icon name="box-arrow-up-right"></sl-icon></sl-button>
+    <div class="section-inner">
+      <div class="section-content { props.index % 2 === 0 ? 'content-left' : 'content-right' }">
+        <h2 class="section-title">{ props.title }</h2>
+        <p class="section-description">{ props.description }</p>
+        <sl-button href={ props.link } variant="primary" size="large">
+          Learn More
+          <sl-icon slot="suffix" name="arrow-right"></sl-icon>
+        </sl-button>
+      </div>
+      <!--
+      <div class="section-image { props.index % 2 === 0 ? 'image-right' : 'image-left' }">
+        <img src="/placeholder.svg?height=300&width=400" alt={ props.title } />
+      </div>
+      -->
     </div>
   </section>
 
   <style>
-    .section-preview {
-      justify-content: space-between;
-      text-align: center;
+    .section-inner {
+      display: flex;
+      align-items: center;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
     }
 
     .even-section {
@@ -21,11 +34,107 @@
       background-color: #fff;
     }
 
+    .section-content {
+      flex: 1;
+      padding: 2rem;
+    }
+
+    .section-title {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      color: var(--text-color);
+    }
+
+    .section-image {
+      flex: 1;
+      padding: 2rem;
+    }
+
+    .section-image img {
+      width: 100%;
+      height: auto;
+      border-radius: 12px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
     .section-description {
-      max-width: 600px;
-      margin: 0 auto 2rem;
       font-size: 1.1rem;
+      line-height: 1.6;
+      margin-bottom: 2rem;
+      color: var(--text-color-secondary);
+    }
+
+    .content-left {
+      order: 1;
+    }
+
+    .content-right {
+      order: 2;
+      margin-left: 4rem;
+    }
+
+    .image-left {
+      order: 1;
+    }
+
+    .image-right {
+      order: 2;
+    }
+
+    sl-button::part(base) {
+      font-size: 1rem;
+      padding: 1rem 1.5rem;
+    }
+
+    sl-button::part(suffix) {
+      margin-left: 0.5rem;
+    }
+
+    @media (max-width: 768px) {
+      .section-preview {
+        padding: 2rem 0;
+      }
+
+      .section-inner {
+        flex-direction: column;
+        padding: 0 1rem;
+      }
+
+      .section-content {
+        order: 2;
+        padding: 1.5rem;
+        text-align: center;
+        width: 100%;
+      }
+
+      .section-image {
+        order: 1;
+        padding: 1.5rem;
+        width: 100%;
+      }
+
+      .section-title {
+        font-size: 1.75rem;
+      }
+
+      .section-description {
+        font-size: 1rem;
+        margin-bottom: 1.5rem;
+      }
+
+    .content-right {
+      margin-left: 0;
+    }
+
+      sl-button {
+        width: 100%;
+      }
+
+      sl-button::part(base) {
+        width: 100%;
+        justify-content: center;
+      }
     }
   </style>
 </section-preview>
-
