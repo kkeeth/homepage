@@ -1,16 +1,16 @@
-<projects>
-  <section class="projects" id="projects">
-    <h2 class="section-title">My Projects</h2>
-    <div class="projects-grid">
-      <sl-card class="project-card" each={ project in projects }>
-        <img slot="image" src={ project.image } alt={ project.title } />
-        <h3>{ project.title }</h3>
-        <p>{ project.description }</p>
-        <div class="project-tags">
-          <sl-badge variant="neutral" each={ tag in project.tags }>{ tag }</sl-badge>
+<works>
+  <section class="works" id="works">
+    <h2 class="section-title">My Works</h2>
+    <div class="works-grid">
+      <sl-card class="work-card" each={ work in works }>
+        <img slot="image" src={ work.image } alt={ work.title } />
+        <h3>{ work.title }</h3>
+        <p>{ work.description }</p>
+        <div class="work-tags">
+          <sl-badge variant="neutral" each={ tag in work.tags }>{ tag }</sl-badge>
         </div>
         <div slot="footer">
-          <sl-button href={ project.link } target="_blank">View Project</sl-button>
+          <sl-button href={ work.link } target="_blank">View work</sl-button>
         </div>
       </sl-card>
     </div>
@@ -29,7 +29,7 @@
 
   <script>
     export default {
-      projects: [
+      works: [
         {
           title: 'E-commerce Platform',
           description: 'A full-stack e-commerce solution with user authentication, product management, and payment integration.',
@@ -39,7 +39,7 @@
         },
         {
           title: 'Task Management App',
-          description: 'A responsive web application for managing tasks and projects with real-time updates.',
+          description: 'A responsive web application for managing tasks and works with real-time updates.',
           image: '/placeholder.svg?height=300&width=400',
           tags: ['Vue.js', 'Firebase', 'Vuex'],
           link: '#'
@@ -58,56 +58,56 @@
         { name: 'UI/UX Design', icon: 'palette', description: 'Designing intuitive and visually appealing user experiences.' },
         { name: 'Database Management', icon: 'database', description: 'Working with various database systems to store and manage data efficiently.' },
         { name: 'Version Control', icon: 'git', description: 'Using Git for efficient collaboration and code management.' },
-        { name: 'Agile Methodologies', icon: 'kanban', description: 'Implementing Agile practices for effective project management and delivery.' }
+        { name: 'Agile Methodologies', icon: 'kanban', description: 'Implementing Agile practices for effective work management and delivery.' }
       ]
     }
   </script>
 
   <style>
-    .projects-grid {
+    .works-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
       gap: 2rem;
     }
 
-    .project-card {
+    .work-card {
       display: flex;
       flex-direction: column;
       height: 100%;
     }
 
-    .project-card::part(base) {
+    .work-card::part(base) {
       height: 100%;
       display: flex;
       flex-direction: column;
     }
 
-    .project-card::part(body) {
+    .work-card::part(body) {
       flex-grow: 1;
       display: flex;
       flex-direction: column;
     }
 
-    .project-card h3 {
+    .work-card h3 {
       font-size: 1.25rem;
       margin-bottom: 0.5rem;
     }
 
-    .project-card p {
+    .work-card p {
       font-size: 0.9rem;
       color: var(--text-color);
       opacity: 0.8;
       margin-bottom: 1rem;
     }
 
-    .project-tags {
+    .work-tags {
       display: flex;
       flex-wrap: wrap;
       gap: 0.5rem;
       margin-bottom: 1rem;
     }
 
-    .project-card::part(image) {
+    .work-card::part(image) {
       aspect-ratio: 16 / 9;
       object-fit: cover;
     }
@@ -152,9 +152,9 @@
         font-size: 2rem;
       }
 
-      .projects-grid {
+      .works-grid {
         grid-template-columns: 1fr;
       }
     }
   </style>
-</projects>
+</works>

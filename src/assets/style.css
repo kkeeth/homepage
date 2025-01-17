@@ -1,5 +1,5 @@
 :root {
-  font-family: Josefin sans, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'Josefin Sans', system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
@@ -54,7 +54,6 @@ section {
   text-align: center;
   margin-bottom: 3rem;
   position: relative;
-  color: var(--text-color);
 }
 
 .section-title::after {
@@ -70,6 +69,13 @@ section {
   padding: var(--section-padding);
   max-width: 1200px;
   margin: 0 auto;
+}
+
+@media (max-width: 768px) {
+  .section-title {
+    font-size: 2rem;
+    margin-bottom: 3rem;
+  }
 }
 
 @media (prefers-color-scheme: light) {

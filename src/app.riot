@@ -2,7 +2,7 @@
   <div class="container">
     <router>
       <my-header>
-        <nav slot="menu-nav" class="desktop-nav">
+        <nav slot="menu-nav" class="nav desktop-nav">
           <ul>
             <li each={page in state.pages}>
               <a
@@ -16,7 +16,7 @@
         </button>
       </my-header>
       <sl-drawer placement="end" class="nav-drawer">
-        <nav class="mobile-nav">
+        <nav class="nav mobile-nav">
           <ul>
             <li each={page in state.pages}>
               <a
@@ -49,7 +49,7 @@
     import pages from './pages'
     import Home from '@/pages/home.riot'
     import Profile from '@/pages/profile.riot'
-    import Projects from '@/pages/projects.riot'
+    import Works from '@/pages/works.riot'
     import Output from '@/pages/output.riot'
     import Contact from '@/pages/contact.riot'
 
@@ -60,7 +60,7 @@
         NotFound,
         Home,
         Profile,
-        Projects,
+        Works,
         Output,
         Contact,
       },
@@ -95,12 +95,6 @@
   </script>
 
   <style>
-    .app {
-      font-family: 'Inter', sans-serif;
-      color: var(--text-color);
-      line-height: 1.6;
-    }
-
     .nav-drawer::part(body) {
       padding-top: 2rem;
       padding-left: 5rem;
@@ -109,16 +103,6 @@
     .nav-drawer sl-icon {
       margin-right: 1rem;
       color: var(--primary-color);
-    }
-
-    .mobile-nav ul {
-      list-style-type: none;
-      padding: 0;
-      margin: 0;
-    }
-
-    .mobile-nav ul li {
-      margin-bottom: 2rem;
     }
 
     .mobile-nav ul li a {
@@ -136,11 +120,6 @@
     }
 
     @media (max-width: 768px) {
-      .section-title {
-        font-size: 2rem;
-        margin-bottom: 3rem;
-      }
-
       .nav-drawer social-links {
         position: absolute;
         bottom: 2rem;

@@ -10,9 +10,9 @@ export default [
     componentName: 'profile',
   },
   {
-    path: '/projects',
-    label: 'Projects',
-    componentName: 'projects',
+    path: '/works',
+    label: 'Works',
+    componentName: 'works',
   },
   {
     path: '/output',

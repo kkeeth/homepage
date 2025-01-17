@@ -47,18 +47,32 @@
     }
 
     .desktop-nav ul li {
-      margin-left: 2rem;
+      margin-left: 1.5rem;
+      min-width: 70px;
     }
 
     .desktop-nav ul li a {
       color: var(--text-color);
       text-decoration: none;
-      font-weight: 500;
-      transition: color 0.3s ease;
+      font-weight: 300;
+      transition: color 0.3s ease, font-weight 0.3s ease, font-size 0.3s ease;
     }
 
     .desktop-nav ul li a:hover {
       color: var(--primary-color);
+      font-weight: 500;
+      text-decoration: underline;
+      transition: color 0.3s ease, text-decoration 0.3s ease, font-weight 0.3s ease;
+    }
+
+    .mobile-nav ul {
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .mobile-nav ul li {
+      margin-bottom: 2rem;
     }
 
     .menu-toggle {
