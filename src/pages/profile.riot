@@ -1,6 +1,6 @@
 <profile>
   <section id="profile" class="profile-section">
-    <h2 class="section-title">About Me</h2>
+    <h2 class="section-title">ABOUT ME</h2>
     <div class="profile-content">
       <div class="profile-text">
         <h3 class="subtitle">My Journey</h3>
@@ -19,7 +19,7 @@
   </section>
 
   <section id="experience" class="experience-section">
-    <h2 class="section-title">My Experience</h2>
+    <h2 class="section-title">MY EXPERIENCE</h2>
     <div class="timeline">
       <div class="timeline-item" each={ job in experience }>
         <div class="timeline-content">
@@ -33,6 +33,18 @@
       </div>
     </div>
   </section>
+
+  <section class="skills" id="skills">
+    <h2 class="section-title">SKILLS</h2>
+    <div class="skills-grid">
+      <div class="skill-card" each={ skill in skills }>
+        <sl-icon name={ skill.icon }></sl-icon>
+        <h3 class="subtitle">{ skill.name }</h3>
+        <p>{ skill.description }</p>
+      </div>
+    </div>
+  </section>
+
 
   <script>
     export default {
@@ -68,6 +80,14 @@
           ]
         }
       ],
+      skills: [
+        { name: 'Frontend Development', icon: 'braces', description: 'Creating responsive and interactive user interfaces using modern web technologies.' },
+        { name: 'Backend Development', icon: 'server', description: 'Building robust and scalable server-side applications and APIs.' },
+        { name: 'UI/UX Design', icon: 'palette', description: 'Designing intuitive and visually appealing user experiences.' },
+        { name: 'Database Management', icon: 'database', description: 'Working with various database systems to store and manage data efficiently.' },
+        { name: 'Version Control', icon: 'git', description: 'Using Git for efficient collaboration and code management.' },
+        { name: 'Agile Methodologies', icon: 'kanban', description: 'Implementing Agile practices for effective work management and delivery.' }
+      ]
     }
   </script>
 
@@ -168,6 +188,41 @@
     .timeline-content li {
       font-size: 0.9rem;
       margin-bottom: 0.5rem;
+    }
+
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+    }
+
+    .skill-card {
+      background-color: var(--background-color);
+      padding: 2rem;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease;
+    }
+
+    .skill-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .skill-card sl-icon {
+      font-size: 2.5rem;
+      color: var(--primary-color);
+      margin-bottom: 1rem;
+    }
+
+    .skill-card h3 {
+      font-size: 1.25rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .skill-card p {
+      font-size: 0.9rem;
+      color: var(--text-color);
+      opacity: 0.8;
     }
 
     @media (max-width: 768px) {
