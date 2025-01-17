@@ -3,7 +3,7 @@
     <h2 class="section-title">My Output</h2>
 
     <div class="category-section">
-      <h3 class="category-title">Podcasts</h3>
+      <h3 class="subtitle">Podcasts</h3>
       <div class="output-grid">
         <sl-card class="output-card card-image" each={ podcast in state.podcasts }>
           <img slot="image" src={ podcast.image } alt={ podcast.title } />
@@ -19,7 +19,7 @@
     </div>
 
     <div class="category-section">
-      <h3 class="category-title">Blogs</h3>
+      <h3 class="subtitle">Blogs</h3>
       <div class="output-grid">
         <sl-card class="output-card" each={ post in state.blogs }>
           <div class="card-content">
@@ -113,14 +113,6 @@
   <style>
     .category-section {
       margin-bottom: 4rem;
-    }
-
-    .category-title {
-      font-size: 1.8rem;
-      color: var(--primary-color);
-      margin-bottom: 2rem;
-      padding-left: 1rem;
-      border-left: 4px solid var(--accent-color);
     }
 
     .output-grid {

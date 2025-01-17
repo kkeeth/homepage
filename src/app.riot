@@ -6,7 +6,7 @@
           <ul>
             <li each={page in state.pages}>
               <a
-                class={props.activePage === page ? 'active' : '' }
+                class={this.state.activePage === page.componentName ? 'active' : '' }
                 href={page.path}>{page.label}</a>
             </li>
           </ul>
@@ -20,7 +20,7 @@
           <ul>
             <li each={page in state.pages}>
               <a
-                class={props.activePage === page ? 'active' : '' }
+                class={this.state.activePage === page ? 'active' : '' }
                 href={page.path}
                 onclick={closeMenu}>{page.label}</a>
             </li>
@@ -44,7 +44,7 @@
   </div>
 
   <script>
-    import { Router, Route, route, toRegexp, match } from '@riotjs/route'
+    import { Router, Route, route, router, toRegexp, match } from '@riotjs/route'
     import NotFound from '@/pages/not-found.riot'
     import pages from './pages'
     import Home from '@/pages/home.riot'
@@ -69,17 +69,25 @@
         showNotFound: false,
         activePage: null
       },
-      onBeforeMount({ isServer }) {
+      onBeforeMount() {
         this.anyRouteStream = route('(.*)')
         this.anyRouteStream.on.value(this.onAnyRoute)
+
+        router.on.value(async (path) => {
+          console.log(path)
+          await this.onAnyRoute(path)
+        })
       },
       onAnyRoute(path) {
-        const activePage = pages.find(p => match(path.pathname, toRegexp(p.path)))
+        const activePage = pages.find(p => match(path.pathname, toRegexp(p.path))).componentName
 
         this.update({
           activePage,
           showNotFound: !activePage
         })
+      },
+      onMounted() {
+        console.log("mounted!!!!")
       },
       onBeforeUnmount() {
         this.anyRouteStream.end()
@@ -105,18 +113,24 @@
       color: var(--primary-color);
     }
 
+    .mobile-nav ul {
+      padding: 0;
+      margin: 0;
+    }
+
+    .mobile-nav ul li {
+      list-style-type: none;
+      margin-bottom: 2rem;
+    }
+
     .mobile-nav ul li a {
+      text-decoration: none;
       display: block;
       width: 100%;
       color: var(--text-color);
-      text-decoration: underline;
       font-size: 1.5rem;
       font-weight: 500;
       transition: color 0.3s ease;
-    }
-
-    .mobile-nav ul li a:hover {
-      color: var(--primary-color);
     }
 
     @media (max-width: 768px) {

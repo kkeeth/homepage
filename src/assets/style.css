@@ -15,7 +15,7 @@
 
   --primary-color: #0077b6;
   --background-color: #f8f9fa;
-  --text-color: #333;
+  --text-color: #131313;
   --accent-color: #ffd60a;
 }
 
@@ -32,10 +32,30 @@ main {
   background-color: var(--background-color);
 }
 
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  font-weight: 300;
+}
+
 h1 {
   font-size: 3.2em;
-  font-weight: bold;
   line-height: 1.1;
+}
+
+h3 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  font-weight: 500;
+  color: var(--primary-color);
+}
+
+p {
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
 }
 
 .read-the-docs {
@@ -73,7 +93,6 @@ section {
 
 @media (max-width: 768px) {
   .section-title {
-    font-size: 2rem;
     margin-bottom: 3rem;
   }
 }

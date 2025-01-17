@@ -4,7 +4,7 @@
     <div class="works-grid">
       <sl-card class="work-card" each={ work in works }>
         <img slot="image" src={ work.image } alt={ work.title } />
-        <h3>{ work.title }</h3>
+        <h3 class="subtitle">{ work.title }</h3>
         <p>{ work.description }</p>
         <div class="work-tags">
           <sl-badge variant="neutral" each={ tag in work.tags }>{ tag }</sl-badge>
@@ -21,7 +21,7 @@
     <div class="skills-grid">
       <div class="skill-card" each={ skill in skills }>
         <sl-icon name={ skill.icon }></sl-icon>
-        <h3>{ skill.name }</h3>
+        <h3 class="subtitle">{ skill.name }</h3>
         <p>{ skill.description }</p>
       </div>
     </div>
