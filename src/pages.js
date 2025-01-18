@@ -1,27 +1,27 @@
 export default [
   {
     path: '/',
-    label: 'Home',
+    label: 'HOME',
     componentName: 'home',
   },
   {
     path: '/profile',
-    label: 'Profile',
+    label: 'PROFILE',
     componentName: 'profile',
   },
   {
     path: '/works',
-    label: 'Works',
+    label: 'WORKS',
     componentName: 'works',
   },
   {
     path: '/output',
-    label: 'Output',
+    label: 'OUTPUT',
     componentName: 'output',
   },
   {
     path: '/contact',
-    label: 'Contact',
+    label: 'CONTACT',
     componentName: 'contact',
   },
 ];

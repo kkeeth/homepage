@@ -7,7 +7,7 @@
             <li each={page in state.pages}>
               <a
                 class={this.state.activePage === page.componentName ? 'active' : '' }
-                href={page.path}>{page.label.toUpperCase()}</a>
+                href={page.path}>{page.label}</a>
             </li>
           </ul>
         </nav>
