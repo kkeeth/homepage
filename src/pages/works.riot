@@ -17,14 +17,15 @@
   </section>
 
   <script>
+    import imgUrl1 from '@/assets/work_vantan.png';
     export default {
       works: [
         {
-          title: 'E-commerce Platform',
+          title: 'Programming Teacher',
           description: 'A full-stack e-commerce solution with user authentication, product management, and payment integration.',
-          image: '/placeholder.svg?height=300&width=400',
-          tags: ['React', 'Node.js', 'MongoDB', 'Stripe'],
-          link: '#'
+          image: imgUrl1,
+          tags: ['JavaScript', 'React', 'Firebase'],
+          link: 'https://lp.kadokawadwango-it-academy.jp/cd14d7ea/index.html'
         },
         {
           title: 'Task Management App',
@@ -91,6 +92,11 @@
     .work-card::part(image) {
       aspect-ratio: 16 / 9;
       object-fit: cover;
+    }
+
+    img {
+      background-color: #eee;
+      object-fit: contain;
     }
 
     @media (max-width: 768px) {
