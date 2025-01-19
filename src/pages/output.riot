@@ -1,6 +1,6 @@
 <output>
   <section id="output" class="output-section">
-    <h2 class="section-title">My Output</h2>
+    <h2 class="section-title">{this.t('pages.output.title')}</h2>
 
     <div class="category-section">
       <h3 class="subtitle">Podcasts</h3>
@@ -106,6 +106,10 @@
             isPc: window.innerWidth > 768
           })
         });
+
+        i18nStore.on('locale-changed', () => {
+          console.log("ouput")
+        })
       },
     }
   </script>

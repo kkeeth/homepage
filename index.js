@@ -1,5 +1,5 @@
 import '@riotjs/hot-reload';
-import { component } from 'riot';
+import { install, component } from 'riot';
 import '@shoelace-style/shoelace/dist/themes/light.css';
 import { setBasePath } from '@shoelace-style/shoelace/dist/utilities/base-path';
 setBasePath(
@@ -10,8 +10,15 @@ import '@/assets/style.css';
 import '@/utils/shoelace-components';
 import App from '@/app.riot';
 import registerGlobalComponents from '@/register-global-components';
+import i18nStore from '@/utils/i18n-store';
 
 // register
 registerGlobalComponents();
+
+install((componentAPI) => {
+  componentAPI.t = i18nStore.t.bind(i18nStore);
+
+  return componentAPI;
+});
 
 component(App)(document.getElementById('root'));

@@ -7,21 +7,37 @@
       "contact": "Get in Touch"
     }
   },
+  "pages": {
+    "home": {},
+    "profile": {
+      "title": "ABOUT ME"
+    },
+    "works": {
+      "title": "WORKS"
+    },
+    "output": {
+      "title": "OUTPUT"
+    },
+    "contact": {
+      "title": "CONTACT",
+      "subtitle": "Let's Connect"
+    }
+  },
   "sections": {
     "about": {
-      "title": "About",
+      "title": "ABOUT ME",
       "description": "Learn more about me and my skills."
     },
-    "projects": {
-      "title": "Projects",
-      "description": "Check out some of my recent work and projects."
+    "works": {
+      "title": "WORKS",
+      "description": "Check out some of my recent work and works."
     },
-    "experience": {
-      "title": "Experience",
+    "output": {
+      "title": "OUTPUT",
       "description": "Learn about my professional journey and accomplishments."
     },
     "contact": {
-      "title": "Contact",
+      "title": "CONTACT",
       "description": "Get in touch with me for opportunities or collaborations."
     }
   }

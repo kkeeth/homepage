@@ -12,7 +12,7 @@
           </ul>
         </nav>
         <button slot="menu-button" class="menu-toggle" onclick={ openMenu }>
-          <sl-icon name="list"></sl-icon>
+          <sl-icon name="list" class="hamburger"></sl-icon>
         </button>
       </my-header>
       <sl-drawer placement="end" class="nav-drawer">
@@ -138,10 +138,8 @@
     .menu-toggle {
       display: flex;
       background: none;
-      border: none;
       font-size: 2rem;
       color: var(--text-color);
-      cursor: pointer;
       align-items: center;
     }
 

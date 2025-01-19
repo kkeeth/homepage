@@ -1,9 +1,9 @@
 <contact>
   <section id="contact" class="contact-section">
-    <h2 class="section-title">{i18n('hero.cta.contact').toUpperCase()}</h2>
+    <h2 class="section-title">{this.t('pages.contact.title').toUpperCase()}</h2>
     <div class="contact-content">
       <div class="contact-info">
-        <h3 class="subtitle">Let's Connect</h3>
+        <h3 class="subtitle">{this.t('pages.contact.subtitle')}</h3>
         <p>I'm always open to new opportunities and collaborations. Feel free to reach out!</p>
         <ul>
           <li>
@@ -34,7 +34,6 @@
   </section>
 
   <script>
-    import i18nStore from '@/utils/i18n-store';
 
     export default {
       i18n(key) {

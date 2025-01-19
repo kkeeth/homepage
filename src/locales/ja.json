@@ -7,21 +7,37 @@
       "contact": "お問い合わせ"
     }
   },
+  "pages": {
+    "home": {},
+    "profile": {
+      "title": "ABOUT ME"
+    },
+    "works": {
+      "title": "hoge"
+    },
+    "output": {
+      "title": "OUTPUT"
+    },
+    "contact": {
+      "title": "CONTACT",
+      "subtitle": "Let's Connect"
+    }
+  },
   "sections": {
     "about": {
-      "title": "自己紹介",
+      "title": "ABOUT ME",
       "description": "私のスキルと経験についてご紹介します。"
     },
-    "projects": {
-      "title": "プロジェクト",
+    "works": {
+      "title": "WORKS",
       "description": "最近の制作実績をご覧ください。"
     },
-    "experience": {
-      "title": "経歴",
+    "output": {
+      "title": "OUTPUT",
       "description": "私のキャリアと実績についてご紹介します。"
     },
     "contact": {
-      "title": "お問い合わせ",
+      "title": "CONTACT",
       "description": "お仕事のご依頼やご相談をお待ちしております。"
     }
   }

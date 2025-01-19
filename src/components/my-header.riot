@@ -5,8 +5,8 @@
         <img src={imgUrl} alt="Logo" width="80" />
       </a>
     </div>
-    <slot name="menu-nav" />
     <div class="header-actions">
+    <slot name="menu-nav" />
       <slot name="menu-button" />
       <language-switcher />
     </div>
@@ -76,12 +76,16 @@
       gap: .5rem;
     }
 
+    .hamburger {
+      display: none;
+    }
+
     @media (max-width: 768px) {
       .desktop-nav {
         display: none;
       }
 
-      .menu-toggle {
+      .hamburger {
         display: block;
       }
     }

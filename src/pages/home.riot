@@ -2,12 +2,29 @@
   <div id="home" class="home-section">
     <div class="content">
       <hero-section img-url={imgUrl} />
+      <!-- about seciton -->
       <section-preview
-        each={ (preview, index) in sectionPreviews }
-        title={ preview.title }
-        description={ preview.description }
-        link={ preview.link }
-        index={ index }
+        title={ this.t('sections.about.title') }
+        description={ this.t('sections.about.description') }
+        link='/profile'
+      />
+      <!-- works section -->
+      <section-preview
+        title={ this.t('sections.works.title') }
+        description={ this.t('sections.works.description') }
+        link='/works'
+      />
+      <!-- output section -->
+      <section-preview
+        title={ this.t('sections.output.title') }
+        description={ this.t('sections.output.description') }
+        link='/output'
+      />
+      <!-- contact section -->
+      <section-preview
+        title={ this.t('sections.contact.title') }
+        description={ this.t('sections.contact.description') }
+        link='/contact'
       />
     </div>
   </div>
@@ -15,7 +32,7 @@
   <script>
     import HeroSection from '@components/hero-section.riot'
     import SectionPreview from '@components/section-preview.riot'
-    import imgUrl from '@/assets/myface.png'
+    import imgUrl from '@/assets/myface.png';
 
     export default {
       imgUrl,
@@ -23,12 +40,6 @@
         HeroSection,
         SectionPreview,
       },
-      sectionPreviews: [
-        { title: 'Profile', description: 'Explore my technical expertise and capabilities.', link: '/profile' },
-        { title: 'Projects', description: 'Check out some of my recent work and projects.', link: '/projects' },
-        { title: 'Output', description: 'Learn about my professional journey and accomplishments.', link: '/output' },
-        { title: 'Contact', description: 'Get in touch with me for opportunities or collaborations.', link: '/contact' }
-      ]
     }
     </script>
 
