@@ -52,6 +52,7 @@
     import Works from '@/pages/works.riot'
     import Output from '@/pages/output.riot'
     import Contact from '@/pages/contact.riot'
+    import i18nStore from '@/utils/i18n-store';
 
     export default {
       components : {
@@ -67,14 +68,13 @@
       state: {
         pages,
         showNotFound: false,
-        activePage: null
+        activePage: null,
       },
       onBeforeMount() {
         this.anyRouteStream = route('(.*)')
         this.anyRouteStream.on.value(this.onAnyRoute)
 
         router.on.value(async (path) => {
-          console.log(path)
           await this.onAnyRoute(path)
         })
       },
@@ -87,7 +87,9 @@
         })
       },
       onMounted() {
-        console.log("mounted!!!!")
+        i18nStore.on('locale-changed', () => {
+          this.update()
+        })
       },
       onBeforeUnmount() {
         this.anyRouteStream.end()
@@ -131,6 +133,16 @@
       font-size: 1.5rem;
       font-weight: 500;
       transition: color 0.3s ease;
+    }
+
+    .menu-toggle {
+      display: flex;
+      background: none;
+      border: none;
+      font-size: 2rem;
+      color: var(--text-color);
+      cursor: pointer;
+      align-items: center;
     }
 
     @media (max-width: 768px) {

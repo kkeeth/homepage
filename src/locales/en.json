@@ -1,0 +1,28 @@
+{
+  "hero": {
+    "greeting": "Hi, I'm",
+    "subtitle": "A passionate web developer crafting beautiful and functional digital experiences",
+    "cta": {
+      "work": "View My Work",
+      "contact": "Get in Touch"
+    }
+  },
+  "sections": {
+    "about": {
+      "title": "About",
+      "description": "Learn more about me and my skills."
+    },
+    "projects": {
+      "title": "Projects",
+      "description": "Check out some of my recent work and projects."
+    },
+    "experience": {
+      "title": "Experience",
+      "description": "Learn about my professional journey and accomplishments."
+    },
+    "contact": {
+      "title": "Contact",
+      "description": "Get in touch with me for opportunities or collaborations."
+    }
+  }
+}

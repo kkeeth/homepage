@@ -1,0 +1,53 @@
+<language-switcher>
+  <div class="language-switcher">
+    <sl-dropdown>
+      <sl-button slot="trigger" size="small" variant="text">
+        <sl-icon name="globe"></sl-icon>
+        { state.currentLocale.toUpperCase() }
+      </sl-button>
+      <sl-menu>
+        <sl-menu-item
+          each={ locale in state.availableLocales }
+          onclick={ () => switchLanguage(locale) }
+        >
+          { locale.toUpperCase() }
+        </sl-menu-item>
+      </sl-menu>
+    </sl-dropdown>
+  </div>
+
+  <script>
+    import i18nStore from '@/utils/i18n-store';
+
+    export default {
+      state: {
+        currentLocale: i18nStore.currentLocale,
+        availableLocales: i18nStore.getAvailableLocales()
+      },
+      switchLanguage(locale) {
+        i18nStore.setLocale(locale)
+      },
+      onMounted() {
+        i18nStore.on('locale-changed', () => {
+          this.update({
+            currentLocale: i18nStore.currentLocale
+          })
+        })
+      }
+    }
+  </script>
+
+  <style>
+    .language-switcher {
+      display: inline-block;
+    }
+
+    sl-button::part(base) {
+      color: var(--text-color);
+    }
+
+    sl-icon {
+      margin-right: 0.5rem;
+    }
+  </style>
+</language-switcher>

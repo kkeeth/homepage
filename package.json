@@ -25,6 +25,7 @@
   },
   "homepage": "https://github.com/kkeeth/homepage#readme",
   "dependencies": {
+    "@riotjs/observable": "^4.1.1",
     "@riotjs/route": "^8.0.2",
     "@shoelace-style/shoelace": "^2.19.1",
     "googleapis": "^144.0.0",

@@ -5,6 +5,9 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
+  '@riotjs/observable':
+    specifier: ^4.1.1
+    version: 4.1.1
   '@riotjs/route':
     specifier: ^8.0.2
     version: 8.0.2
@@ -351,6 +354,10 @@ packages:
       '@riotjs/util': 2.4.0
       riot: 9.4.4
     dev: true
+
+  /@riotjs/observable@4.1.1:
+    resolution: {integrity: sha512-Lp9BUEoUxBlZ6DdZXne9BUfumAXAMznWIgZOcRXIPz2J7avquJKGEXl6D9ObdC0u5LUyrcI4N/AHcHgPclysdw==}
+    dev: false
 
   /@riotjs/parser@9.0.1:
     resolution: {integrity: sha512-1pMFgYk2Fp/8G9LF5ogDTxAaRmjade1tnJQf/6q6s3lggtlN4nJ/7YjHecg51qK3M9aU7xlTdBWcEj2nz7mgEw==}

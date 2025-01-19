@@ -1,0 +1,28 @@
+{
+  "hero": {
+    "greeting": "はじめまして、",
+    "subtitle": "美しく機能的なデジタル体験を作り出すWeb開発者です",
+    "cta": {
+      "work": "作品を見る",
+      "contact": "お問い合わせ"
+    }
+  },
+  "sections": {
+    "about": {
+      "title": "自己紹介",
+      "description": "私のスキルと経験についてご紹介します。"
+    },
+    "projects": {
+      "title": "プロジェクト",
+      "description": "最近の制作実績をご覧ください。"
+    },
+    "experience": {
+      "title": "経歴",
+      "description": "私のキャリアと実績についてご紹介します。"
+    },
+    "contact": {
+      "title": "お問い合わせ",
+      "description": "お仕事のご依頼やご相談をお待ちしております。"
+    }
+  }
+}
