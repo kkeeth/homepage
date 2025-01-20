@@ -1,4 +1,44 @@
 <output>
+  <!--
+    <section class="output-section">
+      <h2>{ this.t('pages.output.podcasts') }</h2>
+      <div class="output-grid">
+        <div each={ podcast in state.podcasts.slice(0, 4) } class="output-item">
+          <img src={ podcast.image  || "/placeholder.svg"} alt={ podcast.title } />
+          <p>{ podcast.title }</p>
+        </div>
+      </div>
+      <sl-button href="/output/podcasts" variant="primary">
+        { this.t('pages.output.viewAll') }
+      </sl-button>
+    </section>
+
+    <section class="output-section">
+      <h2>{ this.t('pages.output.blogs') }</h2>
+      <div class="output-grid">
+        <div each={ blog in state.blogs.slice(0, 4) } class="output-item">
+          <img src={ blog.image  || "/placeholder.svg"} alt={ blog.title } />
+          <p>{ blog.title }</p>
+        </div>
+      </div>
+      <sl-button href="/output/blogs" variant="primary">
+        { this.t('pages.output.viewAll') }
+      </sl-button>
+    </section>
+
+    <section class="output-section">
+      <h2>{ this.t('pages.output.artworks') }</h2>
+      <div class="output-grid">
+        <div each={ artwork in state.artworks.slice(0, 4) } class="output-item">
+          <img src={ artwork.image  || "/placeholder.svg"} alt={ artwork.title } />
+          <p>{ artwork.title }</p>
+        </div>
+      </div>
+      <sl-button href="/output/artworks" variant="primary">
+        { this.t('pages.output.viewAll') }
+      </sl-button>
+    </section>
+    -->
   <section id="output" class="output-section">
     <h2 class="section-title">{this.t('pages.output.title')}</h2>
 
@@ -98,6 +138,12 @@
             link: "https://kkeeth.github.io/my-development-log/"
           }
         ],
+        artworks: [
+          { title: 'Digital Landscape', image: '/placeholder.svg?height=100&width=100' },
+          { title: 'Abstract Patterns', image: '/placeholder.svg?height=100&width=100' },
+          { title: 'Minimalist Portraits', image: '/placeholder.svg?height=100&width=100' },
+          { title: 'Tech-inspired Art', image: '/placeholder.svg?height=100&width=100' },
+        ],
       },
       onMounted() {
         this.state.isPc = window.innerWidth > 768;
@@ -111,6 +157,52 @@
   </script>
 
   <style>
+  /*
+  .output-section {
+      margin-bottom: 3rem;
+    }
+
+    .output-section h2 {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .output-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .output-item {
+      text-align: center;
+    }
+
+    .output-item img {
+      width: 100%;
+      height: auto;
+      border-radius: 8px;
+      margin-bottom: 0.5rem;
+    }
+
+    .output-item p {
+      font-size: 0.9rem;
+    }
+
+    sl-button::part(base) {
+      width: 100%;
+    }
+
+    @media (min-width: 768px) {
+      .output-grid {
+        grid-template-columns: repeat(4, 1fr);
+      }
+
+      sl-button::part(base) {
+        width: auto;
+      }
+    }
+    */
     .category-section {
       margin-bottom: 4rem;
     }

@@ -1,0 +1,65 @@
+<output-list>
+  <div class="page-content">
+    <h1 class="section-title">{ this.t(props.titleKey) }</h1>
+    <div class="output-grid">
+      <div each={ item in props.items } class="output-item">
+        <img src={ item.image  || "/placeholder.svg"} alt={ item.title } />
+        <h3>{ item.title }</h3>
+        <p>{ item.description }</p>
+        <sl-button href={ item.link } variant="primary" size="small">
+          { this.t('output.readMore') }
+        </sl-button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    export default {
+
+      onMounted() {
+        i18nStore.on('locale-changed', () => {
+          this.update()
+        })
+      }
+    }
+  </script>
+
+  <style>
+    .output-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 2rem;
+    }
+
+    .output-item {
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .output-item img {
+      width: 100%;
+      height: 150px;
+      object-fit: cover;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+    }
+
+    .output-item h3 {
+      font-size: 1.2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .output-item p {
+      flex-grow: 1;
+      margin-bottom: 1rem;
+    }
+
+    sl-button::part(base) {
+      width: 100%;
+    }
+  </style>
+</output-list>

@@ -10,13 +10,18 @@
   "pages": {
     "home": {},
     "profile": {
-      "title": "ABOUT ME"
+      "title": "ABOUT ME",
+      "philosophy": "I believe in the power of technology to transform lives and make the world a better place. I am passionate about creating digital experiences that are not only beautiful but also functional and user-friendly. I am constantly learning and evolving to stay ahead in the fast-paced world of web development."
     },
     "works": {
       "title": "WORKS"
     },
     "output": {
-      "title": "OUTPUT"
+      "title": "OUTPUT",
+      "podcasts": "Podcasts",
+      "blogs": "Blogs",
+      "artworks": "Artworks",
+      "viewAll": "View All"
     },
     "contact": {
       "title": "CONTACT",
@@ -34,11 +39,12 @@
     },
     "output": {
       "title": "OUTPUT",
-      "description": "Learn about my professional journey and accomplishments."
+      "description": "Explore my podcasts, blogs, and artworks"
     },
     "contact": {
       "title": "CONTACT",
-      "description": "Get in touch with me for opportunities or collaborations."
-    }
+      "description": "Click here to contact us for a job request or consultations"
+    },
+    "readMore": "Read More"
   }
 }

@@ -10,13 +10,18 @@
   "pages": {
     "home": {},
     "profile": {
-      "title": "ABOUT ME"
+      "title": "ABOUT ME",
+      "philosophy": "私は技術の力で人々の生活を変え、世界をより良い場所にすることを信じています。美しく、機能的でユーザーフレンドリーなデジタル体験を作ることに情熱を持っています。常に学び、進化し、Web開発の瞬く間に変化する世界で先を行くために努力しています。"
     },
     "works": {
       "title": "WORKS"
     },
     "output": {
-      "title": "OUTPUT"
+      "title": "OUTPUT",
+      "podcasts": "ポッドキャスト",
+      "blogs": "ブログ",
+      "artworks": "アート作品",
+      "viewAll": "全て見る"
     },
     "contact": {
       "title": "CONTACT",
@@ -34,11 +39,12 @@
     },
     "output": {
       "title": "OUTPUT",
-      "description": "私のキャリアと実績についてご紹介します。"
+      "description": "私のポッドキャスト、ブログ、アート作品をご覧ください。"
     },
     "contact": {
       "title": "CONTACT",
-      "description": "お仕事のご依頼やご相談をお待ちしております。"
-    }
+      "description": "お仕事のご依頼やご相談はこちらから"
+    },
+    "readMore": "続きを読む"
   }
 }

@@ -1,24 +1,24 @@
 <my-footer>
   <footer class="footer">
     <div class="footer-content">
-      <div class="footer-logo">
-      <!--
-        <a href="/">
-          <img src={imgUrl} alt="Logo" width="80" />
-        </a>
-      -->
-        KKEETH
+      <div class="footer-box">
+        <h4>KKEETH</h4>
+        <social-links />
       </div>
-      <p>&copy; 2025 kkeeth. All rights reserved.</p>
-      <social-links />
+      <ul>
+        <li each={page in pages}><a href={page.path}>{page.label}</a></li>
+      </ul>
+    </div>
+    <p>&copy; 2025 kkeeth. All rights reserved.</p>
   </footer>
 
   <script>
-    import imgUrl from '@/assets/myself.png';
+    import pages from '@/pages';
 
     export default {
-      imgUrl,
-    }
+      pages,
+    };
+
   </script>
 
   <style>
@@ -32,21 +32,59 @@
       right: 50%;
       margin-left: -50vw;
       margin-right: -50vw;
+      text-align: center;
     }
 
     .footer-content {
       max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 4rem;
+      margin: 0 auto 1.5rem;
+      padding: 0 2rem 0 4rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
 
-    .footer-logo {
-      font-size: 1.5rem;
-      font-weight: 700;
+    .footer-content ul {
+      display: flex;
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+      gap: 1.5rem;
     }
+
+    .footer-content ul li {
+      list-style-type: none;
+      margin-bottom: 2rem;
+      min-width: 70px;
+    }
+
+
+    .footer-content ul li a {
+      text-decoration: none;
+      color: #fff;
+      font-weight: 400;
+      transition:font-weight 0.3s ease, font-size 0.3s ease;
+
+    }
+
+    .footer-content ul li a:hover {
+      font-weight: 700;
+      transition:font-weight 0.3s ease, font-size 0.3s ease;
+    }
+
+
+    .footer-box {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .footer-box h4 {
+      font-size: 3rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+
 
     .copyright {
       margin: 0;
