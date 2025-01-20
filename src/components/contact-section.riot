@@ -1,0 +1,56 @@
+<contact-section>
+  <section class="section-preview ">
+    <div class="section-inner">
+      <div class="contact-preview">
+        <div>
+          <h2>{ props.title }</h2>
+          <p>{ props.description }</p>
+        </div>
+        <sl-icon name="arrow-right" class="arrow-icon"></sl-icon>
+      </div>
+    </div>
+  </section>
+
+  <style>
+    .section-preview {
+      text-align: start;
+      background-color: var(--primary-color);
+      border-bottom: 1px solid var(--primary-color);
+    }
+
+    .contact-preview {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 2.5rem;
+      background-color: #fff;
+      border-radius: 1rem;
+      padding: 2rem;
+      transition: transform 0.3s ease;
+      cursor: pointer;
+    }
+
+    .contact-preview:hover {
+      transform: translateX(1rem);
+    }
+
+
+    .contact-preview h2 {
+      margin-bottom: 1rem;
+      font-size: 2rem;
+      font-weight: 500;
+    }
+
+    .contact-preview p {
+      margin-bottom: 0;
+      text-shadow: none;
+      font-size: 1rem;
+    }
+
+    .contact-preview .arrow-icon {
+      font-size: 2rem;
+      margin-left: auto;
+      transition: transform 0.3s ease;
+    }
+  </style>
+</contact-section>
