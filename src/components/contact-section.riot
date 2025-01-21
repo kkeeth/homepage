@@ -1,19 +1,18 @@
 <contact-section>
   <section class="section-preview ">
-    <div class="section-inner">
-      <div class="contact-preview">
-        <div>
-          <h2>{ props.title }</h2>
-          <p>{ props.description }</p>
-        </div>
-        <sl-icon name="arrow-right" class="arrow-icon"></sl-icon>
+    <div class="contact-preview">
+      <div>
+        <h2>{ props.title }</h2>
+        <p>{ props.description }</p>
       </div>
+      <sl-icon name="arrow-right" class="arrow-icon"></sl-icon>
     </div>
   </section>
 
   <style>
     .section-preview {
       text-align: start;
+      padding: 4rem 8rem;
       background-color: var(--primary-color);
       border-bottom: 1px solid var(--primary-color);
     }
@@ -22,10 +21,9 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      gap: 2.5rem;
+      gap: 4rem;
       background-color: #fff;
       border-radius: 1rem;
-      margin-left: 2rem;
       padding: 2rem;
       transition: transform 0.3s ease;
       cursor: pointer;
@@ -39,7 +37,7 @@
     .contact-preview h2 {
       margin-bottom: 1rem;
       font-size: 2rem;
-      font-weight: 500;
+      font-weight: 600;
     }
 
     .contact-preview p {
@@ -52,6 +50,13 @@
       font-size: 2rem;
       margin-left: auto;
       transition: transform 0.3s ease;
+    }
+
+    @media (max-width: 768px) {
+      .section-preview {
+        padding: 4rem;
+      }
+
     }
   </style>
 </contact-section>
