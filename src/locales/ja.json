@@ -25,7 +25,9 @@
     },
     "contact": {
       "title": "CONTACT",
-      "subtitle": "Let's Connect"
+      "subtitle": "ご連絡",
+      "message": "お仕事のご依頼やご相談はお気軽にお問い合わせください。",
+      "area": "東京都"
     }
   },
   "sections": {

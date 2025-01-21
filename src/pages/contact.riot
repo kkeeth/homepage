@@ -4,7 +4,7 @@
     <div class="contact-content">
       <div class="contact-info">
         <h3 class="subtitle">{this.t('pages.contact.subtitle')}</h3>
-        <p>I'm always open to new opportunities and collaborations. Feel free to reach out!</p>
+        <p>{this.t('pages.contact.message')}</p>
         <ul>
           <li>
             <sl-icon name="envelope"></sl-icon>
@@ -12,7 +12,7 @@
           </li>
           <li>
             <sl-icon name="geo-alt"></sl-icon>
-            <span>Tokyo</span>
+            <span>{this.t('pages.contact.area')}</span>
           </li>
         </ul>
         <social-links />
@@ -61,12 +61,13 @@
     .contact-info ul {
       list-style-type: none;
       padding: 0;
+      gap: .5rem;
     }
 
     .contact-info li {
       display: flex;
       align-items: center;
-      margin-bottom: 1rem;
+      margin-bottom: .5rem;
     }
 
     .contact-info sl-icon {

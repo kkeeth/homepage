@@ -25,7 +25,9 @@
     },
     "contact": {
       "title": "CONTACT",
-      "subtitle": "Let's Connect"
+      "subtitle": "Let's Connect",
+      "message": "Feel free to reach out for job requests or consultations.",
+      "area": "Tokyo, Japan"
     }
   },
   "sections": {
