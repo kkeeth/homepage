@@ -1,7 +1,7 @@
 <home>
   <div id="home" class="home-section">
     <div class="content">
-      <hero-section img-url={imgUrl} />
+      <hero-section />
       <!-- about seciton -->
       <section-preview
         title={ this.t('sections.about.title') }
@@ -36,10 +36,8 @@
   <script>
     import HeroSection from '@components/hero-section.riot'
     import SectionPreview from '@components/section-preview.riot'
-    import imgUrl from '@/assets/myface.png';
 
     export default {
-      imgUrl,
       components: {
         HeroSection,
         SectionPreview,

@@ -1,15 +1,11 @@
 <hero-section>
   <section class="hero">
     <div class="hero-content">
-      <h1 class="hero-title">Hi, I'm <span class="highlight">Kuwahara KEETH Kiyohito</span></h1>
+      <h1 class="hero-title"> <span class="highlight">Kuwahara KEETH Kiyohito</span></h1>
       <p class="hero-subtitle">A passionate web developer crafting beautiful and functional digital experiences</p>
-      <div class="hero-cta">
-        <sl-button variant="primary" size="medium" pill href="/projects">View My Work</sl-button>
-        <sl-button variant="neutral" size="medium" pill href="/contact">Get in Touch</sl-button>
-      </div>
     </div>
     <div class="hero-image">
-      <img src={props.imgUrl} alt="Kuwhara KEETH Kiyohito" />
+      <img src="/images/myface.png" alt="Kuwhara KEETH Kiyohito" />
     </div>
   </section>
 
@@ -47,11 +43,6 @@
       opacity: 0.8;
     }
 
-    .hero-cta {
-      display: flex;
-      gap: 1rem;
-    }
-
     .hero-image {
       flex: 1;
       display: flex;
@@ -60,7 +51,7 @@
     }
 
     .hero-image img {
-      max-width: 100%;
+      max-width: 90%;
       height: auto;
       border-radius: 50%;
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);

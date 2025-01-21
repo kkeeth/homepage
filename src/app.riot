@@ -79,6 +79,9 @@
         })
       },
       onAnyRoute(path) {
+        if (!path.pathname) {
+          return
+        }
         const activePage = pages.find(p => match(path.pathname, toRegexp(p.path))).componentName
 
         this.update({
