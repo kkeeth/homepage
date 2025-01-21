@@ -2,7 +2,7 @@
   <section class="works" id="works">
     <h2 class="section-title">{this.t('pages.works.title')}</h2>
     <div class="works-grid">
-      <sl-card class="work-card" each={ work in works }>
+      <sl-card class="work-card" each={ work in state.works }>
         <img slot="image" src={ work.image } alt={ work.title } />
         <h3 class="subtitle">{ work.title }</h3>
         <p>{ work.description }</p>
@@ -17,45 +17,33 @@
   </section>
 
   <script>
-    import imgUrl1 from '@/assets/work_vantan.png';
+    import { works } from '@/locales/dataset';
+    import i18nStore from '@/utils/i18n-store';
+
     export default {
-      works: [
-        {
-          title: 'Programming Teacher',
-          description: 'A full-stack e-commerce solution with user authentication, product management, and payment integration.',
-          image: imgUrl1,
-          tags: ['JavaScript', 'React', 'Firebase'],
-          link: 'https://lp.kadokawadwango-it-academy.jp/cd14d7ea/index.html'
-        },
-        {
-          title: 'Task Management App',
-          description: 'A responsive web application for managing tasks and works with real-time updates.',
-          image: '/placeholder.svg?height=300&width=400',
-          tags: ['Vue.js', 'Firebase', 'Vuex'],
-          link: '#'
-        },
-        {
-          title: 'Weather Dashboard',
-          description: 'An interactive weather dashboard that displays current and forecasted weather data for multiple locations.',
-          image: '/placeholder.svg?height=300&width=400',
-          tags: ['JavaScript', 'OpenWeatherMap API', 'Chart.js'],
-          link: '#'
-        }
-      ],
+      state: {
+        works: works[i18nStore.currentLocale]
+      },
+      onMounted() {
+        i18nStore.on('locale-changed', () => {
+          this.update({
+            works: works[i18nStore.currentLocale]
+          })
+        });
+      }
     }
   </script>
 
   <style>
     .works-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
       gap: 2rem;
     }
 
     .work-card {
       display: flex;
       flex-direction: column;
-      height: 100%;
     }
 
     .work-card::part(base) {
@@ -89,14 +77,10 @@
       margin-bottom: 1rem;
     }
 
-    .work-card::part(image) {
-      aspect-ratio: 16 / 9;
-      object-fit: cover;
-    }
-
     img {
-      background-color: #eee;
-      object-fit: contain;
+      height: 280px;
+      object-fit: cover;
+      object-position: center;
     }
 
     @media (max-width: 768px) {
