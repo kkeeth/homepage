@@ -1,0 +1,96 @@
+<program-card>
+  <sl-card class="program-card {props.program.color}">
+    <div class="card-header">
+      <div class="card-icon">
+        <sl-icon name={props.program.icon}></sl-icon>
+      </div>
+      <div class="card-meta">
+        <span class="category">{props.program.category}ssss</span>
+        <span class="episodes">{props.program.episodes}話</span>
+      </div>
+    </div>
+
+    <h3 class="card-title">{props.program.title}</h3>
+    <p class="card-description">{props.program.description}</p>
+
+    <div class="card-actions" slot="footer">
+      <sl-button variant="default" size="small" outline>
+        <sl-icon name="play" slot="prefix"></sl-icon>
+        聴く
+      </sl-button>
+      <sl-button variant="text" size="small">
+        詳細
+      </sl-button>
+    </div>
+  </sl-card>
+
+  <style>
+    .program-card {
+      height: 100%;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .program-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 1rem;
+    }
+
+    .card-icon {
+      width: 3rem;
+      height: 3rem;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      color: white;
+    }
+
+    .program-card.mint .card-icon { background: var(--mint-500); }
+    .program-card.pink .card-icon { background: var(--pink-500); }
+    .program-card.blue .card-icon { background: var(--blue-500); }
+    .program-card.purple .card-icon { background: var(--purple-500); }
+    .program-card.yellow .card-icon { background: var(--yellow-500); }
+
+    .card-meta {
+      text-align: right;
+      font-size: 0.875rem;
+    }
+
+    .category {
+      display: block;
+      color: var(--navy-600);
+      font-weight: 500;
+    }
+
+    .episodes {
+      color: var(--navy-400);
+    }
+
+    .card-title {
+      font-size: 1.25rem;
+      font-weight: bold;
+      color: var(--navy-800);
+      margin-bottom: 0.75rem;
+    }
+
+    .card-description {
+      color: var(--navy-600);
+      line-height: 1.5;
+      margin-bottom: 1.5rem;
+    }
+
+    .card-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+  </style>
+</program-card>

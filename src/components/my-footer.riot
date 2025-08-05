@@ -1,106 +1,127 @@
 <my-footer>
   <footer class="footer">
-    <div class="footer-content">
-      <div class="footer-box">
-        <h4>KKEETH</h4>
-        <social-links />
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-section">
+          <div class="footer-logo">
+            <div class="logo-icon">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+              </svg>
+            </div>
+            <h3>雨宿りPodcast</h3>
+          </div>
+          <p>心地よい対話で、日常に小さな発見を。</p>
+        </div>
+
+        <div class="footer-section">
+          <h4>番組</h4>
+          <ul>
+            <li><a href="/programs">全番組一覧</a></li>
+            <li><a href="/latest">最新エピソード</a></li>
+            <li><a href="/archive">アーカイブ</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-section">
+          <h4>つながる</h4>
+          <div class="social-links">
+            <sl-button variant="text" size="large">
+              <sl-icon name="twitter"></sl-icon>
+            </sl-button>
+            <sl-button variant="text" size="large">
+              <sl-icon name="youtube"></sl-icon>
+            </sl-button>
+            <sl-button variant="text" size="large">
+              <sl-icon name="rss"></sl-icon>
+            </sl-button>
+          </div>
+        </div>
       </div>
-      <ul>
-        <li each={page in pages}><a href={page.path}>{page.label}</a></li>
-      </ul>
+
+      <div class="footer-bottom">
+        <p>&copy; 2025 @kkeeth. All rights reserved.</p>
+      </div>
     </div>
-    <p>&copy; 2025 kkeeth. All rights reserved.</p>
   </footer>
-
-  <script>
-    import pages from '@/pages';
-
-    export default {
-      pages,
-    };
-
-  </script>
 
   <style>
     .footer {
-      background-color: var(--primary-color);
-      color: #fff;
-      padding: 3rem 0;
-      position: relative;
-      text-align: center;
+      background: var(--navy-800);
+      color: white;
+      padding: 3rem 0 1rem;
     }
 
     .footer-content {
-      max-width: 1200px;
-      margin: 0 auto 1.5rem;
-      padding: 0 2rem 0 4rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .footer-content ul {
-      display: flex;
-      list-style-type: none;
-      margin: 0;
-      padding: 0;
-      gap: 1.5rem;
-    }
-
-    .footer-content ul li {
-      list-style-type: none;
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 3rem;
       margin-bottom: 2rem;
-      min-width: 70px;
     }
 
-
-    .footer-content ul li a {
-      text-decoration: none;
-      color: #fff;
-      font-weight: 400;
-      transition:font-weight 0.3s ease, font-size 0.3s ease;
-
-    }
-
-    .footer-content ul li a:hover {
-      font-weight: 700;
-      transition:font-weight 0.3s ease, font-size 0.3s ease;
-    }
-
-
-    .footer-box {
+    .footer-logo {
       display: flex;
-      flex-direction: column;
       align-items: center;
-    }
-
-    .footer-box h4 {
-      font-size: 3rem;
-      font-weight: 700;
+      gap: 0.75rem;
       margin-bottom: 1rem;
     }
 
+    .logo-icon {
+      width: 2rem;
+      height: 2rem;
+      background: var(--mint-gradient);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
 
-    .copyright {
-      margin: 0;
+    .footer-section h3,
+    .footer-section h4 {
+      margin-bottom: 1rem;
+      font-weight: 600;
+    }
+
+    .footer-section p {
+      color: rgba(255, 255, 255, 0.8);
+      line-height: 1.5;
+    }
+
+    .footer-section ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .footer-section ul li {
+      margin-bottom: 0.5rem;
+    }
+
+    .footer-section ul li a {
+      color: rgba(255, 255, 255, 0.8);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .footer-section ul li a:hover {
+      color: white;
+    }
+
+    .social-links {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .footer-bottom {
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      padding-top: 2rem;
+      text-align: center;
+      color: rgba(255, 255, 255, 0.6);
     }
 
     @media (max-width: 768px) {
       .footer-content {
-        flex-direction: column;
-        text-align: center;
-        gap: 1.5rem;
-        padding: 0;
-      }
-
-      .footer-content ul {
-        display: flex;
-        flex-direction: column;
-        gap: 0;
-      }
-
-      .social-links {
-        justify-content: center;
+        grid-template-columns: 1fr;
+        gap: 2rem;
       }
     }
   </style>

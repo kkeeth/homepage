@@ -5,19 +5,14 @@ export default [
     componentName: 'home',
   },
   {
+    path: '/programs',
+    label: 'PROGRAMS',
+    componentName: 'programs',
+  },
+  {
     path: '/profile',
     label: 'PROFILE',
     componentName: 'profile',
-  },
-  {
-    path: '/works',
-    label: 'WORKS',
-    componentName: 'works',
-  },
-  {
-    path: '/output',
-    label: 'OUTPUT',
-    componentName: 'output',
   },
   {
     path: '/contact',
