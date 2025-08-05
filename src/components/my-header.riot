@@ -10,7 +10,7 @@
         <nav class="nav">
           <a href="/" onclick={navigate}>Home</a>
           <a href="/programs" onclick={navigate}>Episodes</a>
-          <a href="/about" onclick={navigate}>About</a>
+          <a href="/profile" onclick={navigate}>Profile</a>
           <a href="/contact" onclick={navigate}>Contact</a>
           <sl-button variant="primary" size="medium" class="subscribe-header-btn">
             Subscribe
@@ -59,8 +59,8 @@
     }
 
     .logo-icon {
-      width: 2rem;
-      height: 2rem;
+      width: 4rem;
+      height: 4rem;
       color: var(--mint-600);
     }
 
@@ -82,19 +82,29 @@
       text-decoration: none;
       font-weight: 500;
       transition: color 0.2s;
+      position: relative;
     }
 
     .nav a:hover {
       color: var(--navy-800);
     }
 
-    .subscribe-header-btn::part(base) {
-      background: var(--mint-gradient);
-      border: none;
-      font-weight: 600;
+    .nav a:hover::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: var(--mint-400);
+      border-radius: 1px;
+      transform: rotate(-1deg);
     }
 
     @media (max-width: 768px) {
+      .header-content {
+        padding: 1rem;
+      }
       .nav {
         display: none;
       }

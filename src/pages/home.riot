@@ -1,202 +1,264 @@
 <home>
   <div class="home">
-    <!-- Hero Section with 3D Elements -->
+    <!-- Hero Section - More Artistic Layout -->
     <section class="hero">
       <div class="hero-bg">
-        <!-- 3D Water Droplets with Trajectories -->
-        <div class="droplet-3d droplet-large" style="top: 20%; left: 15%;">
-          <div class="droplet-shape mint"></div>
-          <svg class="trajectory" viewBox="0 0 200 100">
-            <path d="M0,50 Q50,20 100,40 T200,30" stroke="rgba(255,255,255,0.3)" stroke-width="2" fill="none" stroke-dasharray="5,5"/>
-          </svg>
+        <!-- Scattered droplets with more organic placement -->
+        <div class="droplet-scatter droplet-large mint" style="top: 15%; left: 8%; transform: rotate(-15deg);"></div>
+        <div class="droplet-scatter droplet-medium blue" style="top: 25%; right: 12%; transform: rotate(25deg);"></div>
+        <div class="droplet-scatter droplet-small yellow" style="top: 45%; left: 20%; transform: rotate(-8deg);"></div>
+        <div class="droplet-scatter droplet-medium pink" style="top: 65%; right: 25%; transform: rotate(18deg);"></div>
+        <div class="droplet-scatter droplet-small purple" style="top: 35%; left: 70%; transform: rotate(-22deg);"></div>
+        <div class="droplet-scatter droplet-large coral" style="top: 75%; left: 15%; transform: rotate(12deg);"></div>
+
+        <!-- Doodle-style decorations -->
+        <div class="doodle-star" style="top: 20%; right: 30%; transform: rotate(45deg);">✦</div>
+        <div class="doodle-star" style="top: 60%; left: 60%; transform: rotate(-30deg);">✧</div>
+        <div class="doodle-plus" style="top: 40%; right: 15%;">+</div>
+        <div class="doodle-plus" style="top: 80%; left: 45%;">+</div>
+
+        <!-- Wavy background elements -->
+        <div class="wave-doodle wave-1"></div>
+        <div class="wave-doodle wave-2"></div>
+      </div>
+
+      <div class="hero-content">
+        <div class="hero-left">
+          <div class="greeting-badge">
+            <span class="wave-emoji">👋</span>
+            <span>こんにちは！</span>
+          </div>
+
+          <h1 class="hero-title">
+            <span class="title-casual">ちょっと</span>
+            <span class="title-main">雨宿り</span>
+            <span class="title-casual">しませんか？</span>
+          </h1>
+
+          <p class="hero-subtitle">
+            Web技術のこと、クリエイティブなこと、
+            <br>
+            日常のふとした発見を
+            <span class="highlight-marker">ゆる〜く</span>
+            語り合う
+            <br>
+            そんなポッドキャストです ☂️
+          </p>
+
+          <div class="hero-actions">
+            <sl-button variant="primary" size="large" class="listen-btn">
+              <span class="btn-emoji">🎧</span>
+              聴いてみる
+            </sl-button>
+            <div class="casual-note">
+              <span class="arrow-doodle">↗</span>
+              <span>気軽にどうぞ〜</span>
+            </div>
+          </div>
         </div>
 
-        <div class="droplet-3d droplet-medium" style="top: 40%; right: 20%;">
-          <div class="droplet-shape blue"></div>
-          <svg class="trajectory" viewBox="0 0 150 80">
-            <path d="M0,40 Q40,10 80,30 T150,20" stroke="rgba(255,255,255,0.2)" stroke-width="2" fill="none" stroke-dasharray="3,3"/>
-          </svg>
-        </div>
-
-        <div class="droplet-3d droplet-small" style="top: 60%; left: 25%;">
-          <div class="droplet-shape yellow"></div>
-          <svg class="trajectory" viewBox="0 0 120 60">
-            <path d="M0,30 Q30,10 60,20 T120,15" stroke="rgba(255,255,255,0.25)" stroke-width="1.5" fill="none" stroke-dasharray="4,4"/>
-          </svg>
-        </div>
-
-        <div class="droplet-3d droplet-medium" style="top: 30%; left: 60%;">
-          <div class="droplet-shape pink"></div>
-          <svg class="trajectory" viewBox="0 0 180 90">
-            <path d="M0,45 Q45,15 90,35 T180,25" stroke="rgba(255,255,255,0.2)" stroke-width="2" fill="none" stroke-dasharray="6,6"/>
-          </svg>
-        </div>
-
-        <!-- Decorative Wave at Bottom -->
-        <div class="hero-wave">
-          <svg viewBox="0 0 1200 200" fill="none">
-            <path d="M0,100 C300,150 600,50 900,100 C1050,125 1150,75 1200,100 L1200,200 L0,200 Z" fill="rgba(255,255,255,0.1)"/>
-          </svg>
+        <div class="hero-right">
+          <div class="character-frame">
+            <div class="frame-decoration">
+              <div class="corner-doodle top-left">◜</div>
+              <div class="corner-doodle top-right">◝</div>
+              <div class="corner-doodle bottom-left">◟</div>
+              <div class="corner-doodle bottom-right">◞</div>
+            </div>
+            <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/%E9%9B%A8%E5%AE%BF%E3%82%8A%E3%81%A8%20Web%20%E3%81%AE%E5%B0%8F%E5%99%BA-XnAjzyKbW0lVXd3o7wE5Jn9Zf46A8A.png" alt="雨宿りとWEBの小噺" class="character-image">
+            <div class="speech-bubble">
+              <span>一緒に語りましょう！</span>
+            </div>
+          </div>
         </div>
       </div>
 
-      <div class="container">
-        <div class="hero-content">
-          <div class="hero-text">
-            <h1 class="hero-title">
-              心地よい対話で紡ぐ
-              <span class="highlight">Web技術</span>
-              の雨宿り
-            </h1>
-            <p class="hero-subtitle">
-              技術者とクリエイターの交差点で生まれる、
-              <br>
-              深い洞察と新しい発見をお届けするポッドキャスト
-            </p>
+      <!-- Casual stats -->
+      <div class="casual-stats">
+        <div class="stat-bubble">
+          <div class="stat-emoji">🎙️</div>
+          <div class="stat-text">
+            <span class="stat-number">50+</span>
+            <span class="stat-label">エピソード</span>
+          </div>
+        </div>
+        <div class="stat-bubble">
+          <div class="stat-emoji">👥</div>
+          <div class="stat-text">
+            <span class="stat-number">1.2k</span>
+            <span class="stat-label">リスナー</span>
+          </div>
+        </div>
+        <div class="stat-bubble">
+          <div class="stat-emoji">⭐</div>
+          <div class="stat-text">
+            <span class="stat-number">4.8</span>
+            <span class="stat-label">評価</span>
+          </div>
+        </div>
+      </div>
+    </section>
 
-            <div class="hero-actions">
-              <sl-button variant="primary" size="large" class="subscribe-btn">
-                <sl-icon name="headphones" slot="prefix"></sl-icon>
-                購読する
+    <!-- Latest Episode - Casual Style -->
+    <section class="latest-episode">
+      <div class="section-content">
+        <div class="section-header-casual">
+          <h2 class="section-title">
+            <span class="title-doodle">📻</span>
+            最新のお話
+          </h2>
+          <div class="title-underline"></div>
+        </div>
+
+        <div class="episode-card-casual">
+          <div class="episode-visual">
+            <div class="play-button-big">
+              <sl-icon name="play-fill"></sl-icon>
+            </div>
+            <div class="episode-decoration">
+              <div class="sound-wave wave-1"></div>
+              <div class="sound-wave wave-2"></div>
+              <div class="sound-wave wave-3"></div>
+            </div>
+          </div>
+
+          <div class="episode-info">
+            <div class="episode-meta-casual">
+              <span class="episode-badge">#{state.latestEpisode.number}</span>
+              <span class="episode-date">{formatDate(state.latestEpisode.date)}</span>
+              <span class="episode-duration">🕐 {state.latestEpisode.duration}</span>
+            </div>
+
+            <h3 class="episode-title-casual">{state.latestEpisode.title}</h3>
+            <p class="episode-description-casual">{state.latestEpisode.description}</p>
+
+            <div class="episode-actions-casual">
+              <sl-button variant="primary" size="medium">
+                <span class="btn-emoji">▶️</span>
+                再生
+              </sl-button>
+              <sl-button variant="default" size="medium" outline>
+                <span class="btn-emoji">💾</span>
+                保存
               </sl-button>
             </div>
           </div>
-
-          <!-- Podcast Character Integration -->
-          <div class="hero-visual">
-            <div class="character-container">
-              <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/%E9%9B%A8%E5%AE%BF%E3%82%8A%E3%81%A8%20Web%20%E3%81%AE%E5%B0%8F%E5%99%BA-XnAjzyKbW0lVXd3o7wE5Jn9Zf46A8A.png" alt="雨宿りとWEBの小噺" class="character-image">
-              <div class="character-glow"></div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Sponsors/Partners Section -->
-        <div class="partners-section">
-          <div class="partners-grid">
-            <div class="partner-logo">
-              <span class="logo-text">Web技術コミュニティ</span>
-            </div>
-            <div class="partner-logo">
-              <span class="logo-text">クリエイター支援</span>
-            </div>
-            <div class="partner-logo">
-              <span class="logo-text">学習プラットフォーム</span>
-            </div>
-          </div>
         </div>
       </div>
     </section>
 
-    <!-- Featured Episode Section -->
-    <section class="featured-episode">
-      <div class="container">
-        <div class="episode-content">
-          <div class="episode-info">
-            <div class="episode-badge">最新エピソード</div>
-            <h2 class="episode-title">{state.latestEpisode.title}</h2>
-            <p class="episode-description">{state.latestEpisode.description}</p>
-            <div class="episode-meta">
-              <span class="episode-number">#{state.latestEpisode.number}</span>
-              <span class="episode-date">{formatDate(state.latestEpisode.date)}</span>
-              <span class="episode-duration">{state.latestEpisode.duration}</span>
-            </div>
-          </div>
-          <div class="episode-actions">
-            <sl-button variant="primary" size="large">
-              <sl-icon name="play-circle" slot="prefix"></sl-icon>
-              再生
-            </sl-button>
-            <sl-button variant="default" size="large" outline>
-              <sl-icon name="download" slot="prefix"></sl-icon>
-              ダウンロード
-            </sl-button>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Programs Grid -->
-    <section class="programs-showcase">
-      <div class="container">
-        <div class="section-header">
-          <h2>番組ラインナップ</h2>
-          <p>多様なテーマで、あなたの興味に合わせてお楽しみください</p>
+    <!-- Programs - Artistic Grid -->
+    <section class="programs-artistic">
+      <div class="section-content">
+        <div class="section-header-casual">
+          <h2 class="section-title">
+            <span class="title-doodle">🎨</span>
+            番組いろいろ
+          </h2>
+          <p class="section-subtitle-casual">
+            気分に合わせて選んでくださいね〜
+          </p>
         </div>
 
-        <div class="programs-grid">
-          <div class="program-card" each={program in state.programs} key={program.id}>
-            <div class="card-visual">
-              <div class="program-icon {program.color}">
-                <sl-icon name={program.icon}></sl-icon>
-              </div>
-              <div class="card-trajectory">
-                <svg viewBox="0 0 100 50">
-                  <path d="M10,25 Q30,10 50,25 T90,20" stroke="currentColor" stroke-width="1" fill="none" stroke-dasharray="2,2" opacity="0.3"/>
-                </svg>
-              </div>
+        <div class="programs-masonry">
+          <div class="program-card-artistic main-program">
+            <div class="card-header-artistic">
+              <div class="program-emoji">🌧️</div>
+              <div class="program-badge main">メイン</div>
             </div>
-            <div class="card-content">
-              <h3 class="card-title">{program.title}</h3>
-              <p class="card-description">{program.description}</p>
-              <div class="card-stats">
-                <span class="stat">{program.episodes}話</span>
-                <span class="stat">{program.category}</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Community Section -->
-    <!--
-    <section class="community-section">
-      <div class="container">
-        <div class="community-content">
-          <div class="community-text">
-            <h2>コミュニティとつながる</h2>
-            <p class="community-description">
-              リスナーの皆さんとの対話を大切にしています。
-              感想やご質問、一緒に語りたいトピックがあれば、
-              ぜひお聞かせください。
+            <h3 class="program-title-artistic">雨宿りとWEBの小噺</h3>
+            <p class="program-description-artistic">
+              Web技術のあれこれを、まったり語る番組です。
+              コーヒー片手にどうぞ ☕
             </p>
-            <div class="community-stats">
-              <div class="stat-item">
-                <div class="stat-number">1,200+</div>
-                <div class="stat-label">リスナー</div>
-              </div>
-              <div class="stat-item">
-                <div class="stat-number">50+</div>
-                <div class="stat-label">エピソード</div>
-              </div>
-              <div class="stat-item">
-                <div class="stat-number">4.8</div>
-                <div class="stat-label">評価</div>
-              </div>
+            <div class="program-stats-casual">
+              <span>📊 25話</span>
+              <span>⏰ 毎週火曜</span>
             </div>
-            <sl-button variant="default" size="medium" outline>
-              <sl-icon name="chat-dots" slot="prefix"></sl-icon>
-              コミュニティに参加
-            </sl-button>
           </div>
-          <div class="community-visual">
-            <div class="interaction-bubbles">
-              <div class="bubble bubble-1">
-                <span>面白い視点でした！</span>
-              </div>
-              <div class="bubble bubble-2">
-                <span>次回も楽しみです</span>
-              </div>
-              <div class="bubble bubble-3">
-                <span>勉強になりました</span>
-              </div>
+
+          <div class="program-card-artistic" each={program in state.otherPrograms} key={program.id}>
+            <div class="card-header-artistic">
+              <div class="program-emoji">{program.emoji}</div>
+              <div class="program-badge {program.color}">{program.category}</div>
+            </div>
+            <h3 class="program-title-artistic">{program.title}</h3>
+            <p class="program-description-artistic">{program.description}</p>
+            <div class="program-stats-casual">
+              <span>📊 {program.episodes}話</span>
+              <span>📅 {program.schedule}</span>
             </div>
           </div>
         </div>
       </div>
     </section>
-    -->
+
+    <!-- Community - Fun Style -->
+    <section class="community-fun">
+      <div class="section-content">
+        <div class="community-header">
+          <h2 class="section-title">
+            <span class="title-doodle">💬</span>
+            みんなでワイワイ
+          </h2>
+          <div class="community-doodles">
+            <span class="doodle-heart">💖</span>
+            <span class="doodle-star">✨</span>
+            <span class="doodle-music">🎵</span>
+          </div>
+        </div>
+
+        <div class="community-content-fun">
+          <div class="community-text">
+            <p class="community-intro">
+              感想やご質問、「こんな話してほしい！」みたいなリクエストがあったら、
+              <br>
+              気軽に声をかけてくださいね〜
+            </p>
+
+            <div class="community-ways">
+              <div class="way-item">
+                <span class="way-emoji">📧</span>
+                <span>メール送る</span>
+              </div>
+              <div class="way-item">
+                <span class="way-emoji">🐦</span>
+                <span>Twitterでつぶやく</span>
+              </div>
+              <div class="way-item">
+                <span class="way-emoji">💭</span>
+                <span>コミュニティで話す</span>
+              </div>
+            </div>
+
+            <sl-button variant="default" size="medium" outline class="community-btn">
+              <span class="btn-emoji">🚪</span>
+              コミュニティに遊びに来る
+            </sl-button>
+          </div>
+
+          <div class="community-visual-fun">
+            <div class="chat-bubbles-fun">
+              <div class="bubble-fun bubble-1">
+                <span>面白かった〜！</span>
+                <div class="bubble-tail"></div>
+              </div>
+              <div class="bubble-fun bubble-2">
+                <span>次回も楽しみ♪</span>
+                <div class="bubble-tail"></div>
+              </div>
+              <div class="bubble-fun bubble-3">
+                <span>勉強になりました！</span>
+                <div class="bubble-tail"></div>
+              </div>
+            </div>
+            <div class="community-character">
+              <span class="character-emoji">🙋‍♀️</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
   </div>
 
   <script>
@@ -204,47 +266,41 @@
       state: {
         latestEpisode: {
           number: 25,
-          title: "React 19の新機能とWeb開発の未来",
-          description: "最新のReact 19で追加された新機能について詳しく解説し、これからのWeb開発がどう変わっていくかを議論します。",
+          title: "React 19の新機能、実際どうなの？",
+          description: "最新のReact 19について、実際に触ってみた感想や、これからの開発がどう変わりそうかを、ゆる〜く語ってみました。",
           date: "2024-01-15",
           duration: "42分"
         },
-        programs: [
-          {
-            id: 1,
-            title: "雨宿りとWEBの小噺",
-            description: "Web技術の深い話をゆったりとした雰囲気で",
-            episodes: 25,
-            category: "メイン番組",
-            color: "mint",
-            icon: "code-slash"
-          },
+        otherPrograms: [
           {
             id: 2,
             title: "クリエイティブ・レイン",
-            description: "デザインとアートの創作プロセス",
+            description: "デザインやアートのこと、創作の楽しさを語る番組 🎨",
             episodes: 12,
-            category: "クリエイティブ",
+            category: "アート",
             color: "pink",
-            icon: "palette"
+            emoji: "🎨",
+            schedule: "隔週金曜"
           },
           {
             id: 3,
             title: "テック・ドロップス",
-            description: "最新技術トレンドを短時間で",
+            description: "最新技術を短時間でサクッと紹介 ⚡",
             episodes: 18,
-            category: "テクノロジー",
+            category: "テック",
             color: "blue",
-            icon: "cpu"
+            emoji: "💻",
+            schedule: "毎週木曜"
           },
           {
             id: 4,
             title: "ライフ・シャワー",
-            description: "働き方とキャリアについての対話",
+            description: "働き方や日常のあれこれを語る番組 ☕",
             episodes: 15,
-            category: "ライフスタイル",
+            category: "ライフ",
             color: "purple",
-            icon: "heart"
+            emoji: "🌱",
+            schedule: "月2回"
           }
         ]
       },
@@ -252,7 +308,6 @@
       formatDate(dateString) {
         const date = new Date(dateString)
         return date.toLocaleDateString('ja-JP', {
-          year: 'numeric',
           month: 'long',
           day: 'numeric'
         })
@@ -267,9 +322,15 @@
       color: white;
     }
 
+    /* Full width with padding instead of max-width */
+    .section-content {
+      padding-left: 2rem;
+      padding-right: 2rem;
+    }
+
     .hero {
       position: relative;
-      padding: 6rem 0 4rem;
+      padding: 4rem 0 6rem;
       overflow: hidden;
     }
 
@@ -279,65 +340,50 @@
       pointer-events: none;
     }
 
-    .droplet-3d {
+    /* More organic droplet placement */
+    .droplet-scatter {
       position: absolute;
-      animation: float-3d 8s ease-in-out infinite;
-    }
-
-    .droplet-large { animation-delay: 0s; }
-    .droplet-medium { animation-delay: 2s; }
-    .droplet-small { animation-delay: 4s; }
-
-    .droplet-shape {
-      width: 3rem;
-      height: 3.5rem;
       border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
-      position: relative;
-      filter: drop-shadow(0 8px 16px rgba(0,0,0,0.2));
-      transform-style: preserve-3d;
+      animation: float-organic 6s ease-in-out infinite;
+      filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
     }
 
-    .droplet-shape.mint {
-      background: linear-gradient(135deg, var(--mint-400), var(--mint-500));
-    }
-    .droplet-shape.blue {
-      background: linear-gradient(135deg, var(--blue-400), var(--blue-500));
-    }
-    .droplet-shape.yellow {
-      background: linear-gradient(135deg, var(--yellow-400), var(--yellow-500));
-    }
-    .droplet-shape.pink {
-      background: linear-gradient(135deg, var(--pink-400), var(--pink-500));
-    }
+    .droplet-large { width: 3rem; height: 3.5rem; }
+    .droplet-medium { width: 2rem; height: 2.5rem; }
+    .droplet-small { width: 1.5rem; height: 1.8rem; }
 
-    .droplet-shape::before {
-      content: '';
+    .droplet-scatter.mint { background: linear-gradient(135deg, var(--mint-400), var(--mint-500)); }
+    .droplet-scatter.blue { background: linear-gradient(135deg, var(--blue-400), var(--blue-500)); }
+    .droplet-scatter.yellow { background: linear-gradient(135deg, var(--yellow-400), var(--yellow-500)); }
+    .droplet-scatter.pink { background: linear-gradient(135deg, var(--pink-400), var(--pink-500)); }
+    .droplet-scatter.purple { background: linear-gradient(135deg, var(--purple-400), var(--purple-500)); }
+    .droplet-scatter.coral { background: linear-gradient(135deg, var(--coral-400), #f97316); }
+
+    /* Doodle decorations */
+    .doodle-star, .doodle-plus {
       position: absolute;
-      top: 20%;
-      left: 30%;
-      width: 30%;
-      height: 40%;
-      background: rgba(255,255,255,0.3);
-      border-radius: 50%;
-      filter: blur(2px);
+      font-size: 1.5rem;
+      color: rgba(255, 255, 255, 0.4);
+      animation: twinkle 3s ease-in-out infinite;
     }
 
-    .trajectory {
+    .wave-doodle {
       position: absolute;
-      top: 50%;
-      left: 100%;
       width: 200px;
       height: 100px;
-      transform: translateY(-50%);
-      opacity: 0.6;
+      opacity: 0.1;
     }
 
-    .hero-wave {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      height: 200px;
+    .wave-1 {
+      top: 30%;
+      left: 10%;
+      background: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0,50 Q50,20 100,50 T200,50' stroke='white' stroke-width='3' fill='none'/%3E%3C/svg%3E");
+    }
+
+    .wave-2 {
+      bottom: 20%;
+      right: 15%;
+      background: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0,30 Q50,60 100,30 T200,30' stroke='white' stroke-width='2' fill='none'/%3E%3C/svg%3E");
     }
 
     .hero-content {
@@ -350,6 +396,24 @@
       margin-bottom: 4rem;
     }
 
+    .greeting-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(255, 255, 255, 0.15);
+      padding: 0.75rem 1.5rem;
+      border-radius: 2rem;
+      font-size: 1rem;
+      font-weight: 500;
+      margin-bottom: 2rem;
+      backdrop-filter: blur(10px);
+    }
+
+    .wave-emoji {
+      font-size: 1.25rem;
+      animation: wave 2s ease-in-out infinite;
+    }
+
     .hero-title {
       font-size: 3.5rem;
       font-weight: bold;
@@ -357,11 +421,21 @@
       margin-bottom: 2rem;
     }
 
-    .highlight {
-      background: linear-gradient(135deg, var(--mint-300), var(--mint-400));
+    .title-casual {
+      font-size: 2.5rem;
+      opacity: 0.9;
+      display: block;
+    }
+
+    .title-main {
+      font-size: 4rem;
+      background: linear-gradient(135deg, var(--mint-300), var(--yellow-400));
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
+      display: block;
+      transform: rotate(-2deg);
+      margin: 0.5rem 0;
     }
 
     .hero-subtitle {
@@ -371,344 +445,558 @@
       margin-bottom: 3rem;
     }
 
-    .hero-actions {
-      display: flex;
-      gap: 1rem;
+    .highlight-marker {
+      background: linear-gradient(135deg, var(--yellow-400), var(--coral-400));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      font-weight: bold;
+      position: relative;
     }
 
-    .subscribe-btn::part(base) {
-      background: rgba(255, 255, 255, 0.15);
+    .hero-actions {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+    }
+
+    .listen-btn::part(base) {
+      background: rgba(255, 255, 255, 0.2);
       border: 2px solid rgba(255, 255, 255, 0.3);
       color: white;
       font-weight: 600;
       padding: 1rem 2rem;
       backdrop-filter: blur(10px);
+      border-radius: 2rem;
+      transform: rotate(-1deg);
     }
 
-    .subscribe-btn:hover::part(base) {
-      background: rgba(255, 255, 255, 0.25);
-      border-color: rgba(255, 255, 255, 0.5);
-      transform: translateY(-2px);
+    .listen-btn:hover::part(base) {
+      background: rgba(255, 255, 255, 0.3);
+      transform: rotate(-1deg) translateY(-2px);
     }
 
-    .hero-visual {
+    .btn-emoji {
+      margin-right: 0.5rem;
+    }
+
+    .casual-note {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.875rem;
+      opacity: 0.8;
+      transform: rotate(2deg);
+    }
+
+    .arrow-doodle {
+      font-size: 1.25rem;
+    }
+
+    .character-frame {
+      position: relative;
       display: flex;
       justify-content: center;
       align-items: center;
     }
 
-    .character-container {
-      position: relative;
+    .frame-decoration {
+      position: absolute;
+      inset: -2rem;
+      pointer-events: none;
     }
+
+    .corner-doodle {
+      position: absolute;
+      font-size: 2rem;
+      color: rgba(255, 255, 255, 0.3);
+    }
+
+    .top-left { top: 0; left: 0; }
+    .top-right { top: 0; right: 0; }
+    .bottom-left { bottom: 0; left: 0; }
+    .bottom-right { bottom: 0; right: 0; }
 
     .character-image {
       width: 18rem;
       height: 18rem;
       object-fit: contain;
       filter: drop-shadow(0 10px 30px rgba(0,0,0,0.3));
-      position: relative;
-      z-index: 2;
+      transform: rotate(-3deg);
     }
 
-    .character-glow {
+    .speech-bubble {
       position: absolute;
-      inset: -2rem;
-      background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
-      border-radius: 50%;
-      animation: pulse-glow 4s ease-in-out infinite;
+      top: -2rem;
+      right: -3rem;
+      background: white;
+      color: var(--navy-800);
+      padding: 0.75rem 1.25rem;
+      border-radius: 1.5rem;
+      font-size: 0.875rem;
+      font-weight: 500;
+      transform: rotate(8deg);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
     }
 
-    .partners-section {
+    .speech-bubble::after {
+      content: '';
+      position: absolute;
+      bottom: -8px;
+      left: 2rem;
+      width: 0;
+      height: 0;
+      border-left: 8px solid transparent;
+      border-right: 8px solid transparent;
+      border-top: 8px solid white;
+      transform: rotate(-15deg);
+    }
+
+    .casual-stats {
+      display: flex;
+      justify-content: center;
+      gap: 3rem;
+      padding-left: 2rem;
+      padding-right: 2rem;
       position: relative;
       z-index: 10;
     }
 
-    .partners-grid {
+    .stat-bubble {
       display: flex;
-      justify-content: center;
-      gap: 3rem;
-      opacity: 0.7;
-    }
-
-    .partner-logo {
+      align-items: center;
+      gap: 1rem;
+      background: rgba(255, 255, 255, 0.15);
       padding: 1rem 2rem;
-      background: rgba(255, 255, 255, 0.1);
-      border-radius: 0.5rem;
+      border-radius: 2rem;
       backdrop-filter: blur(10px);
+      transform: rotate(-1deg);
     }
 
-    .logo-text {
+    .stat-bubble:nth-child(2) { transform: rotate(1deg); }
+    .stat-bubble:nth-child(3) { transform: rotate(-0.5deg); }
+
+    .stat-emoji {
+      font-size: 1.5rem;
+    }
+
+    .stat-number {
+      font-size: 1.5rem;
+      font-weight: bold;
+      display: block;
+    }
+
+    .stat-label {
       font-size: 0.875rem;
-      font-weight: 500;
-      color: rgba(255, 255, 255, 0.8);
+      opacity: 0.9;
     }
 
-    .featured-episode {
+    /* Latest Episode Section */
+    .latest-episode {
       background: white;
       color: var(--navy-800);
-      padding: 4rem 0;
+      padding: 6rem 0;
+      position: relative;
     }
 
-    .episode-content {
-      display: grid;
-      grid-template-columns: 1fr auto;
-      gap: 3rem;
-      align-items: center;
+    .section-header-casual {
+      text-align: center;
+      margin-bottom: 4rem;
     }
 
-    .episode-badge {
-      display: inline-block;
-      background: var(--mint-100);
-      color: var(--mint-700);
-      padding: 0.5rem 1rem;
-      border-radius: 2rem;
-      font-size: 0.875rem;
-      font-weight: 600;
-      margin-bottom: 1rem;
-    }
-
-    .episode-title {
-      font-size: 2rem;
+    .section-title {
+      font-size: 2.5rem;
       font-weight: bold;
       margin-bottom: 1rem;
-    }
-
-    .episode-description {
-      font-size: 1.125rem;
-      color: var(--navy-600);
-      line-height: 1.6;
-      margin-bottom: 1.5rem;
-    }
-
-    .episode-meta {
       display: flex;
-      gap: 2rem;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+    }
+
+    .title-doodle {
+      font-size: 2rem;
+    }
+
+    .title-underline {
+      width: 100px;
+      height: 4px;
+      background: var(--mint-400);
+      margin: 0 auto;
+      border-radius: 2px;
+      transform: rotate(-1deg);
+    }
+
+    .episode-card-casual {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 3rem;
+      align-items: center;
+      background: var(--mint-50);
+      padding: 3rem;
+      border-radius: 2rem;
+      border: 3px solid var(--mint-200);
+      transform: rotate(-0.5deg);
+      box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+    }
+
+    .episode-visual {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .play-button-big {
+      width: 6rem;
+      height: 6rem;
+      background: var(--mint-gradient);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      color: white;
+      cursor: pointer;
+      transition: transform 0.3s;
+      box-shadow: 0 8px 30px rgba(34, 197, 94, 0.3);
+    }
+
+    .play-button-big:hover {
+      transform: scale(1.1);
+    }
+
+    .episode-decoration {
+      position: absolute;
+      inset: -2rem;
+    }
+
+    .sound-wave {
+      position: absolute;
+      width: 4px;
+      background: var(--mint-400);
+      border-radius: 2px;
+      animation: sound-wave 1.5s ease-in-out infinite;
+    }
+
+    .wave-1 {
+      height: 2rem;
+      left: -1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      animation-delay: 0s;
+    }
+    .wave-2 {
+      height: 3rem;
+      left: -1.5rem;
+      top: 50%;
+      transform: translateY(-50%);
+      animation-delay: 0.2s;
+    }
+    .wave-3 {
+      height: 1.5rem;
+      left: -0.5rem;
+      top: 50%;
+      transform: translateY(-50%);
+      animation-delay: 0.4s;
+    }
+
+    .episode-meta-casual {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1rem;
       font-size: 0.875rem;
       color: var(--navy-500);
     }
 
-    .episode-actions {
+    .episode-badge {
+      background: var(--mint-200);
+      color: var(--mint-700);
+      padding: 0.25rem 0.75rem;
+      border-radius: 1rem;
+      font-weight: 600;
+    }
+
+    .episode-title-casual {
+      font-size: 1.75rem;
+      font-weight: bold;
+      margin-bottom: 1rem;
+      color: var(--navy-800);
+    }
+
+    .episode-description-casual {
+      font-size: 1.125rem;
+      color: var(--navy-600);
+      line-height: 1.6;
+      margin-bottom: 2rem;
+    }
+
+    .episode-actions-casual {
       display: flex;
-      flex-direction: column;
       gap: 1rem;
     }
 
-    .programs-showcase {
+    /* Programs Section */
+    .programs-artistic {
       background: var(--mint-50);
       color: var(--navy-800);
       padding: 6rem 0;
     }
 
-    .section-header {
-      text-align: center;
-      margin-bottom: 4rem;
-    }
-
-    .section-header h2 {
-      font-size: 2.5rem;
-      font-weight: bold;
-      margin-bottom: 1rem;
-    }
-
-    .section-header p {
+    .section-subtitle-casual {
       font-size: 1.125rem;
       color: var(--navy-600);
+      text-align: center;
+      margin-top: 1rem;
     }
 
-    .programs-grid {
+    .programs-masonry {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
       gap: 2rem;
+      margin-top: 3rem;
     }
 
-    .program-card {
+    .program-card-artistic {
       background: white;
-      border-radius: 1rem;
       padding: 2rem;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-      border: 1px solid var(--mint-200);
+      border-radius: 1.5rem;
+      border: 2px solid var(--mint-200);
+      transform: rotate(-1deg);
       transition: transform 0.3s, box-shadow 0.3s;
-      position: relative;
-      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
     }
 
-    .program-card:hover {
-      transform: translateY(-4px);
+    .program-card-artistic:nth-child(even) {
+      transform: rotate(1deg);
+    }
+
+    .program-card-artistic:hover {
+      transform: rotate(0deg) translateY(-4px);
       box-shadow: 0 8px 30px rgba(0,0,0,0.12);
     }
 
-    .card-visual {
+    .main-program {
+      grid-column: span 2;
+      background: linear-gradient(135deg, var(--mint-100), var(--mint-200));
+      border-color: var(--mint-300);
+    }
+
+    .card-header-artistic {
       display: flex;
+      justify-content: space-between;
       align-items: center;
       margin-bottom: 1.5rem;
-      position: relative;
     }
 
-    .program-icon {
-      width: 3rem;
-      height: 3rem;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.5rem;
-      color: white;
-      margin-right: 1rem;
+    .program-emoji {
+      font-size: 2rem;
     }
 
-    .program-icon.mint { background: var(--mint-gradient); }
-    .program-icon.pink { background: linear-gradient(135deg, var(--pink-400), var(--pink-500)); }
-    .program-icon.blue { background: linear-gradient(135deg, var(--blue-400), var(--blue-500)); }
-    .program-icon.purple { background: linear-gradient(135deg, var(--purple-400), var(--purple-500)); }
-
-    .card-trajectory {
-      flex: 1;
-      height: 2rem;
-      color: var(--navy-300);
+    .program-badge {
+      padding: 0.5rem 1rem;
+      border-radius: 1.5rem;
+      font-size: 0.75rem;
+      font-weight: 600;
     }
 
-    .card-title {
+    .program-badge.main { background: var(--mint-300); color: var(--mint-800); }
+    .program-badge.pink { background: var(--pink-200); color: var(--pink-800); }
+    .program-badge.blue { background: var(--blue-200); color: var(--blue-800); }
+    .program-badge.purple { background: var(--purple-400); color: white; }
+
+    .program-title-artistic {
       font-size: 1.25rem;
       font-weight: bold;
-      margin-bottom: 0.75rem;
+      margin-bottom: 1rem;
+      color: var(--navy-800);
     }
 
-    .card-description {
+    .program-description-artistic {
       color: var(--navy-600);
       line-height: 1.5;
-      margin-bottom: 1rem;
+      margin-bottom: 1.5rem;
     }
 
-    .card-stats {
+    .program-stats-casual {
       display: flex;
       gap: 1rem;
       font-size: 0.875rem;
       color: var(--navy-500);
     }
 
-    .community-section {
+    /* Community Section */
+    .community-fun {
       background: white;
       color: var(--navy-800);
       padding: 6rem 0;
     }
 
-    .community-content {
+    .community-header {
+      text-align: center;
+      margin-bottom: 4rem;
+      position: relative;
+    }
+
+    .community-doodles {
+      position: absolute;
+      top: -1rem;
+      right: 50%;
+      transform: translateX(50%);
+      display: flex;
+      gap: 2rem;
+      font-size: 1.5rem;
+    }
+
+    .doodle-heart { animation: bounce 2s ease-in-out infinite; animation-delay: 0s; }
+    .doodle-star { animation: bounce 2s ease-in-out infinite; animation-delay: 0.5s; }
+    .doodle-music { animation: bounce 2s ease-in-out infinite; animation-delay: 1s; }
+
+    .community-content-fun {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 4rem;
       align-items: center;
     }
 
-    .community-text h2 {
-      font-size: 2.5rem;
-      font-weight: bold;
-      margin-bottom: 1.5rem;
-    }
-
-    .community-description {
-      font-size: 1.125rem;
+    .community-intro {
+      font-size: 1.25rem;
       color: var(--navy-600);
       line-height: 1.6;
-      margin-bottom: 2.5rem;
-    }
-
-    .community-stats {
-      display: flex;
-      gap: 2rem;
       margin-bottom: 2rem;
     }
 
-    .stat-item {
-      text-align: center;
+    .community-ways {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin-bottom: 2rem;
     }
 
-    .stat-number {
-      font-size: 2rem;
-      font-weight: bold;
-      color: var(--navy-800);
+    .way-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem;
+      background: var(--mint-50);
+      border-radius: 1rem;
+      font-weight: 500;
     }
 
-    .stat-label {
-      font-size: 0.875rem;
-      color: var(--navy-600);
+    .way-emoji {
+      font-size: 1.25rem;
     }
 
-    .community-visual {
+    .community-btn::part(base) {
+      border-radius: 2rem;
+      transform: rotate(-1deg);
+    }
+
+    .community-visual-fun {
       position: relative;
       height: 20rem;
     }
 
-    .interaction-bubbles {
+    .chat-bubbles-fun {
       position: relative;
       width: 100%;
       height: 100%;
     }
 
-    .bubble {
+    .bubble-fun {
       position: absolute;
-      background: white;
+      background: var(--mint-100);
+      color: var(--navy-800);
       padding: 1rem 1.5rem;
       border-radius: 1.5rem;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
       font-weight: 500;
-      color: var(--navy-700);
-      animation: bubble-float 4s ease-in-out infinite;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      animation: bubble-bounce 3s ease-in-out infinite;
     }
 
     .bubble-1 {
-      top: 20%;
+      top: 10%;
       left: 10%;
+      transform: rotate(-5deg);
       animation-delay: 0s;
     }
 
     .bubble-2 {
-      top: 50%;
-      right: 20%;
-      animation-delay: 1.5s;
+      top: 40%;
+      right: 10%;
+      transform: rotate(3deg);
+      animation-delay: 1s;
     }
 
     .bubble-3 {
       bottom: 20%;
-      left: 30%;
-      animation-delay: 3s;
+      left: 20%;
+      transform: rotate(-2deg);
+      animation-delay: 2s;
     }
 
-    @keyframes float-3d {
-      0%, 100% {
-        transform: translateY(0px) rotateX(0deg) rotateY(0deg);
-      }
-      33% {
-        transform: translateY(-10px) rotateX(5deg) rotateY(5deg);
-      }
-      66% {
-        transform: translateY(-5px) rotateX(-3deg) rotateY(-3deg);
-      }
+    .bubble-tail {
+      position: absolute;
+      bottom: -8px;
+      left: 2rem;
+      width: 0;
+      height: 0;
+      border-left: 8px solid transparent;
+      border-right: 8px solid transparent;
+      border-top: 8px solid var(--mint-100);
     }
 
-    @keyframes pulse-glow {
-      0%, 100% {
-        opacity: 0.3;
-        transform: scale(1);
-      }
-      50% {
-        opacity: 0.6;
-        transform: scale(1.05);
-      }
+    .community-character {
+      position: absolute;
+      bottom: 10%;
+      right: 30%;
+      font-size: 3rem;
+      animation: wave 3s ease-in-out infinite;
     }
 
-    @keyframes bubble-float {
-      0%, 100% {
-        transform: translateY(0px) scale(1);
-      }
-      50% {
-        transform: translateY(-5px) scale(1.02);
-      }
+    /* Animations */
+    @keyframes float-organic {
+      0%, 100% { transform: translateY(0px) rotate(var(--rotation, 0deg)); }
+      33% { transform: translateY(-8px) rotate(calc(var(--rotation, 0deg) + 2deg)); }
+      66% { transform: translateY(-4px) rotate(calc(var(--rotation, 0deg) - 1deg)); }
     }
 
+    @keyframes wave {
+      0%, 100% { transform: rotate(0deg); }
+      25% { transform: rotate(10deg); }
+      75% { transform: rotate(-5deg); }
+    }
+
+    @keyframes twinkle {
+      0%, 100% { opacity: 0.3; transform: scale(1); }
+      50% { opacity: 0.8; transform: scale(1.2); }
+    }
+
+    @keyframes sound-wave {
+      0%, 100% { transform: translateY(-50%) scaleY(1); }
+      50% { transform: translateY(-50%) scaleY(1.5); }
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+    }
+
+    @keyframes bubble-bounce {
+      0%, 100% { transform: translateY(0px) rotate(var(--rotation, 0deg)); }
+      50% { transform: translateY(-5px) rotate(var(--rotation, 0deg)); }
+    }
+
+    /* Responsive */
     @media (max-width: 768px) {
+      .section-content {
+        padding-left: 1rem;
+        padding-right: 1rem;
+      }
+
       .hero-content,
-      .episode-content,
-      .community-content {
+      .episode-card-casual,
+      .community-content-fun {
         grid-template-columns: 1fr;
         gap: 2rem;
       }
@@ -717,25 +1005,28 @@
         font-size: 2.5rem;
       }
 
+      .title-main {
+        font-size: 3rem;
+      }
+
       .character-image {
         width: 12rem;
         height: 12rem;
       }
 
-      .partners-grid {
+      .casual-stats {
         flex-direction: column;
         align-items: center;
         gap: 1rem;
       }
 
-      .community-stats {
-        justify-content: center;
+      .main-program {
+        grid-column: span 1;
       }
 
-      .droplet-3d {
-        display: none;
+      .programs-masonry {
+        grid-template-columns: 1fr;
       }
     }
   </style>
 </home>
-

@@ -52,10 +52,14 @@ body {
   background: var(--mint-50);
 }
 
+
 .container {
-  max-width: 1200px;
   margin: 0 auto;
-  padding: 0 1rem;
+  padding: 0;
+}
+
+section {
+  padding: 0 4rem;
 }
 
 /* Shoelace customizations for new design */

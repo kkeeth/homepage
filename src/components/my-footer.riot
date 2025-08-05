@@ -5,11 +5,9 @@
         <div class="footer-section">
           <div class="footer-logo">
             <div class="logo-icon">
-              <svg viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
-              </svg>
+              <img src={imgUrl} alt="logo" />
             </div>
-            <h3>雨宿りPodcast</h3>
+            <h3>雨宿りとWEBの小噺</h3>
           </div>
           <p>心地よい対話で、日常に小さな発見を。</p>
         </div>
@@ -45,11 +43,19 @@
     </div>
   </footer>
 
+  <script>
+    import imgUrl from '@/assets/myself.png';
+
+    export default {
+      imgUrl,
+    }
+  </script>
+
   <style>
     .footer {
       background: var(--navy-800);
       color: white;
-      padding: 3rem 0 1rem;
+      padding: 3rem 4rem 1rem;
     }
 
     .footer-content {
