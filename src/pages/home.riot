@@ -257,7 +257,10 @@
   </div>
 
   <script>
+    import { formatDate } from '@/utils/formatDate';
+
     export default {
+      formatDate,
       state: {
         latestEpisode: {
           number: 25,
@@ -299,14 +302,6 @@
           }
         ]
       },
-
-      formatDate(dateString) {
-        const date = new Date(dateString)
-        return date.toLocaleDateString('ja-JP', {
-          month: 'long',
-          day: 'numeric'
-        })
-      }
     }
   </script>
 
@@ -616,7 +611,6 @@
       padding: 3rem;
       border-radius: 2rem;
       border: 3px solid var(--mint-200);
-      transform: rotate(-0.5deg);
       box-shadow: 0 10px 40px rgba(0,0,0,0.1);
     }
 

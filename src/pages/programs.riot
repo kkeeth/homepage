@@ -172,7 +172,10 @@
   </div>
 
   <script>
+    import { formatDate } from '@/utils/formatDate';
+
     export default {
+      formatDate,
       state: {
         otherPrograms: [
           {
@@ -241,15 +244,6 @@
           }
         ]
       },
-
-      formatDate(dateString) {
-        const date = new Date(dateString)
-        return date.toLocaleDateString('ja-JP', {
-          year: 'numeric',
-          month: 'long',
-          day: 'numeric'
-        })
-      }
     }
   </script>
 
