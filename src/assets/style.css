@@ -25,8 +25,10 @@
   /* Droplet colors from artwork */
   --yellow-400: #fbbf24;
   --yellow-500: #f59e0b;
+  --pink-200: #fce7f3;
   --pink-400: #f472b6;
   --pink-500: #ec4899;
+  --pink-800: #9d174d;
   --purple-400: #a78bfa;
   --purple-500: #8b5cf6;
   --blue-400: #60a5fa;
@@ -81,13 +83,6 @@ sl-card::part(base) {
   border-radius: 1rem;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
   border: 1px solid var(--mint-200);
-}
-
-/* Responsive design */
-@media (max-width: 768px) {
-  .container {
-    padding: 0 0.5rem;
-  }
 }
 
 /* Smooth scrolling */

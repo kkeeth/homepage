@@ -148,10 +148,10 @@
         <div class="section-header-casual">
           <h2 class="section-title">
             <span class="title-doodle">🎨</span>
-            番組いろいろ
+            Featured Programs
           </h2>
           <p class="section-subtitle-casual">
-            気分に合わせて選んでくださいね〜
+            Explore our diverse range of podcast shows, each designed to inspire and educate
           </p>
         </div>
 
@@ -172,16 +172,34 @@
             </div>
           </div>
 
-          <div class="program-card-artistic" each={program in state.otherPrograms} key={program.id}>
-            <div class="card-header-artistic">
-              <div class="program-emoji">{program.emoji}</div>
-              <div class="program-badge {program.color}">{program.category}</div>
+          <div class="program-card-clean" each={program in state.otherPrograms} key={program.id}>
+            <div class="card-header-clean {program.color}">
+              <div class="header-content">
+                <span class="category-badge">{program.category}</span>
+                <span class="episode-count">{program.episodes} episodes</span>
+              </div>
             </div>
-            <h3 class="program-title-artistic">{program.title}</h3>
-            <p class="program-description-artistic">{program.description}</p>
-            <div class="program-stats-casual">
-              <span>📊 {program.episodes}話</span>
-              <span>📅 {program.schedule}</span>
+
+            <div class="card-body-clean">
+              <h3 class="program-title-clean">{program.title}</h3>
+              <p class="program-description-clean">{program.description}</p>
+
+              <div class="card-footer-clean">
+                <div class="program-meta-clean">
+                  <div class="meta-item-clean">
+                    <sl-icon name="calendar"></sl-icon>
+                    <span>{program.schedule}</span>
+                  </div>
+                  <div class="meta-item-clean">
+                    <sl-icon name="users"></sl-icon>
+                    <span>2K+</span>
+                  </div>
+                </div>
+                <sl-button variant="default" size="small" outline class="listen-btn-clean">
+                  <sl-icon name="play"></sl-icon>
+                  Listen
+                </sl-button>
+              </div>
             </div>
           </div>
         </div>
@@ -307,7 +325,6 @@
 
   <style>
     .home {
-      background: linear-gradient(135deg, #0ea5e9 0%, #3b82f6 50%, #6366f1 100%);
       min-height: 100vh;
       color: white;
     }
@@ -319,9 +336,9 @@
     }
 
     .hero {
+      background: linear-gradient(135deg, #0ea5e9 0%, #3b82f6 50%, #6366f1 100%);
       position: relative;
-      width: 100vw;
-      padding: 4rem 4rem 6rem;
+      padding: 4rem 0 6rem 4rem;
       overflow: hidden;
     }
 
@@ -770,7 +787,7 @@
     }
 
     .program-badge.main { background: var(--mint-300); color: var(--mint-800); }
-    .program-badge.pink { background: var(--pink-200); color: var(--pink-800); }
+    .program-badge.pink { background: var(--pink-400); color: var(--pink-500); }
     .program-badge.blue { background: var(--blue-200); color: var(--blue-800); }
     .program-badge.purple { background: var(--purple-400); color: white; }
 
@@ -923,6 +940,123 @@
       animation: wave 3s ease-in-out infinite;
     }
 
+    /* Clean card design for other programs */
+    .program-card-clean {
+      background: white;
+      border-radius: 1rem;
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+      border: 1px solid var(--mint-200);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .program-card-clean:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+    }
+
+    .card-header-clean {
+      padding: 1.5rem;
+      color: white;
+      position: relative;
+    }
+
+    .card-header-clean.pink {
+      background: linear-gradient(135deg, #a855f7, #7c3aed);
+    }
+
+    .card-header-clean.blue {
+      background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+    }
+
+    .card-header-clean.purple {
+      background: linear-gradient(135deg, #8b5cf6, #6d28d9);
+    }
+
+    .card-header-clean.yellow {
+      background: linear-gradient(135deg, #f59e0b, #d97706);
+    }
+
+    .card-header-clean.mint {
+      background: linear-gradient(135deg, #10b981, #059669);
+    }
+
+    .header-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .category-badge {
+      background: rgba(255, 255, 255, 0.2);
+      padding: 0.5rem 1rem;
+      border-radius: 1.5rem;
+      font-size: 0.875rem;
+      font-weight: 600;
+      backdrop-filter: blur(10px);
+    }
+
+    .episode-count {
+      font-size: 0.875rem;
+      font-weight: 600;
+      opacity: 0.9;
+    }
+
+    .card-body-clean {
+      padding: 1.5rem;
+    }
+
+    .program-title-clean {
+      font-size: 1.25rem;
+      font-weight: bold;
+      color: var(--navy-800);
+      margin-bottom: 0.75rem;
+    }
+
+    .program-description-clean {
+      color: var(--navy-600);
+      line-height: 1.5;
+      margin-bottom: 1.5rem;
+      font-size: 0.875rem;
+    }
+
+    .card-footer-clean {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .program-meta-clean {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .meta-item-clean {
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+      color: var(--navy-500);
+      font-size: 0.75rem;
+    }
+
+    .meta-item-clean sl-icon {
+      font-size: 0.875rem;
+    }
+
+    .listen-btn-clean::part(base) {
+      border-radius: 1.5rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+
+    /* Keep main program with artistic style and larger width */
+    .main-program {
+      grid-column: span 2;
+      background: linear-gradient(135deg, var(--mint-100), var(--mint-200));
+      border-color: var(--mint-300);
+      /* Keep existing artistic styles */
+    }
+
     /* Animations */
     @keyframes float-organic {
       0%, 100% { transform: translateY(0px) rotate(var(--rotation, 0deg)); }
@@ -987,6 +1121,10 @@
         flex-direction: column;
         align-items: center;
         gap: 1rem;
+      }
+
+      .programs-masonry {
+        grid-template-columns: 1fr;
       }
 
       .main-program {

@@ -7,16 +7,11 @@
             <img src={imgUrl} alt="logo" />
           </a>
         </div>
-        <nav class="nav">
-          <a href="/" onclick={navigate}>Home</a>
-          <a href="/programs" onclick={navigate}>Episodes</a>
-          <a href="/profile" onclick={navigate}>Profile</a>
-          <a href="/contact" onclick={navigate}>Contact</a>
-          <sl-button variant="primary" size="medium" class="subscribe-header-btn">
-            Subscribe
-          </sl-button>
+        <div class="header-actions">
+          <slot name="menu-nav" />
+          <slot name="menu-button" />
           <language-switcher />
-        </nav>
+        </div>
       </div>
     </div>
   </header>
@@ -36,12 +31,10 @@
       border-bottom: 1px solid rgba(0,0,0,0.1);
       position: sticky;
       top: 0;
-      z-index: 1000;
+      z-index: 100;
     }
 
     .container {
-      max-width: 1200px;
-      margin: 0 auto;
       padding: 0 1rem;
     }
 
@@ -50,6 +43,16 @@
       justify-content: space-between;
       align-items: center;
       padding: 1rem 0;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+    }
+
+    .hamburger {
+      display: none;
     }
 
     .logo {
@@ -61,15 +64,10 @@
     .logo-icon {
       width: 4rem;
       height: 4rem;
-      color: var(--mint-600);
+      border-radius: 50%;
+      transform: rotate(-5deg);
     }
 
-    .logo-text {
-      font-size: 1.5rem;
-      font-weight: bold;
-      color: var(--navy-800);
-      text-decoration: none;
-    }
 
     .nav {
       display: flex;
@@ -98,15 +96,47 @@
       height: 2px;
       background: var(--mint-400);
       border-radius: 1px;
-      transform: rotate(-1deg);
+    }
+
+    .desktop-nav ul {
+      display: flex;
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .desktop-nav ul li {
+      margin-left: 1.5rem;
+      min-width: 70px;
+    }
+
+    .desktop-nav ul li a {
+      color: var(--text-color);
+      text-decoration: none;
+      font-weight: 400;
+      font-size: 1rem;
+      transition: color 0.3s ease, font-weight 0.3s ease, font-size 0.3s ease;
+    }
+
+    .desktop-nav ul li a.active,
+    .desktop-nav ul li a:hover {
+      color: var(--primary-color);
+      font-weight: 700;
+      text-decoration: underline;
+      transition: color 0.3s ease, text-decoration 0.3s ease, font-weight 0.3s ease;
     }
 
     @media (max-width: 768px) {
+      .desktop-nav {
+        display: none;
+      }
+
+      .hamburger {
+        display: block;
+      }
+
       .header-content {
         padding: 1rem;
-      }
-      .nav {
-        display: none;
       }
     }
   </style>

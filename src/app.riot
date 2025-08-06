@@ -11,7 +11,7 @@
             </li>
           </ul>
         </nav>
-        <button slot="menu-button" class="menu-toggle" onclick={ openMenu }>
+        <button type="button" slot="menu-button" class="menu-toggle" onclick={ openMenu }>
           <sl-icon name="list" class="hamburger"></sl-icon>
         </button>
       </my-header>
@@ -101,15 +101,17 @@
       closeMenu() {
         this.$('.nav-drawer').hide();
       }
-
     }
   </script>
 
   <style>
     .main-content {
-      max-width: 90%;
       margin: 0 auto;
-      padding: 4rem 0;
+      padding-bottom: 4rem;
+    }
+
+    .nav-drawer {
+      margin-top: 100px;
     }
 
     .nav-drawer::part(body) {
