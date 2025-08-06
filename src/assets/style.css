@@ -36,6 +36,14 @@
   /* Gradients */
   --mint-gradient: linear-gradient(135deg, var(--mint-400), var(--mint-600));
   --navy-gradient: linear-gradient(135deg, var(--navy-600), var(--navy-800));
+
+  /* Sizes */
+  --droplet-large-width: 3rem;
+  --droplet-medium-width: 2rem;
+  --droplet-small-width: 1.5rem;
+  --droplet-large-height: 3.5rem;
+  --droplet-medium-height: 2.5rem;
+  --droplet-small-height: 1.8rem;
 }
 
 /* Reset and base styles */

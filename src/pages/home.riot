@@ -339,9 +339,9 @@
       filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
     }
 
-    .droplet-large { width: 3rem; height: 3.5rem; }
-    .droplet-medium { width: 2rem; height: 2.5rem; }
-    .droplet-small { width: 1.5rem; height: 1.8rem; }
+    .droplet-large { width: var(--droplet-large-width); height: var(--droplet-large-height); }
+    .droplet-medium { width: var(--droplet-medium-width); height: var(--droplet-medium-height); }
+    .droplet-small { width: var(--droplet-small-width); height: var(--droplet-small-height); }
 
     .droplet-scatter.mint { background: linear-gradient(135deg, var(--mint-400), var(--mint-500)); }
     .droplet-scatter.blue { background: linear-gradient(135deg, var(--blue-400), var(--blue-500)); }
