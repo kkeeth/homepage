@@ -24,11 +24,6 @@
 
       <div class="hero-content">
         <div class="hero-left">
-          <div class="greeting-badge">
-            <span class="wave-emoji">👋</span>
-            <span>こんにちは！</span>
-          </div>
-
           <h1 class="hero-title">
             <span class="title-casual">ちょっと</span>
             <span class="title-main">雨宿り</span>
@@ -330,7 +325,8 @@
 
     .hero {
       position: relative;
-      padding: 4rem 0 6rem;
+      width: 100dvw;
+      padding: 4rem 4rem 6rem;
       overflow: hidden;
     }
 
@@ -396,19 +392,6 @@
       margin-bottom: 4rem;
     }
 
-    .greeting-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      background: rgba(255, 255, 255, 0.15);
-      padding: 0.75rem 1.5rem;
-      border-radius: 2rem;
-      font-size: 1rem;
-      font-weight: 500;
-      margin-bottom: 2rem;
-      backdrop-filter: blur(10px);
-    }
-
     .wave-emoji {
       font-size: 1.25rem;
       animation: wave 2s ease-in-out infinite;
@@ -434,7 +417,6 @@
       -webkit-text-fill-color: transparent;
       background-clip: text;
       display: block;
-      transform: rotate(-2deg);
       margin: 0.5rem 0;
     }
 
@@ -468,12 +450,11 @@
       padding: 1rem 2rem;
       backdrop-filter: blur(10px);
       border-radius: 2rem;
-      transform: rotate(-1deg);
     }
 
     .listen-btn:hover::part(base) {
       background: rgba(255, 255, 255, 0.3);
-      transform: rotate(-1deg) translateY(-2px);
+      transform: translateY(-2px);
     }
 
     .btn-emoji {
@@ -527,8 +508,8 @@
 
     .speech-bubble {
       position: absolute;
-      top: -2rem;
-      right: -3rem;
+      top: -5rem;
+      right: 6rem;
       background: white;
       color: var(--navy-800);
       padding: 0.75rem 1.25rem;
@@ -570,7 +551,6 @@
       padding: 1rem 2rem;
       border-radius: 2rem;
       backdrop-filter: blur(10px);
-      transform: rotate(-1deg);
     }
 
     .stat-bubble:nth-child(2) { transform: rotate(1deg); }
@@ -762,13 +742,8 @@
       padding: 2rem;
       border-radius: 1.5rem;
       border: 2px solid var(--mint-200);
-      transform: rotate(-1deg);
       transition: transform 0.3s, box-shadow 0.3s;
       box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-    }
-
-    .program-card-artistic:nth-child(even) {
-      transform: rotate(1deg);
     }
 
     .program-card-artistic:hover {
