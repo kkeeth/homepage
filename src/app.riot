@@ -15,6 +15,7 @@
           <sl-icon name="list" class="hamburger"></sl-icon>
         </button>
       </my-header>
+
       <sl-drawer placement="end" class="nav-drawer">
         <nav class="nav mobile-nav">
           <ul>
@@ -32,6 +33,7 @@
       <div if={state.showNotFound} class="row">
         <not-found />
       </div>
+
       <div if={!state.showNotFound} class="app">
         <route each={page in state.pages} path={page.path}>
           <main is={page.componentName} class="main-content" />
