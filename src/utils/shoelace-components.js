@@ -13,5 +13,5 @@ import '@shoelace-style/shoelace/dist/components/badge/badge.js';
 
 import { setBasePath } from '@shoelace-style/shoelace/dist/utilities/base-path';
 setBasePath(
-  'https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.12.0/cdn/',
+  'https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.20.1 /cdn/',
 );
