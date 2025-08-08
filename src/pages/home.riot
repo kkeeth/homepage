@@ -139,6 +139,71 @@
       </div>
     </section>
 
+    <!-- Latest Episodes Section -->
+    <section class="latest-episodes-section">
+      <div class="section-content">
+        <div class="section-header-casual">
+          <h2 class="section-title">
+            <span class="title-doodle">🎧</span>
+            最新エピソード
+          </h2>
+          <div class="title-underline"></div>
+          <p class="section-subtitle-casual">
+            メイン番組の最新回をチェック
+          </p>
+        </div>
+
+        <div class="latest-episodes-grid">
+          <div class="popular-card" each={episode in state.latestEpisodes} key={episode.title}>
+            <div class="popular-image latest-episode-image">
+              <img src={episode.imageUrl || "/placeholder.svg"} alt={episode.title} class="episode-image">
+            </div>
+
+            <div class="popular-content">
+              <div class="episode-date">{formatDate(episode.pubDate)}</div>
+              <h3 class="popular-title">{episode.title}</h3>
+              <p class="popular-description">{truncateText(episode.description, 120)}</p>
+
+              <sl-divider style="--color: var(--mint-400);"></sl-divider>
+
+              <div class="popular-actions">
+                <sl-button variant="neutral" size="medium" pill>
+                  <sl-icon name="play"></sl-icon>
+                  LISTEN
+                </sl-button>
+                <sl-dropdown>
+                  <sl-button slot="trigger" variant="default" size="medium" class="options-btn">
+                    <sl-icon name="chevron-down"></sl-icon>
+                  </sl-button>
+                  <sl-menu>
+                    <sl-menu-item>
+                      <sl-icon name="spotify" slot="prefix"></sl-icon>
+                      Spotify
+                    </sl-menu-item>
+                    <sl-menu-item>
+                      <sl-icon name="youtube" slot="prefix"></sl-icon>
+                      YouTube
+                    </sl-menu-item>
+                    <sl-menu-item>
+                      <sl-icon name="broadcast-pin" slot="prefix"></sl-icon>
+                      Apple Podcasts
+                    </sl-menu-item>
+                  </sl-menu>
+                </sl-dropdown>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="view-all-episodes">
+          <sl-button variant="default" size="medium" outline>
+            <span class="btn-emoji">📻</span>
+            すべてのエピソードを見る
+          </sl-button>
+        </div>
+      </div>
+    </section>
+
     <!-- Popular Episodes Section -->
     <section class="popular-episodes">
       <div class="section-content">
@@ -160,7 +225,7 @@
             <div class="popular-content">
               <div class="episode-date">{formatDate(episode.date)}</div>
               <h3 class="popular-title">{episode.title}</h3>
-              <p class="popular-description">{episode.description}</p>
+              <p class="popular-description">{truncateText(episode.description, 120)}</p>
 
               <sl-divider style="--color: tomato;"></sl-divider>
 
@@ -262,10 +327,91 @@
 
   <script>
     import { formatDate } from '@/utils/formatDate';
+    import { fetchRSSFeed, getLatestEpisodes, getRandomEpisodes } from '@/utils/rss';
 
     export default {
       formatDate,
+      formatEpisodeNumber(title) {
+        // Extract episode number from title (assuming format like "Episode 25: Title" or "#25 Title")
+        const match = title.match(/(?:episode\s*|#)(\d+)/i);
+        return match ? match[1] : '1';
+      },
+      truncateText(text, limit) {
+        if (text.length <= limit) return text;
+        return text.substring(0, limit).trim() + '...';
+      },
+      async onMounted() {
+        try {
+          const RSS_URL = 'https://rss.art19.com/kkeethengineers';
+          const episodes = await fetchRSSFeed(RSS_URL);
+          this.update({
+            latestEpisodes: getLatestEpisodes(episodes, 6),
+            popularEpisodes: getRandomEpisodes(episodes, 3).map((episode, index) => ({
+              id: index + 1,
+              title: episode.title,
+              description: episode.description,
+              date: episode.pubDate,
+              image: episode.imageUrl || "/placeholder.svg?height=200&width=400",
+              imageClass: index === 0 ? "blue-gradient" : index === 1 ? "dark-theme" : "warm-gradient"
+            }))
+          });
+        } catch (error) {
+          console.error('Failed to load RSS feed:', error);
+          // Use mock data as fallback
+          const mockEpisodes = [
+            {
+              title: "Episode 25: React 19の新機能、実際どうなの？",
+              description: "最新のReact 19について、実際に触ってみた感想や、これからの開発がどう変わりそうかを、ゆる〜く語ってみました。",
+              pubDate: new Date("2024-01-15"),
+              duration: "42分"
+            },
+            {
+              title: "Episode 24: Web開発者のためのAI活用術",
+              description: "ChatGPTやGitHub Copilotなど、Web開発で実際に使えるAIツールについて語りました。",
+              pubDate: new Date("2024-01-08"),
+              duration: "38分"
+            },
+            {
+              title: "Episode 23: 2024年のCSS新機能まとめ",
+              description: "Container Queriesやhas()セレクタなど、2024年に使えるようになった新しいCSS機能について。",
+              pubDate: new Date("2024-01-01"),
+              duration: "35分"
+            },
+            {
+              title: "Episode 22: TypeScriptのベストプラクティス",
+              description: "実際の開発現場で使えるTypeScriptの書き方やパターンについて語りました。",
+              pubDate: new Date("2023-12-25"),
+              duration: "41分"
+            },
+            {
+              title: "Episode 21: Viteで始めるモダンフロントエンド",
+              description: "Webpackの代替として注目されているViteについて、実際に使ってみた感想など。",
+              pubDate: new Date("2023-12-18"),
+              duration: "39分"
+            },
+            {
+              title: "Episode 20: デザインシステムの作り方",
+              description: "効率的なデザインシステムの構築方法について、実例を交えながら詳しく解説。",
+              pubDate: new Date("2023-12-11"),
+              duration: "44分"
+            }
+          ];
+
+          this.update({
+            latestEpisodes: mockEpisodes,
+            popularEpisodes: getRandomEpisodes(mockEpisodes, 3).map((episode, index) => ({
+              id: index + 1,
+              title: episode.title,
+              description: episode.description,
+              date: episode.pubDate,
+              image: episode.imageUrl || "/placeholder.svg?height=200&width=400",
+              imageClass: index === 0 ? "blue-gradient" : index === 1 ? "dark-theme" : "warm-gradient"
+            }))
+          });
+        }
+      },
       state: {
+        latestEpisodes: [],
         latestEpisode: {
           number: 25,
           title: "React 19の新機能、実際どうなの？",
@@ -305,32 +451,7 @@
             schedule: "月2回"
           }
         ],
-        popularEpisodes: [
-          {
-            id: 1,
-            title: "React開発者が知るべき2024年のトレンド",
-            description: "最新のReact開発トレンドから、実際の現場で使える技術まで、幅広く語った人気回です。",
-            date: "2024-01-10",
-            image: "/placeholder.svg?height=200&width=400",
-            imageClass: "blue-gradient"
-          },
-          {
-            id: 2,
-            title: "デザインシステムの作り方",
-            description: "効率的なデザインシステムの構築方法について、実例を交えながら詳しく解説しました。",
-            date: "2023-12-15",
-            image: "/placeholder.svg?height=200&width=400",
-            imageClass: "dark-theme"
-          },
-          {
-            id: 3,
-            title: "フリーランス開発者のリアル",
-            description: "フリーランスとして働く上での苦労や喜び、実際の体験談をお話しした回です。",
-            date: "2023-11-20",
-            image: "/placeholder.svg?height=200&width=400",
-            imageClass: "warm-gradient"
-          }
-        ]
+        popularEpisodes: []
       },
     }
   </script>
@@ -350,7 +471,7 @@
     .hero {
       background: linear-gradient(135deg, #0ea5e9 0%, #3b82f6 50%, #6366f1 100%);
       position: relative;
-      padding: 4rem 0 6rem 4rem;
+      padding: 4rem 4rem 6rem 12rem;
       overflow: hidden;
     }
 
@@ -599,7 +720,7 @@
     .latest-episode {
       background: white;
       color: var(--navy-800);
-      padding: 6rem 0;
+      padding: 6rem;
       position: relative;
     }
 
@@ -999,8 +1120,8 @@
     .episode-image {
       width: 100%;
       height: 100%;
-      object-fit: cover;
-      opacity: 0.8;
+      object-fit: contain;
+      background-color: #f3f4f6;
     }
 
     .popular-content {
@@ -1027,7 +1148,11 @@
       line-height: 1.75;
       margin-bottom: 1.5rem;
       font-size: 1rem;
-      min-height: 84px;
+      height: 84px;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
     }
 
     .popular-actions {
@@ -1089,6 +1214,43 @@
       50% { transform: translateY(-5px) rotate(var(--rotation, 0deg)); }
     }
 
+    /* Latest Episodes Section Styles */
+    .latest-episodes-section {
+      background: var(--mint-50);
+      color: var(--navy-800);
+      padding: 6rem 0;
+    }
+
+    .latest-episodes-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 3rem;
+      margin: 3rem 0;
+      place-items: center;
+    }
+
+    .latest-episode-image {
+      background: var(--mint-100) !important;
+    }
+
+    .view-all-episodes {
+      text-align: center;
+      margin-top: 3rem;
+    }
+
+    .view-all-episodes sl-button::part(base) {
+      border-radius: 2rem;
+      padding: 0.75rem 2rem;
+      font-weight: 600;
+      border: 2px solid var(--mint-300);
+      color: var(--navy-700);
+    }
+
+    .view-all-episodes sl-button:hover::part(base) {
+      background: var(--mint-100);
+      border-color: var(--mint-400);
+    }
+
     /* Responsive */
     @media (max-width: 768px) {
       .section-content {
@@ -1142,6 +1304,11 @@
         flex-direction: column;
         gap: 1rem;
         text-align: center;
+      }
+
+      .latest-episodes-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
       }
     }
   </style>
