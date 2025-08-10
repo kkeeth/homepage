@@ -1,111 +1,99 @@
+/* CSS Custom Properties - Updated for new design */
 :root {
-  font-family: 'Josefin Sans', system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+  /* Main colors from your artwork */
+  --mint-50: #f0fdf4;
+  --mint-100: #dcfce7;
+  --mint-200: #bbf7d0;
+  --mint-300: #86efac;
+  --mint-400: #4ade80;
+  --mint-500: #22c55e;
+  --mint-600: #16a34a;
+  --mint-700: #15803d;
+  --mint-800: #166534;
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  --navy-50: #f8fafc;
+  --navy-100: #f1f5f9;
+  --navy-200: #e2e8f0;
+  --navy-300: #cbd5e1;
+  --navy-400: #94a3b8;
+  --navy-500: #64748b;
+  --navy-600: #475569;
+  --navy-700: #334155;
+  --navy-800: #1e293b;
+  --navy-900: #0f172a;
 
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-text-size-adjust: 100%;
+  /* Droplet colors from artwork */
+  --yellow-400: #fbbf24;
+  --yellow-500: #f59e0b;
+  --pink-200: #fce7f3;
+  --pink-400: #f472b6;
+  --pink-500: #ec4899;
+  --pink-800: #9d174d;
+  --purple-400: #a78bfa;
+  --purple-500: #8b5cf6;
+  --blue-400: #60a5fa;
+  --blue-500: #3b82f6;
+  --coral-400: #fb7185;
 
-  --primary-color: #0077b6;
-  --background-color: #f8f9fa;
-  --text-color: #131313;
-  --accent-color: #ffd60a;
+  /* Gradients */
+  --mint-gradient: linear-gradient(135deg, var(--mint-400), var(--mint-600));
+  --navy-gradient: linear-gradient(135deg, var(--navy-600), var(--navy-800));
+
+  /* Sizes */
+  --droplet-large-width: 3rem;
+  --droplet-medium-width: 2rem;
+  --droplet-small-width: 1.5rem;
+  --droplet-large-height: 3.5rem;
+  --droplet-medium-height: 2.5rem;
+  --droplet-small-height: 1.8rem;
+}
+
+/* Reset and base styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 body {
-  margin: 0;
-  padding: 0;
-  min-height: 100vh;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans JP", sans-serif;
+  line-height: 1.6;
+  color: var(--navy-700);
+  background: var(--mint-50);
 }
 
-main {
+
+.container {
   margin: 0 auto;
-  padding-top: 6rem;
-  position: relative;
-  background-color: var(--background-color);
-}
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-p {
-  font-weight: 300;
-}
-
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
-}
-
-h3 {
-  font-size: 1.5rem;
-  margin-bottom: 1rem;
-  font-weight: 500;
-  color: var(--primary-color);
-}
-
-p {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-}
-
-.read-the-docs {
-  color: #888;
+  padding: 0;
 }
 
 section {
-  padding: 6rem 3rem;
-
-  margin: 0 auto;
-  background-color: var(--background-color);
+  padding: 0 4rem;
 }
 
-.section-title {
-  font-size: 2.5rem;
-  text-align: center;
-  margin-bottom: 3rem;
-  position: relative;
+/* Shoelace customizations for new design */
+sl-button[variant="primary"] {
+  --sl-color-primary-600: var(--mint-600);
+  --sl-color-primary-500: var(--mint-500);
+  --sl-color-primary-400: var(--mint-400);
 }
 
-.section-title::after {
-  content: '';
-  display: block;
-  width: 50px;
-  height: 3px;
-  background-color: var(--accent-color);
-  margin: 0.5rem auto;
+sl-card::part(base) {
+  border-radius: 1rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  border: 1px solid var(--mint-200);
 }
 
-.page-content {
-  padding: var(--section-padding);
-  max-width: 1200px;
-  margin: 0 auto;
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
 }
 
-@media (max-width: 768px) {
-  .section-title {
-    margin-bottom: 3rem;
-  }
+/* Focus styles for accessibility */
+*:focus-visible {
+  outline: 2px solid var(--mint-500);
+  outline-offset: 2px;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  section {
-    padding: 4rem 2rem;
-  }
-}
+/* Some forced style overrides */

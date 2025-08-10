@@ -1,12 +1,12 @@
 <my-header>
-  <header class="header" id="anchor">
+  <header class="header">
     <div class="logo">
-      <a href="/">
-        <img src={imgUrl} alt="Logo" width="80" />
+      <a href="/" class="logo-icon">
+        <img src={imgUrl} alt="Website logo" />
       </a>
     </div>
     <div class="header-actions">
-    <slot name="menu-nav" />
+      <slot name="menu-nav" />
       <slot name="menu-button" />
       <language-switcher />
     </div>
@@ -23,17 +23,67 @@
   <style>
     .header {
       background-color: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
       box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-      position: fixed;
+      position: sticky;
       top: 0;
-      left: 0;
       right: 0;
-      z-index: 1;
+      z-index: 100;
       display: flex;
       justify-content: space-between;
       align-items: center;
       padding: 1rem 2rem;
-      height: 6rem;
+    }
+
+    .container {
+      padding: 0 1rem;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+    }
+
+    .hamburger {
+      display: none;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .logo-icon {
+      width: 4rem;
+      height: 4rem;
+      border-radius: 50%;
+      transform: rotate(-5deg);
+    }
+
+    .nav a {
+      color: var(--navy-600);
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.2s;
+      position: relative;
+    }
+
+    .nav a:hover {
+      color: var(--navy-800);
+    }
+
+    .nav a.active::after,
+    .nav a:hover::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: var(--mint-400);
+      border-radius: 1px;
     }
 
     .desktop-nav ul {
@@ -58,20 +108,9 @@
 
     .desktop-nav ul li a.active,
     .desktop-nav ul li a:hover {
-      color: var(--primary-color);
+      color: var(--mint-400);
       font-weight: 700;
-      text-decoration: underline;
       transition: color 0.3s ease, text-decoration 0.3s ease, font-weight 0.3s ease;
-    }
-
-    .header-actions {
-      display: flex;
-      align-items: center;
-      gap: .5rem;
-    }
-
-    .hamburger {
-      display: none;
     }
 
     @media (max-width: 768px) {
