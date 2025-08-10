@@ -85,165 +85,10 @@
         </div>
       </div>
     </section>
-
-    <!-- Other Programs Grid -->
-    <section class="other-programs">
-      <div class="container">
-        <div class="section-header">
-          <h2>その他の番組</h2>
-          <p>多様なテーマで、さまざまな角度からお楽しみいただけます</p>
-        </div>
-
-        <div class="programs-grid">
-          <div class="program-card" each={program in state.otherPrograms} key={program.id}>
-            <div class="card-header {program.color}">
-              <div class="card-icon">
-                <sl-icon name={program.icon}></sl-icon>
-              </div>
-              <div class="card-status">
-                <span class="status-badge {program.status}">{program.statusText}</span>
-              </div>
-            </div>
-
-            <div class="card-content">
-              <h3 class="card-title">{program.title}</h3>
-              <p class="card-description">{program.description}</p>
-
-              <div class="card-meta">
-                <div class="meta-row">
-                  <sl-icon name="calendar"></sl-icon>
-                  <span>{program.schedule}</span>
-                </div>
-                <div class="meta-row">
-                  <sl-icon name="headphones"></sl-icon>
-                  <span>{program.episodes}エピソード</span>
-                </div>
-              </div>
-
-              <div class="recent-episode" if={program.latestEpisode}>
-                <div class="episode-label">最新エピソード</div>
-                <div class="episode-title">{program.latestEpisode.title}</div>
-                <div class="episode-date">{formatDate(program.latestEpisode.date)}</div>
-              </div>
-            </div>
-
-            <div class="card-actions">
-              <sl-button variant="default" size="small" outline>
-                <sl-icon name="play"></sl-icon>
-                聴く
-              </sl-button>
-              <sl-button variant="text" size="small">
-                詳細
-              </sl-button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Subscribe Section -->
-    <section class="subscribe-section">
-      <div class="container">
-        <div class="subscribe-content">
-          <h2>すべての番組を購読</h2>
-          <p>お気に入りのプラットフォームで、すべての番組をお楽しみください</p>
-
-          <div class="platform-links">
-            <sl-button variant="default" size="large" class="platform-btn">
-              <sl-icon name="apple"></sl-icon>
-              Apple Podcasts
-            </sl-button>
-            <sl-button variant="default" size="large" class="platform-btn">
-              <sl-icon name="spotify"></sl-icon>
-              Spotify
-            </sl-button>
-            <sl-button variant="default" size="large" class="platform-btn">
-              <sl-icon name="google"></sl-icon>
-              Google Podcasts
-            </sl-button>
-            <sl-button variant="default" size="large" class="platform-btn">
-              <sl-icon name="rss"></sl-icon>
-              RSS Feed
-            </sl-button>
-          </div>
-        </div>
-      </div>
-    </section>
   </div>
 
   <script>
-    import { formatDate } from '@/utils/formatDate';
-
     export default {
-      formatDate,
-      state: {
-        otherPrograms: [
-          {
-            id: 2,
-            title: "クリエイティブ・レイン",
-            description: "デザインやアート、創作活動について語る番組。クリエイターの視点から見た世界を共有します。",
-            episodes: 12,
-            category: "クリエイティブ",
-            color: "pink",
-            icon: "palette",
-            schedule: "隔週金曜日",
-            status: "active",
-            statusText: "配信中",
-            latestEpisode: {
-              title: "UIデザインの心理学",
-              date: "2024-01-12"
-            }
-          },
-          {
-            id: 3,
-            title: "テック・ドロップス",
-            description: "最新技術トレンドや業界ニュースをピックアップ。短時間で効率よく情報をお届けします。",
-            episodes: 18,
-            category: "テクノロジー",
-            color: "blue",
-            icon: "cpu",
-            schedule: "毎週木曜日",
-            status: "active",
-            statusText: "配信中",
-            latestEpisode: {
-              title: "AI開発の最前線 2024",
-              date: "2024-01-11"
-            }
-          },
-          {
-            id: 4,
-            title: "ライフ・シャワー",
-            description: "働き方や生活、キャリアについての対話。バランスの取れた人生について考えます。",
-            episodes: 15,
-            category: "ライフスタイル",
-            color: "purple",
-            icon: "heart",
-            schedule: "月2回配信",
-            status: "active",
-            statusText: "配信中",
-            latestEpisode: {
-              title: "リモートワークの新しい形",
-              date: "2024-01-08"
-            }
-          },
-          {
-            id: 5,
-            title: "学びの雫",
-            description: "新しいスキルや知識の習得体験をシェア。一緒に成長していく過程を記録します。",
-            episodes: 20,
-            category: "学習",
-            color: "yellow",
-            icon: "book",
-            schedule: "不定期配信",
-            status: "hiatus",
-            statusText: "休止中",
-            latestEpisode: {
-              title: "プログラミング学習の振り返り",
-              date: "2023-12-15"
-            }
-          }
-        ]
-      },
     }
   </script>
 
@@ -423,11 +268,6 @@
       display: flex;
       gap: 1rem;
       flex-wrap: wrap;
-    }
-
-    .other-programs {
-      padding: 4rem 0;
-      background: var(--mint-50);
     }
 
     .section-header {
@@ -684,35 +524,6 @@
       opacity: 0.8;
     }
 
-    .subscribe-section {
-      padding: 4rem 0;
-      background: var(--navy-800);
-      color: white;
-    }
-
-    .subscribe-content {
-      text-align: center;
-    }
-
-    .subscribe-content h2 {
-      font-size: 2.5rem;
-      font-weight: bold;
-      margin-bottom: 1rem;
-    }
-
-    .subscribe-content p {
-      font-size: 1.125rem;
-      opacity: 0.9;
-      margin-bottom: 3rem;
-    }
-
-    .platform-links {
-      display: flex;
-      justify-content: center;
-      gap: 1rem;
-      flex-wrap: wrap;
-    }
-
     .platform-btn::part(base) {
       background: rgba(255, 255, 255, 0.1);
       border: 1px solid rgba(255, 255, 255, 0.2);
@@ -745,11 +556,6 @@
 
       .programs-grid {
         grid-template-columns: 1fr;
-      }
-
-      .platform-links {
-        flex-direction: column;
-        align-items: center;
       }
 
       .community-card {

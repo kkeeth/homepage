@@ -1,33 +1,73 @@
 <program-card>
-  <sl-card class="program-card {props.program.color}">
-    <div class="card-header">
-      <div class="card-icon">
-        <sl-icon name={props.program.icon}></sl-icon>
+  <div class="program-grid">
+    <div class="program-card" each={episode in props.programEpisodes} key={episode.id}>
+      <div class="program-image {episode.imageClass}">
+        <img src={episode.imageUrl || "/placeholder.svg"} alt={episode.title} class="episode-image">
       </div>
-      <div class="card-meta">
-        <span class="category">{props.program.category}</span>
-        <span class="episodes">{props.program.episodes}話</span>
+
+      <div class="program-content">
+        <div class="episode-date">{episode.pubDate}</div>
+        <h3 class="card-title">{episode.title}</h3>
+        <p class="program-description">{episode.description}</p>
+
+        <sl-divider style="--color: tomato;"></sl-divider>
+
+        <div class="program-actions">
+          <sl-button variant="neutral" size="medium" href={episode.link} pill>
+            <sl-icon name="play"></sl-icon>
+            LISTEN
+          </sl-button>
+          <sl-dropdown>
+            <sl-button slot="trigger" variant="default" size="medium" class="options-btn">
+              <sl-icon name="chevron-down"></sl-icon>
+            </sl-button>
+            <sl-menu>
+              <sl-menu-item>
+                <sl-icon name="apple" slot="prefix"></sl-icon>
+                Apple Podcasts
+              </sl-menu-item>
+              <sl-menu-item>
+                <sl-icon name="spotify" slot="prefix"></sl-icon>
+                Spotify
+              </sl-menu-item>
+              <sl-menu-item>
+                <sl-icon name="amazon" slot="prefix"></sl-icon>
+                Amazon Music
+              </sl-menu-item>
+              <sl-menu-item>
+                <sl-icon name="youtube" slot="prefix"></sl-icon>
+                YouTube Music
+              </sl-menu-item>
+              <sl-menu-item>
+                <sl-icon name="rss" slot="prefix"></sl-icon>
+                RSS Feed
+              </sl-menu-item>
+            </sl-menu>
+          </sl-dropdown>
+        </div>
       </div>
     </div>
-
-    <h3 class="card-title">{props.program.title}</h3>
-    <p class="card-description">{props.program.description}</p>
-
-    <div class="card-actions">
-      <sl-button variant="default" size="small" outline>
-        <sl-icon name="play"></sl-icon>
-        聴く
-      </sl-button>
-      <sl-button variant="text" size="small">
-        詳細
-      </sl-button>
+  </div>
+    <div class="view-all-episodes">
+      <sl-badge  pill pulse>
+        <a href="/programs">すべてのエピソードを見る</a>
+      </sl-badge>
     </div>
-  </sl-card>
 
   <style>
+    .program-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 3rem;
+      place-items: center;
+    }
+
     .program-card {
-      height: 100%;
-      transition: transform 0.2s, box-shadow 0.2s;
+      border-radius: 1.5rem;
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+      transition: transform 0.3s, box-shadow 0.3s;
+      max-width: 350px
     }
 
     .program-card:hover {
@@ -35,62 +75,60 @@
       box-shadow: 0 8px 30px rgba(0,0,0,0.12);
     }
 
-    .card-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      margin-bottom: 1rem;
+    .program-image {
+      min-height: 200px;
+      height: 280px;
+      overflow: hidden;
+      position: relative;
     }
 
-    .card-icon {
-      width: 3rem;
-      height: 3rem;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.5rem;
+    .program-image.mint {
+      background: var(--mint-50);
+    }
+
+    .program-image.blue-gradient {
+      background: linear-gradient(135deg, #3b82f6, #1e40af);
+    }
+
+    .program-image.dark-theme {
+      background: linear-gradient(135deg, #1f2937, #111827);
+    }
+
+    .program-image.warm-gradient {
+      background: linear-gradient(135deg, #f97316, #ea580c, #ec4899);
+    }
+
+    .episode-image {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .program-content {
+      padding: 1.5rem;
+    }
+
+    .view-all-episodes {
+      text-align: center;
+      margin-top: 3rem;
+    }
+
+    .view-all-episodes a {
+      padding: 0.75rem 2rem;
+      font-weight: 600;
       color: white;
+      text-decoration: none;
     }
 
-    .program-card.mint .card-icon { background: var(--mint-500); }
-    .program-card.pink .card-icon { background: var(--pink-500); }
-    .program-card.blue .card-icon { background: var(--blue-500); }
-    .program-card.purple .card-icon { background: var(--purple-500); }
-    .program-card.yellow .card-icon { background: var(--yellow-500); }
-
-    .card-meta {
-      text-align: right;
-      font-size: 0.875rem;
+    .view-all-episodes a:hover {
+      cursor: pointer;
     }
 
-    .category {
-      display: block;
-      color: var(--navy-600);
-      font-weight: 500;
+    @media (max-width: 768px) {
+    .program-grid {
+        grid-template-columns: 1fr;
+      }
     }
 
-    .episodes {
-      color: var(--navy-400);
-    }
-
-    .card-title {
-      font-size: 1.25rem;
-      font-weight: bold;
-      color: var(--navy-800);
-      margin-bottom: 0.75rem;
-    }
-
-    .card-description {
-      color: var(--navy-600);
-      line-height: 1.5;
-      margin-bottom: 1.5rem;
-    }
-
-    .card-actions {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
   </style>
 </program-card>

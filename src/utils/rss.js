@@ -1,4 +1,6 @@
 // RSS feed fetching and parsing utilities
+import { formatDate } from '@/utils/formatDate';
+import { truncateText } from '@/utils/truncateText';
 
 function stripHtmlTags(html) {
   const tempDiv = document.createElement('div');
@@ -35,7 +37,7 @@ export function parseRSSFeed(xmlText) {
     const link = item.querySelector('link')?.textContent?.trim() || '';
     const enclosure = item.querySelector('enclosure');
     const audioUrl = enclosure?.getAttribute('url') || '';
-    
+
     // Get iTunes image
     const itunesImage = item.querySelector('itunes\\:image, image[href]');
     const imageUrl = itunesImage?.getAttribute('href') || '';
@@ -45,11 +47,12 @@ export function parseRSSFeed(xmlText) {
 
     episodes.push({
       title,
-      description,
-      pubDate: new Date(pubDate),
+      description: truncateText(description, 120),
+      pubDate: formatDate(new Date(pubDate)),
       link,
       audioUrl,
       imageUrl,
+      imageClass: "mint",
       duration: itunesDuration
     });
   });
