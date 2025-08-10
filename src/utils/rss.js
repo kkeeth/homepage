@@ -3,9 +3,9 @@ import { formatDate } from '@/utils/formatDate';
 import { truncateText } from '@/utils/truncateText';
 
 function stripHtmlTags(html) {
-  const tempDiv = document.createElement('div');
-  tempDiv.innerHTML = html;
-  return tempDiv.textContent || tempDiv.innerText || '';
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(html, 'text/html');
+  return doc.body.textContent || '';
 }
 
 export async function fetchRSSFeed(url) {
