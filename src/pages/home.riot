@@ -213,7 +213,7 @@
     export default {
       async onBeforeMount() {
         try {
-          const RSS_URL = 'https://rss.art19.com/kkeethengineers';
+          const RSS_URL = import.meta.env.VITE_RSS_URL;
           const episodes = await fetchRSSFeed(RSS_URL);
           this.update({
             latestEpisodes: getLatestEpisodes(episodes, 6),

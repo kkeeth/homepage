@@ -58,7 +58,7 @@ export function parseRSSFeed(xmlText) {
   });
 
   // Sort by publication date (newest first)
-  episodes.sort((a, b) => b.pubDate - a.pubDate);
+  episodes.sort((a, b) => b.pubDateObj - a.pubDateObj);
 
   return episodes;
 }
