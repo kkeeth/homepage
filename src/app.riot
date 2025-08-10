@@ -83,7 +83,6 @@
           return
         }
         const activePage = pages.find(p => match(path.pathname, toRegexp(p.path))).componentName
-
         this.update({
           activePage,
           showNotFound: !activePage
