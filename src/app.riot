@@ -82,7 +82,9 @@
         if (!path.pathname) {
           return
         }
-        const activePage = pages.find(p => match(path.pathname, toRegexp(p.path))).componentName
+        const foundPage = pages.find(p => match(path.pathname, toRegexp(p.path)))
+        const activePage = foundPage ? foundPage.componentName : null
+
         this.update({
           activePage,
           showNotFound: !activePage
