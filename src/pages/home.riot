@@ -320,8 +320,14 @@
     .droplet-scatter {
       position: absolute;
       border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
-      animation: float-organic 6s ease-in-out infinite;
+      animation: fade-in-up 6s linear infinite;
       filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
+    }
+    .droplet-scatter:nth-child(even) {
+      animation: fade-in-up 6s linear infinite;
+    }
+    .droplet-scatter:nth-child(odd) {
+      animation: bubble-bounce 6s linear infinite;
     }
 
     .droplet-large { width: var(--droplet-large-width); height: var(--droplet-large-height); }
@@ -340,7 +346,7 @@
       position: absolute;
       font-size: 1.5rem;
       color: rgba(255, 255, 255, 0.4);
-      animation: twinkle 3s ease-in-out infinite;
+      animation: bounce 3s ease-in-out infinite;
     }
 
     /* Minimal art elements */
@@ -418,42 +424,7 @@
       font-weight: 700;
     }
 
-    .hero-stats {
-      display: flex;
-      align-items: center;
-      gap: 2rem;
-    }
 
-    .stat-item {
-      text-align: center;
-    }
-
-    .stat-number {
-      display: block;
-      font-size: 2rem;
-      font-weight: 800;
-      color: white;
-      line-height: 1;
-    }
-
-    .stat-label {
-      display: block;
-      font-size: 0.875rem;
-      color: rgba(255,255,255,0.7);
-      margin-top: 0.25rem;
-    }
-
-    .stat-divider {
-      width: 1px;
-      height: 40px;
-      background: rgba(255,255,255,0.3);
-    }
-
-    /* Show Description */
-    .show-description {
-      margin-top: 3rem;
-      margin-bottom: 2rem;
-    }
 
     .description-text {
       font-size: 1rem;
@@ -472,18 +443,6 @@
       overflow: hidden;
     }
 
-    .casual-note {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      font-size: 0.875rem;
-      opacity: 0.8;
-      transform: rotate(2deg);
-    }
-
-    .arrow-doodle {
-      font-size: 1.25rem;
-    }
 
     .hero-image-container {
       position: relative;
@@ -521,65 +480,8 @@
       transform: scale(1.05);
     }
 
-    .image-overlay {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      z-index: 3;
-      opacity: 0;
-      transition: opacity 0.3s ease;
-    }
 
-    .hero-image-container:hover .image-overlay {
-      opacity: 1;
-    }
 
-    .casual-stats {
-      display: flex;
-      justify-content: center;
-      gap: 3rem;
-      padding-left: 2rem;
-      padding-right: 2rem;
-      position: relative;
-      z-index: 10;
-    }
-
-    .stat-bubble {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      background: rgba(255, 255, 255, 0.15);
-      padding: 1rem 2rem;
-      border-radius: 2rem;
-      backdrop-filter: blur(10px);
-    }
-
-    .stat-bubble:nth-child(2) { transform: rotate(1deg); }
-    .stat-bubble:nth-child(3) { transform: rotate(-0.5deg); }
-
-    .stat-emoji {
-      font-size: 1.5rem;
-    }
-
-    .stat-number {
-      font-size: 1.5rem;
-      font-weight: bold;
-      display: block;
-    }
-
-    .stat-label {
-      font-size: 0.875rem;
-      opacity: 0.9;
-    }
-
-    /* Latest Episode Section */
-    .latest-episode {
-      background: white;
-      color: #1a1a1a;
-      padding: 6rem 0;
-      position: relative;
-    }
 
     .section-header-casual {
       text-align: center;
@@ -616,67 +518,11 @@
       padding: 6rem 0;
     }
 
-    .section-subtitle-casual {
-      font-size: 1.125rem;
-      color: var(--navy-600);
-      text-align: center;
-      margin-top: 1rem;
-    }
-
     .programs-masonry {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
       gap: 2rem;
       margin-top: 3rem;
-    }
-
-    .main-program {
-      grid-column: span 2;
-      background: linear-gradient(135deg, var(--mint-100), var(--mint-200));
-      border-color: var(--mint-300);
-    }
-
-    .card-header-artistic {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 1.5rem;
-    }
-
-    .program-emoji {
-      font-size: 2rem;
-    }
-
-    .program-badge {
-      padding: 0.5rem 1rem;
-      border-radius: 1.5rem;
-      font-size: 0.75rem;
-      font-weight: 600;
-    }
-
-    .program-badge.main { background: var(--mint-300); color: var(--mint-800); }
-    .program-badge.pink { background: var(--pink-400); color: var(--pink-500); }
-    .program-badge.blue { background: var(--blue-200); color: var(--blue-800); }
-    .program-badge.purple { background: var(--purple-400); color: white; }
-
-    .program-title-artistic {
-      font-size: 1.25rem;
-      font-weight: bold;
-      margin-bottom: 1rem;
-      color: var(--navy-800);
-    }
-
-    .program-description-artistic {
-      color: var(--navy-600);
-      line-height: 1.5;
-      margin-bottom: 1.5rem;
-    }
-
-    .program-stats-casual {
-      display: flex;
-      gap: 1rem;
-      font-size: 0.875rem;
-      color: var(--navy-500);
     }
 
     /* Clean card design for other programs */
@@ -795,55 +641,6 @@
       padding: 6rem 0;
     }
 
-    .section-header-program {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 3rem;
-    }
-
-    .view-all-link {
-      color: var(--navy-600);
-      text-decoration: none;
-      font-weight: 500;
-      transition: color 0.2s;
-    }
-
-    .view-all-link:hover {
-      color: var(--navy-800);
-    }
-
-    .episode-date {
-      font-size: 0.875rem;
-      color: var(--navy-500);
-      margin-bottom: 0.5rem;
-    }
-
-    .program-actions {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-end;
-    }
-
-    .play-btn-program::part(base) {
-      background: var(--mint-gradient);
-      border: none;
-      font-weight: 600;
-      border-radius: 1.5rem;
-    }
-
-    .options-btn::part(base) {
-      border-radius: 50%;
-      width: 2.5rem;
-      height: 2.5rem;
-      padding: 0;
-      border: 1px solid var(--navy-200);
-    }
-
-    .options-btn:hover::part(base) {
-      background: var(--mint-50);
-      border-color: var(--mint-300);
-    }
 
     /* Modern Animations */
     @keyframes gentle-float {
@@ -954,23 +751,6 @@
         font-size: 2.5rem;
       }
 
-      .hero-stats {
-        gap: 1rem;
-      }
-
-      .stat-item {
-        flex: 1;
-        min-width: 80px;
-      }
-
-      .stat-number {
-        font-size: 1.5rem;
-      }
-
-      .show-description {
-        margin-top: 2rem;
-        margin-bottom: 1.5rem;
-      }
 
       .hero-image-container {
         min-height: 300px;
@@ -1006,28 +786,8 @@
         height: 240px;
       }
 
-      .casual-stats {
-        flex-direction: column;
-        align-items: center;
-        gap: 1rem;
-      }
-
       .programs-masonry {
         grid-template-columns: 1fr;
-      }
-
-      .main-program {
-        grid-column: span 1;
-      }
-
-      .programs-masonry {
-        grid-template-columns: 1fr;
-      }
-
-      .section-header-program {
-        flex-direction: column;
-        gap: 1rem;
-        text-align: center;
       }
 
       .platform-links {
