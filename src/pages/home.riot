@@ -28,11 +28,6 @@
 
       <div class="hero-content">
         <div class="hero-left">
-          <div class="hero-badge">
-            <span>🌧️</span>
-            <span>ポッドキャスト</span>
-          </div>
-
           <h1 class="hero-title">
             雨宿りとWEBの小噺
           </h1>
@@ -400,22 +395,6 @@
       padding: 0 4rem;
     }
 
-
-    .hero-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      background: rgba(255,255,255,0.15);
-      color: white;
-      padding: 0.75rem 1.5rem;
-      border-radius: 50px;
-      font-size: 0.875rem;
-      font-weight: 600;
-      margin-bottom: 2rem;
-      backdrop-filter: blur(20px);
-      border: 1px solid rgba(255,255,255,0.2);
-    }
-
     .hero-title {
       font-size: 3.5rem;
       font-weight: 800;
@@ -532,7 +511,6 @@
 
     .hero-image {
       width: 360px;
-      height: 360px;
       object-fit: contain;
       border-radius: 20%;
       position: relative;
@@ -961,6 +939,28 @@
     }
 
     /* Responsive */
+    @media (max-width: 1024px) {
+      .hero-image {
+        width: 320px;
+      }
+
+      .image-backdrop {
+        width: 340px;
+        height: 340px;
+      }
+    }
+
+    @media (max-width: 900px) {
+      .hero-image {
+        width: 280px;
+      }
+
+      .image-backdrop {
+        width: 300px;
+        height: 300px;
+      }
+    }
+
     @media (max-width: 768px) {
       .section-content {
         padding-left: 1rem;
@@ -1000,6 +1000,15 @@
         order: -1;
       }
 
+      .hero-image {
+        width: 300px;
+      }
+
+      .image-backdrop {
+        width: 320px;
+        height: 320px;
+      }
+
       .title-main {
         font-size: 3rem;
       }
@@ -1007,6 +1016,17 @@
       .character-image {
         width: 12rem;
         height: 12rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero-image {
+        width: 220px;
+      }
+
+      .image-backdrop {
+        width: 240px;
+        height: 240px;
       }
 
       .casual-stats {
