@@ -48,7 +48,7 @@ export function parseRSSFeed(xmlText) {
     episodes.push({
       title,
       description: truncateText(description, 120),
-      pubDate: formatDate(new Date(pubDate)),
+      pubDate: formatDate(pubDate),
       link,
       audioUrl,
       imageUrl,

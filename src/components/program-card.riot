@@ -10,7 +10,7 @@
         <h3 class="card-title">{episode.title}</h3>
         <p class="program-description">{episode.description}</p>
 
-        <sl-divider style="--color: tomato;"></sl-divider>
+        <sl-divider></sl-divider>
 
         <div class="program-actions">
           <sl-button variant="neutral" size="medium" href={episode.link} pill>
@@ -48,17 +48,17 @@
       </div>
     </div>
   </div>
-    <div class="view-all-episodes">
-      <sl-badge  pill pulse>
-        <a href="/programs">すべてのエピソードを見る</a>
-      </sl-badge>
-    </div>
+  <div class="view-all-episodes">
+    <sl-badge  pill pulse>
+      <a href="/programs">すべてのエピソードを見る</a>
+    </sl-badge>
+  </div>
 
   <style>
     .program-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-      gap: 3rem;
+      gap: 3rem 2rem;
       place-items: center;
     }
 
@@ -67,7 +67,7 @@
       overflow: hidden;
       box-shadow: 0 4px 20px rgba(0,0,0,0.08);
       transition: transform 0.3s, box-shadow 0.3s;
-      max-width: 350px;
+      max-width: 320px;
     }
 
     .program-card:hover {
@@ -76,14 +76,13 @@
     }
 
     .program-image {
-      min-height: 200px;
-      height: 280px;
+      height: 100%;
       overflow: hidden;
       position: relative;
     }
 
     .program-image.mint {
-      background: var(--mint-50);
+      background: var(--image-bg);
     }
 
     .program-image.blue-gradient {
@@ -124,13 +123,93 @@
       cursor: pointer;
     }
 
+    sl-divider {
+      height: 1px;
+      width: 360px;
+      background: var(--navy-300);
+      margin: 1rem 0;
+      margin-left: -1.5rem;
+    }
+
     @media (max-width: 768px) {
       .program-grid {
         grid-template-columns: 1fr;
       }
 
       .program-card {
-        max-width: 80%;
+        display: flex;
+        flex-direction: row;
+        max-width: 100%;
+        width: 100%;
+        height: 260px;
+      }
+
+      .program-image {
+        flex-shrink: 0;
+        width: 220px;
+        border-radius: 1rem 0 0 1rem;
+      }
+
+      .program-content {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding: 1rem;
+        height: 100%;
+        box-sizing: border-box;
+      }
+
+      .episode-date {
+        font-size: 0.75rem;
+        margin-bottom: 0.5rem;
+      }
+
+      .card-title {
+        font-size: 1rem;
+        line-height: 1.2;
+        margin-bottom: 0.5rem;
+        min-height: auto;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+
+      .program-description {
+        font-size: 0.875rem;
+        line-height: 1;
+        height: auto;
+        min-height: 60px;
+        margin-bottom: 1rem;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+
+      .program-actions {
+        display: flex;
+        flex-direction: row;
+        gap: 0.5rem;
+        align-items: center;
+        margin-top: auto;
+      }
+
+      .program-actions sl-button {
+        font-size: 0.75rem;
+      }
+
+      .options-btn::part(base) {
+        width: 2rem;
+        height: 2rem;
+        min-height: 2rem;
+        padding: 0;
+      }
+
+      sl-divider {
+        width: calc(100% + 32px);
+        margin-left: -16px;
       }
     }
 
