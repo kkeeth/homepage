@@ -18,7 +18,7 @@
             LISTEN
           </sl-button>
           <sl-dropdown>
-            <sl-button slot="trigger" variant="default" size="medium" class="options-btn" pill>
+            <sl-button slot="trigger" variant="default" size="medium" class="options-btn" circle>
               <sl-icon name="chevron-down"></sl-icon>
             </sl-button>
             <sl-menu>
@@ -71,9 +71,14 @@
     }
 
     .card-title {
-      line-height: 1.2;
+      line-height: 1.4;
       margin-bottom: 0.75rem;
-      height: 68px;
+      height: calc(1.4em * 3);
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     .program-card:hover {
@@ -121,6 +126,10 @@
       display: flex;
       justify-content: space-between;
       align-items: flex-end;
+    }
+
+    sl-menu-item sl-icon {
+      margin-right: 8px;
     }
 
     .view-all-episodes {

@@ -74,12 +74,6 @@ section {
 }
 
 /* Shoelace customizations for new design */
-sl-button[variant="primary"] {
-  --sl-color-primary-600: var(--mint-600);
-  --sl-color-primary-500: var(--mint-500);
-  --sl-color-primary-400: var(--mint-400);
-}
-
 sl-card::part(base) {
   border-radius: 1rem;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
@@ -129,7 +123,7 @@ html {
 
 .episodes-section {
   color: var(--navy-800);
-  padding: 6rem 0;
+  padding: 4.5rem 0;
 }
 
 .section-content {
@@ -146,3 +140,12 @@ html {
 }
 
 /* Some forced style overrides */
+
+.loading-indicator {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  margin: 3rem 0;
+  color: var(--navy-600);
+}
