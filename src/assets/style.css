@@ -62,9 +62,7 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans JP", sans-serif;
   line-height: 1.6;
   color: var(--navy-700);
-  background: var(--mint-50);
 }
-
 
 .container {
   margin: 0 auto;
@@ -97,6 +95,54 @@ html {
 *:focus-visible {
   outline: 2px solid var(--mint-500);
   outline-offset: 2px;
+}
+
+/* Card styles */
+.section-title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  color: #1a1a1a;
+  letter-spacing: -0.02em;
+}
+
+.section-header-casual {
+  text-align: center;
+  margin-bottom: 4rem;
+}
+
+.title-doodle {
+  font-size: 2rem;
+}
+
+.title-underline {
+  width: 80px;
+  height: 3px;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  margin: 0 auto;
+  border-radius: 2px;
+}
+
+.episodes-section {
+  color: var(--navy-800);
+  padding: 6rem 0;
+}
+
+.section-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+
+@media (max-width: 768px) {
+  .section-content {
+    padding: 0 1.5rem;
+  }
 }
 
 /* Some forced style overrides */

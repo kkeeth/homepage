@@ -10,7 +10,7 @@ import '@/assets/style.css';
 import '@/utils/shoelace-components';
 import App from '@/app.riot';
 import registerGlobalComponents from '@/register-global-components';
-import i18nStore from '@/utils/i18n-store';
+import i18nStore from '@/stores/i18n-store';
 
 // register
 registerGlobalComponents();

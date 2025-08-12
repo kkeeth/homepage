@@ -1,0 +1,118 @@
+<pagination>
+  <div class="paginator" if={props.totalCount > props.pageSize}>
+    <sl-button
+      size="small"
+      circle
+      if={props.currentPage > 1}
+      onclick={() => changePage(props.currentPage - 1)}
+    >
+      <
+    </sl-button>
+    <sl-button
+      size="small"
+      circle
+      if={props.currentPage <= 1}
+      disabled
+    ></sl-button>
+
+    <div class="pages">
+      <sl-button
+        each={page in getVisiblePages()}
+        variant={page === props.currentPage ? "primary" : "neutral"}
+        size="small"
+        circle
+        onclick={() => changePage(page)}
+      >
+        {page}
+      </sl-button>
+    </div>
+
+    <sl-button
+      size="small"
+      circle
+      if={props.currentPage < totalPages()}
+      onclick={() => changePage(props.currentPage + 1)}
+    >
+      >
+    </sl-button>
+    <sl-button
+      size="small"
+      circle
+      disabled
+      if={props.currentPage >= totalPages()}
+      onclick={() => changePage(props.currentPage + 1)}
+    ></sl-button>
+  </div>
+
+  <script>
+    export default {
+      totalPages() {
+        const pageSize = Number(this.props.pageSize) || 10;
+        const total = Number(this.props.totalCount) || 0;
+        return Math.max(1, Math.ceil(total / pageSize));
+      },
+      changePage(page) {
+        if (page === '…' || page === '...') return;
+        const next = Math.min(Math.max(1, page), this.totalPages());
+        if (this.props.onPageChange) {
+          this.props.onPageChange(next);
+        }
+      },
+      getVisiblePages() {
+        const current = Number(this.props.currentPage) || 1;
+        const total = this.totalPages();
+
+        const range = (start, end) => {
+          const s = Math.max(1, start);
+          const e = Math.min(total, end);
+          const out = [];
+          for (let i = s; i <= e; i++) out.push(i);
+          return out;
+        };
+
+        if (current <= 5) {
+          return range(1, 5);
+        }
+
+        // 末尾付近: 1, 2, …, total-5..total
+        if (current > total - 4) {
+          return [...range(total - 4, total)];
+        }
+
+        // 中央付近: 1, 2, …, current-2..current+2, …, total-1, total
+        return [...range(current - 2, current + 2)];
+      }
+    }
+  </script>
+
+  <style>
+    .paginator {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-top: 4rem;
+    }
+
+    .pages {
+      display: flex;
+      gap: 0.25rem;
+    }
+
+    sl-button::part(base) {
+      font-weight: 600;
+    }
+
+    sl-button[disabled]::part(base) {
+      background: transparent;
+      border: none;
+      color: var(--navy-400);
+      cursor: default;
+    }
+
+    sl-button[disabled]:hover::part(base) {
+      background: transparent;
+      color: var(--navy-400);
+    }
+  </style>
+</pagination>

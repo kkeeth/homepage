@@ -62,7 +62,7 @@
     </section>
 
     <!-- Latest Episodes Section -->
-    <section class="latest-episodes-section">
+    <section class="episodes-section">
       <div class="section-content">
         <div class="section-header-casual">
           <h2 class="section-title">
@@ -72,12 +72,12 @@
           <div class="title-underline"></div>
         </div>
 
-        <program-card program-episodes={state.latestEpisodes} />
+        <program-card program-episodes={state.latestEpisodes} show-more={true} />
       </div>
     </section>
 
     <!-- program Episodes Section -->
-    <section class="program-episodes">
+    <section class="episodes-section program-episodes">
       <div class="section-content">
         <div class="section-header-casual">
           <h2 class="section-title">
@@ -87,12 +87,12 @@
           <div class="title-underline"></div>
         </div>
 
-        <program-card program-episodes={state.programEpisodes} />
+        <program-card program-episodes={state.programEpisodes} show-more={true} />
       </div>
     </section>
 
     <!-- Programs - Artistic Grid -->
-    <section class="programs-artistic">
+    <section class="episodes-section programs-artistic">
       <div class="section-content">
           <div class="section-header-casual">
           <h2 class="section-title">
@@ -293,13 +293,6 @@
     }
 
     /* Full width with better padding */
-    .section-content {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding-left: 2rem;
-      padding-right: 2rem;
-    }
-
     .hero {
       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       position: relative;
@@ -424,8 +417,6 @@
       font-weight: 700;
     }
 
-
-
     .description-text {
       font-size: 1rem;
       line-height: 1.7;
@@ -480,44 +471,7 @@
       transform: scale(1.05);
     }
 
-
-
-
-    .section-header-casual {
-      text-align: center;
-      margin-bottom: 4rem;
-    }
-
-    .section-title {
-      font-size: 2.5rem;
-      font-weight: 800;
-      margin-bottom: 1rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 1rem;
-      color: #1a1a1a;
-      letter-spacing: -0.02em;
-    }
-
-    .title-doodle {
-      font-size: 2rem;
-    }
-
-    .title-underline {
-      width: 80px;
-      height: 3px;
-      background: linear-gradient(135deg, #667eea, #764ba2);
-      margin: 0 auto;
-      border-radius: 2px;
-    }
-
     /* Programs Section */
-    .programs-artistic {
-      color: var(--navy-800);
-      padding: 6rem 0;
-    }
-
     .programs-masonry {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -637,8 +591,6 @@
     /* program Episodes Section */
     .program-episodes {
       background: white;
-      color: var(--navy-800);
-      padding: 6rem 0;
     }
 
 
@@ -680,13 +632,8 @@
     }
 
     /* Latest Episodes Section Styles */
-    .latest-episodes-section {
-      color: var(--navy-800);
-      padding: 6rem 0;
-    }
-
     .subscribe-section {
-      padding: 4rem 0;
+      padding: 4rem 2rem;
       background: var(--mint-50);
     }
 
@@ -713,6 +660,10 @@
       flex-wrap: wrap;
     }
 
+    .platform-links sl-button {
+      width: 176px;
+    }
+
     /* Responsive */
     @media (max-width: 1024px) {
       .hero-image {
@@ -737,10 +688,6 @@
     }
 
     @media (max-width: 768px) {
-      .section-content {
-        padding: 0 1.5rem;
-      }
-
       .hero-content,
       .community-content-fun {
         grid-template-columns: 1fr;

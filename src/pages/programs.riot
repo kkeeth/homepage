@@ -1,5 +1,5 @@
 <programs>
-  <div class="programs-page">
+  <div class="programs">
     <!-- Page Header -->
     <section class="page-header">
       <div class="header-bg">
@@ -28,7 +28,7 @@
               <div class="stat-label">番組</div>
             </div>
             <div class="stat">
-              <div class="stat-number">90+</div>
+              <div class="stat-number">{state.totalCount}</div>
               <div class="stat-label">エピソード</div>
             </div>
             <div class="stat">
@@ -40,61 +40,77 @@
       </div>
     </section>
 
-    <!-- Main Program (Featured) -->
-    <section class="featured-program">
-      <div class="container">
-        <div class="featured-content">
-          <div class="featured-visual">
-            <div class="program-artwork">
-              <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/%E9%9B%A8%E5%AE%BF%E3%82%8A%E3%81%A8%20Web%20%E3%81%AE%E5%B0%8F%E5%99%BA-XnAjzyKbW0lVXd3o7wE5Jn9Zf46A8A.png" alt="雨宿りとWEBの小噺" class="artwork-image">
-            </div>
-          </div>
-          <div class="featured-info">
-            <div class="program-badge main">メイン番組</div>
-            <h2 class="featured-title">雨宿りとWEBの小噺</h2>
-            <p class="featured-description">
-              Web技術や開発の話を中心に、ゆったりとした雰囲気でお届けするメイン番組。
-              技術的な深い話から、開発者の日常まで幅広くカバーしています。
-              毎週火曜日に新しいエピソードを配信中。
-            </p>
-            <div class="program-meta">
-              <div class="meta-item">
-                <sl-icon name="calendar"></sl-icon>
-                <span>毎週火曜日配信</span>
-              </div>
-              <div class="meta-item">
-                <sl-icon name="clock"></sl-icon>
-                <span>30-45分</span>
-              </div>
-              <div class="meta-item">
-                <sl-icon name="headphones"></sl-icon>
-                <span>25エピソード</span>
-              </div>
-            </div>
-            <div class="featured-actions">
-              <sl-button variant="primary" size="large">
-                <sl-icon name="play-circle"></sl-icon>
-                最新エピソードを聴く
-              </sl-button>
-              <sl-button variant="default" size="large" outline>
-                <sl-icon name="list"></sl-icon>
-                エピソード一覧
-              </sl-button>
-            </div>
-          </div>
+    <section class="episodes-section">
+      <div class="section-content">
+        <div class="section-header-casual">
+          <h2 class="section-title">
+            <span class="title-doodle">🎧</span>
+            全エピソード
+          </h2>
+          <div class="title-underline"></div>
         </div>
+
+        <program-card program-episodes={state.programEpisodes} show-more={false} />
+
+        <pagination
+          current-page={state.currentPage}
+          page-size={state.pageSize}
+          total-count={state.totalCount}
+          on-page-change={(page) => handlePageChange(page)}
+        />
       </div>
     </section>
   </div>
 
   <script>
+    import episodeStore from '@/stores/episode-store';
+
     export default {
+      state: {
+        programEpisodes: [],
+        displayedCount: 0,
+        totalCount: 0,
+        currentPage: 1,
+        pageSize: 10
+      },
+      async onBeforeMount() {
+        this.handleEpisodesLoaded = () => {
+          this.update({
+            programEpisodes: episodeStore.getDisplayedEpisodes(),
+            displayedCount: episodeStore.getDisplayedCount(),
+            totalCount: episodeStore.getTotalCount(),
+            currentPage: episodeStore.getCurrentPage(),
+            pageSize: episodeStore.getPageSize()
+          });
+        };
+
+        this.handleEpisodesUpdated = () => {
+          this.update({
+            programEpisodes: episodeStore.getDisplayedEpisodes(),
+            displayedCount: episodeStore.getDisplayedCount(),
+            currentPage: episodeStore.getCurrentPage(),
+            pageSize: episodeStore.getPageSize()
+          });
+        };
+
+        this.handlePageChange = (page) => {
+          episodeStore.setPage(page);
+        };
+
+        episodeStore.on('episodes-loaded', this.handleEpisodesLoaded);
+        episodeStore.on('episodes-updated', this.handleEpisodesUpdated);
+
+        await episodeStore.loadAllEpisodes();
+      },
+
+      onBeforeUnmount() {
+        episodeStore.off('episodes-loaded', this.handleEpisodesLoaded);
+        episodeStore.off('episodes-updated', this.handleEpisodesUpdated);
+      }
     }
   </script>
-
   <style>
-    .programs-page {
-      background: var(--mint-50);
+    .programs {
       min-height: 100vh;
     }
 
@@ -291,20 +307,6 @@
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
       gap: 2rem;
-    }
-
-    .program-card {
-      background: white;
-      border-radius: 1rem;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-      border: 1px solid var(--mint-200);
-      overflow: hidden;
-      transition: transform 0.2s, box-shadow 0.2s;
-    }
-
-    .program-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 8px 30px rgba(0,0,0,0.12);
     }
 
     .card-header {
