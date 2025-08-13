@@ -1,65 +1,7 @@
 <home>
   <div class="home">
     <!-- Hero Section - Clean Modern Layout -->
-    <section class="hero">
-      <div class="hero-bg">
-        <!-- Scattered droplets with more organic placement -->
-        <div class="droplet-scatter droplet-large mint" style="top: 15%; left: 30%; transform: rotate(-15deg);"></div>
-        <div class="droplet-scatter droplet-medium blue" style="top: 25%; right: 12%; transform: rotate(25deg);"></div>
-        <div class="droplet-scatter droplet-small yellow" style="top: 45%; left: 20%; transform: rotate(-8deg);"></div>
-        <div class="droplet-scatter droplet-medium pink" style="top: 85%; right: 25%; transform: rotate(12deg);"></div>
-        <div class="droplet-scatter droplet-small purple" style="top: 35%; left: 70%; transform: rotate(-22deg);"></div>
-        <div class="droplet-scatter droplet-large coral" style="top: 75%; left: 15%; transform: rotate(12deg);"></div>
-
-        <!-- Doodle-style decorations -->
-        <div class="doodle-star" style="top: 20%; right: 10%; transform: rotate(45deg);">✦</div>
-        <div class="doodle-star" style="top: 40%; left: 15%; transform: rotate(-30deg);">✧</div>
-        <div class="doodle-plus" style="top: 70%; right: 25%;">+</div>
-        <div class="doodle-plus" style="top: 88%; left: 30%;">+</div>
-
-        <!-- Wavy background elements -->
-        <div class="wave-doodle wave-1"></div>
-        <div class="wave-doodle wave-2"></div>
-
-        <!-- Minimal art elements -->
-        <div class="art-element circle" style="top: 15%; right: 20%;"></div>
-        <div class="art-element line" style="top: 50%; left: 5%;"></div>
-      </div>
-
-      <div class="hero-content">
-        <div class="hero-left">
-          <h1 class="hero-title">
-            雨宿りとWEBの小噺
-          </h1>
-
-          <p class="hero-subtitle">
-            Web技術、クリエイティブ、日常の発見を
-            <span class="highlight-text">心地よく</span>語り合う空間
-          </p>
-          <p class="description-text">
-            フロントエンドエンジニアのkkeethが、Web開発の技術トピック、日常の気づき、
-            そして時々アートやクリエイティブなことについて語るポッドキャスト番組です。
-            雨の日の雨宿りのように、ゆったりとした時間をお過ごしください。
-          </p>
-
-          <div class="latest-episode-embed">
-            <iframe
-              src="https://art19.com/shows/kkeethengineers/episodes/f9dcfc41-8f45-4464-a020-6199fdc7379f/embed?theme=dark-blue"
-              class="episode-iframe"
-              scrolling="no"
-              sandbox="allow-scripts allow-popups allow-popups-to-escape-sandbox">
-            </iframe>
-          </div>
-        </div>
-
-        <div class="hero-right">
-          <div class="hero-image-container">
-            <div class="image-backdrop"></div>
-            <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/%E9%9B%A8%E5%AE%BF%E3%82%8A%E3%81%A8%20Web%20%E3%81%AE%E5%B0%8F%E5%99%BA-XnAjzyKbW0lVXd3o7wE5Jn9Zf46A8A.png" alt="雨宿りとWEBの小噺" class="hero-image">
-          </div>
-        </div>
-      </div>
-    </section>
+    <hero-section />
 
     <!-- Latest Episodes Section -->
     <section class="episodes-section">
@@ -129,23 +71,23 @@
                   <sl-menu>
                     <sl-menu-item>
                       <sl-icon name="apple" slot="prefix"></sl-icon>
-                      Apple Podcasts
+                      <a href={program.listen.apple} target="_blank">Apple Podcasts</a>
                     </sl-menu-item>
                     <sl-menu-item>
                       <sl-icon name="spotify" slot="prefix"></sl-icon>
-                      Spotify
+                      <a href={program.listen.spotify} target="_blank">Spotify</a>
                     </sl-menu-item>
                     <sl-menu-item>
                       <sl-icon name="amazon" slot="prefix"></sl-icon>
-                      Amazon Music
+                      <a href={program.listen.amazon} target="_blank">Amazon Music</a>
                     </sl-menu-item>
                     <sl-menu-item>
                       <sl-icon name="youtube" slot="prefix"></sl-icon>
-                      YouTube Music
+                      <a href={program.listen.youtube} target="_blank">YouTube Music</a>
                     </sl-menu-item>
                     <sl-menu-item>
                       <sl-icon name="rss" slot="prefix"></sl-icon>
-                      RSS Feed
+                      <a href={program.listen.rss} target="_blank">RSS Feed</a>
                     </sl-menu-item>
                   </sl-menu>
                 </sl-dropdown>
@@ -309,6 +251,7 @@
             listen: {
               spotify: "https://open.spotify.com/show/72YBoURXl1LxtWhSeCdQPO?si=9a2cdcf40431441f",
               apple: "https://podcasts.apple.com/jp/podcast/%E5%BE%92%E7%84%B6%E3%81%AA%E3%82%8B%E3%81%BE%E3%81%BE%E3%81%AB%E9%A0%AD%E3%81%AE%E4%B8%AD%E3%82%92%E5%90%90%E3%81%8D%E5%87%BA%E3%81%99%E5%A0%B4/id1784637944",
+              amazon: "",
               rss: "https://api.substack.com/feed/podcast/3447681.rss"
             }
           },
@@ -323,7 +266,9 @@
             schedule: "不定期",
             listen: {
               spotify: "https://open.spotify.com/show/1vCXwpGaZHjoyx2neFBFAp?si=954ae47964264af4",
-
+              apple: "",
+              amazon: "",
+              rss: "https://rss.listen.style/p/somarinsanna/rss"
             }
           },
         ],
@@ -334,129 +279,12 @@
   <style>
     .home {
       min-height: 100vh;
-      background: #fafafa;
-      color: #1a1a1a;
-    }
-
-    /* Full width with better padding */
-    .hero {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      position: relative;
-      padding: 8rem 0;
-      overflow: hidden;
-      min-height: 80vh;
-      display: flex;
-      align-items: center;
-    }
-
-    .hero-bg {
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-    }
-
-    /* Modern rain droplet animations */
-    .droplet-scatter {
-      position: absolute;
-      border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
-      animation: fade-in-up 6s linear infinite;
-      filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
-    }
-    .droplet-scatter:nth-child(even) {
-      animation: fade-in-up 6s linear infinite;
-    }
-    .droplet-scatter:nth-child(odd) {
-      animation: bubble-bounce 6s linear infinite;
-    }
-
-    .droplet-large { width: var(--droplet-large-width); height: var(--droplet-large-height); }
-    .droplet-medium { width: var(--droplet-medium-width); height: var(--droplet-medium-height); }
-    .droplet-small { width: var(--droplet-small-width); height: var(--droplet-small-height); }
-
-    .droplet-scatter.mint { background: linear-gradient(135deg, var(--mint-400), var(--mint-500)); }
-    .droplet-scatter.blue { background: linear-gradient(135deg, var(--blue-400), var(--blue-500)); }
-    .droplet-scatter.yellow { background: linear-gradient(135deg, var(--yellow-400), var(--yellow-500)); }
-    .droplet-scatter.pink { background: linear-gradient(135deg, var(--pink-400), var(--pink-500)); }
-    .droplet-scatter.purple { background: linear-gradient(135deg, var(--purple-400), var(--purple-500)); }
-    .droplet-scatter.coral { background: linear-gradient(135deg, var(--coral-400), #f97316); }
-
-    /* Doodle decorations */
-    .doodle-star, .doodle-plus {
-      position: absolute;
-      font-size: 1.5rem;
-      color: rgba(255, 255, 255, 0.4);
-      animation: bounce 3s ease-in-out infinite;
-    }
-
-    /* Minimal art elements */
-    .wave-doodle {
-      width: 200px;
-      height: 100px;
-      opacity: 0.1;
-    }
-
-    .wave-1 {
-      top: 30%;
-      left: 10%;
-      background: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0,50 Q50,20 100,50 T200,50' stroke='white' stroke-width='3' fill='none'/%3E%3C/svg%3E");
-    }
-
-    .wave-2 {
-      bottom: 20%;
-      right: 15%;
-      background: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0,30 Q50,60 100,30 T200,30' stroke='white' stroke-width='2' fill='none'/%3E%3C/svg%3E");
-    }
-
-    .art-element {
-      position: absolute;
-      opacity: 0.3;
-    }
-
-    .art-element.circle {
-      width: 80px;
-      height: 80px;
-      border: 2px solid rgba(255,255,255,0.4);
-      border-radius: 50%;
-      animation: gentle-rotate 20s linear infinite;
-    }
-
-    .art-element.line {
-      width: 60px;
-      height: 2px;
-      background: rgba(255,255,255,0.4);
-      transform: rotate(45deg);
-    }
-
-    .hero-content {
-      display: grid;
-      grid-template-columns: 1.5fr 1fr;
-      gap: 3rem;
-      align-items: center;
-      position: relative;
-      z-index: 10;
-      width: 100%;
-      margin: 0 auto;
-      padding: 0 4rem;
-    }
-
-    .hero-title {
-      font-size: 3.5rem;
-      font-weight: 800;
-      line-height: 1.1;
-      margin-bottom: 1.5rem;
-      color: white;
-      letter-spacing: -0.02em;
-    }
-
-    .hero-subtitle {
-      font-size: 1.25rem;
-      line-height: 1.6;
-      color: rgba(255,255,255,0.9);
-      margin-bottom: 3rem;
+      background: var(--background-color);
+      color: var(--text-dark);
     }
 
     .highlight-text {
-      background: linear-gradient(135deg, #FFD700, #FFA500);
+      background: linear-gradient(135deg, var(--yellow-500), #FFA500);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
@@ -466,7 +294,7 @@
     .description-text {
       font-size: 1rem;
       line-height: 1.7;
-      color: rgba(255,255,255,0.85);
+      color: var(--white-80);
       margin-bottom: 3rem;
     }
 
@@ -475,46 +303,9 @@
       height: 200px;
       border: none;
       border-radius: 12px;
-      background: rgba(255,255,255,0.1);
+      background: var(--white-10);
       backdrop-filter: blur(10px);
       overflow: hidden;
-    }
-
-
-    .hero-image-container {
-      position: relative;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      width: 100%;
-      height: 100%;
-      min-height: 600px;
-    }
-
-    .image-backdrop {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 380px;
-      height: 380px;
-      background: rgba(255,255,255,0.1);
-      border-radius: 20%;
-      backdrop-filter: blur(20px);
-      border: 1px solid rgba(255,255,255,0.2);
-    }
-
-    .hero-image {
-      width: 360px;
-      object-fit: contain;
-      border-radius: 20%;
-      position: relative;
-      z-index: 2;
-      transition: transform 0.3s ease;
-    }
-
-    .hero-image:hover {
-      transform: scale(1.05);
     }
 
     /* Programs Section */
@@ -617,6 +408,11 @@
       margin-right: -1.5rem;
       padding-left: 1.5rem;
       padding-right: 1.5rem;
+    }
+
+    sl-menu-item a {
+      text-decoration: none;
+      color: inherit;
     }
 
     sl-menu-item sl-icon {

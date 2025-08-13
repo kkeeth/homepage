@@ -1,5 +1,32 @@
-/* CSS Custom Properties - Updated for new design */
+/* CSS Custom Properties - Unified Color System */
 :root {
+  /* Hero-based Primary Colors */
+  --primary-light: #667eea;
+  --primary-dark: #764ba2;
+  --primary-color: var(--primary-light);
+  --hero-gradient: linear-gradient(135deg, var(--primary-light) 0%, var(--primary-dark) 100%);
+
+  /* Semantic Colors */
+  --background-color: #fafafa;
+  --text-color: #334155;
+  --text-light: #64748b;
+  --text-dark: #1a1a1a;
+  --white: #ffffff;
+  --accent-color: #22c55e;
+  --social-link-color: #4a90e2;
+
+  /* White Transparency Variants */
+  --white-10: rgba(255, 255, 255, 0.1);
+  --white-15: rgba(255, 255, 255, 0.15);
+  --white-20: rgba(255, 255, 255, 0.2);
+  --white-60: rgba(255, 255, 255, 0.6);
+  --white-80: rgba(255, 255, 255, 0.8);
+  --white-90: rgba(255, 255, 255, 0.9);
+  --white-95: rgba(255, 255, 255, 0.95);
+
+  /* Black color */
+  --black: #000000;
+
   /* Main colors from your artwork */
   --mint-50: #f0fdf4;
   --mint-100: #dcfce7;
