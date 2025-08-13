@@ -1,7 +1,7 @@
 import observable from '@riotjs/observable';
 import { fetchRSSFeed } from '@/utils/rss';
 
-const DEFAULT_PAGE_SIZE = 10;
+const DEFAULT_PAGE_SIZE = 12;
 
 const episodeStore = observable({
   allEpisodes: [],

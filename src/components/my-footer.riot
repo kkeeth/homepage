@@ -1,5 +1,8 @@
 <my-footer>
   <footer class="footer">
+    <div class="audio-spectrum">
+      <div class="spectrum-bar" each={bar in spectrumBars} style="animation-delay: {bar.delay}ms; height: {bar.height}%; --hue: {bar.hue};"></div>
+    </div>
     <div class="container">
       <div class="footer-content">
         <div class="footer-section">
@@ -48,6 +51,11 @@
 
     export default {
       imgUrl,
+      spectrumBars: Array.from({ length: 50 }, (_, i) => ({
+        delay: i * 50,
+        height: Math.random() * 60 + 10,
+        hue: i * 18
+      })),
     }
   </script>
 
@@ -56,6 +64,44 @@
       background: var(--navy-800);
       color: white;
       padding: 3rem 4rem 1rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .audio-spectrum {
+      position: absolute;
+      bottom: 20px;
+      left: 0;
+      right: 0;
+      height: 100%;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      padding: 0 2rem;
+      margin: 0 12rem;
+      pointer-events: none;
+      opacity: 0.1;
+    }
+
+    .spectrum-bar {
+      width: 8px;
+      background: linear-gradient(to top,
+        hsl(var(--hue), 70%, 60%),
+        hsl(calc(var(--hue) + 30), 70%, 70%),
+        hsl(calc(var(--hue) + 60), 70%, 80%)
+      );
+      border-radius: 4px;
+      animation: spectrum-bounce 1.5s ease-in-out infinite;
+      box-shadow: 0 0 10px hsla(var(--hue), 70%, 60%, 0.3);
+    }
+
+    @keyframes spectrum-bounce {
+      0%, 100% {
+        transform: scaleY(0.3);
+      }
+      50% {
+        transform: scaleY(1);
+      }
     }
 
     .footer-content {
@@ -63,6 +109,8 @@
       grid-template-columns: 2fr 1fr 1fr;
       gap: 3rem;
       margin-bottom: 2rem;
+      position: relative;
+      z-index: 1;
     }
 
     .footer-logo {
@@ -119,6 +167,7 @@
     .footer-bottom {
       border-top: 1px solid rgba(255, 255, 255, 0.1);
       padding-top: 2rem;
+      margin: 0 8rem;
       text-align: center;
       color: rgba(255, 255, 255, 0.6);
     }

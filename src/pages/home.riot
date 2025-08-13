@@ -121,15 +121,34 @@
                     <sl-icon name="calendar"></sl-icon>
                     <span>{program.schedule}</span>
                   </div>
-                  <div class="meta-item-clean">
-                    <sl-icon name="users"></sl-icon>
-                    <span>2K+</span>
-                  </div>
                 </div>
-                <sl-button variant="default" size="small" outline class="listen-btn-clean">
-                  <sl-icon name="play"></sl-icon>
-                  Listen
-                </sl-button>
+                <sl-dropdown>
+                  <sl-button slot="trigger" variant="default" size="medium" class="options-btn" circle>
+                    <sl-icon name="chevron-down"></sl-icon>
+                  </sl-button>
+                  <sl-menu>
+                    <sl-menu-item>
+                      <sl-icon name="apple" slot="prefix"></sl-icon>
+                      Apple Podcasts
+                    </sl-menu-item>
+                    <sl-menu-item>
+                      <sl-icon name="spotify" slot="prefix"></sl-icon>
+                      Spotify
+                    </sl-menu-item>
+                    <sl-menu-item>
+                      <sl-icon name="amazon" slot="prefix"></sl-icon>
+                      Amazon Music
+                    </sl-menu-item>
+                    <sl-menu-item>
+                      <sl-icon name="youtube" slot="prefix"></sl-icon>
+                      YouTube Music
+                    </sl-menu-item>
+                    <sl-menu-item>
+                      <sl-icon name="rss" slot="prefix"></sl-icon>
+                      RSS Feed
+                    </sl-menu-item>
+                  </sl-menu>
+                </sl-dropdown>
               </div>
             </div>
           </div>
@@ -238,7 +257,13 @@
             category: "雑談",
             color: "pink",
             emoji: "🎨",
-            schedule: "不定期"
+            schedule: "不定期",
+            listen: {
+              spotify: "https://open.spotify.com/show/14DQJsbOMKJZ8ZYBR8jXdn?si=d2ad49ff0b1541d1",
+              apple: "https://podcasts.apple.com/us/podcast/%E4%BD%99%E8%AB%87%E3%81%A7%E3%81%99%E3%81%8C-fm/id1654903812",
+              amazon: "https://music.amazon.co.jp/podcasts/66281a8e-4946-4959-859a-ded2d043f090/%E4%BD%99%E8%AB%87%E3%81%A7%E3%81%99%E3%81%8C-fm",
+              rss: "https://stand.fm/rss/5e70dd5881d4e84e1ff1cab4"
+            }
           },
           {
             id: 2,
@@ -248,7 +273,13 @@
             category: "ライフ",
             color: "blue",
             emoji: "🗒️",
-            schedule: "不定期"
+            schedule: "不定期",
+            listen: {
+              spotify: "https://open.spotify.com/show/0BmrSZm67MRT6nd2qqXMTd?si=a35693154e914b14",
+              apple: "https://podcasts.apple.com/jp/podcast/keeth%E3%81%AE%E5%A3%B0%E6%97%A5%E8%A8%98/id1772090936",
+              amazon: "https://music.amazon.co.jp/podcasts/8c0ce814-31d3-4c65-9940-da0fb0c7fed7/keeth%E3%81%AE%E5%A3%B0%E6%97%A5%E8%A8%98",
+              rss: "https://rss.listen.style/p/keeth-daily/rss"
+            }
           },
           {
             id: 3,
@@ -258,27 +289,42 @@
             category: "雑談",
             color: "purple",
             emoji: "💚",
-            schedule: "不定期"
+            schedule: "不定期",
+            listen: {
+              spotify: "https://open.spotify.com/show/1KSoDQWaSayrTBHvZZMjnm?si=1ab90adaaf5d4137",
+              apple: "https://podcasts.apple.com/us/podcast/%E5%A5%BD%E3%81%8D%E3%81%AE%E5%AF%84%E3%82%8A%E9%81%93%E3%83%A9%E3%82%B8%E3%82%AA/id1772087350",
+              amazon: "https://music.amazon.co.jp/podcasts/bb834182-f53f-4010-b112-c1f7ede76bbc/%E5%A5%BD%E3%81%8D%E3%81%AE%E5%AF%84%E3%82%8A%E9%81%93%E3%83%A9%E3%82%B8%E3%82%AA",
+              rss: "https://rss.listen.style/p/sukiyori/rss"
+            }
           },
           {
             id: 4,
             title: "徒然なるままに頭の中を吐き出す",
             description: "タイトル通りの番組",
-            episodes: 3,
+            episodes: 24,
             category: "思考",
             color: "yellow",
             emoji: "⚙️",
-            schedule: "不定期"
+            schedule: "不定期",
+            listen: {
+              spotify: "https://open.spotify.com/show/72YBoURXl1LxtWhSeCdQPO?si=9a2cdcf40431441f",
+              apple: "https://podcasts.apple.com/jp/podcast/%E5%BE%92%E7%84%B6%E3%81%AA%E3%82%8B%E3%81%BE%E3%81%BE%E3%81%AB%E9%A0%AD%E3%81%AE%E4%B8%AD%E3%82%92%E5%90%90%E3%81%8D%E5%87%BA%E3%81%99%E5%A0%B4/id1784637944",
+              rss: "https://api.substack.com/feed/podcast/3447681.rss"
+            }
           },
           {
             id: 5,
             title: "染まりんさんな",
             description: "東京に染まってしまった広島人３人が広島の霊を取り戻す番組",
-            episodes: 3,
+            episodes: 7,
             category: "雑談",
             color: "mint",
             emoji: "💚",
-            schedule: "不定期"
+            schedule: "不定期",
+            listen: {
+              spotify: "https://open.spotify.com/show/1vCXwpGaZHjoyx2neFBFAp?si=954ae47964264af4",
+
+            }
           },
         ],
       },
@@ -542,7 +588,7 @@
     }
 
     .card-body-clean {
-      padding: 1.5rem;
+      padding: 1.5rem 1.5rem 0.75rem;
     }
 
     .program-title-clean {
@@ -557,12 +603,24 @@
       line-height: 1.5;
       margin-bottom: 1.5rem;
       font-size: 0.875rem;
+      min-height: 42px;
     }
 
     .card-footer-clean {
       display: flex;
       justify-content: space-between;
       align-items: center;
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--navy-200);
+      margin-left: -1.5rem;
+      margin-right: -1.5rem;
+      padding-left: 1.5rem;
+      padding-right: 1.5rem;
+    }
+
+    sl-menu-item sl-icon {
+      margin-right: 8px;
     }
 
     .program-meta-clean {
