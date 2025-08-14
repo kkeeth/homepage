@@ -1,6 +1,6 @@
 {
   "hero": {
-    "greeting": "Hi, I'm",
+    "title": "Program Lineup",
     "subtitle": "A passionate web developer crafting beautiful and functional digital experiences",
     "cta": {
       "work": "View My Work",
@@ -13,8 +13,9 @@
       "title": "ABOUT ME",
       "philosophy": "I believe in the power of technology to transform lives and make the world a better place. I am passionate about creating digital experiences that are not only beautiful but also functional and user-friendly. I am constantly learning and evolving to stay ahead in the fast-paced world of web development."
     },
-    "works": {
-      "title": "WORKS"
+    "program": {
+      "title": "Program Lineup",
+      "description": "Each has a different theme and style to suit your interests.<br>All programs offer a pleasant dialogue."
     },
     "output": {
       "title": "OUTPUT",
