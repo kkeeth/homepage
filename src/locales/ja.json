@@ -17,13 +17,6 @@
       "title": "番組ラインナップ",
       "description": "それぞれ異なるテーマとスタイルで、あなたの興味に合わせてお楽しみください。<br>すべての番組で心地よい対話をお届けします。"
     },
-    "output": {
-      "title": "OUTPUT",
-      "podcasts": "ポッドキャスト",
-      "blogs": "ブログ",
-      "artworks": "アート作品",
-      "viewAll": "全て見る"
-    },
     "contact": {
       "title": "CONTACT",
       "subtitle": "ご連絡",
@@ -32,22 +25,6 @@
     }
   },
   "sections": {
-    "about": {
-      "title": "ABOUT ME",
-      "description": "私のスキルと経験についてご紹介します。"
-    },
-    "works": {
-      "title": "WORKS",
-      "description": "最近の制作実績をご覧ください。"
-    },
-    "output": {
-      "title": "OUTPUT",
-      "description": "私のポッドキャスト、ブログ、アート作品をご覧ください。"
-    },
-    "contact": {
-      "title": "CONTACT",
-      "description": "お仕事のご依頼やご相談はこちらから"
-    },
     "readMore": "続きを読む"
   }
 }

@@ -58,6 +58,8 @@
         const next = Math.min(Math.max(1, page), this.totalPages());
         if (this.props.onPageChange) {
           this.props.onPageChange(next);
+          // ページャクリック時に画面上部へスクロール
+          window.scrollTo({ top: 330, behavior: 'instant' });
         }
       },
       getVisiblePages() {

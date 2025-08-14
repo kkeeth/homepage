@@ -76,6 +76,8 @@
 
         router.on.value(async (path) => {
           await this.onAnyRoute(path)
+          // ページ移動時に画面上部へスクロール
+          window.scrollTo({ top: 0, behavior: 'instant' })
         })
       },
       onAnyRoute(path) {

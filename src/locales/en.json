@@ -32,22 +32,6 @@
     }
   },
   "sections": {
-    "about": {
-      "title": "ABOUT ME",
-      "description": "Learn more about me and my skills."
-    },
-    "works": {
-      "title": "WORKS",
-      "description": "Check out some of my recent work and works."
-    },
-    "output": {
-      "title": "OUTPUT",
-      "description": "Explore my podcasts, blogs, and artworks"
-    },
-    "contact": {
-      "title": "CONTACT",
-      "description": "Click here to contact us for a job request or consultations"
-    },
     "readMore": "Read More"
   }
 }

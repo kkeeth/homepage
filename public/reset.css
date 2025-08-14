@@ -23,7 +23,7 @@ html {
 }
 @media (prefers-reduced-motion: no-preference) {
   html:focus-within {
-    scroll-behavior: smooth;
+    scroll-behavior: auto;
   }
 }
 body {

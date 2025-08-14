@@ -26,16 +26,22 @@
 
         <div class="footer-section">
           <h4>つながる</h4>
-          <div class="social-links">
-            <sl-button variant="text" size="large">
-              <sl-icon name="twitter"></sl-icon>
-            </sl-button>
-            <sl-button variant="text" size="large">
+          <div class="platform-links">
+            <a href="https://podcasts.apple.com/jp/podcast/雨宿りとwebの小噺-fm/id1516699977" target="_blank" class="platform-link">
+              <sl-icon name="apple"></sl-icon>
+            </a>
+            <a href="https://open.spotify.com/show/4ZqUQtob7eJrz9DQV7lPVd" target="_blank" class="platform-link">
+              <sl-icon name="spotify"></sl-icon>
+            </a>
+            <a href="https://music.amazon.co.jp/podcasts/1ea89476-2b4f-4ba4-8260-57ed5ef45df5" target="_blank" class="platform-link">
+              <sl-icon name="amazon"></sl-icon>
+            </a>
+            <a href="https://music.youtube.com/playlist?list=PLVncrZRHU7RjSBziqoUGmfsyM41SY_l4u" target="_blank" class="platform-link">
               <sl-icon name="youtube"></sl-icon>
-            </sl-button>
-            <sl-button variant="text" size="large">
+            </a>
+            <a href="https://rss.art19.com/kkeethengineers" target="_blank" class="platform-link">
               <sl-icon name="rss"></sl-icon>
-            </sl-button>
+            </a>
           </div>
         </div>
       </div>
@@ -159,9 +165,33 @@
       color: white;
     }
 
-    .social-links {
+    .platform-links {
       display: flex;
-      gap: 0.5rem;
+      gap: 0.75rem;
+    }
+
+    .platform-link {
+      display: flex;
+      align-items: center;
+      transition: all 0.2s ease;
+      padding: 0.5rem;
+      border-radius: 0.5rem;
+    }
+
+    .platform-link:hover {
+      color: var(--sl-color-neutral-0);
+      background: var(--white-10);
+      transform: translateX(4px);
+    }
+
+    .platform-link sl-icon {
+      font-size: 1.15rem;
+      color: var(--sl-color-primary-400);
+    }
+
+    .platform-link span {
+      font-size: 0.875rem;
+      font-weight: 500;
     }
 
     .footer-bottom {

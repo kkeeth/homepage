@@ -3,6 +3,94 @@
     <!-- Hero Section - Clean Modern Layout -->
     <hero-section />
 
+    <!-- Main Program Introduction -->
+    <section class="main-program-section">
+      <div class="container">
+        <div class="main-program-content">
+          <div class="program-stats">
+            <h2 class="stats-title">番組の実績</h2>
+
+            <div class="stats-grid">
+              <div class="stat-card">
+                <div class="stat-number">400+</div>
+                <div class="stat-label">エピソード</div>
+                <div class="stat-description">2020年開始から継続配信</div>
+              </div>
+
+              <div class="stat-card">
+                <div class="stat-number">5</div>
+                <div class="stat-label">プラットフォーム</div>
+                <div class="stat-description">主要配信サービスで展開</div>
+              </div>
+
+              <div class="stat-card">
+                <div class="stat-number">毎週</div>
+                <div class="stat-label">定期配信</div>
+                <div class="stat-description">継続的な情報発信</div>
+              </div>
+
+              <div class="stat-card">
+                <div class="stat-number">Tech</div>
+                <div class="stat-label">専門分野</div>
+                <div class="stat-description">フロントエンド・Web開発</div>
+              </div>
+            </div>
+
+            <div class="program-features">
+              <div class="feature-item">
+                <sl-icon name="code-slash"></sl-icon>
+                <span>Web開発の技術トピック</span>
+              </div>
+              <div class="feature-item">
+                <sl-icon name="lightbulb"></sl-icon>
+                <span>日常の気づきと学び</span>
+              </div>
+              <div class="feature-item">
+                <sl-icon name="palette"></sl-icon>
+                <span>アート・クリエイティブ</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="platform-subscription">
+            <h3>各プラットフォーム</h3>
+            <div class="platform-grid">
+              <a href="https://podcasts.apple.com/jp/podcast/雨宿りとwebの小噺-fm/id1516699977" target="_blank" class="platform-card">
+                <div class="platform-icon apple">
+                  <sl-icon name="apple"></sl-icon>
+                </div>
+                <span>Apple Podcasts</span>
+              </a>
+              <a href="https://open.spotify.com/show/4ZqUQtob7eJrz9DQV7lPVd" target="_blank" class="platform-card">
+                <div class="platform-icon spotify">
+                  <sl-icon name="spotify"></sl-icon>
+                </div>
+                <span>Spotify</span>
+              </a>
+              <a href="https://music.amazon.co.jp/podcasts/1ea89476-2b4f-4ba4-8260-57ed5ef45df5" target="_blank" class="platform-card">
+                <div class="platform-icon amazon">
+                  <sl-icon name="amazon"></sl-icon>
+                </div>
+                <span>Amazon Music</span>
+              </a>
+              <a href="https://music.youtube.com/playlist?list=PLVncrZRHU7RjSBziqoUGmfsyM41SY_l4u" target="_blank" class="platform-card">
+                <div class="platform-icon youtube">
+                  <sl-icon name="youtube"></sl-icon>
+                </div>
+                <span>YouTube Music</span>
+              </a>
+              <a href="https://rss.art19.com/kkeethengineers" target="_blank" class="platform-card">
+                <div class="platform-icon rss">
+                  <sl-icon name="rss"></sl-icon>
+                </div>
+                <span>RSS Feed</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- Latest Episodes Section -->
     <section class="episodes-section">
       <div class="section-content">
@@ -45,122 +133,65 @@
         </div>
 
         <div class="programs-masonry">
-          <div class="program-card-clean" each={program in state.otherPrograms} key={program.id}>
-            <div class="card-header-clean {program.color}">
-              <div class="header-content">
+          <div class="program-card-unified" each={program in state.otherPrograms} key={program.id}>
+            <!-- Program Artwork -->
+            <div class="program-artwork">
+              <img src={program.artworkUrl} alt={program.title} class="artwork-image" />
+              <div class="artwork-overlay">
                 <span class="category-badge">{program.category}</span>
-                <span class="episode-count">{program.episodes} episodes</span>
+                <span class="episode-count">{program.episodes}話</span>
               </div>
             </div>
 
-            <div class="card-body-clean">
-              <h3 class="program-title-clean">{program.title}</h3>
-              <p class="program-description-clean">{program.description}</p>
+            <!-- Program Content -->
+            <div class="program-content">
+              <h3 class="program-title">{program.title}</h3>
+              <p class="program-description">{program.description}</p>
 
-              <div class="card-footer-clean">
-                <div class="program-meta-clean">
-                  <div class="meta-item-clean">
-                    <sl-icon name="calendar"></sl-icon>
-                    <span>{program.schedule}</span>
-                  </div>
+              <div class="program-meta">
+                <div class="meta-item">
+                  <sl-icon name="calendar"></sl-icon>
+                  <span>{program.schedule}</span>
                 </div>
-                <sl-dropdown>
-                  <sl-button slot="trigger" variant="default" size="medium" class="options-btn" circle>
-                    <sl-icon name="chevron-down"></sl-icon>
-                  </sl-button>
-                  <sl-menu>
-                    <sl-menu-item>
-                      <sl-icon name="apple" slot="prefix"></sl-icon>
-                      <a href={program.listen.apple} target="_blank">Apple Podcasts</a>
-                    </sl-menu-item>
-                    <sl-menu-item>
-                      <sl-icon name="spotify" slot="prefix"></sl-icon>
-                      <a href={program.listen.spotify} target="_blank">Spotify</a>
-                    </sl-menu-item>
-                    <sl-menu-item>
-                      <sl-icon name="amazon" slot="prefix"></sl-icon>
-                      <a href={program.listen.amazon} target="_blank">Amazon Music</a>
-                    </sl-menu-item>
-                    <sl-menu-item>
-                      <sl-icon name="youtube" slot="prefix"></sl-icon>
-                      <a href={program.listen.youtube} target="_blank">YouTube Music</a>
-                    </sl-menu-item>
-                    <sl-menu-item>
-                      <sl-icon name="rss" slot="prefix"></sl-icon>
-                      <a href={program.listen.rss} target="_blank">RSS Feed</a>
-                    </sl-menu-item>
-                  </sl-menu>
-                </sl-dropdown>
               </div>
+            </div>
+
+            <!-- Program Actions -->
+            <div class="program-actions">
+              <sl-dropdown>
+                <sl-button slot="trigger" variant="default" size="small" class="listen-btn">
+                  <sl-icon name="play"></sl-icon>
+                  聴く
+                  <sl-icon name="chevron-down" slot="suffix"></sl-icon>
+                </sl-button>
+                <sl-menu>
+                  <sl-menu-item if={program.listen.apple}>
+                    <sl-icon name="apple" slot="prefix"></sl-icon>
+                    <a href={program.listen.apple} target="_blank">Apple Podcasts</a>
+                  </sl-menu-item>
+                  <sl-menu-item if={program.listen.spotify}>
+                    <sl-icon name="spotify" slot="prefix"></sl-icon>
+                    <a href={program.listen.spotify} target="_blank">Spotify</a>
+                  </sl-menu-item>
+                  <sl-menu-item if={program.listen.amazon}>
+                    <sl-icon name="amazon" slot="prefix"></sl-icon>
+                    <a href={program.listen.amazon} target="_blank">Amazon Music</a>
+                  </sl-menu-item>
+                  <sl-menu-item if={program.listen.youtube}>
+                    <sl-icon name="youtube" slot="prefix"></sl-icon>
+                    <a href={program.listen.youtube} target="_blank">YouTube Music</a>
+                  </sl-menu-item>
+                  <sl-menu-item if={program.listen.rss}>
+                    <sl-icon name="rss" slot="prefix"></sl-icon>
+                    <a href={program.listen.rss} target="_blank">RSS Feed</a>
+                  </sl-menu-item>
+                </sl-menu>
+              </sl-dropdown>
             </div>
           </div>
         </div>
       </div>
     </section>
-
-    <!-- Subscribe Section -->
-    <section class="subscribe-section">
-      <div class="container">
-        <div class="subscribe-content">
-          <h2>すべての番組を購読</h2>
-          <p>お気に入りのプラットフォームで、すべての番組をお楽しみください</p>
-
-          <div class="platform-links">
-            <sl-button
-              variant="default"
-              size="large"
-              class="platform-btn"
-              href="https://podcasts.apple.com/jp/podcast/雨宿りとwebの小噺-fm/id1516699977"
-              target="_blank"
-            >
-              <sl-icon name="apple"></sl-icon>
-              Apple Podcasts
-            </sl-button>
-            <sl-button
-              variant="default"
-              size="large"
-              class="platform-btn"
-              href="https://open.spotify.com/show/4ZqUQtob7eJrz9DQV7lPVd?si=bcba5b008ab9470c"
-              target="_blank"
-            >
-              <sl-icon name="spotify"></sl-icon>
-              Spotify
-            </sl-button>
-            <sl-button
-              variant="default"
-              size="large"
-              class="platform-btn"
-              href="https://music.amazon.co.jp/podcasts/1ea89476-2b4f-4ba4-8260-57ed5ef45df5/雨宿りとwebの小噺-fm"
-              target="_blank"
-            >
-              <sl-icon name="amazon"></sl-icon>
-              Amazon Music
-            </sl-button>
-            <sl-button
-              variant="default"
-              size="large"
-              class="platform-btn"
-              href="https://music.youtube.com/playlist?list=PLVncrZRHU7RjSBziqoUGmfsyM41SY_l4u&si=jFXOyoCaTJ1j_qTz"
-              target="_blank"
-            >
-              <sl-icon name="youtube"></sl-icon>
-              YouTube Music
-            </sl-button>
-            <sl-button
-              variant="default"
-              size="large"
-              class="platform-btn"
-              href="https://rss.art19.com/kkeethengineers"
-              target="_blank"
-            >
-              <sl-icon name="rss"></sl-icon>
-              RSS Feed
-            </sl-button>
-          </div>
-        </div>
-      </div>
-    </section>
-
   </div>
 
   <script>
@@ -172,7 +203,7 @@
           const RSS_URL = import.meta.env.VITE_RSS_URL;
           const episodes = await fetchRSSFeed(RSS_URL);
           this.update({
-            latestEpisodes: getLatestEpisodes(episodes, 6),
+            latestEpisodes: getLatestEpisodes(episodes, 3),
             programEpisodes: getRandomEpisodes(episodes, 3).map((episode, index) => ({
               id: index + 1,
               title: episode.title,
@@ -197,8 +228,7 @@
             description: "デザインやアートのこと、創作の楽しさを語る番組",
             episodes: 12,
             category: "雑談",
-            color: "pink",
-            emoji: "🎨",
+            artworkUrl: "/src/assets/yodan.png",
             schedule: "不定期",
             listen: {
               spotify: "https://open.spotify.com/show/14DQJsbOMKJZ8ZYBR8jXdn?si=d2ad49ff0b1541d1",
@@ -213,8 +243,7 @@
             description: "声による日々の日記",
             episodes: 18,
             category: "ライフ",
-            color: "blue",
-            emoji: "🗒️",
+            artworkUrl: "/src/assets/daily.png",
             schedule: "不定期",
             listen: {
               spotify: "https://open.spotify.com/show/0BmrSZm67MRT6nd2qqXMTd?si=a35693154e914b14",
@@ -229,8 +258,7 @@
             description: "好きなものを熱く語る番組",
             episodes: 3,
             category: "雑談",
-            color: "purple",
-            emoji: "💚",
+            artworkUrl: "/src/assets/sukiyori.png",
             schedule: "不定期",
             listen: {
               spotify: "https://open.spotify.com/show/1KSoDQWaSayrTBHvZZMjnm?si=1ab90adaaf5d4137",
@@ -245,8 +273,7 @@
             description: "タイトル通りの番組",
             episodes: 24,
             category: "思考",
-            color: "yellow",
-            emoji: "⚙️",
+            artworkUrl: "/src/assets/any_talk.png",
             schedule: "不定期",
             listen: {
               spotify: "https://open.spotify.com/show/72YBoURXl1LxtWhSeCdQPO?si=9a2cdcf40431441f",
@@ -258,11 +285,10 @@
           {
             id: 5,
             title: "染まりんさんな",
-            description: "東京に染まってしまった広島人３人が広島の霊を取り戻す番組",
+            description: "東京に染まってしまった３人が広島の霊を取り戻す番組",
             episodes: 7,
             category: "雑談",
-            color: "mint",
-            emoji: "💚",
+            artworkUrl: "/src/assets/somarinsanna.avif",
             schedule: "不定期",
             listen: {
               spotify: "https://open.spotify.com/show/1vCXwpGaZHjoyx2neFBFAp?si=954ae47964264af4",
@@ -311,135 +337,151 @@
     /* Programs Section */
     .programs-masonry {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 2rem;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
       margin-top: 3rem;
     }
 
-    /* Clean card design for other programs */
-    .program-card-clean {
-      background: white;
+    /* Unified Program Card Design */
+    .program-card-unified {
+      background: var(--sl-color-neutral-0);
       border-radius: 1rem;
       overflow: hidden;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-      border: 1px solid var(--mint-200);
-      transition: transform 0.3s, box-shadow 0.3s;
+      box-shadow: 0 4px 20px hsl(0 0% 0% / 0.08);
+      border: 1px solid var(--sl-color-neutral-200);
+      transition: all 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
     }
 
-    .program-card-clean:hover {
+    .program-card-unified:hover {
       transform: translateY(-4px);
-      box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+      box-shadow: 0 8px 30px hsl(0 0% 0% / 0.12);
+      border-color: var(--sl-color-primary-300);
     }
 
-    .card-header-clean {
-      padding: 1.5rem;
-      color: white;
+    /* Program Artwork Section */
+    .program-artwork {
       position: relative;
+      aspect-ratio: 1;
+      overflow: hidden;
     }
 
-    .card-header-clean.pink {
-      background: linear-gradient(135deg, #a855f7, #7c3aed);
+    .artwork-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s ease;
     }
 
-    .card-header-clean.blue {
-      background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+    .program-card-unified:hover .artwork-image {
+      transform: scale(1.05);
     }
 
-    .card-header-clean.purple {
-      background: linear-gradient(135deg, #8b5cf6, #6d28d9);
-    }
-
-    .card-header-clean.yellow {
-      background: linear-gradient(135deg, #f59e0b, #d97706);
-    }
-
-    .card-header-clean.mint {
-      background: linear-gradient(135deg, #10b981, #059669);
-    }
-
-    .header-content {
+    .artwork-overlay {
+      position: absolute;
+      top: 1rem;
+      left: 1rem;
+      right: 1rem;
       display: flex;
       justify-content: space-between;
-      align-items: center;
+      align-items: flex-start;
     }
 
     .category-badge {
-      background: rgba(255, 255, 255, 0.2);
-      padding: 0.5rem 1rem;
-      border-radius: 1.5rem;
-      font-size: 0.875rem;
+      background: var(--white-90);
+      color: var(--sl-color-neutral-700);
+      padding: 0.375rem 0.75rem;
+      border-radius: 1rem;
+      font-size: 0.75rem;
       font-weight: 600;
       backdrop-filter: blur(10px);
+      border: 1px solid var(--white-20);
     }
 
     .episode-count {
+      background: var(--white-90);
+      color: var(--sl-color-neutral-700);
+      padding: 0.375rem 0.75rem;
+      border-radius: 1rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--white-20);
+    }
+
+    /* Program Content */
+    .program-content {
+      padding: 1.5rem;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .program-title {
+      font-size: 1.125rem;
+      font-weight: 700;
+      color: var(--sl-color-neutral-900);
+      margin-bottom: 0.75rem;
+      line-height: 1.4;
+    }
+
+    .program-description {
+      color: var(--sl-color-neutral-600);
+      line-height: 1.5;
+      font-size: 0.875rem;
+      margin-bottom: 1rem;
+      flex: 1;
+    }
+
+    .program-meta {
+      margin-bottom: 1rem;
+    }
+
+    .meta-item {
+      display: flex;
+      align-items: center;
+      gap: 0.375rem;
+      color: var(--sl-color-neutral-500);
+      font-size: 0.75rem;
+    }
+
+    .meta-item sl-icon {
+      font-size: 0.875rem;
+    }
+
+    /* Program Actions */
+    .program-actions {
+      padding: 0 1.5rem 1.5rem;
+    }
+
+    .listen-btn::part(base) {
+      border-radius: 0.5rem;
       font-size: 0.875rem;
       font-weight: 600;
-      opacity: 0.9;
+      width: 100%;
+      background: var(--sl-color-primary-50);
+      color: var(--sl-color-primary-700);
+      border: 1px solid var(--sl-color-primary-200);
     }
 
-    .card-body-clean {
-      padding: 1.5rem 1.5rem 0.75rem;
+    .listen-btn:hover::part(base) {
+      background: var(--sl-color-primary-100);
+      border-color: var(--sl-color-primary-300);
     }
 
-    .program-title-clean {
-      font-size: 1.25rem;
-      font-weight: bold;
-      color: var(--navy-800);
-      margin-bottom: 0.75rem;
-    }
-
-    .program-description-clean {
-      color: var(--navy-600);
-      line-height: 1.5;
-      margin-bottom: 1.5rem;
-      font-size: 0.875rem;
-      min-height: 42px;
-    }
-
-    .card-footer-clean {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-top: 1rem;
-      padding-top: 1rem;
-      border-top: 1px solid var(--navy-200);
-      margin-left: -1.5rem;
-      margin-right: -1.5rem;
-      padding-left: 1.5rem;
-      padding-right: 1.5rem;
-    }
-
+    /* Menu Items */
     sl-menu-item a {
       text-decoration: none;
       color: inherit;
+      display: flex;
+      align-items: center;
+      width: 100%;
     }
 
     sl-menu-item sl-icon {
       margin-right: 8px;
-    }
-
-    .program-meta-clean {
-      display: flex;
-      gap: 1rem;
-    }
-
-    .meta-item-clean {
-      display: flex;
-      align-items: center;
-      gap: 0.25rem;
-      color: var(--navy-500);
-      font-size: 0.75rem;
-    }
-
-    .meta-item-clean sl-icon {
-      font-size: 0.875rem;
-    }
-
-    .listen-btn-clean::part(base) {
-      border-radius: 1.5rem;
-      font-size: 0.75rem;
-      font-weight: 600;
     }
 
     /* program Episodes Section */
@@ -485,60 +527,240 @@
       50% { transform: translateY(-5px) rotate(var(--rotation, 0deg)); }
     }
 
-    /* Latest Episodes Section Styles */
-    .subscribe-section {
+    /* Main Program Section Styles */
+    .main-program-section {
       padding: 4rem 2rem;
-      background: var(--mint-50);
+      background: linear-gradient(135deg, var(--sl-color-neutral-50) 0%, var(--sl-color-sky-50) 100%);
+      border-top: 1px solid var(--sl-color-neutral-200);
     }
 
-    .subscribe-content {
+    .main-program-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 4rem;
+      align-items: start;
+    }
+
+    .stats-title {
+      font-size: 2.75rem;
+      font-weight: 800;
+      color: var(--sl-color-neutral-900);
+      margin-bottom: 0.75rem;
+      letter-spacing: -0.02em;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.5rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .stat-card {
+      background: var(--sl-color-neutral-0);
+      padding: 1.5rem;
+      border-radius: 1rem;
+      text-align: center;
+      border: 2px solid var(--sl-color-neutral-200);
+      transition: all 0.3s ease;
+    }
+
+    .stat-card:hover {
+      border-color: var(--sl-color-primary-300);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px hsl(0 0% 0% / 0.1);
+    }
+
+    .stat-number {
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: var(--sl-color-primary-600);
+      margin-bottom: 0.5rem;
+    }
+
+    .stat-label {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--sl-color-neutral-900);
+      margin-bottom: 0.5rem;
+    }
+
+    .stat-description {
+      font-size: 0.875rem;
+      color: var(--sl-color-neutral-600);
+      line-height: 1.4;
+    }
+
+    .program-features {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .feature-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem;
+      background: var(--sl-color-neutral-50);
+      border-radius: 0.75rem;
+      border: 1px solid var(--sl-color-neutral-200);
+    }
+
+    .feature-item sl-icon {
+      font-size: 1.25rem;
+      color: var(--sl-color-primary-600);
+    }
+
+    .feature-item span {
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: var(--sl-color-neutral-700);
+    }
+
+    .platform-subscription h3 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--sl-color-neutral-900);
+      margin-bottom: 1.5rem;
       text-align: center;
     }
 
-    .subscribe-content h2 {
-      font-size: 2.5rem;
-      font-weight: bold;
-      margin-bottom: 1rem;
-    }
-
-    .subscribe-content p {
-      font-size: 1.125rem;
-      opacity: 0.9;
-      margin-bottom: 3rem;
-    }
-
-    .platform-links {
-      display: flex;
-      justify-content: center;
+    .platform-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
       gap: 1rem;
-      flex-wrap: wrap;
     }
 
-    .platform-links sl-button {
-      width: 176px;
+    .platform-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 1.5rem 1rem;
+      background: var(--sl-color-neutral-0);
+      border: 2px solid var(--sl-color-neutral-200);
+      border-radius: 1rem;
+      text-decoration: none;
+      color: var(--sl-color-neutral-700);
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 8px hsl(0 0% 0% / 0.05);
+    }
+
+    .platform-card:hover {
+      border-color: var(--sl-color-primary-300);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px hsl(0 0% 0% / 0.1);
+      color: var(--sl-color-primary-700);
+    }
+
+    .platform-icon {
+      width: 2.5rem;
+      height: 2.5rem;
+      border-radius: 0.75rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 0.75rem;
+      transition: transform 0.3s ease;
+    }
+
+    .platform-card:hover .platform-icon {
+      transform: scale(1.1);
+    }
+
+    .platform-icon.apple {
+      background: var(--sl-color-neutral-900);
+      color: var(--sl-color-neutral-0);
+    }
+
+    .platform-icon.spotify {
+      background: #1DB954;
+      color: var(--sl-color-neutral-0);
+    }
+
+    .platform-icon.amazon {
+      background: #FF9900;
+      color: var(--sl-color-neutral-0);
+    }
+
+    .platform-icon.youtube {
+      background: #FF0000;
+      color: var(--sl-color-neutral-0);
+    }
+
+    .platform-icon.rss {
+      background: var(--sl-color-orange-500);
+      color: var(--sl-color-neutral-0);
+    }
+
+    .platform-icon sl-icon {
+      font-size: 1.25rem;
+    }
+
+    .platform-card span {
+      font-size: 0.875rem;
+      font-weight: 600;
+      text-align: center;
     }
 
     @media (max-width: 768px) {
-      .hero-content,
-      .community-content-fun {
+      .main-program-content {
         grid-template-columns: 1fr;
-        gap: 3rem;
+        gap: 2.5rem;
       }
 
-      .character-image {
-        width: 12rem;
-        height: 12rem;
+      .stats-title {
+        font-size: 2.25rem;
+      }
+
+      .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+      }
+
+      .stat-number {
+        font-size: 2rem;
+      }
+
+      .platform-grid {
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+        margin: 0 2rem;
+      }
+
+      .platform-card {
+        flex-direction: row;
+        justify-content: flex-start;
+        padding: 1rem 1.25rem;
+        text-align: left;
+      }
+
+      .platform-icon {
+        margin-bottom: 0;
+        margin-right: 1rem;
+        width: 2rem;
+        height: 2rem;
+      }
+
+      .platform-icon sl-icon {
+        font-size: 1rem;
       }
     }
 
     @media (max-width: 480px) {
-      .programs-masonry {
-        grid-template-columns: 1fr;
+      .main-program-section {
+        padding: 3rem 1.5rem;
       }
 
-      .platform-links {
-        flex-direction: column;
-        align-items: center;
+      .stats-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+
+      .programs-masonry {
+        grid-template-columns: 1fr;
       }
     }
   </style>
