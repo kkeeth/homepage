@@ -21,6 +21,8 @@
         variant={page === props.currentPage ? "primary" : "neutral"}
         size="small"
         circle
+        outline
+        class={page === props.currentPage ? "target" : ""}
         onclick={() => changePage(page)}
       >
         {page}
@@ -97,6 +99,11 @@
     .pages {
       display: flex;
       gap: 0.25rem;
+    }
+
+    sl-button.target::part(base) {
+      background: var(--sl-color-primary-600);
+      color: var(--sl-color-neutral-0);
     }
 
     sl-button::part(base) {
