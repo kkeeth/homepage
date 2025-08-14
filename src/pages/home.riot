@@ -153,40 +153,38 @@
                   <sl-icon name="calendar"></sl-icon>
                   <span>{program.schedule}</span>
                 </div>
+                <div class="program-actions">
+                  <sl-dropdown>
+                    <sl-button slot="trigger" variant="default" size="small" class="listen-btn">
+                      <sl-icon name="play"></sl-icon>
+                      聴く
+                      <sl-icon name="chevron-down" slot="suffix"></sl-icon>
+                    </sl-button>
+                    <sl-menu>
+                      <sl-menu-item if={program.listen.apple}>
+                        <sl-icon name="apple" slot="prefix"></sl-icon>
+                        <a href={program.listen.apple} target="_blank">Apple Podcasts</a>
+                      </sl-menu-item>
+                      <sl-menu-item if={program.listen.spotify}>
+                        <sl-icon name="spotify" slot="prefix"></sl-icon>
+                        <a href={program.listen.spotify} target="_blank">Spotify</a>
+                      </sl-menu-item>
+                      <sl-menu-item if={program.listen.amazon}>
+                        <sl-icon name="amazon" slot="prefix"></sl-icon>
+                        <a href={program.listen.amazon} target="_blank">Amazon Music</a>
+                      </sl-menu-item>
+                      <sl-menu-item if={program.listen.youtube}>
+                        <sl-icon name="youtube" slot="prefix"></sl-icon>
+                        <a href={program.listen.youtube} target="_blank">YouTube Music</a>
+                      </sl-menu-item>
+                      <sl-menu-item if={program.listen.rss}>
+                        <sl-icon name="rss" slot="prefix"></sl-icon>
+                        <a href={program.listen.rss} target="_blank">RSS Feed</a>
+                      </sl-menu-item>
+                    </sl-menu>
+                  </sl-dropdown>
+                </div>
               </div>
-            </div>
-
-            <!-- Program Actions -->
-            <div class="program-actions">
-              <sl-dropdown>
-                <sl-button slot="trigger" variant="default" size="small" class="listen-btn">
-                  <sl-icon name="play"></sl-icon>
-                  聴く
-                  <sl-icon name="chevron-down" slot="suffix"></sl-icon>
-                </sl-button>
-                <sl-menu>
-                  <sl-menu-item if={program.listen.apple}>
-                    <sl-icon name="apple" slot="prefix"></sl-icon>
-                    <a href={program.listen.apple} target="_blank">Apple Podcasts</a>
-                  </sl-menu-item>
-                  <sl-menu-item if={program.listen.spotify}>
-                    <sl-icon name="spotify" slot="prefix"></sl-icon>
-                    <a href={program.listen.spotify} target="_blank">Spotify</a>
-                  </sl-menu-item>
-                  <sl-menu-item if={program.listen.amazon}>
-                    <sl-icon name="amazon" slot="prefix"></sl-icon>
-                    <a href={program.listen.amazon} target="_blank">Amazon Music</a>
-                  </sl-menu-item>
-                  <sl-menu-item if={program.listen.youtube}>
-                    <sl-icon name="youtube" slot="prefix"></sl-icon>
-                    <a href={program.listen.youtube} target="_blank">YouTube Music</a>
-                  </sl-menu-item>
-                  <sl-menu-item if={program.listen.rss}>
-                    <sl-icon name="rss" slot="prefix"></sl-icon>
-                    <a href={program.listen.rss} target="_blank">RSS Feed</a>
-                  </sl-menu-item>
-                </sl-menu>
-              </sl-dropdown>
             </div>
           </div>
         </div>
@@ -436,6 +434,8 @@
     }
 
     .program-meta {
+      display: flex;
+      justify-content: space-between;
       margin-bottom: 1rem;
     }
 
@@ -449,11 +449,6 @@
 
     .meta-item sl-icon {
       font-size: 0.875rem;
-    }
-
-    /* Program Actions */
-    .program-actions {
-      padding: 0 1.5rem 1.5rem;
     }
 
     .listen-btn::part(base) {
