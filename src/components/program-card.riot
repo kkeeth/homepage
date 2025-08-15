@@ -1,52 +1,145 @@
 <program-card>
   <div class="program-grid">
     <div class="program-card" each={episode in props.programEpisodes} key={episode.id}>
-      <div class="program-image {episode.imageClass}">
-        <img src={episode.imageUrl || "/placeholder.svg"} alt={episode.title} class="episode-image">
+      <div class="card-header">
+        <div class="episode-image-container">
+          <img src={episode.imageUrl || "/placeholder.svg"} alt={episode.title} class="episode-image">
+        </div>
+        <div class="episode-meta">
+          <span class="episode-date">{episode.pubDate}</span>
+          <div class="episode-indicator"></div>
+        </div>
       </div>
 
-      <div class="program-content">
-        <div class="episode-date">{episode.pubDate}</div>
+      <div class="card-body">
         <h3 class="card-title">{episode.title}</h3>
-        <p class="program-description">{episode.description}</p>
+        <p class="card-description">{truncateText(episode.description)}</p>
 
-        <sl-divider></sl-divider>
-
-        <div class="program-actions">
-          <sl-button variant="neutral" size="medium" href={episode.link} pill>
-            <sl-icon name="play"></sl-icon>
-            LISTEN
+        <div class="card-actions">
+          <sl-button variant="primary" size="medium" href={episode.link} class="listen-btn">
+            <sl-icon name="play-fill"></sl-icon>
+            再生
           </sl-button>
         </div>
       </div>
     </div>
   </div>
-  <div class="view-all-episodes" if={props.showMore}>
-    <sl-badge  pill pulse>
-      <a href="/programs">すべてのエピソードを見る</a>
-    </sl-badge>
+
+  <div class="view-all-section" if={props.showMore}>
+    <sl-button variant="outline" size="large" href="/programs" class="view-all-btn">
+      すべてのエピソードを見る
+      <sl-icon name="arrow-right" slot="suffix"></sl-icon>
+    </sl-button>
   </div>
+
+  <script>
+    import { truncateText } from '../utils/truncateText.js'
+
+    export default {
+      truncateText
+    }
+  </script>
 
   <style>
     .program-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-      gap: 3rem;
-      place-items: center;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 2rem;
+      margin-bottom: 3rem;
     }
 
     .program-card {
-      border-radius: 1.5rem;
+      background: var(--white);
+      border: 1px solid var(--gray-200);
+      border-radius: 16px;
       overflow: hidden;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-      transition: transform 0.3s, box-shadow 0.3s;
-      max-width: 350px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+      transition: all 0.3s ease;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .program-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1);
+      border-color: var(--blue-300);
+    }
+
+    .card-header {
+      position: relative;
+      background: var(--gray-50);
+      padding: 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .episode-image-container {
+      width: 120px;
+      border-radius: 12px;
+      overflow: hidden;
+      flex-shrink: 0;
+      background: var(--white);
+      border: 2px solid var(--gray-200);
+    }
+
+    .episode-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .episode-meta {
+      flex: 1;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .episode-date {
+      font-size: 0.875rem;
+      color: var(--text-light);
+      font-weight: 500;
+      background: var(--white);
+      padding: 0.25rem 0.75rem;
+      border-radius: 20px;
+      border: 1px solid var(--gray-200);
+    }
+
+    .episode-indicator {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--blue-400), var(--blue-600));
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    .card-body {
+      padding: 1.5rem;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
     }
 
     .card-title {
-      line-height: 1.4;
-      margin-bottom: 0.75rem;
-      height: calc(1.4em * 3);
+      font-size: 1.25rem;
+      font-weight: 700;
+      line-height: 1.3;
+      color: var(--text-dark);
+      margin: 0;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .card-description {
+      color: var(--text-color);
+      line-height: 1.5;
+      font-size: 0.95rem;
+      margin: 0;
       display: -webkit-box;
       -webkit-line-clamp: 3;
       -webkit-box-orient: vertical;
@@ -54,167 +147,112 @@
       text-overflow: ellipsis;
     }
 
-    .program-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+    .card-actions {
+      margin-top: auto;
+      padding-top: 1rem;
     }
 
-    .program-description {
-      height: 160px;
-    }
-
-    .program-image {
-      height: 100%;
-      overflow: hidden;
-      position: relative;
-    }
-
-    .program-image.mint {
-      background: var(--image-bg);
-    }
-
-    .program-image.blue-gradient {
-      background: linear-gradient(135deg, #3b82f6, #1e40af);
-    }
-
-    .program-image.dark-theme {
-      background: linear-gradient(135deg, #1f2937, #111827);
-    }
-
-    .program-image.warm-gradient {
-      background: linear-gradient(135deg, #f97316, #ea580c, #ec4899);
-    }
-
-    .episode-image {
+    .listen-btn::part(base) {
       width: 100%;
-      height: 100%;
-      object-fit: contain;
-    }
-
-    .program-content {
-      padding: 1.5rem;
-    }
-
-    .program-actions {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-end;
-    }
-
-    .view-all-episodes {
-      text-align: center;
-      margin-top: 3rem;
-    }
-
-    .view-all-episodes a {
-      padding: 0.75rem 2rem;
+      border-radius: 10px;
       font-weight: 600;
-      color: white;
-      text-decoration: none;
+      background: linear-gradient(135deg, var(--blue-600), var(--blue-700));
+      border: none;
+      padding: 0.75rem 1.5rem;
+      color: var(--white);
     }
 
-    .view-all-episodes a:hover {
-      cursor: pointer;
+    .listen-btn:hover::part(base) {
+      background: linear-gradient(135deg, var(--blue-700), var(--blue-800));
+      transform: translateY(-2px);
     }
 
-    sl-divider {
-      height: 1px;
-      margin: 1rem 0;
-      margin-left: -1.5rem;
+    .view-all-section {
+      text-align: center;
+      margin-top: 2rem;
     }
 
+    .view-all-btn::part(base) {
+      border: 2px solid var(--orange-400);
+      color: var(--orange-600);
+      border-radius: 50px;
+      padding: 1rem 2rem;
+      font-weight: 600;
+      background: var(--white);
+      transition: all 0.3s ease;
+    }
+
+    .view-all-btn:hover::part(base) {
+      background: var(--orange-500);
+      color: var(--white);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(249, 115, 22, 0.3);
+    }
+
+    @keyframes pulse {
+      0%, 100% {
+        opacity: 1;
+        transform: scale(1);
+      }
+      50% {
+        opacity: 0.7;
+        transform: scale(1.1);
+      }
+    }
+
+    /* Responsive Design */
     @media (max-width: 768px) {
+      .program-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+      }
+
+      .card-header {
+        padding: 1rem;
+      }
+
+      .episode-image-container {
+        width: 60px;
+        height: 60px;
+      }
+
+      .card-body {
+        padding: 1rem;
+      }
+
+      .card-title {
+        font-size: 1.1rem;
+      }
+
+      .card-description {
+        font-size: 0.9rem;
+      }
+    }
+
+    @media (max-width: 480px) {
       .program-grid {
         grid-template-columns: 1fr;
       }
 
       .program-card {
-        display: flex;
-        flex-direction: row;
-        max-width: 100%;
-        width: 100%;
-        height: 260px;
+        border-radius: 12px;
       }
 
-      .program-image {
-        flex-shrink: 0;
-        width: 220px;
-      }
-
-      .program-content {
-        flex: 1;
-        display: flex;
+      .card-header {
         flex-direction: column;
-        justify-content: space-between;
-        padding: 1rem;
-        height: 100%;
-        box-sizing: border-box;
+        align-items: flex-start;
+        gap: 0.75rem;
       }
 
-      .episode-date {
-        font-size: 0.75rem;
-        margin-bottom: 0.5rem;
+      .episode-meta {
+        width: 100%;
       }
 
-      .card-title {
-        font-size: 1rem;
-        min-height: auto;
-        display: -webkit-box;
-        -webkit-line-clamp: 2;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
-      }
-
-      .program-description {
-        font-size: 0.875rem;
-        line-height: 1;
-        height: auto;
-        min-height: 60px;
-        display: -webkit-box;
-        -webkit-line-clamp: 2;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
-      }
-
-      .program-actions {
-        display: flex;
-        flex-direction: row;
-        gap: 0.5rem;
-        align-items: center;
-        margin-top: auto;
-      }
-
-      .program-actions sl-button {
-        font-size: 0.75rem;
-      }
-
-      .options-btn::part(base) {
-        width: 2rem;
-        height: 2rem;
-        min-height: 2rem;
-        padding: 0;
-      }
-
-      sl-divider {
-        width: calc(100% + 32px);
-        margin-left: -16px;
-      }
-
-      @media (max-width: 480px) {
-        .program-card {
-          display: block;
-          height: inherit;
-        }
-
-        .program-image {
-          width: 100%;
-        }
-
-        .program-description {
-          min-height: 0;
-        }
+      .episode-image-container {
+        align-self: center;
+        width: 80px;
+        height: 80px;
       }
     }
-
   </style>
 </program-card>

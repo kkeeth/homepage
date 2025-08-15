@@ -209,7 +209,7 @@
               pubDate: episode.pubDate,
               link: episode.link,
               imageUrl: episode.imageUrl || "/placeholder.svg?height=200&width=400",
-              imageClass: index === 0 ? "blue-gradient" : index === 1 ? "dark-theme" : "warm-gradient"
+              imageClass: "dark-theme"//index === 0 ? "blue-gradient" : index === 1 ? "dark-theme" : "warm-gradient"
             }))
           });
         } catch (error) {
@@ -224,7 +224,7 @@
             id: 1,
             title: "余談ですが.fm",
             description: "デザインやアートのこと、創作の楽しさを語る番組",
-            episodes: 12,
+            episodes: 264,
             category: "雑談",
             artworkUrl: "/src/assets/yodan.png",
             schedule: "不定期",
@@ -239,7 +239,7 @@
             id: 2,
             title: "Keethの声日記",
             description: "声による日々の日記",
-            episodes: 18,
+            episodes: 83,
             category: "ライフ",
             artworkUrl: "/src/assets/daily.png",
             schedule: "不定期",
@@ -342,11 +342,11 @@
 
     /* Unified Program Card Design */
     .program-card-unified {
-      background: var(--sl-color-neutral-0);
-      border-radius: 1rem;
+      background: var(--white);
+      border-radius: 16px;
       overflow: hidden;
-      box-shadow: 0 4px 20px hsl(0 0% 0% / 0.08);
-      border: 1px solid var(--sl-color-neutral-200);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+      border: 1px solid var(--gray-200);
       transition: all 0.3s ease;
       display: flex;
       flex-direction: column;
@@ -354,9 +354,9 @@
     }
 
     .program-card-unified:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 8px 30px hsl(0 0% 0% / 0.12);
-      border-color: var(--sl-color-primary-300);
+      transform: translateY(-6px);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+      border-color: var(--blue-300);
     }
 
     /* Program Artwork Section */
@@ -388,25 +388,25 @@
     }
 
     .category-badge {
-      background: var(--white-90);
-      color: var(--sl-color-neutral-700);
+      background: var(--blue-100);
+      color: var(--blue-700);
       padding: 0.375rem 0.75rem;
-      border-radius: 1rem;
+      border-radius: 20px;
       font-size: 0.75rem;
       font-weight: 600;
       backdrop-filter: blur(10px);
-      border: 1px solid var(--white-20);
+      border: 1px solid var(--blue-200);
     }
 
     .episode-count {
-      background: var(--white-90);
-      color: var(--sl-color-neutral-700);
+      background: var(--orange-100);
+      color: var(--orange-700);
       padding: 0.375rem 0.75rem;
-      border-radius: 1rem;
+      border-radius: 20px;
       font-size: 0.75rem;
       font-weight: 600;
       backdrop-filter: blur(10px);
-      border: 1px solid var(--white-20);
+      border: 1px solid var(--orange-200);
     }
 
     /* Program Content */
@@ -420,13 +420,13 @@
     .program-title {
       font-size: 1.125rem;
       font-weight: 700;
-      color: var(--sl-color-neutral-900);
+      color: var(--text-dark);
       margin-bottom: 0.75rem;
       line-height: 1.4;
     }
 
     .program-description {
-      color: var(--sl-color-neutral-600);
+      color: var(--text-color);
       line-height: 1.5;
       font-size: 0.875rem;
       margin-bottom: 1rem;
@@ -443,27 +443,30 @@
       display: flex;
       align-items: center;
       gap: 0.375rem;
-      color: var(--sl-color-neutral-500);
+      color: var(--text-light);
       font-size: 0.75rem;
     }
 
     .meta-item sl-icon {
       font-size: 0.875rem;
+      color: var(--blue-500);
     }
 
     .listen-btn::part(base) {
-      border-radius: 0.5rem;
+      border-radius: 8px;
       font-size: 0.875rem;
       font-weight: 600;
       width: 100%;
-      background: var(--sl-color-primary-50);
-      color: var(--sl-color-primary-700);
-      border: 1px solid var(--sl-color-primary-200);
+      background: var(--blue-600);
+      color: var(--white);
+      border: none;
+      transition: all 0.3s ease;
     }
 
     .listen-btn:hover::part(base) {
-      background: var(--sl-color-primary-100);
-      border-color: var(--sl-color-primary-300);
+      background: var(--blue-700);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
     }
 
     /* Menu Items */
@@ -481,7 +484,7 @@
 
     /* program Episodes Section */
     .program-episodes {
-      background: white;
+      background: var(--white);
     }
 
 
@@ -524,9 +527,10 @@
 
     /* Main Program Section Styles */
     .main-program-section {
-      padding: 4rem 2rem;
-      background: linear-gradient(135deg, var(--sl-color-neutral-50) 0%, var(--sl-color-sky-50) 100%);
-      border-top: 1px solid var(--sl-color-neutral-200);
+      padding: 6rem 2rem;
+      background: var(--gray-50);
+      border-top: 1px solid var(--gray-200);
+      border-bottom: 1px solid var(--gray-200);
     }
 
     .main-program-content {
@@ -541,7 +545,7 @@
     .stats-title {
       font-size: 2.75rem;
       font-weight: 800;
-      color: var(--sl-color-neutral-900);
+      color: var(--text-dark);
       margin-bottom: 0.75rem;
       letter-spacing: -0.02em;
     }
@@ -554,37 +558,49 @@
     }
 
     .stat-card {
-      background: var(--sl-color-neutral-0);
-      padding: 1.5rem;
-      border-radius: 1rem;
+      background: var(--white);
+      padding: 2rem;
+      border-radius: 16px;
       text-align: center;
-      border: 2px solid var(--sl-color-neutral-200);
+      border: 1px solid var(--gray-200);
       transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .stat-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: linear-gradient(135deg, var(--blue-500), var(--orange-500));
     }
 
     .stat-card:hover {
-      border-color: var(--sl-color-primary-300);
-      transform: translateY(-2px);
-      box-shadow: 0 8px 25px hsl(0 0% 0% / 0.1);
+      border-color: var(--blue-300);
+      transform: translateY(-4px);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1);
     }
 
     .stat-number {
-      font-size: 2.5rem;
+      font-size: 2.75rem;
       font-weight: 800;
-      color: var(--sl-color-primary-600);
+      color: var(--blue-600);
       margin-bottom: 0.5rem;
     }
 
     .stat-label {
-      font-size: 1rem;
+      font-size: 1.1rem;
       font-weight: 700;
-      color: var(--sl-color-neutral-900);
+      color: var(--text-dark);
       margin-bottom: 0.5rem;
     }
 
     .stat-description {
-      font-size: 0.875rem;
-      color: var(--sl-color-neutral-600);
+      font-size: 0.9rem;
+      color: var(--text-light);
       line-height: 1.4;
     }
 
@@ -598,27 +614,34 @@
       display: flex;
       align-items: center;
       gap: 1rem;
-      padding: 1rem;
-      background: var(--sl-color-neutral-50);
-      border-radius: 0.75rem;
-      border: 1px solid var(--sl-color-neutral-200);
+      padding: 1.25rem;
+      background: var(--white);
+      border-radius: 12px;
+      border: 1px solid var(--gray-200);
+      transition: all 0.3s ease;
+    }
+
+    .feature-item:hover {
+      transform: translateX(4px);
+      border-color: var(--orange-300);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
     }
 
     .feature-item sl-icon {
-      font-size: 1.25rem;
-      color: var(--sl-color-primary-600);
+      font-size: 1.5rem;
+      color: var(--orange-500);
     }
 
     .feature-item span {
-      font-size: 0.95rem;
-      font-weight: 500;
-      color: var(--sl-color-neutral-700);
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text-dark);
     }
 
     .platform-subscription h3 {
       font-size: 1.5rem;
       font-weight: 700;
-      color: var(--sl-color-neutral-900);
+      color: var(--text-dark);
       margin-bottom: 1.5rem;
       text-align: center;
     }
@@ -634,60 +657,64 @@
       flex-direction: column;
       align-items: center;
       padding: 1.5rem 1rem;
-      background: var(--sl-color-neutral-0);
-      border: 2px solid var(--sl-color-neutral-200);
-      border-radius: 1rem;
+      background: var(--white);
+      border: 1px solid var(--gray-200);
+      border-radius: 12px;
       text-decoration: none;
-      color: var(--sl-color-neutral-700);
+      color: var(--text-color);
       transition: all 0.3s ease;
-      box-shadow: 0 2px 8px hsl(0 0% 0% / 0.05);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
     }
 
     .platform-card:hover {
-      border-color: var(--sl-color-primary-300);
-      transform: translateY(-2px);
-      box-shadow: 0 8px 25px hsl(0 0% 0% / 0.1);
-      color: var(--sl-color-primary-700);
+      border-color: var(--blue-300);
+      transform: translateY(-4px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+      color: var(--blue-700);
     }
 
     .platform-icon {
       width: 2.5rem;
       height: 2.5rem;
-      border-radius: 0.75rem;
+      border-radius: 12px;
       display: flex;
       align-items: center;
       justify-content: center;
       margin-bottom: 0.75rem;
-      transition: transform 0.3s ease;
+      transition: all 0.3s ease;
+      background: var(--gray-100);
+      color: var(--text-dark);
     }
 
     .platform-card:hover .platform-icon {
       transform: scale(1.1);
+      background: var(--blue-100);
+      color: var(--blue-600);
     }
 
     .platform-icon.apple {
-      background: var(--sl-color-neutral-900);
-      color: var(--sl-color-neutral-0);
+      background: var(--gray-100);
+      color: var(--text-dark);
     }
 
     .platform-icon.spotify {
-      background: #1DB954;
-      color: var(--sl-color-neutral-0);
+      background: var(--gray-100);
+      color: var(--text-dark);
     }
 
     .platform-icon.amazon {
-      background: #FF9900;
-      color: var(--sl-color-neutral-0);
+      background: var(--gray-100);
+      color: var(--text-dark);
     }
 
     .platform-icon.youtube {
-      background: #FF0000;
-      color: var(--sl-color-neutral-0);
+      background: var(--gray-100);
+      color: var(--text-dark);
     }
 
     .platform-icon.rss {
-      background: var(--sl-color-orange-500);
-      color: var(--sl-color-neutral-0);
+      background: var(--orange-100);
+      color: var(--orange-600);
     }
 
     .platform-icon sl-icon {

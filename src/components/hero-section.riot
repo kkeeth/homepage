@@ -1,57 +1,37 @@
 <hero-section>
   <section class="hero">
+    <!-- Minimal geometric background -->
     <div class="hero-bg">
-      <!-- Scattered droplets with more organic placement -->
-      <div class="droplet-scatter droplet-large mint" style="top: 15%; left: 30%; transform: rotate(-15deg);"></div>
-      <div class="droplet-scatter droplet-medium blue" style="top: 25%; right: 12%; transform: rotate(25deg);"></div>
-      <div class="droplet-scatter droplet-small yellow" style="top: 45%; left: 20%; transform: rotate(-8deg);"></div>
-      <div class="droplet-scatter droplet-medium pink" style="top: 85%; right: 25%; transform: rotate(12deg);"></div>
-      <div class="droplet-scatter droplet-small purple" style="top: 35%; left: 70%; transform: rotate(-22deg);"></div>
-      <div class="droplet-scatter droplet-large coral" style="top: 75%; left: 15%; transform: rotate(12deg);"></div>
-
-      <!-- Doodle-style decorations -->
-      <div class="doodle-star" style="top: 20%; right: 10%; transform: rotate(45deg);">✦</div>
-      <div class="doodle-star" style="top: 40%; left: 15%; transform: rotate(-30deg);">✧</div>
-      <div class="doodle-plus" style="top: 70%; right: 25%;">+</div>
-      <div class="doodle-plus" style="top: 88%; left: 30%;">+</div>
-
-      <!-- Wavy background elements -->
-      <div class="wave-doodle wave-1"></div>
-      <div class="wave-doodle wave-2"></div>
-
-      <!-- Minimal art elements -->
-      <div class="art-element circle" style="top: 15%; right: 20%;"></div>
-      <div class="art-element line" style="top: 50%; left: 5%;"></div>
+      <div class="geometric-shape circle-1"></div>
+      <div class="geometric-shape rectangle-1"></div>
+      <div class="geometric-shape circle-2"></div>
+      <div class="geometric-shape line-1"></div>
+      <div class="geometric-shape line-2"></div>
     </div>
 
-    <div class="hero-content">
-      <h1 class="hero-title">
-        雨宿りとWEBの小噺
-      </h1>
-      <div class="hero-left">
-        <p class="hero-subtitle">
-          Web技術、クリエイティブ、日常の発見を
-          <span class="highlight-text">心地よく</span>語り合う空間
-        </p>
-        <p class="description-text">
-          フロントエンドエンジニアのkkeethが、Web開発の技術トピック、日常の気づき、
-          そして時々アートやクリエイティブなことについて語るポッドキャスト番組です。
-          雨の日の雨宿りのように、ゆったりとした時間をお過ごしください。
-        </p>
-
-        <div class="latest-episode-embed">
-          <iframe
-            src="https://art19.com/shows/kkeethengineers/episodes/f9dcfc41-8f45-4464-a020-6199fdc7379f/embed?theme=dark-blue"
-            class="episode-iframe"
-            scrolling="no"
-            sandbox="allow-scripts allow-popups allow-popups-to-escape-sandbox">
-          </iframe>
-        </div>
-      </div>
-
-      <div class="hero-right">
-        <div class="hero-image-container">
+    <!-- Centered content layout -->
+    <div class="hero-container">
+      <div class="hero-content">
+        <div class="hero-image-wrapper">
           <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/%E9%9B%A8%E5%AE%BF%E3%82%8A%E3%81%A8%20Web%20%E3%81%AE%E5%B0%8F%E5%99%BA-XnAjzyKbW0lVXd3o7wE5Jn9Zf46A8A.png" alt="雨宿りとWEBの小噺" class="hero-image">
+        </div>
+
+        <div class="hero-text">
+          <h1 class="hero-title">雨宿りとWEBの小噺.fm</h1>
+          <p class="hero-subtitle">
+            Web技術、クリエイティブ、日常の発見を<br>
+            <span class="accent-text">心地よく</span>語り合う空間
+          </p>
+          <p class="hero-description">
+            フロントエンドエンジニアのkkeethが語る、<br>
+            Web開発・技術・日常の気づきのポッドキャスト
+          </p>
+
+          <div class="hero-cta">
+            <div class="latest-episode-embed">
+              <iframe src="https://art19.com/shows/266af659-cac2-4231-bda0-fb10920d8a41/episodes/f9dcfc41-8f45-4464-a020-6199fdc7379f/embed" style="width: 100%; height: 200px; border: 0 none;" scrolling="no" sandbox="allow-scripts allow-popups allow-popups-to-escape-sandbox"></iframe>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -59,208 +39,215 @@
 
   <style>
     .hero {
-      background: var(--hero-gradient);
+      background: var(--white);
       position: relative;
-      padding-bottom: 4rem;
       overflow: hidden;
-      min-height: 80vh;
+      min-height: 100vh;
       display: flex;
       align-items: center;
+      justify-content: center;
     }
 
     .hero-bg {
       position: absolute;
       inset: 0;
       pointer-events: none;
+      opacity: 0.6;
+    }
+
+    /* Minimal geometric shapes */
+    .geometric-shape {
+      position: absolute;
+      opacity: 0.1;
+    }
+
+    .circle-1 {
+      width: 300px;
+      height: 300px;
+      border-radius: 50%;
+      border: 2px solid var(--blue-400);
+      top: 10%;
+      right: 10%;
+      animation: gentle-rotate 30s linear infinite;
+    }
+
+    .circle-2 {
+      width: 150px;
+      height: 150px;
+      background: var(--orange-200);
+      border-radius: 50%;
+      bottom: 15%;
+      left: 8%;
+      animation: gentle-float 8s ease-in-out infinite;
+    }
+
+    .rectangle-1 {
+      width: 80px;
+      height: 200px;
+      background: var(--gray-200);
+      top: 20%;
+      left: 15%;
+      transform: rotate(25deg);
+      border-radius: 8px;
+    }
+
+    .line-1 {
+      width: 180px;
+      height: 3px;
+      background: linear-gradient(90deg, var(--blue-300), transparent);
+      top: 60%;
+      right: 20%;
+      transform: rotate(-45deg);
+    }
+
+    .line-2 {
+      width: 120px;
+      height: 2px;
+      background: var(--orange-300);
+      bottom: 40%;
+      right: 25%;
+      transform: rotate(15deg);
+    }
+
+    .hero-container {
+      max-width: 1200px;
+      width: 100%;
+      padding: 0 2rem;
+      position: relative;
+      z-index: 2;
     }
 
     .hero-content {
-      display: grid;
-      grid-template-columns: 1fr 1.5fr;
-      grid-template-rows: 280px 1fr;
-      gap: 4rem 3rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 3rem;
+      padding: 4rem 0;
+    }
+
+    .hero-image-wrapper {
       position: relative;
-      z-index: 10;
-      width: 100%;
-      margin: 0 auto;
     }
 
-    .hero-content h1 {
-      align-self: end;
-      grid-area: 1 / 1 / 2 / 3;
+    .hero-image {
+      width: 280px;
+      height: 280px;
+      object-fit: cover;
+      border-radius: 16%;
+      border: 8px solid var(--gray-200);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
 
-    .hero-content .hero-left {
-      grid-area: 2 / 1 / 3 / 2;
+    .hero-image:hover {
+      transform: scale(1.05);
+      box-shadow: 0 25px 80px rgba(0, 0, 0, 0.15);
     }
 
-    .hero-content .hero-right {
-      align-self: start;
-      grid-area: 2 / 2 / 3 / 3;
+    .hero-text {
+      max-width: 600px;
     }
 
     .hero-title {
       font-size: 3.5rem;
       font-weight: 800;
-      line-height: 1.1;
       margin-bottom: 1.5rem;
-      color: var(--white);
-      letter-spacing: -0.02em;
+      color: var(--text-dark);
+      letter-spacing: -0.03em;
     }
 
     .hero-subtitle {
-      font-size: 1.25rem;
+      font-size: 1.5rem;
+      line-height: 1.5;
+      color: var(--text-color);
+      margin-bottom: 1.5rem;
+    }
+
+    .accent-text {
+      color: var(--blue-600);
+      font-weight: 700;
+    }
+
+    .hero-description {
+      font-size: 1.1rem;
       line-height: 1.6;
-      color: var(--white-90);
+      color: var(--text-light);
       margin-bottom: 3rem;
     }
 
-    .hero-image-container {
-      position: relative;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      width: 100%;
-      height: 100%;
+    .latest-episode-embed {
+      border-radius: 12px;
+      min-width: 600px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
     }
 
-    .hero-image {
-      width: 100%;
-      object-fit: contain;
-      border-radius: 20%;
-      border: 20px solid rgba(255,255,255,0.1);;
-      position: relative;
-      z-index: 2;
-      transition: transform 0.3s ease;
+    /* Animations */
+    @keyframes gentle-rotate {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
     }
 
-    .hero-image:hover {
-      transform: scale(1.05);
+    @keyframes gentle-float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-20px); }
     }
 
-    /* Modern rain droplet animations */
-    .droplet-scatter {
-      position: absolute;
-      border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
-      animation: fade-in-up 6s linear infinite;
-      filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
-    }
-    .droplet-scatter:nth-child(even) {
-      animation: fade-in-up 6s linear infinite;
-    }
-    .droplet-scatter:nth-child(odd) {
-      animation: bubble-bounce 6s linear infinite;
-    }
-
-    .droplet-large { width: var(--droplet-large-width); height: var(--droplet-large-height); }
-    .droplet-medium { width: var(--droplet-medium-width); height: var(--droplet-medium-height); }
-    .droplet-small { width: var(--droplet-small-width); height: var(--droplet-small-height); }
-
-    .droplet-scatter.mint { background: linear-gradient(135deg, var(--mint-400), var(--mint-500)); }
-    .droplet-scatter.blue { background: linear-gradient(135deg, var(--blue-400), var(--blue-500)); }
-    .droplet-scatter.yellow { background: linear-gradient(135deg, var(--yellow-400), var(--yellow-500)); }
-    .droplet-scatter.pink { background: linear-gradient(135deg, var(--pink-400), var(--pink-500)); }
-    .droplet-scatter.purple { background: linear-gradient(135deg, var(--purple-400), var(--purple-500)); }
-    .droplet-scatter.coral { background: linear-gradient(135deg, var(--coral-400), #f97316); }
-
-    /* Doodle decorations */
-    .doodle-star, .doodle-plus {
-      position: absolute;
-      font-size: 1.5rem;
-      color: var(--white-20);
-      animation: bounce 3s ease-in-out infinite;
-    }
-
-    /* Minimal art elements */
-    .wave-doodle {
-      width: 200px;
-      height: 100px;
-      opacity: 0.1;
-    }
-
-    .wave-1 {
-      top: 30%;
-      left: 10%;
-      background: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0,50 Q50,20 100,50 T200,50' stroke='white' stroke-width='3' fill='none'/%3E%3C/svg%3E");
-    }
-
-    .wave-2 {
-      bottom: 20%;
-      right: 15%;
-      background: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0,30 Q50,60 100,30 T200,30' stroke='white' stroke-width='2' fill='none'/%3E%3C/svg%3E");
-    }
-
-    .art-element {
-      position: absolute;
-      opacity: 0.3;
-    }
-
-    .art-element.circle {
-      width: 80px;
-      height: 80px;
-      border: 2px solid var(--white-20);
-      border-radius: 50%;
-      animation: gentle-rotate 20s linear infinite;
-    }
-
-    .art-element.line {
-      width: 60px;
-      height: 2px;
-      background: var(--white-20);
-      transform: rotate(45deg);
-    }
-
-    /* Responsive */
-    @media (max-width: 900px) {
-      .hero-content {
-        padding: 0;
-      }
-    }
-
+    /* Responsive Design */
     @media (max-width: 768px) {
+      .hero {
+        min-height: 90vh;
+        padding: 2rem 0;
+      }
+
       .hero-content {
-        grid-template-columns: 1fr;
-        grid-template-rows: 0.5fr 0.8fr 1fr;
         gap: 2rem;
       }
 
-      .hero-image-container {
-        min-height: 300px;
-        order: -1;
-      }
-
       .hero-image {
-        width: calc(100vw - 10rem);
-      }
-
-      .hero-content .hero-title {
-        grid-area: 1 / 1 / 2 / 2;
-      }
-
-      .hero-content .hero-left {
-        grid-area: 2 / 1 / 3 / 2;
-      }
-
-      .hero-content .hero-right {
-        grid-area: 3 / 1 / 4 / 2;
+        width: 200px;
+        height: 200px;
       }
 
       .hero-title {
         font-size: 2.5rem;
       }
+
+      .hero-subtitle {
+        font-size: 1.25rem;
+      }
+
+      .hero-description {
+        font-size: 1rem;
+      }
+
+      .circle-1 {
+        width: 200px;
+        height: 200px;
+      }
+
+      .circle-2 {
+        width: 100px;
+        height: 100px;
+      }
     }
 
     @media (max-width: 480px) {
-      .hero {
-        padding: 0 2rem;
+      .hero-container {
+        padding: 0 1rem;
       }
 
-      .hero-content {
-        grid-template-rows: 0.5fr 0.8fr 0.8fr;
+      .hero-title {
+        font-size: 2rem;
       }
 
-      .hero-content .hero-title {
-        align-self: center;
+      .hero-subtitle {
+        font-size: 1.1rem;
+      }
+
+      .hero-image {
+        width: 160px;
+        height: 160px;
       }
     }
   </style>
