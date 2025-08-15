@@ -25,11 +25,10 @@
     </div>
 
     <div class="hero-content">
+      <h1 class="hero-title">
+        雨宿りとWEBの小噺
+      </h1>
       <div class="hero-left">
-        <h1 class="hero-title">
-          雨宿りとWEBの小噺
-        </h1>
-
         <p class="hero-subtitle">
           Web技術、クリエイティブ、日常の発見を
           <span class="highlight-text">心地よく</span>語り合う空間
@@ -52,7 +51,6 @@
 
       <div class="hero-right">
         <div class="hero-image-container">
-          <div class="image-backdrop"></div>
           <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/%E9%9B%A8%E5%AE%BF%E3%82%8A%E3%81%A8%20Web%20%E3%81%AE%E5%B0%8F%E5%99%BA-XnAjzyKbW0lVXd3o7wE5Jn9Zf46A8A.png" alt="雨宿りとWEBの小噺" class="hero-image">
         </div>
       </div>
@@ -63,7 +61,7 @@
     .hero {
       background: var(--hero-gradient);
       position: relative;
-      padding: 8rem 0;
+      padding-bottom: 4rem;
       overflow: hidden;
       min-height: 80vh;
       display: flex;
@@ -78,14 +76,27 @@
 
     .hero-content {
       display: grid;
-      grid-template-columns: 1fr 1.2fr;
-      gap: 3rem;
-      align-items: center;
+      grid-template-columns: 1fr 1.5fr;
+      grid-template-rows: 280px 1fr;
+      gap: 4rem 3rem;
       position: relative;
       z-index: 10;
       width: 100%;
       margin: 0 auto;
-      padding: 0 4rem;
+    }
+
+    .hero-content h1 {
+      align-self: end;
+      grid-area: 1 / 1 / 2 / 3;
+    }
+
+    .hero-content .hero-left {
+      grid-area: 2 / 1 / 3 / 2;
+    }
+
+    .hero-content .hero-right {
+      align-self: start;
+      grid-area: 2 / 2 / 3 / 3;
     }
 
     .hero-title {
@@ -111,26 +122,13 @@
       align-items: center;
       width: 100%;
       height: 100%;
-      min-height: 600px;
-    }
-
-    .image-backdrop {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 500px;
-      height: 500px;
-      background: rgba(255,255,255,0.1);
-      border-radius: 20%;
-      backdrop-filter: blur(20px);
-      border: 1px solid var(--white-20);
     }
 
     .hero-image {
-      width: 480px;
+      width: 100%;
       object-fit: contain;
       border-radius: 20%;
+      border: 20px solid rgba(255,255,255,0.1);;
       position: relative;
       z-index: 2;
       transition: transform 0.3s ease;
@@ -214,24 +212,37 @@
 
     /* Responsive */
     @media (max-width: 900px) {
-      .image-backdrop {
-        width: 440px;
-        height: 440px;
-      }
-      .hero-image {
-        width: 400px;
+      .hero-content {
+        padding: 0;
       }
     }
 
     @media (max-width: 768px) {
       .hero-content {
-        grid-auto-flow: column;
-        grid-template-rows: 1fr 1.2fr;
-        grid-template-columns: none;
+        grid-template-columns: 1fr;
+        grid-template-rows: 0.5fr 0.8fr 1fr;
+        gap: 2rem;
       }
+
       .hero-image-container {
         min-height: 300px;
         order: -1;
+      }
+
+      .hero-image {
+        width: calc(100vw - 10rem);
+      }
+
+      .hero-content .hero-title {
+        grid-area: 1 / 1 / 2 / 2;
+      }
+
+      .hero-content .hero-left {
+        grid-area: 2 / 1 / 3 / 2;
+      }
+
+      .hero-content .hero-right {
+        grid-area: 3 / 1 / 4 / 2;
       }
 
       .hero-title {
@@ -240,13 +251,16 @@
     }
 
     @media (max-width: 480px) {
-      .hero-image {
-        width: 220px;
+      .hero {
+        padding: 0 2rem;
       }
 
-      .image-backdrop {
-        width: 240px;
-        height: 240px;
+      .hero-content {
+        grid-template-rows: 0.5fr 0.8fr 0.8fr;
+      }
+
+      .hero-content .hero-title {
+        align-self: center;
       }
     }
   </style>
