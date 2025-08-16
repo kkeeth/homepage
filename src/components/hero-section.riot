@@ -22,9 +22,13 @@
 
       <!-- Cozy Elements -->
       <div class="cozy-elements">
-        <div class="umbrella-icon">☂</div>
+        <div class="umbrella-icon">
+          <sl-icon name="umbrella-fill"></sl-icon>
+        </div>
         <div class="coffee-steam"></div>
-        <div class="microphone-icon">🎙️</div>
+        <div class="microphone-icon">
+          <sl-icon name="mic-fill"></sl-icon>
+        </div>
         <div class="sound-waves">
           <div class="wave"></div>
           <div class="wave"></div>
@@ -66,7 +70,7 @@
       background: var(--hero-gradient);
       position: relative;
       overflow: hidden;
-      min-height: 100vh;
+      min-height: calc(100vh - 96px);
       display: flex;
       align-items: center;
       justify-content: center;

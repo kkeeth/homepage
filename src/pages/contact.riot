@@ -5,7 +5,7 @@
       <div class="rain-bg">
         <div class="raindrop" each={i in Array(12)} style="left: {Math.random() * 100}%; animation-delay: {Math.random() * 3}s;"></div>
       </div>
-      
+
       <div class="hero-content">
         <div class="umbrella-icon">☂</div>
         <h1 class="hero-title">雨宿りしながらお話ししませんか？</h1>
@@ -23,10 +23,12 @@
           <!-- Contact Information -->
           <div class="contact-info">
             <div class="info-header">
-              <h2 class="info-title">お気軽にご連絡ください</h2>
-              <div class="coffee-icon">☕</div>
+              <h2 class="info-title">ご連絡</h2>
+              <div class="coffee-icon">
+                <sl-icon name="cup-hot-fill"></sl-icon>
+              </div>
             </div>
-            
+
             <p class="contact-description">
               ご質問、ご感想、技術の話、コラボレーションのお誘いなど、<br>
               どんなことでもお待ちしています。雨音を聞きながら、<br>
@@ -41,7 +43,7 @@
                   <div class="contact-value">zensin0082@gmail.com</div>
                 </div>
               </div>
-              
+
               <div class="contact-item">
                 <div class="contact-icon social">🐦</div>
                 <div class="contact-details">
@@ -49,7 +51,7 @@
                   <div class="contact-value">Twitter・GitHubもチェック</div>
                 </div>
               </div>
-              
+
               <div class="contact-item">
                 <div class="contact-icon location">🏠</div>
                 <div class="contact-details">
@@ -68,16 +70,11 @@
           <!-- Contact Form -->
           <div class="contact-form-section">
             <div class="form-container">
-              <div class="form-header">
-                <h3 class="form-title">メッセージを送る</h3>
-                <div class="form-decoration">💌</div>
-              </div>
-              
-              <iframe 
-                src="https://docs.google.com/forms/d/e/1FAIpQLScc_w1FgDRkekc4pUYF1aeZuKnQ_16eo4I6Ila9MuuZJ2DWCA/viewform?embedded=true" 
+              <iframe
+                src="https://docs.google.com/forms/d/e/1FAIpQLScc_w1FgDRkekc4pUYF1aeZuKnQ_16eo4I6Ila9MuuZJ2DWCA/viewform?embedded=true"
                 class="contact-iframe"
-                frameborder="0" 
-                marginheight="0" 
+                frameborder="0"
+                marginheight="0"
                 marginwidth="0">
                 Loading...
               </iframe>
@@ -177,7 +174,7 @@
 
     .contact-layout {
       display: grid;
-      grid-template-columns: 1.2fr 1fr;
+      grid-template-columns: 1fr 1.2fr;
       gap: 4rem;
       align-items: start;
     }
@@ -268,7 +265,7 @@
       background: var(--warm-white);
       border: 2px solid var(--rain-blue);
       border-radius: 1rem;
-      padding: 2rem;
+      padding: 1rem 2rem;
       box-shadow: 0 6px 20px rgba(66, 153, 225, 0.1);
     }
 
@@ -282,32 +279,10 @@
 
     /* Contact Form */
     .form-container {
-      background: var(--warm-white);
       border: 2px solid var(--soft-teal);
       border-radius: 1.5rem;
       overflow: hidden;
       box-shadow: 0 8px 32px rgba(56, 178, 172, 0.15);
-    }
-
-    .form-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 1.5rem 2rem;
-      background: var(--cream);
-      border-bottom: 2px solid var(--soft-teal);
-    }
-
-    .form-title {
-      font-size: 1.5rem;
-      font-weight: 700;
-      color: var(--coffee-brown);
-      margin: 0;
-    }
-
-    .form-decoration {
-      font-size: 1.5rem;
-      animation: gentle-bounce 3s ease-in-out infinite;
     }
 
     .contact-iframe {
