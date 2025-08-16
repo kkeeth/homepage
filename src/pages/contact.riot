@@ -34,20 +34,6 @@
               どんなことでもお待ちしています。雨音を聞きながら、<br>
               ゆっくりとお話ししましょう。
             </p>
-
-            <h2 class="sns-title">フォローお願いします</h2>
-
-            <div class="enhanced-social-links">
-              <a 
-                each={platform in state.platforms} 
-                key={platform.name}
-                href={platform.url} 
-                target={platform.url.startsWith('mailto:') ? '_self' : '_blank'} 
-                class="enhanced-social-link"
-              >
-                <sl-icon name={platform.icon}></sl-icon>
-              </a>
-            </div>
           </div>
 
           <!-- Contact Form -->
@@ -69,13 +55,7 @@
   </div>
 
   <script>
-    import { PLATFORM_CONFIG } from '@/constants/links';
-
     export default {
-      state: {
-        platforms: PLATFORM_CONFIG
-      },
-      
       i18n(key) {
         return i18nStore.t(key)
       }
@@ -193,76 +173,6 @@
       margin-bottom: 3rem;
     }
 
-    .enhanced-social-links {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, 40px);
-      gap: 3rem;
-      margin-top: 2rem;
-    }
-
-    .enhanced-social-link {
-      width: 40px;
-      height: 40px;
-      border-radius: 1rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-decoration: none;
-      transition: all 0.3s ease;
-      box-shadow: 0 6px 20px rgba(56, 178, 172, 0.1);
-    }
-
-    .enhanced-social-link:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 12px 30px rgba(56, 178, 172, 0.2);
-    }
-
-    .enhanced-social-link sl-icon {
-      font-size: 2.5rem;
-      color: var(--text-color);
-      transition: all 0.3s ease;
-    }
-
-    .enhanced-social-link:hover sl-icon {
-      color: var(--rain-blue);
-      transform: scale(1.1);
-    }
-
-    /* Specific social platform colors on hover */
-    .enhanced-social-link[href*="twitter"]:hover sl-icon,
-    .enhanced-social-link[href*="x.com"]:hover sl-icon {
-      color: black;
-    }
-
-    .enhanced-social-link[href*="github"]:hover sl-icon {
-      color: #333;
-    }
-
-    .enhanced-social-link[href*="spotify"]:hover sl-icon {
-      color: #1db954;
-    }
-
-    .enhanced-social-link[href*="apple"]:hover sl-icon,
-    .enhanced-social-link[href*="podcasts.apple"]:hover sl-icon {
-      color: #000;
-    }
-
-    .enhanced-social-link[href*="youtube"]:hover sl-icon {
-      color: #ff0000;
-    }
-
-    .enhanced-social-link[href*="amazon"]:hover sl-icon {
-      color: #ff9900;
-    }
-
-    .enhanced-social-link[href*="substack"]:hover sl-icon {
-      color: #ff6719;
-    }
-
-    .enhanced-social-link[href*="mailto"]:hover sl-icon {
-      color: var(--warm-amber);
-    }
-
     /* Contact Form */
     .form-container {
       border: 2px solid var(--soft-teal);
@@ -340,20 +250,7 @@
 
       .contact-iframe {
         height: 600px;
-      }
-
-      .enhanced-social-links {
-        grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
-        gap: 1rem;
-      }
-
-      .enhanced-social-link {
-        width: 70px;
-        height: 70px;
-      }
-
-      .enhanced-social-link sl-icon {
-        font-size: 2rem;
+        padding: 2rem 1rem;
       }
     }
 

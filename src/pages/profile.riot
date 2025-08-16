@@ -62,20 +62,17 @@
 
             <!-- Social Links Section -->
             <div class="social-section">
-              <h3 class="section-subtitle">フォローしてください</h3>
-              <div class="social-links">
-                <a 
-                  each={link in state.profileSocialLinks} 
-                  key={link.name}
-                  href={link.url} 
-                  target={link.url.startsWith('mailto:') ? '_self' : '_blank'} 
-                  class="social-link"
+              <h3 class="section-subtitle">フォローお願いします</h3>
+
+              <div class="enhanced-social-links">
+                <a
+                  each={platform in state.platforms}
+                  key={platform.name}
+                  href={platform.url}
+                  target={platform.url.startsWith('mailto:') ? '_self' : '_blank'}
+                  class="enhanced-social-link"
                 >
-                  <div class="social-icon {link.name}">{link.emoji}</div>
-                  <div class="social-info">
-                    <div class="social-name">{link.label}</div>
-                    <div class="social-handle">{link.handle}</div>
-                  </div>
+                  <sl-icon name={platform.icon}></sl-icon>
                 </a>
               </div>
             </div>
@@ -129,33 +126,11 @@
   </div>
 
   <script>
-    import { SOCIAL_LINKS } from '@/constants/links';
+    import { SOCIAL_LINKS, PLATFORM_CONFIG } from '@/constants/links';
 
     export default {
       state: {
-        profileSocialLinks: [
-          {
-            name: 'twitter',
-            emoji: '🐦',
-            label: 'Twitter',
-            handle: '@kkeeth_',
-            url: SOCIAL_LINKS.TWITTER
-          },
-          {
-            name: 'github',
-            emoji: '🐙',
-            label: 'GitHub',
-            handle: '@kkeeth',
-            url: SOCIAL_LINKS.GITHUB
-          },
-          {
-            name: 'email',
-            emoji: '📧',
-            label: 'Email',
-            handle: 'お気軽にご連絡を',
-            url: SOCIAL_LINKS.EMAIL
-          }
-        ],
+        platforms: PLATFORM_CONFIG,
         journeyItems: [
           {
             id: 1,
@@ -305,58 +280,73 @@
       margin-bottom: 2rem;
     }
 
-    .social-links {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
+    .enhanced-social-links {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, 28px);
+      gap: 2rem;
     }
 
-    .social-link {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      padding: 1.25rem;
-      background: var(--warm-white);
-      border: 2px solid var(--warm-amber);
+    .enhanced-social-link {
+      width: 28px;
+      height: 28px;
       border-radius: 1rem;
-      text-decoration: none;
-      transition: all 0.3s ease;
-      box-shadow: 0 4px 15px rgba(244, 173, 85, 0.1);
-    }
-
-    .social-link:hover {
-      background: var(--warm-shelter);
-      border-color: var(--cozy-orange);
-      transform: translateY(-3px);
-      box-shadow: 0 8px 25px rgba(244, 173, 85, 0.2);
-    }
-
-    .social-icon {
-      width: 3rem;
-      height: 3rem;
-      border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.5rem;
-      background: var(--cream);
-      border: 2px solid var(--warm-amber);
+      text-decoration: none;
+      transition: all 0.3s ease;
+      box-shadow: 0 6px 20px rgba(56, 178, 172, 0.1);
     }
 
-    .social-info {
-      flex: 1;
+    .enhanced-social-link:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 30px rgba(56, 178, 172, 0.2);
     }
 
-    .social-name {
-      font-size: 1.1rem;
-      font-weight: 600;
-      color: var(--coffee-brown);
-      margin-bottom: 0.25rem;
-    }
-
-    .social-handle {
-      font-size: 0.9rem;
+    .enhanced-social-link sl-icon {
+      font-size: 2.5rem;
       color: var(--text-color);
+      transition: all 0.3s ease;
+    }
+
+    .enhanced-social-link:hover sl-icon {
+      color: var(--rain-blue);
+      transform: scale(1.1);
+    }
+
+    /* Specific social platform colors on hover */
+    .enhanced-social-link[href*="twitter"]:hover sl-icon,
+    .enhanced-social-link[href*="x.com"]:hover sl-icon {
+      color: black;
+    }
+
+    .enhanced-social-link[href*="github"]:hover sl-icon {
+      color: #333;
+    }
+
+    .enhanced-social-link[href*="spotify"]:hover sl-icon {
+      color: #1db954;
+    }
+
+    .enhanced-social-link[href*="apple"]:hover sl-icon,
+    .enhanced-social-link[href*="podcasts.apple"]:hover sl-icon {
+      color: #000;
+    }
+
+    .enhanced-social-link[href*="youtube"]:hover sl-icon {
+      color: #ff0000;
+    }
+
+    .enhanced-social-link[href*="amazon"]:hover sl-icon {
+      color: #ff9900;
+    }
+
+    .enhanced-social-link[href*="substack"]:hover sl-icon {
+      color: #ff6719;
+    }
+
+    .enhanced-social-link[href*="mailto"]:hover sl-icon {
+      color: var(--warm-amber);
     }
 
     .section-subtitle {
