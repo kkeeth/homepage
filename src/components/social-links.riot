@@ -1,18 +1,50 @@
 <social-links>
   <div class="social-links">
-    <a href="https://x.com/kuwahara_jsri" target="_blank" aria-label="Twitter">
-      <sl-icon name="twitter-x" ></sl-icon>
-    </a>
-    <a href="https://open.spotify.com/show/4ZqUQtob7eJrz9DQV7lPVd" target="_blank" aria-label="Spotify">
-      <sl-icon name="spotify"></sl-icon>
-    </a>
-    <a href="https://kkeeth.substack.com" target="_blank" aria-label="Substack">
-      <sl-icon name="substack"></sl-icon>
-    </a>
-    <a href="https://github.com/kkeeth" target="_blank" aria-label="GitHub">
-      <sl-icon name="github"></sl-icon>
+    <a 
+      each={link in state.socialLinks} 
+      key={link.name}
+      href={link.url} 
+      target="_blank" 
+      aria-label={link.label}
+    >
+      <sl-icon name={link.icon}></sl-icon>
     </a>
   </div>
+
+  <script>
+    import { SOCIAL_LINKS, PODCAST_PLATFORMS } from '@/constants/links';
+
+    export default {
+      state: {
+        socialLinks: [
+          {
+            name: 'twitter',
+            icon: 'twitter-x',
+            url: SOCIAL_LINKS.TWITTER,
+            label: 'Twitter'
+          },
+          {
+            name: 'spotify',
+            icon: 'spotify',
+            url: PODCAST_PLATFORMS.SPOTIFY,
+            label: 'Spotify'
+          },
+          {
+            name: 'substack',
+            icon: 'substack',
+            url: SOCIAL_LINKS.SUBSTACK,
+            label: 'Substack'
+          },
+          {
+            name: 'github',
+            icon: 'github',
+            url: SOCIAL_LINKS.GITHUB,
+            label: 'GitHub'
+          }
+        ]
+      }
+    };
+  </script>
 
   <style>
     .social-links {

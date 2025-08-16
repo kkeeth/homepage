@@ -27,21 +27,21 @@
               <div class="stat-card">
                 <div class="stat-icon">🎙️</div>
                 <div class="stat-info">
-                  <div class="stat-number">50+</div>
+                  <div class="stat-number">800+</div>
                   <div class="stat-label">エピソード配信</div>
                 </div>
               </div>
               <div class="stat-card">
                 <div class="stat-icon">👥</div>
                 <div class="stat-info">
-                  <div class="stat-number">1.2K</div>
-                  <div class="stat-label">リスナー</div>
+                  <div class="stat-number">36K</div>
+                  <div class="stat-label">再生</div>
                 </div>
               </div>
               <div class="stat-card">
                 <div class="stat-icon">📅</div>
                 <div class="stat-info">
-                  <div class="stat-number">5年</div>
+                  <div class="stat-number">5年+</div>
                   <div class="stat-label">配信歴</div>
                 </div>
               </div>
@@ -64,25 +64,17 @@
             <div class="social-section">
               <h3 class="section-subtitle">フォローしてください</h3>
               <div class="social-links">
-                <a href="https://twitter.com/kkeeth_" target="_blank" class="social-link">
-                  <div class="social-icon twitter">🐦</div>
+                <a 
+                  each={link in state.profileSocialLinks} 
+                  key={link.name}
+                  href={link.url} 
+                  target={link.url.startsWith('mailto:') ? '_self' : '_blank'} 
+                  class="social-link"
+                >
+                  <div class="social-icon {link.name}">{link.emoji}</div>
                   <div class="social-info">
-                    <div class="social-name">Twitter</div>
-                    <div class="social-handle">@kkeeth_</div>
-                  </div>
-                </a>
-                <a href="https://github.com/kkeeth" target="_blank" class="social-link">
-                  <div class="social-icon github">🐙</div>
-                  <div class="social-info">
-                    <div class="social-name">GitHub</div>
-                    <div class="social-handle">@kkeeth</div>
-                  </div>
-                </a>
-                <a href="mailto:hello@amayadori-podcast.com" class="social-link">
-                  <div class="social-icon email">📧</div>
-                  <div class="social-info">
-                    <div class="social-name">Email</div>
-                    <div class="social-handle">お気軽にご連絡を</div>
+                    <div class="social-name">{link.label}</div>
+                    <div class="social-handle">{link.handle}</div>
                   </div>
                 </a>
               </div>
@@ -137,8 +129,33 @@
   </div>
 
   <script>
+    import { SOCIAL_LINKS } from '@/constants/links';
+
     export default {
       state: {
+        profileSocialLinks: [
+          {
+            name: 'twitter',
+            emoji: '🐦',
+            label: 'Twitter',
+            handle: '@kkeeth_',
+            url: SOCIAL_LINKS.TWITTER
+          },
+          {
+            name: 'github',
+            emoji: '🐙',
+            label: 'GitHub',
+            handle: '@kkeeth',
+            url: SOCIAL_LINKS.GITHUB
+          },
+          {
+            name: 'email',
+            emoji: '📧',
+            label: 'Email',
+            handle: 'お気軽にご連絡を',
+            url: SOCIAL_LINKS.EMAIL
+          }
+        ],
         journeyItems: [
           {
             id: 1,

@@ -35,35 +35,18 @@
               ゆっくりとお話ししましょう。
             </p>
 
-            <div class="contact-methods">
-              <div class="contact-item">
-                <div class="contact-icon email">📧</div>
-                <div class="contact-details">
-                  <div class="contact-label">メールでのご連絡</div>
-                  <div class="contact-value">zensin0082@gmail.com</div>
-                </div>
-              </div>
+            <h2 class="sns-title">フォローお願いします</h2>
 
-              <div class="contact-item">
-                <div class="contact-icon social">🐦</div>
-                <div class="contact-details">
-                  <div class="contact-label">SNSでのやりとり</div>
-                  <div class="contact-value">Twitter・GitHubもチェック</div>
-                </div>
-              </div>
-
-              <div class="contact-item">
-                <div class="contact-icon location">🏠</div>
-                <div class="contact-details">
-                  <div class="contact-label">活動拠点</div>
-                  <div class="contact-value">東京・リモートワーク</div>
-                </div>
-              </div>
-            </div>
-
-            <div class="social-section">
-              <h3 class="social-title">フォローしてください</h3>
-              <social-links />
+            <div class="enhanced-social-links">
+              <a 
+                each={platform in state.platforms} 
+                key={platform.name}
+                href={platform.url} 
+                target={platform.url.startsWith('mailto:') ? '_self' : '_blank'} 
+                class="enhanced-social-link"
+              >
+                <sl-icon name={platform.icon}></sl-icon>
+              </a>
             </div>
           </div>
 
@@ -86,8 +69,13 @@
   </div>
 
   <script>
+    import { PLATFORM_CONFIG } from '@/constants/links';
 
     export default {
+      state: {
+        platforms: PLATFORM_CONFIG
+      },
+      
       i18n(key) {
         return i18nStore.t(key)
       }
@@ -105,11 +93,11 @@
       background: var(--hero-gradient);
       position: relative;
       overflow: hidden;
-      min-height: 60vh;
       display: flex;
       align-items: center;
       justify-content: center;
       text-align: center;
+      padding: 5rem 0;
     }
 
     .rain-bg {
@@ -167,7 +155,6 @@
     }
 
     .section-content {
-      max-width: 1200px;
       margin: 0 auto;
       padding: 0 2rem;
     }
@@ -175,7 +162,7 @@
     .contact-layout {
       display: grid;
       grid-template-columns: 1fr 1.2fr;
-      gap: 4rem;
+      gap: 3rem;
       align-items: start;
     }
 
@@ -206,75 +193,74 @@
       margin-bottom: 3rem;
     }
 
-    .contact-methods {
-      display: flex;
-      flex-direction: column;
-      gap: 1.5rem;
-      margin-bottom: 3rem;
+    .enhanced-social-links {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, 40px);
+      gap: 3rem;
+      margin-top: 2rem;
     }
 
-    .contact-item {
-      display: flex;
-      align-items: center;
-      gap: 1.5rem;
-      padding: 1.5rem;
-      background: var(--warm-white);
-      border: 2px solid var(--warm-amber);
+    .enhanced-social-link {
+      width: 40px;
+      height: 40px;
       border-radius: 1rem;
-      transition: all 0.3s ease;
-      box-shadow: 0 4px 15px rgba(244, 173, 85, 0.1);
-    }
-
-    .contact-item:hover {
-      background: var(--warm-shelter);
-      transform: translateY(-3px);
-      box-shadow: 0 8px 25px rgba(244, 173, 85, 0.2);
-    }
-
-    .contact-icon {
-      width: 3.5rem;
-      height: 3.5rem;
-      border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.8rem;
-      background: var(--cream);
-      border: 2px solid var(--warm-amber);
-      flex-shrink: 0;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      box-shadow: 0 6px 20px rgba(56, 178, 172, 0.1);
     }
 
-    .contact-details {
-      flex: 1;
+    .enhanced-social-link:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 30px rgba(56, 178, 172, 0.2);
     }
 
-    .contact-label {
-      font-size: 1rem;
-      font-weight: 600;
-      color: var(--coffee-brown);
-      margin-bottom: 0.25rem;
-    }
-
-    .contact-value {
-      font-size: 1.1rem;
+    .enhanced-social-link sl-icon {
+      font-size: 2.5rem;
       color: var(--text-color);
-      font-weight: 500;
+      transition: all 0.3s ease;
     }
 
-    .social-section {
-      background: var(--warm-white);
-      border: 2px solid var(--rain-blue);
-      border-radius: 1rem;
-      padding: 1rem 2rem;
-      box-shadow: 0 6px 20px rgba(66, 153, 225, 0.1);
+    .enhanced-social-link:hover sl-icon {
+      color: var(--rain-blue);
+      transform: scale(1.1);
     }
 
-    .social-title {
-      font-size: 1.25rem;
-      font-weight: 700;
-      color: var(--coffee-brown);
-      margin-bottom: 1rem;
-      text-align: center;
+    /* Specific social platform colors on hover */
+    .enhanced-social-link[href*="twitter"]:hover sl-icon,
+    .enhanced-social-link[href*="x.com"]:hover sl-icon {
+      color: black;
+    }
+
+    .enhanced-social-link[href*="github"]:hover sl-icon {
+      color: #333;
+    }
+
+    .enhanced-social-link[href*="spotify"]:hover sl-icon {
+      color: #1db954;
+    }
+
+    .enhanced-social-link[href*="apple"]:hover sl-icon,
+    .enhanced-social-link[href*="podcasts.apple"]:hover sl-icon {
+      color: #000;
+    }
+
+    .enhanced-social-link[href*="youtube"]:hover sl-icon {
+      color: #ff0000;
+    }
+
+    .enhanced-social-link[href*="amazon"]:hover sl-icon {
+      color: #ff9900;
+    }
+
+    .enhanced-social-link[href*="substack"]:hover sl-icon {
+      color: #ff6719;
+    }
+
+    .enhanced-social-link[href*="mailto"]:hover sl-icon {
+      color: var(--warm-amber);
     }
 
     /* Contact Form */
@@ -356,10 +342,18 @@
         height: 600px;
       }
 
-      .contact-item {
-        flex-direction: column;
-        text-align: center;
+      .enhanced-social-links {
+        grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
         gap: 1rem;
+      }
+
+      .enhanced-social-link {
+        width: 70px;
+        height: 70px;
+      }
+
+      .enhanced-social-link sl-icon {
+        font-size: 2rem;
       }
     }
 

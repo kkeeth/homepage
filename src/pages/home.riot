@@ -12,13 +12,13 @@
               <h2 class="story-title">なぜ「雨宿り」なのか</h2>
               <div class="umbrella-decoration">☂</div>
             </div>
-            
+
             <div class="story-content">
               <p class="story-text">
                 突然の雨に見舞われた時、軒先で雨宿りをする時間は特別です。
                 急がば回れ、という諺のように、立ち止まる時間が新しい発見をもたらしてくれます。
               </p>
-              
+
               <p class="story-text">
                 このポッドキャストも同じです。日々の開発作業に追われる中で、
                 ちょっと立ち止まって技術の話や日常の気づきを共有する。
@@ -44,7 +44,7 @@
 
           <div class="platform-info">
             <h3 class="platform-title">配信について</h3>
-            
+
             <div class="content-description">
               <h4>配信内容</h4>
               <ul class="content-list">
@@ -59,35 +59,17 @@
             <div class="platform-list">
               <h4>配信プラットフォーム</h4>
               <div class="platform-grid">
-                <a href="https://podcasts.apple.com/jp/podcast/雨宿りとwebの小噺-fm/id1516699977" target="_blank" class="platform-card">
-                  <div class="platform-icon apple">
-                    <sl-icon name="apple"></sl-icon>
+                <a 
+                  each={platform in state.homePlatforms} 
+                  key={platform.name}
+                  href={platform.url} 
+                  target="_blank" 
+                  class="platform-card"
+                >
+                  <div class="platform-icon {platform.name.toLowerCase().replace(' ', '-')}">
+                    <sl-icon name={platform.icon}></sl-icon>
                   </div>
-                  <span>Apple Podcasts</span>
-                </a>
-                <a href="https://open.spotify.com/show/4ZqUQtob7eJrz9DQV7lPVd" target="_blank" class="platform-card">
-                  <div class="platform-icon spotify">
-                    <sl-icon name="spotify"></sl-icon>
-                  </div>
-                  <span>Spotify</span>
-                </a>
-                <a href="https://music.amazon.co.jp/podcasts/1ea89476-2b4f-4ba4-8260-57ed5ef45df5" target="_blank" class="platform-card">
-                  <div class="platform-icon amazon">
-                    <sl-icon name="amazon"></sl-icon>
-                  </div>
-                  <span>Amazon Music</span>
-                </a>
-                <a href="https://music.youtube.com/playlist?list=PLVncrZRHU7RjSBziqoUGmfsyM41SY_l4u" target="_blank" class="platform-card">
-                  <div class="platform-icon youtube">
-                    <sl-icon name="youtube"></sl-icon>
-                  </div>
-                  <span>YouTube Music</span>
-                </a>
-                <a href="https://rss.art19.com/kkeethengineers" target="_blank" class="platform-card">
-                  <div class="platform-icon rss">
-                    <sl-icon name="rss"></sl-icon>
-                  </div>
-                  <span>RSS Feed</span>
+                  <span>{platform.name}</span>
                 </a>
               </div>
             </div>
@@ -200,6 +182,7 @@
 
   <script>
     import { fetchRSSFeed, getLatestEpisodes, getRandomEpisodes } from '@/utils/rss';
+    import { HOME_PLATFORMS, OTHER_PROGRAMS } from '@/constants/links';
 
     export default {
       async onBeforeMount() {
@@ -225,83 +208,8 @@
       state: {
         latestEpisodes: [],
         programEpisodes: [],
-        otherPrograms: [
-          {
-            id: 1,
-            title: "余談ですが.fm",
-            description: "デザインやアートのこと、創作の楽しさを語る番組",
-            episodes: 264,
-            category: "雑談",
-            artworkUrl: "/images/yodan.png",
-            schedule: "不定期",
-            listen: {
-              spotify: "https://open.spotify.com/show/14DQJsbOMKJZ8ZYBR8jXdn?si=d2ad49ff0b1541d1",
-              apple: "https://podcasts.apple.com/us/podcast/%E4%BD%99%E8%AB%87%E3%81%A7%E3%81%99%E3%81%8C-fm/id1654903812",
-              amazon: "https://music.amazon.co.jp/podcasts/66281a8e-4946-4959-859a-ded2d043f090/%E4%BD%99%E8%AB%87%E3%81%A7%E3%81%99%E3%81%8C-fm",
-              rss: "https://stand.fm/rss/5e70dd5881d4e84e1ff1cab4"
-            }
-          },
-          {
-            id: 2,
-            title: "Keethの声日記",
-            description: "声による日々の日記",
-            episodes: 83,
-            category: "ライフ",
-            artworkUrl: "/images/daily.png",
-            schedule: "不定期",
-            listen: {
-              spotify: "https://open.spotify.com/show/0BmrSZm67MRT6nd2qqXMTd?si=a35693154e914b14",
-              apple: "https://podcasts.apple.com/jp/podcast/keeth%E3%81%AE%E5%A3%B0%E6%97%A5%E8%A8%98/id1772090936",
-              amazon: "https://music.amazon.co.jp/podcasts/8c0ce814-31d3-4c65-9940-da0fb0c7fed7/keeth%E3%81%AE%E5%A3%B0%E6%97%A5%E8%A8%98",
-              rss: "https://rss.listen.style/p/keeth-daily/rss"
-            }
-          },
-          {
-            id: 3,
-            title: "好きの寄り道ラジオ",
-            description: "好きなものを熱く語る番組",
-            episodes: 3,
-            category: "雑談",
-            artworkUrl: "/images/sukiyori.png",
-            schedule: "不定期",
-            listen: {
-              spotify: "https://open.spotify.com/show/1KSoDQWaSayrTBHvZZMjnm?si=1ab90adaaf5d4137",
-              apple: "https://podcasts.apple.com/us/podcast/%E5%A5%BD%E3%81%8D%E3%81%AE%E5%AF%84%E3%82%8A%E9%81%93%E3%83%A9%E3%82%B8%E3%82%AA/id1772087350",
-              amazon: "https://music.amazon.co.jp/podcasts/bb834182-f53f-4010-b112-c1f7ede76bbc/%E5%A5%BD%E3%81%8D%E3%81%AE%E5%AF%84%E3%82%8A%E9%81%93%E3%83%A9%E3%82%B8%E3%82%AA",
-              rss: "https://rss.listen.style/p/sukiyori/rss"
-            }
-          },
-          {
-            id: 4,
-            title: "徒然なるままに頭の中を吐き出す",
-            description: "タイトル通りの番組",
-            episodes: 24,
-            category: "思考",
-            artworkUrl: "/images/any_talk.png",
-            schedule: "不定期",
-            listen: {
-              spotify: "https://open.spotify.com/show/72YBoURXl1LxtWhSeCdQPO?si=9a2cdcf40431441f",
-              apple: "https://podcasts.apple.com/jp/podcast/%E5%BE%92%E7%84%B6%E3%81%AA%E3%82%8B%E3%81%BE%E3%81%BE%E3%81%AB%E9%A0%AD%E3%81%AE%E4%B8%AD%E3%82%92%E5%90%90%E3%81%8D%E5%87%BA%E3%81%99%E5%A0%B4/id1784637944",
-              amazon: "",
-              rss: "https://api.substack.com/feed/podcast/3447681.rss"
-            }
-          },
-          {
-            id: 5,
-            title: "染まりんさんな",
-            description: "東京に染まってしまった３人が広島の霊を取り戻す番組",
-            episodes: 7,
-            category: "雑談",
-            artworkUrl: "/images/somarinsanna.avif",
-            schedule: "不定期",
-            listen: {
-              spotify: "https://open.spotify.com/show/1vCXwpGaZHjoyx2neFBFAp?si=954ae47964264af4",
-              apple: "",
-              amazon: "",
-              rss: "https://rss.listen.style/p/somarinsanna/rss"
-            }
-          },
-        ],
+        homePlatforms: HOME_PLATFORMS,
+        otherPrograms: OTHER_PROGRAMS
       },
     }
   </script>
@@ -352,7 +260,7 @@
       border-radius: 16px;
       overflow: hidden;
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-      border: 1px solid var(--gray-200);
+      border: 1px solid var(--light-gray);
       transition: all 0.3s ease;
       display: flex;
       flex-direction: column;
@@ -518,8 +426,8 @@
     .main-program-section {
       padding: 6rem 2rem;
       background: var(--gray-50);
-      border-top: 1px solid var(--gray-200);
-      border-bottom: 1px solid var(--gray-200);
+      border-top: 1px solid var(--light-gray);
+      border-bottom: 1px solid var(--light-gray);
     }
 
     .main-program-content {
@@ -646,7 +554,7 @@
     }
 
     .content-list li::before {
-      content: '💧';
+      content: '🎙️';
       position: absolute;
       left: 0;
       top: 0.5rem;
@@ -669,7 +577,7 @@
       align-items: center;
       padding: 1.5rem 1rem;
       background: var(--white);
-      border: 1px solid var(--gray-200);
+      border: 1px solid var(--light-gray);
       border-radius: 12px;
       text-decoration: none;
       color: var(--text-color);
@@ -996,11 +904,11 @@
     }
 
     @keyframes warm-glow {
-      0%, 100% { 
+      0%, 100% {
         opacity: 1;
         transform: scale(1);
       }
-      50% { 
+      50% {
         opacity: 0.7;
         transform: scale(1.1);
       }
