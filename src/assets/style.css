@@ -6,7 +6,7 @@
   --light-gray: #e2e8f0;
   --cream: #fef9e7;
   --warm-white: #fffef7;
-  
+
   /* Rain & Coffee Colors */
   --rain-blue: #4299e1;
   --deep-rain: #2b6cb0;
@@ -233,30 +233,6 @@ sl-button[variant="neutral"]:hover::part(base) {
   border-color: var(--cozy-orange);
   transform: translateY(-2px);
   box-shadow: 0 6px 20px rgba(244, 173, 85, 0.2);
-}
-
-/* Rain decorative elements for various components */
-.rain-accent {
-  position: relative;
-}
-
-.rain-accent::before {
-  content: '💧';
-  position: absolute;
-  top: -0.5rem;
-  right: -0.5rem;
-  font-size: 0.8rem;
-  opacity: 0.3;
-  animation: gentle-drop 3s ease-in-out infinite;
-}
-
-@keyframes gentle-drop {
-  0%, 100% {
-    transform: translateY(0) rotate(0deg);
-  }
-  50% {
-    transform: translateY(-3px) rotate(5deg);
-  }
 }
 
 /* Loading indicator with rain theme */

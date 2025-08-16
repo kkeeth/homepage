@@ -4,9 +4,9 @@
     <div class="header-rain">
       <div class="mini-raindrop" each={i in Array(3)} style="left: {20 + i * 30}%; animation-delay: {i * 1.5}s;"></div>
     </div>
-    
+
     <div class="logo">
-      <a href="/" class="logo-icon rain-accent">
+      <a href="/" class="logo-icon">
         <img src="/images/myself.png" alt="Website logo" />
       </a>
     </div>
@@ -16,14 +16,6 @@
       <language-switcher />
     </div>
   </header>
-
-  <script>
-    // import imgUrl from '@/assets/myself.png';
-
-    // export default {
-    //   imgUrl,
-    // }
-  </script>
 
   <style>
     .header {
@@ -36,7 +28,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 1rem 2rem;
+      padding: 2rem;
       position: relative;
       overflow: hidden;
     }
