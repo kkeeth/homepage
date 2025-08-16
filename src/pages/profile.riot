@@ -59,13 +59,41 @@
                 <span class="skill-tag writing">✍️ Technical Writing</span>
               </div>
             </div>
+
+            <!-- Social Links Section -->
+            <div class="social-section">
+              <h3 class="section-subtitle">フォローしてください</h3>
+              <div class="social-links">
+                <a href="https://twitter.com/kkeeth_" target="_blank" class="social-link">
+                  <div class="social-icon twitter">🐦</div>
+                  <div class="social-info">
+                    <div class="social-name">Twitter</div>
+                    <div class="social-handle">@kkeeth_</div>
+                  </div>
+                </a>
+                <a href="https://github.com/kkeeth" target="_blank" class="social-link">
+                  <div class="social-icon github">🐙</div>
+                  <div class="social-info">
+                    <div class="social-name">GitHub</div>
+                    <div class="social-handle">@kkeeth</div>
+                  </div>
+                </a>
+                <a href="mailto:hello@amayadori-podcast.com" class="social-link">
+                  <div class="social-icon email">📧</div>
+                  <div class="social-info">
+                    <div class="social-name">Email</div>
+                    <div class="social-handle">お気軽にご連絡を</div>
+                  </div>
+                </a>
+              </div>
+            </div>
           </div>
 
           <!-- Right Visual -->
           <div class="profile-visual">
             <div class="profile-image-section">
               <div class="image-container">
-                <img src="src/assets/mypicture.jpeg" alt="kkeeth" class="profile-image">
+                <img src="/images/mypicture.jpeg" alt="kkeeth" class="profile-image">
               </div>
 
               <!-- Floating Elements -->
@@ -87,7 +115,7 @@
         <div class="section-layout">
           <div class="section-header">
             <h2 class="section-title">これまでの歩み</h2>
-            <div class="title-accent"></div>
+            <div class="title-underline"></div>
           </div>
 
           <div class="journey-grid">
@@ -106,73 +134,6 @@
       </div>
     </section>
 
-    <!-- Contact Section -->
-    <section class="contact-section">
-      <div class="section-content">
-        <div class="contact-layout">
-          <div class="contact-content">
-            <div class="section-header">
-              <h2 class="section-title">お気軽にご連絡ください</h2>
-              <div class="title-accent"></div>
-            </div>
-
-            <p class="contact-description">
-              ご質問、ご感想、コラボレーションのお誘いなど、どんなことでもお気軽にお声がけください。
-              技術の話から日常の雑談まで、いつでもお待ちしています。
-            </p>
-
-            <div class="contact-methods">
-              <div class="contact-item">
-                <div class="contact-icon">📧</div>
-                <div class="contact-info">
-                  <div class="contact-label">メール</div>
-                  <div class="contact-value">hello@amayadori-podcast.com</div>
-                </div>
-              </div>
-              <div class="contact-item">
-                <div class="contact-icon">🐦</div>
-                <div class="contact-info">
-                  <div class="contact-label">Twitter</div>
-                  <div class="contact-value">@amayadori_pod</div>
-                </div>
-              </div>
-              <div class="contact-item">
-                <div class="contact-icon">💬</div>
-                <div class="contact-info">
-                  <div class="contact-label">Discord</div>
-                  <div class="contact-value">コミュニティサーバー</div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Contact Form -->
-          <div class="contact-form-section">
-            <div class="contact-form">
-              <h3 class="form-title">メッセージを送る</h3>
-              <form class="message-form">
-                <div class="form-group">
-                  <input type="text" placeholder="お名前" class="form-input" required>
-                </div>
-                <div class="form-group">
-                  <input type="email" placeholder="メールアドレス" class="form-input" required>
-                </div>
-                <div class="form-group">
-                  <textarea placeholder="メッセージ" class="form-textarea" rows="5" required></textarea>
-                </div>
-                <div class="form-disclaimer">
-                  送信することで、プライバシーポリシーに同意したものとみなします。
-                </div>
-                <sl-button type="submit" variant="primary" size="large" class="submit-btn">
-                  <span class="btn-emoji">✉️</span>
-                  送信する
-                </sl-button>
-              </form>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
   </div>
 
   <script>
@@ -262,7 +223,7 @@
     }
 
     .title-accent {
-      width: 60px;
+      width: 80px;
       height: 4px;
       background: var(--mint-400);
       border-radius: 2px;
@@ -320,7 +281,65 @@
     }
 
     .skills-section {
+      margin-bottom: 3rem;
+    }
+
+    .social-section {
       margin-bottom: 2rem;
+    }
+
+    .social-links {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .social-link {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1.25rem;
+      background: var(--warm-white);
+      border: 2px solid var(--warm-amber);
+      border-radius: 1rem;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(244, 173, 85, 0.1);
+    }
+
+    .social-link:hover {
+      background: var(--warm-shelter);
+      border-color: var(--cozy-orange);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(244, 173, 85, 0.2);
+    }
+
+    .social-icon {
+      width: 3rem;
+      height: 3rem;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      background: var(--cream);
+      border: 2px solid var(--warm-amber);
+    }
+
+    .social-info {
+      flex: 1;
+    }
+
+    .social-name {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--coffee-brown);
+      margin-bottom: 0.25rem;
+    }
+
+    .social-handle {
+      font-size: 0.9rem;
+      color: var(--text-color);
     }
 
     .section-subtitle {
@@ -403,7 +422,7 @@
 
     .element-1 {
       top: 10%;
-      right: -10%;
+      right: 5%;
       animation-delay: 0s;
     }
 

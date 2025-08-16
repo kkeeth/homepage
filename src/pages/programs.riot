@@ -1,17 +1,18 @@
 <programs>
   <div class="programs">
-    <!-- Page Header -->
+    <!-- Page Header with Rain -->
     <section class="page-header">
       <div class="header-bg">
-        <!-- Floating droplets -->
-        <div class="droplet droplet-yellow" style="top: 20%; left: 10%;"></div>
-        <div class="droplet droplet-pink" style="top: 60%; right: 15%;"></div>
-        <div class="droplet droplet-mint" style="top: 40%; left: 20%;"></div>
-        <div class="droplet droplet-blue" style="top: 70%; right: 25%;"></div>
-
-        <!-- Decorative crosses -->
-        <div class="cross" style="top: 30%; left: 60%;"></div>
-        <div class="cross" style="top: 80%; right: 40%;"></div>
+        <!-- Rain Animation -->
+        <div class="rain-container">
+          <div class="raindrop" each={i in Array(8)} style="left: {Math.random() * 100}%; animation-delay: {Math.random() * 3}s;"></div>
+        </div>
+        
+        <!-- Cozy Elements -->
+        <div class="umbrella-element">☂</div>
+        <div class="music-note-1">♪</div>
+        <div class="music-note-2">♫</div>
+        <div class="coffee-steam"></div>
       </div>
 
       <div class="container">
@@ -68,7 +69,7 @@
         displayedCount: 0,
         totalCount: 0,
         currentPage: 1,
-        pageSize: 12
+        pageSize: 6
       },
       async onBeforeMount() {
         this.handleEpisodesLoaded = () => {
@@ -113,10 +114,10 @@
 
     .page-header {
       position: relative;
-      padding: 4rem 0;
-      background: linear-gradient(135deg, var(--mint-200), var(--mint-500));
+      padding: 6rem 0;
+      background: var(--hero-gradient);
       overflow: hidden;
-      color: white;
+      color: var(--warm-white);
     }
 
     .header-bg {
@@ -125,45 +126,83 @@
       pointer-events: none;
     }
 
-    .droplet {
+    /* Rain Animation */
+    .rain-container {
       position: absolute;
-      width: 1.5rem;
-      height: 1.8rem;
-      border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
-      animation: float 6s ease-in-out infinite;
+      width: 100%;
+      height: 100%;
     }
 
-    .droplet-yellow { background: var(--yellow-400); animation-delay: 0s; }
-    .droplet-pink { background: var(--pink-400); animation-delay: 1.5s; }
-    .droplet-mint { background: var(--mint-400); animation-delay: 3s; }
-    .droplet-blue { background: var(--blue-400); animation-delay: 4.5s; }
-
-    .cross {
+    .raindrop {
       position: absolute;
-      width: 0.8rem;
-      height: 0.8rem;
+      top: -10px;
+      width: 2px;
+      height: 20px;
+      background: linear-gradient(to bottom, var(--rain-blue), transparent);
+      border-radius: 0 0 50% 50%;
+      animation: falling-rain 3s linear infinite;
+      opacity: 0.6;
+    }
+
+    /* Cozy Elements */
+    .umbrella-element {
+      position: absolute;
+      top: 20%;
+      right: 15%;
+      font-size: 3rem;
+      color: var(--umbrella-red);
+      animation: gentle-sway 4s ease-in-out infinite;
+      opacity: 0.4;
+    }
+
+    .music-note-1 {
+      position: absolute;
+      top: 30%;
+      left: 10%;
+      font-size: 2rem;
+      color: var(--warm-amber);
+      animation: float-notes 3s ease-in-out infinite;
+      opacity: 0.3;
+    }
+
+    .music-note-2 {
+      position: absolute;
+      bottom: 25%;
+      right: 25%;
+      font-size: 1.5rem;
+      color: var(--soft-teal);
+      animation: float-notes 3s ease-in-out infinite 1.5s;
+      opacity: 0.3;
+    }
+
+    .coffee-steam {
+      position: absolute;
+      bottom: 20%;
+      left: 20%;
+      width: 30px;
+      height: 40px;
       opacity: 0.2;
     }
 
-    .cross::before,
-    .cross::after {
+    .coffee-steam::before,
+    .coffee-steam::after {
       content: '';
       position: absolute;
-      background: var(--navy-600);
+      width: 3px;
+      height: 15px;
+      background: var(--warm-amber);
+      border-radius: 50%;
+      animation: steam-rise 2s ease-in-out infinite;
     }
 
-    .cross::before {
-      width: 100%;
-      height: 2px;
-      top: 50%;
-      transform: translateY(-50%);
+    .coffee-steam::before {
+      left: 8px;
+      animation-delay: 0s;
     }
 
-    .cross::after {
-      height: 100%;
-      width: 2px;
-      left: 50%;
-      transform: translateX(-50%);
+    .coffee-steam::after {
+      left: 15px;
+      animation-delay: 0.5s;
     }
 
     .header-content {
@@ -179,12 +218,13 @@
     }
 
     .page-description {
-      font-size: 1.125rem;
-      color: var(--navy-600);
+      font-size: 1.2rem;
+      color: var(--white-90);
       line-height: 1.6;
       margin-bottom: 2.5rem;
       margin-left: auto;
       margin-right: auto;
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
     }
 
     .header-stats {
@@ -195,18 +235,25 @@
 
     .stat {
       text-align: center;
+      background: var(--white-20);
+      padding: 1.5rem;
+      border-radius: 1rem;
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--white-20);
     }
 
     .stat-number {
-      font-size: 2rem;
-      font-weight: bold;
-      color: var(--navy-800);
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: var(--warm-white);
       display: block;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
     }
 
     .stat-label {
-      font-size: 0.875rem;
-      color: var(--navy-600);
+      font-size: 0.9rem;
+      color: var(--white-80);
+      margin-top: 0.5rem;
     }
 
     .featured-program {
@@ -403,7 +450,6 @@
     }
 
     .card-actions {
-      padding: 0 1.5rem 1.5rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -532,9 +578,61 @@
       background: rgba(255, 255, 255, 0.2);
     }
 
-    @keyframes float {
-      0%, 100% { transform: translateY(0px); }
-      50% { transform: translateY(-8px); }
+    /* Animations */
+    @keyframes falling-rain {
+      0% {
+        transform: translateY(-10px);
+        opacity: 0;
+      }
+      10% {
+        opacity: 0.6;
+      }
+      90% {
+        opacity: 0.6;
+      }
+      100% {
+        transform: translateY(calc(100vh + 20px));
+        opacity: 0;
+      }
+    }
+
+    @keyframes gentle-sway {
+      0%, 100% {
+        transform: rotate(-3deg);
+      }
+      50% {
+        transform: rotate(3deg);
+      }
+    }
+
+    @keyframes float-notes {
+      0%, 100% {
+        transform: translateY(0) rotate(0deg);
+      }
+      25% {
+        transform: translateY(-8px) rotate(5deg);
+      }
+      50% {
+        transform: translateY(-12px) rotate(-3deg);
+      }
+      75% {
+        transform: translateY(-6px) rotate(2deg);
+      }
+    }
+
+    @keyframes steam-rise {
+      0% {
+        transform: translateY(0) scale(1);
+        opacity: 0.8;
+      }
+      50% {
+        transform: translateY(-15px) scale(1.2);
+        opacity: 0.4;
+      }
+      100% {
+        transform: translateY(-30px) scale(0.8);
+        opacity: 0;
+      }
     }
 
     @media (max-width: 768px) {

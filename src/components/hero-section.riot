@@ -1,12 +1,36 @@
 <hero-section>
   <section class="hero">
-    <!-- Minimal geometric background -->
+    <!-- Rain Animation Background -->
     <div class="hero-bg">
-      <div class="geometric-shape circle-1"></div>
-      <div class="geometric-shape rectangle-1"></div>
-      <div class="geometric-shape circle-2"></div>
-      <div class="geometric-shape line-1"></div>
-      <div class="geometric-shape line-2"></div>
+      <!-- Animated Rain Drops -->
+      <div class="rain-container">
+        <div class="raindrop" style="left: 10%; animation-delay: 0s;"></div>
+        <div class="raindrop" style="left: 20%; animation-delay: 0.5s;"></div>
+        <div class="raindrop" style="left: 30%; animation-delay: 1s;"></div>
+        <div class="raindrop" style="left: 40%; animation-delay: 1.5s;"></div>
+        <div class="raindrop" style="left: 50%; animation-delay: 2s;"></div>
+        <div class="raindrop" style="left: 60%; animation-delay: 0.7s;"></div>
+        <div class="raindrop" style="left: 70%; animation-delay: 1.2s;"></div>
+        <div class="raindrop" style="left: 80%; animation-delay: 1.8s;"></div>
+        <div class="raindrop" style="left: 90%; animation-delay: 0.3s;"></div>
+        <div class="raindrop" style="left: 15%; animation-delay: 2.5s;"></div>
+        <div class="raindrop" style="left: 35%; animation-delay: 0.8s;"></div>
+        <div class="raindrop" style="left: 55%; animation-delay: 1.7s;"></div>
+        <div class="raindrop" style="left: 75%; animation-delay: 0.2s;"></div>
+        <div class="raindrop" style="left: 85%; animation-delay: 2.2s;"></div>
+      </div>
+
+      <!-- Cozy Elements -->
+      <div class="cozy-elements">
+        <div class="umbrella-icon">☂</div>
+        <div class="coffee-steam"></div>
+        <div class="microphone-icon">🎙️</div>
+        <div class="sound-waves">
+          <div class="wave"></div>
+          <div class="wave"></div>
+          <div class="wave"></div>
+        </div>
+      </div>
     </div>
 
     <!-- Centered content layout -->
@@ -19,12 +43,12 @@
         <div class="hero-text">
           <h1 class="hero-title">雨宿りとWEBの小噺.fm</h1>
           <p class="hero-subtitle">
-            Web技術、クリエイティブ、日常の発見を<br>
-            <span class="accent-text">心地よく</span>語り合う空間
+            急な雨に降られた時、<br>
+            軒先で聞く<span class="accent-text">技術の小話</span>
           </p>
           <p class="hero-description">
-            フロントエンドエンジニアのkkeethが語る、<br>
-            Web開発・技術・日常の気づきのポッドキャスト
+            フロントエンドエンジニアのkkeethが、雨音とともに語る<br>
+            Web開発・技術・日常の発見。コーヒー片手に、ゆっくりとお聞きください。
           </p>
 
           <div class="hero-cta">
@@ -39,7 +63,7 @@
 
   <style>
     .hero {
-      background: var(--white);
+      background: var(--hero-gradient);
       position: relative;
       overflow: hidden;
       min-height: 100vh;
@@ -52,61 +76,125 @@
       position: absolute;
       inset: 0;
       pointer-events: none;
+    }
+
+    /* Rain Animation */
+    .rain-container {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    .raindrop {
+      position: absolute;
+      top: -10px;
+      width: 2px;
+      height: 20px;
+      background: linear-gradient(to bottom, var(--rain-blue), transparent);
+      border-radius: 0 0 50% 50%;
+      animation: falling-rain 3s linear infinite;
+      opacity: 0.7;
+    }
+
+    .raindrop:nth-child(odd) {
+      height: 15px;
+      animation-duration: 2.5s;
+    }
+
+    .raindrop:nth-child(3n) {
+      height: 25px;
+      animation-duration: 3.5s;
+      opacity: 0.5;
+    }
+
+    /* Cozy Elements */
+    .cozy-elements {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+    }
+
+    .umbrella-icon {
+      position: absolute;
+      top: 15%;
+      right: 10%;
+      font-size: 3rem;
+      color: var(--umbrella-red);
+      animation: sway 4s ease-in-out infinite;
+      opacity: 0.8;
+    }
+
+    .coffee-steam {
+      position: absolute;
+      bottom: 20%;
+      left: 8%;
+      width: 40px;
+      height: 60px;
+      opacity: 0.2;
+    }
+
+    .coffee-steam::before,
+    .coffee-steam::after {
+      content: '';
+      position: absolute;
+      width: 4px;
+      height: 20px;
+      background: var(--warm-amber);
+      border-radius: 50%;
+      animation: steam 2s ease-in-out infinite;
+    }
+
+    .coffee-steam::before {
+      left: 10px;
+      animation-delay: 0s;
+    }
+
+    .coffee-steam::after {
+      left: 20px;
+      animation-delay: 0.5s;
+    }
+
+    .microphone-icon {
+      position: absolute;
+      top: 25%;
+      left: 12%;
+      font-size: 2.5rem;
+      color: var(--warm-amber);
+      animation: gentle-bounce 3s ease-in-out infinite;
       opacity: 0.6;
     }
 
-    /* Minimal geometric shapes */
-    .geometric-shape {
+    .sound-waves {
       position: absolute;
-      opacity: 0.1;
+      bottom: 30%;
+      right: 15%;
+      display: flex;
+      gap: 5px;
+      align-items: flex-end;
     }
 
-    .circle-1 {
-      width: 300px;
-      height: 300px;
-      border-radius: 50%;
-      border: 2px solid var(--blue-400);
-      top: 10%;
-      right: 10%;
-      animation: gentle-rotate 30s linear infinite;
+    .wave {
+      width: 4px;
+      background: var(--soft-teal);
+      border-radius: 2px;
+      animation: sound-wave 1.5s ease-in-out infinite;
+      opacity: 0.4;
     }
 
-    .circle-2 {
-      width: 150px;
-      height: 150px;
-      background: var(--orange-200);
-      border-radius: 50%;
-      bottom: 15%;
-      left: 8%;
-      animation: gentle-float 8s ease-in-out infinite;
+    .wave:nth-child(1) {
+      height: 20px;
+      animation-delay: 0s;
     }
 
-    .rectangle-1 {
-      width: 80px;
-      height: 200px;
-      background: var(--gray-200);
-      top: 20%;
-      left: 15%;
-      transform: rotate(25deg);
-      border-radius: 8px;
+    .wave:nth-child(2) {
+      height: 35px;
+      animation-delay: 0.3s;
     }
 
-    .line-1 {
-      width: 180px;
-      height: 3px;
-      background: linear-gradient(90deg, var(--blue-300), transparent);
-      top: 60%;
-      right: 20%;
-      transform: rotate(-45deg);
-    }
-
-    .line-2 {
-      width: 120px;
-      height: 2px;
-      background: var(--orange-300);
-      bottom: 40%;
-      right: 25%;
-      transform: rotate(15deg);
+    .wave:nth-child(3) {
+      height: 25px;
+      animation-delay: 0.6s;
     }
 
     .hero-container {
@@ -134,35 +222,38 @@
       width: 280px;
       height: 280px;
       object-fit: cover;
-      border-radius: 16%;
-      border: 8px solid var(--gray-200);
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      border-radius: 20px;
+      border: 6px solid var(--warm-shelter);
+      box-shadow: 0 20px 60px rgba(45, 55, 72, 0.2);
+      transition: all 0.3s ease;
+      filter: brightness(1.1) contrast(1.05);
     }
 
     .hero-image:hover {
-      transform: scale(1.05);
-      box-shadow: 0 25px 80px rgba(0, 0, 0, 0.15);
+      transform: scale(1.05) rotate(2deg);
+      box-shadow: 0 30px 80px rgba(45, 55, 72, 0.3);
+      border-color: var(--warm-amber);
     }
 
     .hero-title {
       font-size: 3.5rem;
       font-weight: 800;
       margin-bottom: 1.5rem;
-      color: var(--text-dark);
+      color: var(--light-gray);
       letter-spacing: -0.03em;
     }
 
     .hero-subtitle {
       font-size: 1.5rem;
       line-height: 1.5;
-      color: var(--text-color);
+      color: var(--text-light);
       margin-bottom: 1.5rem;
     }
 
     .accent-text {
-      color: var(--blue-600);
+      color: var(--warm-amber);
       font-weight: 700;
+      text-shadow: 0 2px 4px rgba(244, 173, 85, 0.3);
     }
 
     .hero-description {
@@ -173,19 +264,71 @@
     }
 
     .latest-episode-embed {
-      border-radius: 12px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+      background: var(--warm-shelter);
+      border-radius: 16px;
+      padding: 1.5rem;
+      box-shadow: 0 8px 32px rgba(45, 55, 72, 0.15);
+      border: 2px solid var(--warm-amber);
     }
 
-    /* Animations */
-    @keyframes gentle-rotate {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
+    /* Rain & Cozy Animations */
+    @keyframes falling-rain {
+      0% {
+        transform: translateY(-10px);
+        opacity: 0;
+      }
+      10% {
+        opacity: 0.7;
+      }
+      90% {
+        opacity: 0.7;
+      }
+      100% {
+        transform: translateY(calc(100vh + 20px));
+        opacity: 0;
+      }
     }
 
-    @keyframes gentle-float {
-      0%, 100% { transform: translateY(0px); }
-      50% { transform: translateY(-20px); }
+    @keyframes sway {
+      0%, 100% {
+        transform: rotate(-5deg);
+      }
+      50% {
+        transform: rotate(5deg);
+      }
+    }
+
+    @keyframes steam {
+      0% {
+        transform: translateY(0) scale(1);
+        opacity: 0.8;
+      }
+      50% {
+        transform: translateY(-20px) scale(1.2);
+        opacity: 0.4;
+      }
+      100% {
+        transform: translateY(-40px) scale(0.8);
+        opacity: 0;
+      }
+    }
+
+    @keyframes sound-wave {
+      0%, 100% {
+        transform: scaleY(1);
+      }
+      50% {
+        transform: scaleY(1.5);
+      }
+    }
+
+    @keyframes gentle-bounce {
+      0%, 100% {
+        transform: translateY(0) rotate(0deg);
+      }
+      50% {
+        transform: translateY(-8px) rotate(3deg);
+      }
     }
 
     /* Responsive Design */

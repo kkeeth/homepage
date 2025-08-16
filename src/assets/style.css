@@ -1,56 +1,42 @@
-/* CSS Custom Properties - Monochrome with Accent Colors */
+/* CSS Custom Properties - Rainy Day Warmth Theme */
 :root {
-  /* Monochrome Base Colors */
-  --white: #ffffff;
-  --gray-50: #fafafa;
-  --gray-100: #f5f5f5;
-  --gray-200: #e5e5e5;
-  --gray-300: #d4d4d4;
-  --gray-400: #a3a3a3;
-  --gray-500: #737373;
-  --gray-600: #525252;
-  --gray-700: #404040;
-  --gray-800: #262626;
-  --gray-900: #171717;
-  --black: #000000;
-
-  /* Accent Colors */
-  --blue-50: #eff6ff;
-  --blue-100: #dbeafe;
-  --blue-200: #bfdbfe;
-  --blue-300: #93c5fd;
-  --blue-400: #60a5fa;
-  --blue-500: #3b82f6;
-  --blue-600: #2563eb;
-  --blue-700: #1d4ed8;
-  --blue-800: #1e40af;
-  --blue-900: #1e3a8a;
-
-  --orange-50: #fff7ed;
-  --orange-100: #ffedd5;
-  --orange-200: #fed7aa;
-  --orange-300: #fdba74;
-  --orange-400: #fb923c;
-  --orange-500: #f97316;
-  --orange-600: #ea580c;
-  --orange-700: #c2410c;
-  --orange-800: #9a3412;
-  --orange-900: #7c2d12;
+  /* Rainy Day Color Palette */
+  --charcoal: #2d3748;
+  --warm-gray: #4a5568;
+  --light-gray: #e2e8f0;
+  --cream: #fef9e7;
+  --warm-white: #fffef7;
+  
+  /* Rain & Coffee Colors */
+  --rain-blue: #4299e1;
+  --deep-rain: #2b6cb0;
+  --storm-cloud: #2d3748;
+  --coffee-brown: #744210;
+  --warm-amber: #f6ad55;
+  --cozy-orange: #ed8936;
+  --soft-teal: #38b2ac;
+  --misty-gray: #a0aec0;
 
   /* Primary Theme Colors */
-  --primary-color: var(--blue-600);
-  --secondary-color: var(--orange-500);
-  --hero-gradient: linear-gradient(135deg, var(--gray-900) 0%, var(--gray-700) 100%);
+  --primary-color: var(--rain-blue);
+  --secondary-color: var(--warm-amber);
+  --hero-gradient: linear-gradient(135deg, var(--storm-cloud) 0%, var(--warm-gray) 50%, var(--rain-blue) 100%);
 
   /* Semantic Colors */
-  --background-color: var(--white);
-  --surface-color: var(--gray-50);
-  --text-color: var(--gray-700);
-  --text-light: var(--gray-500);
-  --text-dark: var(--gray-900);
-  --text-muted: var(--gray-400);
-  --accent-color: var(--blue-600);
-  --social-link-color: var(--blue-600);
+  --background-color: var(--warm-white);
+  --surface-color: var(--cream);
+  --text-color: var(--warm-gray);
+  --text-light: var(--misty-gray);
+  --text-dark: var(--charcoal);
+  --text-muted: var(--misty-gray);
+  --accent-color: var(--rain-blue);
+  --social-link-color: var(--soft-teal);
+
+  /* Rain Theme Variants */
+  --umbrella-red: #4a90e2;
+  --window-light: #fef9e7;
+  --puddle-reflection: #bee3f8;
+  --warm-shelter: #fed7aa;
 
   /* White/Black Transparency Variants */
   --white-10: rgba(255, 255, 255, 0.1);
@@ -60,63 +46,67 @@
   --black-10: rgba(0, 0, 0, 0.1);
   --black-20: rgba(0, 0, 0, 0.2);
 
-  /* Shoelace overrides for consistency */
-  --sl-color-primary-50: var(--blue-50);
-  --sl-color-primary-100: var(--blue-100);
-  --sl-color-primary-200: var(--blue-200);
-  --sl-color-primary-300: var(--blue-300);
-  --sl-color-primary-400: var(--blue-400);
-  --sl-color-primary-500: var(--blue-500);
-  --sl-color-primary-600: var(--blue-600);
-  --sl-color-primary-700: var(--blue-700);
-  --sl-color-primary-800: var(--blue-800);
-  --sl-color-primary-900: var(--blue-900);
+  /* Shoelace overrides for rain theme */
+  --sl-color-primary-50: var(--puddle-reflection);
+  --sl-color-primary-100: var(--puddle-reflection);
+  --sl-color-primary-200: var(--rain-blue);
+  --sl-color-primary-300: var(--rain-blue);
+  --sl-color-primary-400: var(--rain-blue);
+  --sl-color-primary-500: var(--rain-blue);
+  --sl-color-primary-600: var(--deep-rain);
+  --sl-color-primary-700: var(--deep-rain);
+  --sl-color-primary-800: var(--storm-cloud);
+  --sl-color-primary-900: var(--storm-cloud);
 
-  --sl-color-neutral-0: var(--white);
-  --sl-color-neutral-50: var(--gray-50);
-  --sl-color-neutral-100: var(--gray-100);
-  --sl-color-neutral-200: var(--gray-200);
-  --sl-color-neutral-300: var(--gray-300);
-  --sl-color-neutral-400: var(--gray-400);
-  --sl-color-neutral-500: var(--gray-500);
-  --sl-color-neutral-600: var(--gray-600);
-  --sl-color-neutral-700: var(--gray-700);
-  --sl-color-neutral-800: var(--gray-800);
-  --sl-color-neutral-900: var(--gray-900);
-  --sl-color-neutral-1000: var(--black);
+  --sl-color-neutral-0: var(--warm-white);
+  --sl-color-neutral-50: var(--cream);
+  --sl-color-neutral-100: var(--light-gray);
+  --sl-color-neutral-200: var(--light-gray);
+  --sl-color-neutral-300: var(--misty-gray);
+  --sl-color-neutral-400: var(--misty-gray);
+  --sl-color-neutral-500: var(--warm-gray);
+  --sl-color-neutral-600: var(--warm-gray);
+  --sl-color-neutral-700: var(--charcoal);
+  --sl-color-neutral-800: var(--charcoal);
+  --sl-color-neutral-900: var(--storm-cloud);
+  --sl-color-neutral-1000: var(--storm-cloud);
 
-  /* Legacy aliases for backward compatibility */
-  --mint-50: var(--gray-50);
-  --mint-100: var(--gray-100);
-  --mint-200: var(--gray-200);
-  --mint-300: var(--gray-300);
-  --mint-400: var(--gray-400);
-  --mint-500: var(--blue-600);
-  --mint-600: var(--blue-700);
-  --mint-700: var(--blue-800);
-  --mint-800: var(--blue-900);
+  /* Legacy aliases updated for rain theme */
+  --mint-50: var(--cream);
+  --mint-100: var(--light-gray);
+  --mint-200: var(--puddle-reflection);
+  --mint-300: var(--soft-teal);
+  --mint-400: var(--soft-teal);
+  --mint-500: var(--rain-blue);
+  --mint-600: var(--deep-rain);
+  --mint-700: var(--storm-cloud);
+  --mint-800: var(--storm-cloud);
 
-  --navy-50: var(--gray-50);
-  --navy-100: var(--gray-100);
-  --navy-200: var(--gray-200);
-  --navy-300: var(--gray-300);
-  --navy-400: var(--gray-400);
-  --navy-500: var(--gray-500);
-  --navy-600: var(--gray-600);
-  --navy-700: var(--gray-700);
-  --navy-800: var(--gray-800);
-  --navy-900: var(--gray-900);
+  --navy-50: var(--cream);
+  --navy-100: var(--light-gray);
+  --navy-200: var(--light-gray);
+  --navy-300: var(--misty-gray);
+  --navy-400: var(--misty-gray);
+  --navy-500: var(--warm-gray);
+  --navy-600: var(--warm-gray);
+  --navy-700: var(--charcoal);
+  --navy-800: var(--charcoal);
+  --navy-900: var(--storm-cloud);
 
-  /* Updated accent colors */
-  --image-bg: var(--gray-100);
-  --yellow-400: var(--orange-400);
-  --yellow-500: var(--orange-500);
-  --pink-400: var(--orange-400);
-  --pink-500: var(--orange-500);
-  --coral-400: var(--orange-400);
+  /* Rain theme accent colors */
+  --image-bg: var(--cream);
+  --yellow-400: var(--warm-amber);
+  --yellow-500: var(--warm-amber);
+  --pink-400: var(--cozy-orange);
+  --pink-500: var(--cozy-orange);
+  --coral-400: var(--umbrella-red);
+  --blue-400: var(--rain-blue);
+  --blue-500: var(--rain-blue);
+  --purple-400: var(--soft-teal);
+  --purple-500: var(--soft-teal);
 
-  /* Updated gradients */
-  --mint-gradient: linear-gradient(135deg, var(--gray-200), var(--gray-300));
+  /* Rain theme gradients */
+  --mint-gradient: linear-gradient(135deg, var(--cream), var(--puddle-reflection));
 
   /* Geometric shapes for modern decoration */
   --droplet-large-width: 3rem;
@@ -188,7 +178,7 @@ html {
 .title-underline {
   width: 80px;
   height: 3px;
-  background: linear-gradient(135deg, var(--blue-600), var(--orange-500));
+  background: linear-gradient(135deg, var(--rain-blue), var(--warm-amber));
   margin: 0 auto;
   border-radius: 2px;
 }
@@ -211,13 +201,70 @@ html {
   }
 }
 
-/* Some forced style overrides */
+/* Rain-themed button styles for site-wide consistency */
+sl-button::part(base) {
+  border-radius: 1rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
 
+sl-button[variant="primary"]::part(base) {
+  background: linear-gradient(135deg, var(--rain-blue), var(--deep-rain));
+  border: 2px solid var(--white-20);
+  color: var(--warm-white);
+  box-shadow: 0 4px 15px rgba(66, 153, 225, 0.2);
+}
+
+sl-button[variant="primary"]:hover::part(base) {
+  background: linear-gradient(135deg, var(--deep-rain), var(--storm-cloud));
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(66, 153, 225, 0.3);
+}
+
+sl-button[variant="neutral"]::part(base) {
+  background: var(--warm-white);
+  border: 2px solid var(--warm-amber);
+  color: var(--coffee-brown);
+  box-shadow: 0 4px 15px rgba(244, 173, 85, 0.1);
+}
+
+sl-button[variant="neutral"]:hover::part(base) {
+  background: var(--warm-shelter);
+  border-color: var(--cozy-orange);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(244, 173, 85, 0.2);
+}
+
+/* Rain decorative elements for various components */
+.rain-accent {
+  position: relative;
+}
+
+.rain-accent::before {
+  content: '💧';
+  position: absolute;
+  top: -0.5rem;
+  right: -0.5rem;
+  font-size: 0.8rem;
+  opacity: 0.3;
+  animation: gentle-drop 3s ease-in-out infinite;
+}
+
+@keyframes gentle-drop {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-3px) rotate(5deg);
+  }
+}
+
+/* Loading indicator with rain theme */
 .loading-indicator {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 1rem;
   margin: 3rem 0;
-  color: var(--navy-600);
+  color: var(--coffee-brown);
 }

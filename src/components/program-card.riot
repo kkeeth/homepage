@@ -4,10 +4,20 @@
       <div class="card-header">
         <div class="episode-image-container">
           <img src={episode.imageUrl || "/placeholder.svg"} alt={episode.title} class="episode-image">
+          <div class="musical-notes">
+            <span class="note note-1">♪</span>
+            <span class="note note-2">♫</span>
+            <span class="note note-3">♪</span>
+          </div>
         </div>
         <div class="episode-meta">
           <span class="episode-date">{episode.pubDate}</span>
           <div class="episode-indicator"></div>
+        </div>
+        <div class="rain-drops-decoration">
+          <div class="mini-drop"></div>
+          <div class="mini-drop"></div>
+          <div class="mini-drop"></div>
         </div>
       </div>
 
@@ -43,31 +53,48 @@
   <style>
     .program-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
       gap: 2rem;
       margin-bottom: 3rem;
     }
 
     .program-card {
-      background: var(--white);
-      border: 1px solid var(--gray-200);
-      border-radius: 16px;
+      background: var(--warm-white);
+      border: 1px solid var(--light-gray);
+      border-radius: 20px;
       overflow: hidden;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+      box-shadow: 0 4px 20px rgba(45, 55, 72, 0.08);
       transition: all 0.3s ease;
       display: flex;
       flex-direction: column;
+      position: relative;
+    }
+
+    .program-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--rain-blue), var(--warm-amber), var(--soft-teal));
+      border-radius: 20px 20px 0 0;
     }
 
     .program-card:hover {
       transform: translateY(-8px);
-      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1);
-      border-color: var(--blue-300);
+      box-shadow: 0 15px 50px rgba(45, 55, 72, 0.15);
+      border-color: var(--rain-blue);
+    }
+
+    .program-card:hover .musical-notes .note {
+      opacity: 1;
+      animation: floating-notes 2s ease-in-out infinite;
     }
 
     .card-header {
       position: relative;
-      background: var(--gray-50);
+      background: var(--cream);
       padding: 1.2rem;
       display: flex;
       align-items: center;
@@ -76,11 +103,79 @@
 
     .episode-image-container {
       width: 120px;
-      border-radius: 12px;
+      border-radius: 16px;
       overflow: hidden;
       flex-shrink: 0;
-      background: var(--white);
-      border: 2px solid var(--gray-200);
+      background: var(--warm-white);
+      border: 2px solid var(--warm-amber);
+      position: relative;
+    }
+
+    /* Musical Notes Animation */
+    .musical-notes {
+      position: absolute;
+      top: -10px;
+      right: -10px;
+      pointer-events: none;
+    }
+
+    .note {
+      position: absolute;
+      color: var(--warm-amber);
+      font-size: 1.2rem;
+      opacity: 0;
+      transition: all 0.3s ease;
+    }
+
+    .note-1 {
+      top: 0;
+      right: 0;
+      animation-delay: 0s;
+    }
+
+    .note-2 {
+      top: -8px;
+      right: 15px;
+      animation-delay: 0.3s;
+    }
+
+    .note-3 {
+      top: 8px;
+      right: 8px;
+      animation-delay: 0.6s;
+    }
+
+    /* Rain Drops Decoration */
+    .rain-drops-decoration {
+      position: absolute;
+      top: 1rem;
+      left: 1rem;
+      pointer-events: none;
+    }
+
+    .mini-drop {
+      position: absolute;
+      width: 4px;
+      height: 12px;
+      background: linear-gradient(to bottom, var(--rain-blue), transparent);
+      border-radius: 0 0 50% 50%;
+      opacity: 0.3;
+      animation: tiny-rain 2s ease-in-out infinite;
+    }
+
+    .mini-drop:nth-child(1) {
+      left: 0;
+      animation-delay: 0s;
+    }
+
+    .mini-drop:nth-child(2) {
+      left: 8px;
+      animation-delay: 0.5s;
+    }
+
+    .mini-drop:nth-child(3) {
+      left: 16px;
+      animation-delay: 1s;
     }
 
     .episode-image {
@@ -98,20 +193,22 @@
 
     .episode-date {
       font-size: 0.875rem;
-      color: var(--text-light);
-      font-weight: 500;
-      background: var(--white);
-      padding: 0.25rem 0.75rem;
-      border-radius: 20px;
-      border: 1px solid var(--gray-200);
+      color: var(--coffee-brown);
+      font-weight: 600;
+      background: var(--warm-shelter);
+      padding: 0.4rem 1rem;
+      border-radius: 25px;
+      border: 1px solid var(--warm-amber);
+      box-shadow: 0 2px 8px rgba(244, 173, 85, 0.2);
     }
 
     .episode-indicator {
       width: 12px;
       height: 12px;
       border-radius: 50%;
-      background: linear-gradient(135deg, var(--blue-400), var(--blue-600));
+      background: linear-gradient(135deg, var(--rain-blue), var(--soft-teal));
       animation: pulse 2s ease-in-out infinite;
+      box-shadow: 0 0 10px rgba(66, 153, 225, 0.4);
     }
 
     .card-body {
@@ -154,17 +251,31 @@
 
     .listen-btn::part(base) {
       width: 100%;
-      border-radius: 10px;
+      border-radius: 15px;
       font-weight: 600;
-      background: linear-gradient(135deg, var(--blue-600), var(--blue-700));
+      background: linear-gradient(135deg, var(--rain-blue), var(--deep-rain));
       border: none;
-      padding: 0.75rem 1.5rem;
-      color: var(--white);
+      padding: 0.8rem 1.5rem;
+      color: var(--warm-white);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .listen-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      transition: left 0.5s ease;
     }
 
     .listen-btn:hover::part(base) {
-      background: linear-gradient(135deg, var(--blue-700), var(--blue-800));
-      box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
+      background: linear-gradient(135deg, var(--deep-rain), var(--storm-cloud));
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(66, 153, 225, 0.4);
     }
 
     .view-all-section {
@@ -173,20 +284,21 @@
     }
 
     .view-all-btn::part(base) {
-      border: 2px solid var(--orange-400);
-      color: var(--orange-600);
+      border: 2px solid var(--warm-amber);
+      color: var(--coffee-brown);
       border-radius: 50px;
-      padding: 1rem 2rem;
+      padding: 1rem 2.5rem;
       font-weight: 600;
-      background: var(--white);
+      background: var(--warm-white);
       transition: all 0.3s ease;
+      font-size: 1rem;
     }
 
     .view-all-btn:hover::part(base) {
-      background: var(--orange-500);
-      color: var(--white);
-      transform: translateY(-2px);
-      box-shadow: 0 8px 25px rgba(249, 115, 22, 0.3);
+      background: var(--warm-amber);
+      color: var(--warm-white);
+      transform: translateY(-3px);
+      box-shadow: 0 10px 30px rgba(244, 173, 85, 0.4);
     }
 
     @keyframes pulse {
@@ -197,6 +309,32 @@
       50% {
         opacity: 0.7;
         transform: scale(1.1);
+      }
+    }
+
+    @keyframes floating-notes {
+      0%, 100% {
+        transform: translateY(0) rotate(0deg);
+      }
+      25% {
+        transform: translateY(-8px) rotate(5deg);
+      }
+      50% {
+        transform: translateY(-12px) rotate(-3deg);
+      }
+      75% {
+        transform: translateY(-6px) rotate(2deg);
+      }
+    }
+
+    @keyframes tiny-rain {
+      0%, 100% {
+        transform: translateY(0);
+        opacity: 0.3;
+      }
+      50% {
+        transform: translateY(8px);
+        opacity: 0.6;
       }
     }
 

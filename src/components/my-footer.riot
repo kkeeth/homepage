@@ -1,5 +1,10 @@
 <my-footer>
   <footer class="footer">
+    <!-- Rain elements for footer -->
+    <div class="footer-rain">
+      <div class="footer-raindrop" each={i in Array(6)} style="left: {10 + i * 15}%; animation-delay: {i * 0.8}s;"></div>
+    </div>
+    
     <div class="audio-spectrum">
       <div class="spectrum-bar" each={bar in spectrumBars} style="animation-delay: {bar.delay}ms; height: {bar.height}%; --hue: {bar.hue};"></div>
     </div>
@@ -7,12 +12,12 @@
       <div class="footer-content">
         <div class="footer-section">
           <div class="footer-logo">
-            <div class="logo-icon">
+            <div class="logo-icon rain-accent">
               <img src="/images/myself.png" alt="雨宿りとWEBの小噺のロゴ" />
             </div>
             <h3>雨宿りとWEBの小噺</h3>
           </div>
-          <p>心地よい対話で、日常に小さな発見を。</p>
+          <p>心地よい対話で、日常に小さな発見を。☔</p>
         </div>
 
         <div class="footer-section">
@@ -67,11 +72,48 @@
 
   <style>
     .footer {
-      background: var(--navy-800);
-      color: white;
+      background: var(--storm-cloud);
+      color: var(--warm-white);
       padding: 3rem 4rem 1rem;
       position: relative;
       overflow: hidden;
+    }
+
+    .footer-rain {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 30%;
+      pointer-events: none;
+      opacity: 0.1;
+    }
+
+    .footer-raindrop {
+      position: absolute;
+      top: -10px;
+      width: 1.5px;
+      height: 20px;
+      background: linear-gradient(to bottom, var(--rain-blue), transparent);
+      border-radius: 0 0 50% 50%;
+      animation: footer-rain-fall 5s linear infinite;
+    }
+
+    @keyframes footer-rain-fall {
+      0% {
+        transform: translateY(-15px);
+        opacity: 0;
+      }
+      10% {
+        opacity: 0.3;
+      }
+      90% {
+        opacity: 0.3;
+      }
+      100% {
+        transform: translateY(120px);
+        opacity: 0;
+      }
     }
 
     .audio-spectrum {
