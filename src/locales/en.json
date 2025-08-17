@@ -8,7 +8,15 @@
     }
   },
   "pages": {
-    "home": {},
+    "home": {
+      "story": {
+        "features": {
+          "item1": "Web Development Technical Topics",
+          "item2": "Daily awareness and learning",
+          "item3": "Art & Creative"
+        }
+      }
+    },
     "profile": {
       "title": "ABOUT ME",
       "philosophy": "I believe in the power of technology to transform lives and make the world a better place. I am passionate about creating digital experiences that are not only beautiful but also functional and user-friendly. I am constantly learning and evolving to stay ahead in the fast-paced world of web development."

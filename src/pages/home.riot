@@ -28,15 +28,15 @@
               <div class="story-features">
                 <div class="feature-item">
                   <div class="feature-icon">💻</div>
-                  <span>Web開発の技術トピック</span>
+                  <span>{t("pages.home.story.features.item1")}</span>
                 </div>
                 <div class="feature-item">
                   <div class="feature-icon">💡</div>
-                  <span>日常の気づきと学び</span>
+                  <span>{t("pages.home.story.features.item2")}</span>
                 </div>
                 <div class="feature-item">
                   <div class="feature-icon">🎨</div>
-                  <span>アート・クリエイティブ</span>
+                  <span>{t("pages.home.story.features.item3")}</span>
                 </div>
               </div>
             </div>
@@ -59,11 +59,11 @@
             <div class="platform-list">
               <h4>配信プラットフォーム</h4>
               <div class="platform-grid">
-                <a 
-                  each={platform in state.homePlatforms} 
+                <a
+                  each={platform in state.homePlatforms}
                   key={platform.name}
-                  href={platform.url} 
-                  target="_blank" 
+                  href={platform.url}
+                  target="_blank"
                   class="platform-card"
                 >
                   <div class="platform-icon {platform.name.toLowerCase().replace(' ', '-')}">
@@ -931,6 +931,12 @@
       }
 
       .host-links {
+        flex-direction: column;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .story-features {
         flex-direction: column;
       }
     }
