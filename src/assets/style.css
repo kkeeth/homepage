@@ -33,7 +33,7 @@
   --social-link-color: var(--soft-teal);
 
   /* Rain Theme Variants */
-  --umbrella-red: #4a90e2;
+  --umbrella-blue: #4a90e2;
   --window-light: #fef9e7;
   --puddle-reflection: #bee3f8;
   --warm-shelter: #fed7aa;
@@ -99,7 +99,7 @@
   --yellow-500: var(--warm-amber);
   --pink-400: var(--cozy-orange);
   --pink-500: var(--cozy-orange);
-  --coral-400: var(--umbrella-red);
+  --coral-400: var(--umbrella-blue);
   --blue-400: var(--rain-blue);
   --blue-500: var(--rain-blue);
   --purple-400: var(--soft-teal);
