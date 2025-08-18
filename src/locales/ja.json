@@ -9,10 +9,12 @@
   },
   "pages": {
     "home": {
-      "features": {
-        "item1": "",
-        "item2": "日常の気づきと学び",
-        "item3": "Art & Creative"
+      "story": {
+        "features": {
+          "item1": "Web開発の技術トピック",
+          "item2": "日常の気づきと学び",
+          "item3": "アート & クリエイティブ"
+        }
       }
     },
     "profile": {
