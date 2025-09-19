@@ -1,6 +1,6 @@
 <language-switcher>
   <div class="language-switcher">
-    <sl-dropdown>
+    <sl-dropdown placement="bottom-end" hoist>
       <sl-button slot="trigger" size="small" variant="text">
         <sl-icon name="globe"></sl-icon>
         { state.currentLocale.toUpperCase() }
@@ -38,6 +38,12 @@
   </script>
 
   <style>
+    sl-dropdown::part(panel) {
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      border: 1px solid var(--sl-color-neutral-200);
+      overflow: visible;
+    }
+
     sl-button::part(base) {
       color: var(--text-color);
     }
