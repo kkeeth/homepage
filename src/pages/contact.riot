@@ -8,10 +8,8 @@
 
       <div class="hero-content">
         <div class="umbrella-icon">☂</div>
-        <h1 class="hero-title">雨宿りしながらお話ししませんか？</h1>
-        <p class="hero-subtitle">
-          急な雨に濡れた時、軒先で出会う温かい会話のように<br>
-          どんなことでもお気軽にお声かけください
+        <h1 class="hero-title">{t("pages.contact.hero.title")}</h1>
+        <p class="hero-subtitle" html={t("pages.contact.hero.subtitle")}>
         </p>
       </div>
     </section>
@@ -23,16 +21,13 @@
           <!-- Contact Information -->
           <div class="contact-info">
             <div class="info-header">
-              <h2 class="info-title">ご連絡</h2>
+              <h2 class="info-title">{t("pages.contact.subtitle")}</h2>
               <div class="coffee-icon">
                 <sl-icon name="cup-hot-fill"></sl-icon>
               </div>
             </div>
 
-            <p class="contact-description">
-              ご質問、ご感想、技術の話、コラボレーションのお誘いなど、<br>
-              どんなことでもお待ちしています。雨音を聞きながら、<br>
-              ゆっくりとお話ししましょう。
+            <p class="contact-description" html={t("pages.contact.description")}>
             </p>
           </div>
 
@@ -55,10 +50,10 @@
   </div>
 
   <script>
+    import i18nStore from '@/stores/i18n-store';
+
     export default {
-      i18n(key) {
-        return i18nStore.t(key)
-      }
+      t: i18nStore.t.bind(i18nStore)
     };
   </script>
 

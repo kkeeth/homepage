@@ -10,20 +10,94 @@
   "pages": {
     "home": {
       "story": {
+        "title": "Why 'Amayadori' (Taking Shelter from Rain)?",
+        "description1": "When caught in sudden rain, the time spent taking shelter under an eave is special. Like the proverb 'slow and steady wins the race,' stopping for a moment brings new discoveries.",
+        "description2": "This podcast is the same. While being chased by daily development work, we stop for a moment to share technical talks and daily insights. We want to be such a warm place.",
         "features": {
           "item1": "Web Development Technical Topics",
           "item2": "Daily awareness and learning",
           "item3": "Art & Creative"
         }
+      },
+      "platform": {
+        "title": "About Broadcasting",
+        "content": {
+          "title": "Content",
+          "items": {
+            "frontend": "Latest Frontend Technology Trends",
+            "tips": "Tips Learned from Daily Development",
+            "libraries": "Library & Framework Explanations",
+            "daily": "Engineer's Daily Life and Insights",
+            "guest": "Technical Conversations with Guests"
+          }
+        },
+        "platforms": {
+          "title": "Broadcasting Platforms"
+        }
+      },
+      "episodes": {
+        "latest": {
+          "title": "Latest Episodes"
+        },
+        "featured": {
+          "title": "Featured Episodes"
+        },
+        "other": {
+          "title": "Other Programs"
+        }
+      },
+      "program": {
+        "episodesCount": " episodes",
+        "listen": "Listen"
       }
     },
     "profile": {
-      "title": "ABOUT ME",
+      "title": "KKeeth's Profile",
+      "description1": "For 10 years since stepping into the world of web development, I have walked alongside technological progress. As the host of 'Amayadori to WEB no Kobanashi,' I started the program with the desire to make technology more accessible and enjoyable to share.",
+      "description2": "With extensive experience from frontend to backend, I currently work as a full-stack developer. I cherish the warm atmosphere of chatting with friends over coffee.",
+      "stats": {
+        "episodes": "Episodes",
+        "plays": "Plays",
+        "experience": "Broadcasting"
+      },
+      "skills": "Skills & Expertise",
+      "follow": "Follow Me",
+      "journey": {
+        "title": "My Journey",
+        "items": {
+          "webdev": {
+            "title": "Into Web Development",
+            "description": "Studied computer science in university and first touched HTML and CSS."
+          },
+          "frontend": {
+            "title": "Frontend Specialization",
+            "description": "Learned React and Vue.js, diving deep into modern frontend development."
+          },
+          "fullstack": {
+            "title": "Full-Stack Developer",
+            "description": "Learned Node.js and database design, started working as a full-stack developer."
+          },
+          "podcast": {
+            "title": "Podcast Launch",
+            "description": "Started 'Amayadori to WEB no Kobanashi.' Sharing technical knowledge with many people."
+          },
+          "community": {
+            "title": "Community Growth",
+            "description": "Listener community grew and expanded into various programs."
+          }
+        }
+      },
       "philosophy": "I believe in the power of technology to transform lives and make the world a better place. I am passionate about creating digital experiences that are not only beautiful but also functional and user-friendly. I am constantly learning and evolving to stay ahead in the fast-paced world of web development."
     },
     "program": {
       "title": "Program Lineup",
-      "description": "Each has a different theme and style to suit your interests.<br>All programs offer a pleasant dialogue."
+      "description": "Each has a different theme and style to suit your interests.<br>All programs offer a pleasant dialogue.",
+      "stats": {
+        "seasons": "Seasons",
+        "episodes": "Episodes",
+        "update": "Updates"
+      },
+      "allEpisodes": "All Episodes"
     },
     "output": {
       "title": "OUTPUT",
@@ -36,10 +110,29 @@
       "title": "CONTACT",
       "subtitle": "Let's Connect",
       "message": "Feel free to reach out for job requests or consultations.",
-      "area": "Tokyo, Japan"
+      "area": "Tokyo, Japan",
+      "hero": {
+        "title": "Shall we chat while taking shelter from the rain?",
+        "subtitle": "Like a warm conversation you might have under an eave when caught in sudden rain<br>Feel free to reach out about anything"
+      },
+      "description": "Questions, feedback, tech talks, collaboration invitations, and more -<br>I'm waiting for anything. While listening to the sound of rain,<br>let's have a relaxed conversation."
     }
   },
   "sections": {
     "readMore": "Read More"
+  },
+  "notFound": {
+    "title": "Looks like you've lost your way",
+    "message": "From the shelter of this eave, please return to the original path",
+    "backHome": "Return to the Shelter"
+  },
+  "components": {
+    "scrollTop": {
+      "text": "Top"
+    },
+    "programCard": {
+      "play": "Play",
+      "viewAll": "View All Episodes"
+    }
   }
 }

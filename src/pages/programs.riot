@@ -23,15 +23,15 @@
           <div class="header-stats">
             <div class="stat">
               <div class="stat-number">４</div>
-              <div class="stat-label">シーズン</div>
+              <div class="stat-label">{t("pages.program.stats.seasons")}</div>
             </div>
             <div class="stat">
               <div class="stat-number">{state.totalCount}</div>
-              <div class="stat-label">エピソード</div>
+              <div class="stat-label">{t("pages.program.stats.episodes")}</div>
             </div>
             <div class="stat">
               <div class="stat-number">週１回</div>
-              <div class="stat-label">更新</div>
+              <div class="stat-label">{t("pages.program.stats.update")}</div>
             </div>
           </div>
         </div>
@@ -43,7 +43,7 @@
         <div class="section-header-casual">
           <h2 class="section-title">
             <span class="title-doodle">🎧</span>
-            全エピソード
+            {t("pages.program.allEpisodes")}
           </h2>
           <div class="title-underline"></div>
         </div>
@@ -62,8 +62,10 @@
 
   <script>
     import episodeStore from '@/stores/episode-store';
+    import i18nStore from '@/stores/i18n-store';
 
     export default {
+      t: i18nStore.t.bind(i18nStore),
       state: {
         programEpisodes: [],
         displayedCount: 0,
@@ -73,6 +75,8 @@
       },
       async onBeforeMount() {
         this.handleEpisodesLoaded = () => {
+          // programsページ用のページサイズ（6）に設定
+          episodeStore.setPage(1, 6);
           this.update({
             programEpisodes: episodeStore.getDisplayedEpisodes(),
             displayedCount: episodeStore.getDisplayedCount(),
@@ -92,13 +96,18 @@
         };
 
         this.handlePageChange = (page) => {
-          episodeStore.setPage(page);
+          episodeStore.setPage(page, 6);
         };
 
         episodeStore.on('episodes-loaded', this.handleEpisodesLoaded);
         episodeStore.on('episodes-updated', this.handleEpisodesUpdated);
 
         await episodeStore.loadAllEpisodes();
+
+        // 初期化後にすぐにページサイズを設定
+        if (episodeStore.getIsInitialized()) {
+          this.handleEpisodesLoaded();
+        }
       },
 
       onBeforeUnmount() {

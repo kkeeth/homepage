@@ -17,7 +17,6 @@ const episodeStore = observable({
 
     try {
       const RSS_URL = import.meta.env.VITE_RSS_URL;
-      console.log('RSS_URL:', RSS_URL);
 
       if (!RSS_URL) {
         console.warn('VITE_RSS_URL is not set, using fallback data');
@@ -33,7 +32,6 @@ const episodeStore = observable({
         })).reverse();
       } else {
         const episodes = await fetchRSSFeed(RSS_URL);
-        console.log('Fetched episodes:', episodes.length);
 
         this.allEpisodes = episodes.map((episode, index) => ({
           id: index + 1,
@@ -50,7 +48,6 @@ const episodeStore = observable({
       this.displayedEpisodes = this.allEpisodes.slice(0, this.pageSize);
       this.isInitialized = true;
 
-      console.log('Triggering episodes-loaded, displayedEpisodes:', this.displayedEpisodes.length);
       this.trigger('episodes-loaded');
     } catch (error) {
       console.error('Failed to load RSS feed:', error);
@@ -99,6 +96,10 @@ const episodeStore = observable({
 
   getDisplayedCount() {
     return this.displayedEpisodes.length;
+  },
+
+  getIsInitialized() {
+    return this.isInitialized;
   },
 
   reset() {

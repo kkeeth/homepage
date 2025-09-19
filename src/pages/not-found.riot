@@ -7,9 +7,9 @@
 
     <div class="container">
       <div class="umbrella-icon">☂</div>
-      <h1>道に迷ってしまいましたね</h1>
+      <h1>{t("notFound.title")}</h1>
       <p class="not-found-message">
-        雨宿りの軒先から、元の道へお戻りください
+        {t("notFound.message")}
       </p>
       <sl-button
         href="/"
@@ -19,10 +19,18 @@
         class="home-btn"
       >
         <span class="btn-icon">🏠</span>
-        雨宿りの場所へ戻る
+        {t("notFound.backHome")}
       </sl-button>
     </div>
   </div>
+
+  <script>
+    import i18nStore from '@/stores/i18n-store';
+
+    export default {
+      t: i18nStore.t.bind(i18nStore)
+    };
+  </script>
 
   <style>
     .not-found-page {

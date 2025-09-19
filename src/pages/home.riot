@@ -1,7 +1,7 @@
 <home>
   <div class="home">
     <!-- Hero Section - Clean Modern Layout -->
-    <hero-section />
+    <hero-section if={state.latestEpisodes[0]} link={state.latestEpisodes[0]} />
 
     <!-- Main Program Introduction -->
     <section class="main-program-section">
@@ -9,20 +9,17 @@
         <div class="main-program-content">
           <div class="program-story">
             <div class="story-header">
-              <h2 class="story-title">なぜ「雨宿り」なのか</h2>
+              <h2 class="story-title">{t("pages.home.story.title")}</h2>
               <div class="umbrella-decoration">☂</div>
             </div>
 
             <div class="story-content">
               <p class="story-text">
-                突然の雨に見舞われた時、軒先で雨宿りをする時間は特別です。
-                急がば回れ、という諺のように、立ち止まる時間が新しい発見をもたらしてくれます。
+                {t("pages.home.story.description1")}
               </p>
 
               <p class="story-text">
-                このポッドキャストも同じです。日々の開発作業に追われる中で、
-                ちょっと立ち止まって技術の話や日常の気づきを共有する。
-                そんな温かい場所でありたいと思っています。
+                {t("pages.home.story.description2")}
               </p>
 
               <div class="story-features">
@@ -43,21 +40,21 @@
           </div>
 
           <div class="platform-info">
-            <h3 class="platform-title">配信について</h3>
+            <h3 class="platform-title">{t("pages.home.platform.title")}</h3>
 
             <div class="content-description">
-              <h4>配信内容</h4>
+              <h4>{t("pages.home.platform.content.title")}</h4>
               <ul class="content-list">
-                <li>フロントエンド技術の最新トレンド</li>
-                <li>日々の開発で学んだTips</li>
-                <li>ライブラリ・フレームワークの解説</li>
-                <li>エンジニアの日常と気づき</li>
-                <li>ゲストとの技術対談</li>
+                <li>{t("pages.home.platform.content.items.frontend")}</li>
+                <li>{t("pages.home.platform.content.items.tips")}</li>
+                <li>{t("pages.home.platform.content.items.libraries")}</li>
+                <li>{t("pages.home.platform.content.items.daily")}</li>
+                <li>{t("pages.home.platform.content.items.guest")}</li>
               </ul>
             </div>
 
             <div class="platform-list">
-              <h4>配信プラットフォーム</h4>
+              <h4>{t("pages.home.platform.platforms.title")}</h4>
               <div class="platform-grid">
                 <a
                   each={platform in state.homePlatforms}
@@ -84,7 +81,7 @@
         <div class="section-header-casual">
           <h2 class="section-title">
             <span class="title-doodle">🎧</span>
-            最新エピソード
+            {t("pages.home.episodes.latest.title")}
           </h2>
           <div class="title-underline"></div>
         </div>
@@ -99,7 +96,7 @@
         <div class="section-header-casual">
           <h2 class="section-title">
             <span class="title-doodle">🎧</span>
-            ピックアップエピソード
+            {t("pages.home.episodes.featured.title")}
           </h2>
           <div class="title-underline"></div>
         </div>
@@ -115,7 +112,7 @@
           <div class="section-header-casual">
           <h2 class="section-title">
             <span class="title-doodle">🎧</span>
-            その他の番組
+            {t("pages.home.episodes.other.title")}
           </h2>
           <div class="title-underline"></div>
         </div>
@@ -127,7 +124,7 @@
               <img src={program.artworkUrl} alt={program.title} class="artwork-image" />
               <div class="artwork-overlay">
                 <span class="category-badge">{program.category}</span>
-                <span class="episode-count">{program.episodes}話</span>
+                <span class="episode-count">{program.episodes}{t("pages.home.program.episodesCount")}</span>
               </div>
             </div>
 
@@ -145,7 +142,7 @@
                   <sl-dropdown>
                     <sl-button slot="trigger" variant="default" size="small" class="listen-btn">
                       <sl-icon name="play"></sl-icon>
-                      聴く
+                      {t("pages.home.program.listen")}
                       <sl-icon name="chevron-down" slot="suffix"></sl-icon>
                     </sl-button>
                     <sl-menu>
@@ -183,8 +180,10 @@
   <script>
     import { fetchRSSFeed, getLatestEpisodes, getRandomEpisodes } from '@/utils/rss';
     import { HOME_PLATFORMS, OTHER_PROGRAMS } from '@/constants/links';
+    import i18nStore from '@/stores/i18n-store';
 
     export default {
+      t: i18nStore.t.bind(i18nStore),
       async onBeforeMount() {
         try {
           const RSS_URL = import.meta.env.VITE_RSS_URL;

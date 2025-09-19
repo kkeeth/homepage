@@ -4,11 +4,14 @@
       <span class="line line1"></span>
       <span class="line line2"></span>
     </div>
-    <span class="text">Top</span>
+    <span class="text">{t("components.scrollTop.text")}</span>
   </a>
 
   <script>
+    import i18nStore from '@/stores/i18n-store';
+
     export default {
+      t: i18nStore.t.bind(i18nStore),
       onMounted() {
         window.addEventListener('scroll', this.handleScroll);
       },

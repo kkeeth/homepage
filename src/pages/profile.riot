@@ -7,18 +7,16 @@
           <!-- Left Content -->
           <div class="profile-content">
             <div class="profile-header">
-              <h1 class="profile-title">KKeeth のプロフィール</h1>
+              <h1 class="profile-title">{t("pages.profile.title")}</h1>
               <div class="title-accent"></div>
             </div>
 
             <div class="profile-description">
               <p>
-                Web開発の世界に足を踏み入れてから10年、技術の進歩とともに歩んできました。
-                「雨宿りとWEBの小噺」のホストとして、技術の話をもっと身近に、もっと楽しく伝えたいという想いから番組を始めました。
+                {t("pages.profile.description1")}
               </p>
               <p>
-                フロントエンドからバックエンドまで幅広く経験し、現在はフルスタック開発者として活動しています。
-                コーヒーを飲みながら友人と語り合うような、そんな温かい雰囲気を大切にしています。
+                {t("pages.profile.description2")}
               </p>
             </div>
 
@@ -28,28 +26,28 @@
                 <div class="stat-icon">🎙️</div>
                 <div class="stat-info">
                   <div class="stat-number">800+</div>
-                  <div class="stat-label">エピソード配信</div>
+                  <div class="stat-label">{t("pages.profile.stats.episodes")}</div>
                 </div>
               </div>
               <div class="stat-card">
                 <div class="stat-icon">👥</div>
                 <div class="stat-info">
                   <div class="stat-number">36K</div>
-                  <div class="stat-label">再生</div>
+                  <div class="stat-label">{t("pages.profile.stats.plays")}</div>
                 </div>
               </div>
               <div class="stat-card">
                 <div class="stat-icon">📅</div>
                 <div class="stat-info">
                   <div class="stat-number">5年+</div>
-                  <div class="stat-label">配信歴</div>
+                  <div class="stat-label">{t("pages.profile.stats.experience")}</div>
                 </div>
               </div>
             </div>
 
             <!-- Skills Section -->
             <div class="skills-section">
-              <h3 class="section-subtitle">スキル・専門分野</h3>
+              <h3 class="section-subtitle">{t("pages.profile.skills")}</h3>
               <div class="skills-tags">
                 <span class="skill-tag react">⚛️ React</span>
                 <span class="skill-tag node">🟢 Node.js</span>
@@ -62,7 +60,7 @@
 
             <!-- Social Links Section -->
             <div class="social-section">
-              <h3 class="section-subtitle">フォローお願いします</h3>
+              <h3 class="section-subtitle">{t("pages.profile.follow")}</h3>
 
               <div class="enhanced-social-links">
                 <a
@@ -103,7 +101,7 @@
       <div class="section-content">
         <div class="section-layout">
           <div class="section-header">
-            <h2 class="section-title">これまでの歩み</h2>
+            <h2 class="section-title">{t("pages.profile.journey.title")}</h2>
             <div class="title-underline"></div>
           </div>
 
@@ -127,48 +125,53 @@
 
   <script>
     import { SOCIAL_LINKS, PLATFORM_CONFIG } from '@/constants/links';
+    import i18nStore from '@/stores/i18n-store';
 
     export default {
+      t: i18nStore.t.bind(i18nStore),
       state: {
         platforms: PLATFORM_CONFIG,
-        journeyItems: [
+        journeyItems: []
+      },
+      onBeforeUpdate(_, state) {
+        state.journeyItems = [
           {
             id: 1,
             year: "2014",
-            title: "Web開発の世界へ",
-            description: "大学でコンピュータサイエンスを学び、初めてHTMLとCSSに触れる。",
+            title: this.t("pages.profile.journey.items.webdev.title"),
+            description: this.t("pages.profile.journey.items.webdev.description"),
             icon: "🌱",
             color: "mint"
           },
           {
             id: 2,
             year: "2017",
-            title: "フロントエンド専門へ",
-            description: "ReactとVue.jsを習得し、モダンなフロントエンド開発に没頭。",
+            title: this.t("pages.profile.journey.items.frontend.title"),
+            description: this.t("pages.profile.journey.items.frontend.description"),
             icon: "⚛️",
             color: "blue"
           },
           {
             id: 3,
             year: "2020",
-            title: "フルスタック開発者に",
-            description: "Node.jsとデータベース設計を学び、フルスタック開発者として活動開始。",
+            title: this.t("pages.profile.journey.items.fullstack.title"),
+            description: this.t("pages.profile.journey.items.fullstack.description"),
             icon: "🚀",
             color: "purple"
           },
           {
             id: 4,
             year: "2022",
-            title: "ポッドキャスト開始",
-            description: "「雨宿りとWEBの小噺」を開始。技術の知識を多くの人と共有。",
+            title: this.t("pages.profile.journey.items.podcast.title"),
+            description: this.t("pages.profile.journey.items.podcast.description"),
             icon: "🎙️",
             color: "yellow"
           },
           {
             id: 5,
             year: "2024",
-            title: "コミュニティ拡大",
-            description: "リスナーコミュニティが成長し、様々な番組を展開。",
+            title: this.t("pages.profile.journey.items.community.title"),
+            description: this.t("pages.profile.journey.items.community.description"),
             icon: "👥",
             color: "pink"
           }

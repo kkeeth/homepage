@@ -28,7 +28,7 @@
         <div class="card-actions">
           <sl-button variant="primary" size="medium" href={episode.link} class="listen-btn">
             <sl-icon name="play-fill"></sl-icon>
-            再生
+            {t("components.programCard.play")}
           </sl-button>
         </div>
       </div>
@@ -37,15 +37,17 @@
 
   <div class="view-all-section" if={props.showMore}>
     <sl-button variant="outline" size="large" href="/programs" class="view-all-btn">
-      すべてのエピソードを見る
+      {t("components.programCard.viewAll")}
       <sl-icon name="arrow-right" slot="suffix"></sl-icon>
     </sl-button>
   </div>
 
   <script>
     import { truncateText } from '../utils/truncateText.js'
+    import i18nStore from '@/stores/i18n-store';
 
     export default {
+      t: i18nStore.t.bind(i18nStore),
       truncateText
     }
   </script>
