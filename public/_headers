@@ -1,0 +1,33 @@
+# Cache static assets for 1 year (immutable files with hash in filename)
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Cache images for 1 year
+/images/*
+  Cache-Control: public, max-age=31536000
+
+# Cache fonts for 1 year
+/*.woff2
+  Cache-Control: public, max-age=31536000, immutable
+
+/*.woff
+  Cache-Control: public, max-age=31536000, immutable
+
+/*.ttf
+  Cache-Control: public, max-age=31536000, immutable
+
+# Cache favicon for 1 week
+/favicon.ico
+  Cache-Control: public, max-age=604800
+
+# Cache CSS files for 1 year (they have hashes)
+/*.css
+  Cache-Control: public, max-age=31536000, immutable
+
+# HTML files - no cache (always fetch fresh)
+/*.html
+  Cache-Control: no-cache, must-revalidate
+
+# Root HTML
+/
+  Cache-Control: no-cache, must-revalidate
