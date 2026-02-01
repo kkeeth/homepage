@@ -13,27 +13,21 @@
         <div class="footer-section">
           <div class="footer-logo">
             <div class="logo-icon">
-              <img src="/images/myself.png" alt="雨宿りとWEBの小噺のロゴ" />
+              <img src="/images/myself.png" alt={t("footer.logoAlt")} />
             </div>
-            <h3>雨宿りとWEBの小噺</h3>
+            <h3>{t("footer.title")}</h3>
           </div>
-          <p>
-            心地よい対話で、日常に小さな発見を。
-            <sl-icon name="umbrella-fill" class="umbrella-icon"></sl-icon>
-          </p>
         </div>
 
         <div class="footer-section">
-          <h4>番組</h4>
+          <h4>{t("footer.programs.title")}</h4>
           <ul>
-            <li><a href="/programs">全番組一覧</a></li>
-            <li><a href="/latest">最新エピソード</a></li>
-            <li><a href="/archive">アーカイブ</a></li>
+            <li><a href="/programs">{t("footer.programs.allPrograms")}</a></li>
           </ul>
         </div>
 
         <div class="footer-section">
-          <h4>つながる</h4>
+          <h4>{t("footer.connect")}</h4>
           <div class="platform-links">
             <a href="https://podcasts.apple.com/jp/podcast/雨宿りとwebの小噺-fm/id1516699977" target="_blank" class="platform-link">
               <sl-icon name="apple"></sl-icon>
@@ -55,16 +49,17 @@
       </div>
 
       <div class="footer-bottom">
-        <p>&copy; 2025 @kkeeth. All rights reserved.</p>
+        <p>&copy; {currentYear} kkeeth. {t("footer.rights")}</p>
       </div>
     </div>
   </footer>
 
   <script>
-    // import imgUrl from '@/assets/myself.png';
+    import i18nStore from '@/stores/i18n-store';
 
     export default {
-      // imgUrl,
+      t: i18nStore.t.bind(i18nStore),
+      currentYear: new Date().getFullYear(),
       spectrumBars: Array.from({ length: 50 }, (_, i) => ({
         delay: i * 50,
         height: Math.random() * 60 + 10,

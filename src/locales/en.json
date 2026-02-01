@@ -2,6 +2,10 @@
   "hero": {
     "title": "Program Lineup",
     "subtitle": "A passionate web developer crafting beautiful and functional digital experiences",
+    "podcastTitle": "Amayadori to WEB no Kobanashi.fm",
+    "subtitleLine1": "Take a break from the daily rain of information",
+    "subtitleLine2": "Listen to ",
+    "subtitleAccent": "WEB tales under the eaves",
     "cta": {
       "work": "View My Work",
       "contact": "Get in Touch"
@@ -49,6 +53,11 @@
       "program": {
         "episodesCount": " episodes",
         "listen": "Listen"
+      },
+      "categories": {
+        "雑談": "Chat",
+        "ライフ": "Life",
+        "思考": "Thoughts"
       }
     },
     "profile": {
@@ -140,5 +149,15 @@
     "share": "Share",
     "backToList": "Back to Episodes",
     "notFound": "Episode not found"
+  },
+  "footer": {
+    "logoAlt": "Amayadori to WEB no Kobanashi Logo",
+    "title": "Amayadori to WEB no Kobanashi",
+    "programs": {
+      "title": "Programs",
+      "allPrograms": "All Programs"
+    },
+    "connect": "Connect",
+    "rights": "All rights reserved."
   }
 }

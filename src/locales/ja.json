@@ -2,6 +2,10 @@
   "hero": {
     "title": "番組ラインナップ",
     "subtitle": "美しく機能的なデジタル体験を作り出すWeb開発者です",
+    "podcastTitle": "雨宿りとWEBの小噺.fm",
+    "subtitleLine1": "毎日の情報の雨からちょっと雨宿り",
+    "subtitleLine2": "軒先で聞く",
+    "subtitleAccent": "WEB の小噺",
     "cta": {
       "work": "作品を見る",
       "contact": "お問い合わせ"
@@ -49,6 +53,11 @@
       "program": {
         "episodesCount": "話",
         "listen": "聴く"
+      },
+      "categories": {
+        "雑談": "雑談",
+        "ライフ": "ライフ",
+        "思考": "思考"
       }
     },
     "profile": {
@@ -133,5 +142,15 @@
     "share": "シェアする",
     "backToList": "エピソード一覧に戻る",
     "notFound": "エピソードが見つかりませんでした"
+  },
+  "footer": {
+    "logoAlt": "雨宿りとWEBの小噺のロゴ",
+    "title": "雨宿りとWEBの小噺",
+    "programs": {
+      "title": "番組",
+      "allPrograms": "全番組一覧"
+    },
+    "connect": "つながる",
+    "rights": "All rights reserved."
   }
 }

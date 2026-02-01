@@ -61,7 +61,7 @@
             <img src={program.artworkUrl} alt={program.title} class="other-program-artwork" />
             <div class="other-program-info">
               <h3 class="other-program-name">{program.title}</h3>
-              <span class="other-program-meta">{program.category} · {program.episodes}{t("pages.home.program.episodesCount")}</span>
+              <span class="other-program-meta">{t("pages.home.categories." + program.category)} · {program.episodes}{t("pages.home.program.episodesCount")}</span>
             </div>
             <sl-icon name="chevron-right" class="other-program-arrow"></sl-icon>
           </a>

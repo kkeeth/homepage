@@ -1,4 +1,12 @@
 <hero-section>
+  <script>
+    import i18nStore from '@/stores/i18n-store';
+
+    export default {
+      t: i18nStore.t.bind(i18nStore),
+    }
+  </script>
+
   <section class="hero">
     <!-- Rain Animation Background -->
     <div class="hero-bg">
@@ -45,16 +53,11 @@
         </div>
 
         <div class="hero-text">
-          <h1 class="hero-title">雨宿りとWEBの小噺.fm</h1>
+          <h1 class="hero-title">{t("hero.podcastTitle")}</h1>
           <p class="hero-subtitle">
-            急な雨に降られた時、<br>
-            軒先で聞く<span class="accent-text">技術の小話</span>
+            {t("hero.subtitleLine1")}<br>
+            {t("hero.subtitleLine2")}<span class="accent-text">{t("hero.subtitleAccent")}</span>
           </p>
-          <p class="hero-description">
-            フロントエンドエンジニアのkkeethが、雨音とともに語る<br>
-            Web開発・技術・日常の発見。コーヒー片手に、ゆっくりとお聞きください。
-          </p>
-
           <div class="hero-cta">
             <div class="latest-episode-embed">
               <iframe src={`${props.link.link}/embed`} style="width: 100%; height: 200px; border: 0 none;" scrolling="no" sandbox="allow-scripts allow-popups allow-popups-to-escape-sandbox"></iframe>
