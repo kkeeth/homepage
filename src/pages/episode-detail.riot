@@ -5,30 +5,19 @@
     <div if={!state.loading && state.episode} class="episode-container">
       <!-- Episode Header -->
       <div class="episode-header">
-        <img
-          src={state.episode.imageUrl || '/images/myself.png'}
-          alt={state.episode.title}
-          class="episode-artwork"
-        />
         <div class="episode-info">
           <span class="episode-date">{state.episode.pubDate}</span>
           <h1 class="episode-title">{state.episode.title}</h1>
+          <!-- Embedded Player -->
+          <div class="player-section">
+            <iframe
+              src={`${state.episode.link}/embed`}
+              style="width: 100%; height: 200px; border: 0 none;" scrolling="no"
+              sandbox="allow-scripts allow-popups allow-popups-to-escape-sandbox"></iframe>
+          </div>
+
           <p class="episode-description"><raw html={ state.episode.fullDescription } /></p>
         </div>
-      </div>
-
-      <!-- Embedded Player -->
-      <div class="player-section">
-        <iframe
-          if={state.embedUrl}
-          src={state.embedUrl}
-          width="100%"
-          height="232"
-          frameborder="0"
-          allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-          loading="lazy"
-          class="episode-player"
-        ></iframe>
       </div>
 
       <!-- Platform Links -->
@@ -92,7 +81,6 @@
       state: {
         loading: true,
         episode: null,
-        embedUrl: null,
         platforms: HOME_PLATFORMS,
         copied: false,
       },
@@ -121,11 +109,9 @@
           });
 
           if (foundEpisode) {
-            const embedUrl = this.getEmbedUrl(foundEpisode.link, foundEpisode.audioUrl);
             this.update({
               loading: false,
               episode: foundEpisode,
-              embedUrl,
             });
           } else {
             this.update({ loading: false });
@@ -134,30 +120,6 @@
           console.error('Failed to load episode:', error);
           this.update({ loading: false });
         }
-      },
-      getEmbedUrl(link, audioUrl) {
-        // art19 embed URL
-        if (link && link.includes('art19.com')) {
-          const match = link.match(/episodes\/([a-f0-9-]+)/i);
-          if (match) {
-            return `https://art19.com/episodes/${match[1]}/embed`;
-          }
-        }
-        // Spotify embed URL
-        if (link && link.includes('spotify.com')) {
-          const match = link.match(/episode\/(\w+)/);
-          if (match) {
-            return `https://open.spotify.com/embed/episode/${match[1]}?theme=0`;
-          }
-        }
-        // Default to art19 from audio URL
-        if (audioUrl && audioUrl.includes('art19')) {
-          const match = audioUrl.match(/episodes\/([a-f0-9-]+)/i);
-          if (match) {
-            return `https://art19.com/episodes/${match[1]}/embed`;
-          }
-        }
-        return null;
       },
       getShareText() {
         const title = this.state.episode?.title || '';
@@ -209,15 +171,6 @@
       display: flex;
       gap: 1.5rem;
       margin-bottom: 2rem;
-    }
-
-    .episode-artwork {
-      width: 160px;
-      height: 160px;
-      border-radius: 12px;
-      object-fit: cover;
-      flex-shrink: 0;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
     }
 
     .episode-info {
