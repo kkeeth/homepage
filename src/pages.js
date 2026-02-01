@@ -10,6 +10,12 @@ export default [
     componentName: 'programs',
   },
   {
+    path: '/episodes/:id',
+    label: 'EPISODE',
+    componentName: 'episode-detail',
+    hidden: true,
+  },
+  {
     path: '/profile',
     label: 'PROFILE',
     componentName: 'profile',

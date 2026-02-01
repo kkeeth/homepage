@@ -1,0 +1,425 @@
+<episode-detail>
+  <div class="episode-detail">
+    <loader if={state.loading} />
+
+    <div if={!state.loading && state.episode} class="episode-container">
+      <!-- Episode Header -->
+      <div class="episode-header">
+        <img
+          src={state.episode.imageUrl || '/images/myself.png'}
+          alt={state.episode.title}
+          class="episode-artwork"
+        />
+        <div class="episode-info">
+          <span class="episode-date">{state.episode.pubDate}</span>
+          <h1 class="episode-title">{state.episode.title}</h1>
+          <p class="episode-description"><raw html={ state.episode.fullDescription } /></p>
+        </div>
+      </div>
+
+      <!-- Embedded Player -->
+      <div class="player-section">
+        <iframe
+          if={state.embedUrl}
+          src={state.embedUrl}
+          width="100%"
+          height="232"
+          frameborder="0"
+          allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+          loading="lazy"
+          class="episode-player"
+        ></iframe>
+      </div>
+
+      <!-- Platform Links -->
+      <div class="platforms-section">
+        <h3 class="section-label">{t("episode.listenOn")}</h3>
+        <div class="platform-icons">
+          <a
+            each={platform in state.platforms}
+            key={platform.name}
+            href={platform.url}
+            target="_blank"
+            class="platform-icon-link"
+            title={platform.name}
+          >
+            <sl-icon name={platform.icon}></sl-icon>
+          </a>
+        </div>
+      </div>
+
+      <!-- Share Buttons -->
+      <div class="share-section">
+        <h3 class="section-label">{t("episode.share")}</h3>
+        <div class="share-buttons">
+          <button onclick={shareTwitter} class="share-btn share-twitter" title="X (Twitter)">
+            <sl-icon name="twitter-x"></sl-icon>
+          </button>
+          <button onclick={shareFacebook} class="share-btn share-facebook" title="Facebook">
+            <sl-icon name="facebook"></sl-icon>
+          </button>
+          <button onclick={shareLine} class="share-btn share-line" title="LINE">
+            <sl-icon name="line"></sl-icon>
+          </button>
+          <button onclick={copyLink} class="share-btn share-copy" title="Copy Link">
+            <sl-icon name={state.copied ? 'check' : 'link-45deg'}></sl-icon>
+          </button>
+        </div>
+      </div>
+
+      <!-- Back Link -->
+      <div class="back-section">
+        <a href="/programs" class="back-link">
+          <sl-icon name="arrow-left"></sl-icon>
+          {t("episode.backToList")}
+        </a>
+      </div>
+    </div>
+
+    <div if={!state.loading && !state.episode} class="not-found">
+      <p>{t("episode.notFound")}</p>
+      <a href="/programs" class="back-link">{t("episode.backToList")}</a>
+    </div>
+  </div>
+
+  <script>
+    import { fetchRSSFeed } from '@/utils/rss';
+    import { HOME_PLATFORMS } from '@/constants/links';
+    import i18nStore from '@/stores/i18n-store';
+
+    export default {
+      t: i18nStore.t.bind(i18nStore),
+      state: {
+        loading: true,
+        episode: null,
+        embedUrl: null,
+        platforms: HOME_PLATFORMS,
+        copied: false,
+      },
+      async onBeforeMount() {
+        const episodeId = this.getEpisodeId();
+        if (episodeId) {
+          await this.loadEpisode(episodeId);
+        } else {
+          this.update({ loading: false });
+        }
+      },
+      getEpisodeId() {
+        const path = window.location.pathname;
+        const match = path.match(/\/episodes\/(.+)/);
+        return match ? decodeURIComponent(match[1]) : null;
+      },
+      async loadEpisode(episodeId) {
+        try {
+          const RSS_URL = import.meta.env.VITE_RSS_URL;
+          const episodes = await fetchRSSFeed(RSS_URL);
+
+          const foundEpisode = episodes.find(ep => {
+            const linkMatch = ep.link && ep.link.includes(episodeId);
+            const titleMatch = encodeURIComponent(ep.title) === episodeId;
+            return linkMatch || titleMatch;
+          });
+
+          if (foundEpisode) {
+            const embedUrl = this.getEmbedUrl(foundEpisode.link, foundEpisode.audioUrl);
+            this.update({
+              loading: false,
+              episode: foundEpisode,
+              embedUrl,
+            });
+          } else {
+            this.update({ loading: false });
+          }
+        } catch (error) {
+          console.error('Failed to load episode:', error);
+          this.update({ loading: false });
+        }
+      },
+      getEmbedUrl(link, audioUrl) {
+        // art19 embed URL
+        if (link && link.includes('art19.com')) {
+          const match = link.match(/episodes\/([a-f0-9-]+)/i);
+          if (match) {
+            return `https://art19.com/episodes/${match[1]}/embed`;
+          }
+        }
+        // Spotify embed URL
+        if (link && link.includes('spotify.com')) {
+          const match = link.match(/episode\/(\w+)/);
+          if (match) {
+            return `https://open.spotify.com/embed/episode/${match[1]}?theme=0`;
+          }
+        }
+        // Default to art19 from audio URL
+        if (audioUrl && audioUrl.includes('art19')) {
+          const match = audioUrl.match(/episodes\/([a-f0-9-]+)/i);
+          if (match) {
+            return `https://art19.com/episodes/${match[1]}/embed`;
+          }
+        }
+        return null;
+      },
+      getShareText() {
+        const title = this.state.episode?.title || '';
+        return `${title} #WEB小噺`;
+      },
+      getShareUrl() {
+        return window.location.href;
+      },
+      shareTwitter() {
+        const text = encodeURIComponent(this.getShareText());
+        const url = encodeURIComponent(this.getShareUrl());
+        window.open(`https://twitter.com/intent/tweet?text=${text}&url=${url}`, '_blank', 'width=550,height=420');
+      },
+      shareFacebook() {
+        const url = encodeURIComponent(this.getShareUrl());
+        window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}`, '_blank', 'width=550,height=420');
+      },
+      shareLine() {
+        const text = encodeURIComponent(this.getShareText());
+        const url = encodeURIComponent(this.getShareUrl());
+        window.open(`https://social-plugins.line.me/lineit/share?url=${url}&text=${text}`, '_blank', 'width=550,height=420');
+      },
+      async copyLink() {
+        try {
+          await navigator.clipboard.writeText(this.getShareUrl());
+          this.update({ copied: true });
+          setTimeout(() => this.update({ copied: false }), 2000);
+        } catch (err) {
+          console.error('Failed to copy:', err);
+        }
+      },
+    }
+  </script>
+
+  <style>
+    .episode-detail {
+      min-height: 100vh;
+      background: var(--background-color);
+      padding: 2rem;
+    }
+
+    .episode-container {
+      max-width: 720px;
+      margin: 0 auto;
+    }
+
+    /* Episode Header */
+    .episode-header {
+      display: flex;
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .episode-artwork {
+      width: 160px;
+      height: 160px;
+      border-radius: 12px;
+      object-fit: cover;
+      flex-shrink: 0;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .episode-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .episode-date {
+      font-size: 0.875rem;
+      color: var(--text-light);
+      margin-bottom: 0.5rem;
+      display: block;
+    }
+
+    .episode-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--text-dark);
+      margin: 0 0 1rem 0;
+      line-height: 1.4;
+    }
+
+    .episode-description {
+      font-size: 0.9375rem;
+      line-height: 1.7;
+      color: var(--text-color);
+      margin: 0;
+    }
+
+    /* Player Section */
+    .player-section {
+      margin-bottom: 2rem;
+    }
+
+    .episode-player {
+      border-radius: 12px;
+      background: var(--cream);
+    }
+
+    /* Section Label */
+    .section-label {
+      font-size: 0.8125rem;
+      font-weight: 600;
+      color: var(--text-light);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin: 0 0 0.75rem 0;
+    }
+
+    /* Platform Icons */
+    .platforms-section {
+      margin-bottom: 2rem;
+    }
+
+    .platform-icons {
+      display: flex;
+      gap: 0.75rem;
+    }
+
+    .platform-icon-link {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 44px;
+      height: 44px;
+      background: var(--warm-white);
+      border: 1px solid var(--light-gray);
+      border-radius: 10px;
+      color: var(--text-color);
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .platform-icon-link:hover {
+      border-color: var(--rain-blue);
+      color: var(--rain-blue);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(66, 153, 225, 0.15);
+    }
+
+    .platform-icon-link sl-icon {
+      font-size: 1.25rem;
+    }
+
+    /* Share Buttons */
+    .share-section {
+      margin-bottom: 2rem;
+    }
+
+    .share-buttons {
+      display: flex;
+      gap: 0.75rem;
+    }
+
+    .share-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 44px;
+      height: 44px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .share-btn sl-icon {
+      font-size: 1.25rem;
+      color: white;
+    }
+
+    .share-twitter {
+      background: #000;
+    }
+
+    .share-twitter:hover {
+      background: #333;
+      transform: translateY(-2px);
+    }
+
+    .share-facebook {
+      background: #1877f2;
+    }
+
+    .share-facebook:hover {
+      background: #0d65d9;
+      transform: translateY(-2px);
+    }
+
+    .share-line {
+      background: #00b900;
+    }
+
+    .share-line:hover {
+      background: #009900;
+      transform: translateY(-2px);
+    }
+
+    .share-copy {
+      background: var(--warm-gray);
+    }
+
+    .share-copy:hover {
+      background: var(--charcoal);
+      transform: translateY(-2px);
+    }
+
+    /* Back Link */
+    .back-section {
+      padding-top: 1rem;
+      border-top: 1px solid var(--light-gray);
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--text-color);
+      text-decoration: none;
+      font-size: 0.9375rem;
+      transition: color 0.2s ease;
+    }
+
+    .back-link:hover {
+      color: var(--rain-blue);
+    }
+
+    /* Not Found */
+    .not-found {
+      text-align: center;
+      padding: 4rem 2rem;
+    }
+
+    .not-found p {
+      color: var(--text-light);
+      margin-bottom: 1rem;
+    }
+
+    /* Responsive */
+    @media (max-width: 640px) {
+      .episode-detail {
+        padding: 1.5rem;
+      }
+
+      .episode-header {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+
+      .episode-artwork {
+        width: 200px;
+        height: 200px;
+      }
+
+      .episode-title {
+        font-size: 1.25rem;
+      }
+
+      .episode-description {
+        text-align: left;
+      }
+    }
+  </style>
+</episode-detail>

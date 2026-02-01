@@ -29,9 +29,10 @@ export function parseRSSFeed(xmlText) {
   const items = xmlDoc.querySelectorAll('item');
   const episodes = [];
 
-  items.forEach(item => {
+  items.forEach((item) => {
     const title = item.querySelector('title')?.textContent?.trim() || '';
-    const rawDescription = item.querySelector('description')?.textContent?.trim() || '';
+    const rawDescription =
+      item.querySelector('description')?.textContent?.trim() || '';
     const description = stripHtmlTags(rawDescription);
     const pubDate = item.querySelector('pubDate')?.textContent?.trim() || '';
     const link = item.querySelector('link')?.textContent?.trim() || '';
@@ -43,17 +44,20 @@ export function parseRSSFeed(xmlText) {
     const imageUrl = itunesImage?.getAttribute('href') || '';
 
     // Extract duration if available
-    const itunesDuration = item.querySelector('itunes\\:duration, duration')?.textContent?.trim() || '';
+    const itunesDuration =
+      item.querySelector('itunes\\:duration, duration')?.textContent?.trim() ||
+      '';
 
     episodes.push({
       title,
       description: truncateText(description, 120),
+      fullDescription: rawDescription,
       pubDate: formatDate(pubDate),
       link,
       audioUrl,
       imageUrl,
-      imageClass: "mint",
-      duration: itunesDuration
+      imageClass: 'mint',
+      duration: itunesDuration,
     });
   });
 

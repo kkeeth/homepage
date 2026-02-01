@@ -6,7 +6,10 @@
     <!-- About Section - Clean & Minimal -->
     <section class="about-section-minimal">
       <div class="about-content">
-        <h2 class="about-title-minimal">{t("pages.home.story.title")}</h2>
+        <div class="section-header-casual">
+          <h2 class="section-title">{t("pages.home.story.title")}</h2>
+          <div class="title-underline"></div>
+        </div>
         <p class="about-text">{t("pages.home.story.description1")}</p>
         <p class="about-text">{t("pages.home.story.description2")}</p>
 
@@ -42,72 +45,26 @@
 
 
 
-    <!-- Programs - Artistic Grid -->
-    <section class="episodes-section programs-artistic">
+    <!-- Other Programs - Compact List -->
+    <section class="other-programs-section">
       <div class="section-content">
-          <div class="section-header-casual">
-          <h2 class="section-title">
-            <span class="title-doodle">🎧</span>
-            {t("pages.home.episodes.other.title")}
-          </h2>
-          <div class="title-underline"></div>
-        </div>
+        <h2 class="other-programs-title">{t("pages.home.episodes.other.title")}</h2>
 
-        <div class="programs-masonry">
-          <div class="program-card-unified" each={program in state.otherPrograms} key={program.id}>
-            <!-- Program Artwork -->
-            <div class="program-artwork">
-              <img src={program.artworkUrl} alt={program.title} class="artwork-image" />
-              <div class="artwork-overlay">
-                <span class="category-badge">{program.category}</span>
-                <span class="episode-count">{program.episodes}{t("pages.home.program.episodesCount")}</span>
-              </div>
+        <div class="other-programs-list">
+          <a
+            each={program in state.otherPrograms}
+            key={program.id}
+            href={program.listen.spotify || program.listen.apple || '#'}
+            target="_blank"
+            class="other-program-item"
+          >
+            <img src={program.artworkUrl} alt={program.title} class="other-program-artwork" />
+            <div class="other-program-info">
+              <h3 class="other-program-name">{program.title}</h3>
+              <span class="other-program-meta">{program.category} · {program.episodes}{t("pages.home.program.episodesCount")}</span>
             </div>
-
-            <!-- Program Content -->
-            <div class="program-content">
-              <h3 class="program-title">{program.title}</h3>
-              <p class="program-description">{program.description}</p>
-
-              <div class="program-meta">
-                <div class="meta-item">
-                  <sl-icon name="calendar"></sl-icon>
-                  <span>{program.schedule}</span>
-                </div>
-                <div class="program-actions">
-                  <sl-dropdown>
-                    <sl-button slot="trigger" variant="default" size="small" class="listen-btn">
-                      <sl-icon name="play"></sl-icon>
-                      {t("pages.home.program.listen")}
-                      <sl-icon name="chevron-down" slot="suffix"></sl-icon>
-                    </sl-button>
-                    <sl-menu>
-                      <sl-menu-item if={program.listen.apple}>
-                        <sl-icon name="apple" slot="prefix"></sl-icon>
-                        <a href={program.listen.apple} target="_blank">Apple Podcasts</a>
-                      </sl-menu-item>
-                      <sl-menu-item if={program.listen.spotify}>
-                        <sl-icon name="spotify" slot="prefix"></sl-icon>
-                        <a href={program.listen.spotify} target="_blank">Spotify</a>
-                      </sl-menu-item>
-                      <sl-menu-item if={program.listen.amazon}>
-                        <sl-icon name="amazon" slot="prefix"></sl-icon>
-                        <a href={program.listen.amazon} target="_blank">Amazon Music</a>
-                      </sl-menu-item>
-                      <sl-menu-item if={program.listen.youtube}>
-                        <sl-icon name="youtube" slot="prefix"></sl-icon>
-                        <a href={program.listen.youtube} target="_blank">YouTube Music</a>
-                      </sl-menu-item>
-                      <sl-menu-item if={program.listen.rss}>
-                        <sl-icon name="rss" slot="prefix"></sl-icon>
-                        <a href={program.listen.rss} target="_blank">RSS Feed</a>
-                      </sl-menu-item>
-                    </sl-menu>
-                  </sl-dropdown>
-                </div>
-              </div>
-            </div>
-          </div>
+            <sl-icon name="chevron-right" class="other-program-arrow"></sl-icon>
+          </a>
         </div>
       </div>
     </section>
@@ -171,142 +128,82 @@
       overflow: hidden;
     }
 
-    /* Programs Section */
-    .programs-masonry {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 1.5rem;
-      margin-top: 3rem;
+    /* Other Programs Section - Compact */
+    .other-programs-section {
+      padding: 3rem 0;
+      background: var(--cream);
     }
 
-    /* Unified Program Card Design */
-    .program-card-unified {
-      background: var(--white);
-      border-radius: 16px;
-      overflow: hidden;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-      border: 1px solid var(--light-gray);
-      transition: all 0.3s ease;
-      display: flex;
-      flex-direction: column;
-      height: 100%;
-    }
-
-    .program-card-unified:hover {
-      transform: translateY(-6px);
-      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
-      border-color: var(--blue-300);
-    }
-
-    /* Program Artwork Section */
-    .program-artwork {
-      position: relative;
-      aspect-ratio: 1;
-      overflow: hidden;
-    }
-
-    .artwork-image {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: transform 0.3s ease;
-    }
-
-    .program-card-unified:hover .artwork-image {
-      transform: scale(1.05);
-    }
-
-    .artwork-overlay {
-      position: absolute;
-      top: 1rem;
-      left: 1rem;
-      right: 1rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-    }
-
-    .category-badge {
-      background: var(--blue-100);
-      color: var(--blue-700);
-      padding: 0.375rem 0.75rem;
-      border-radius: 20px;
-      font-size: 0.75rem;
-      font-weight: 600;
-      backdrop-filter: blur(10px);
-      border: 1px solid var(--blue-200);
-    }
-
-    .episode-count {
-      background: var(--orange-100);
-      color: var(--orange-700);
-      padding: 0.375rem 0.75rem;
-      border-radius: 20px;
-      font-size: 0.75rem;
-      font-weight: 600;
-      backdrop-filter: blur(10px);
-      border: 1px solid var(--orange-200);
-    }
-
-    /* Program Content */
-    .program-content {
-      padding: 1.5rem;
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .program-title {
-      font-size: 1.125rem;
+    .other-programs-title {
+      font-size: 1.25rem;
       font-weight: 700;
       color: var(--text-dark);
-      margin-bottom: 0.75rem;
-      line-height: 1.4;
+      margin-bottom: 1.5rem;
+      text-align: center;
     }
 
-    .program-description {
-      color: var(--text-color);
-      line-height: 1.5;
-      font-size: 0.875rem;
-      margin-bottom: 1rem;
-      flex: 1;
-    }
-
-    .program-meta {
+    .other-programs-list {
       display: flex;
-      justify-content: space-between;
-      margin-bottom: 1rem;
+      flex-direction: column;
+      gap: 0.75rem;
+      max-width: 600px;
+      margin: 0 auto;
     }
 
-    .meta-item {
+    .other-program-item {
       display: flex;
       align-items: center;
-      gap: 0.375rem;
-      color: var(--text-light);
-      font-size: 0.75rem;
-    }
-
-    .meta-item sl-icon {
-      font-size: 0.875rem;
-      color: var(--blue-500);
-    }
-
-    /* Menu Items */
-    sl-menu-item a {
+      gap: 1rem;
+      padding: 0.75rem 1rem;
+      background: var(--warm-white);
+      border: 1px solid var(--light-gray);
+      border-radius: 0.75rem;
       text-decoration: none;
-      color: inherit;
-      display: flex;
-      align-items: center;
-      width: 100%;
+      color: var(--text-dark);
+      transition: all 0.2s ease;
     }
 
-    sl-menu-item sl-icon {
-      margin-right: 8px;
+    .other-program-item:hover {
+      border-color: var(--rain-blue);
+      box-shadow: 0 2px 8px rgba(66, 153, 225, 0.1);
     }
 
-    /* program Episodes Section */
-    .program-episodes {
-      background: var(--white);
+    .other-program-artwork {
+      width: 48px;
+      height: 48px;
+      border-radius: 8px;
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+
+    .other-program-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .other-program-name {
+      font-size: 0.9375rem;
+      font-weight: 600;
+      color: var(--text-dark);
+      margin: 0 0 0.25rem 0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .other-program-meta {
+      font-size: 0.8125rem;
+      color: var(--text-light);
+    }
+
+    .other-program-arrow {
+      color: var(--text-light);
+      font-size: 1rem;
+      flex-shrink: 0;
+    }
+
+    .other-program-item:hover .other-program-arrow {
+      color: var(--rain-blue);
     }
 
 
@@ -357,13 +254,6 @@
       max-width: 680px;
       margin: 0 auto;
       text-align: center;
-    }
-
-    .about-title-minimal {
-      font-size: 1.5rem;
-      font-weight: 700;
-      color: var(--text-dark);
-      margin-bottom: 1.5rem;
     }
 
     .about-text {

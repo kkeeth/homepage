@@ -134,5 +134,11 @@
       "play": "Play",
       "viewAll": "View All Episodes"
     }
+  },
+  "episode": {
+    "listenOn": "Listen on",
+    "share": "Share",
+    "backToList": "Back to Episodes",
+    "notFound": "Episode not found"
   }
 }

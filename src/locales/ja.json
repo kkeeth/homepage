@@ -127,5 +127,11 @@
       "play": "再生",
       "viewAll": "すべてのエピソードを見る"
     }
+  },
+  "episode": {
+    "listenOn": "聴く",
+    "share": "シェアする",
+    "backToList": "エピソード一覧に戻る",
+    "notFound": "エピソードが見つかりませんでした"
   }
 }

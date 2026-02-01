@@ -26,7 +26,7 @@
         <p class="card-description">{truncateText(episode.description)}</p>
 
         <div class="card-actions">
-          <sl-button variant="primary" size="medium" href={episode.link} class="listen-btn">
+          <sl-button variant="primary" size="medium" href={"/episodes/" + getEpisodeId(episode)} class="listen-btn">
             <sl-icon name="play-fill"></sl-icon>
             {t("components.programCard.play")}
           </sl-button>
@@ -48,7 +48,18 @@
 
     export default {
       t: i18nStore.t.bind(i18nStore),
-      truncateText
+      truncateText,
+      getEpisodeId(episode) {
+        // Extract episode ID from art19 link
+        if (episode.link) {
+          const match = episode.link.match(/episodes\/([a-f0-9-]+)/i);
+          if (match) {
+            return match[1];
+          }
+        }
+        // Fallback to encoded title
+        return encodeURIComponent(episode.title);
+      }
     }
   </script>
 
