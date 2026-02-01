@@ -3,74 +3,24 @@
     <!-- Hero Section - Clean Modern Layout -->
     <hero-section if={state.latestEpisodes[0]} link={state.latestEpisodes[0]} />
 
-    <!-- Main Program Introduction -->
-    <section class="main-program-section">
-      <div class="container">
-        <div class="main-program-content">
-          <div class="program-story">
-            <div class="story-header">
-              <h2 class="story-title">{t("pages.home.story.title")}</h2>
-              <div class="umbrella-decoration">☂</div>
-            </div>
+    <!-- About Section - Clean & Minimal -->
+    <section class="about-section-minimal">
+      <div class="about-content">
+        <h2 class="about-title-minimal">{t("pages.home.story.title")}</h2>
+        <p class="about-text">{t("pages.home.story.description1")}</p>
+        <p class="about-text">{t("pages.home.story.description2")}</p>
 
-            <div class="story-content">
-              <p class="story-text">
-                {t("pages.home.story.description1")}
-              </p>
-
-              <p class="story-text">
-                {t("pages.home.story.description2")}
-              </p>
-
-              <div class="story-features">
-                <div class="feature-item">
-                  <div class="feature-icon">💻</div>
-                  <span>{t("pages.home.story.features.item1")}</span>
-                </div>
-                <div class="feature-item">
-                  <div class="feature-icon">💡</div>
-                  <span>{t("pages.home.story.features.item2")}</span>
-                </div>
-                <div class="feature-item">
-                  <div class="feature-icon">🎨</div>
-                  <span>{t("pages.home.story.features.item3")}</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="platform-info">
-            <h3 class="platform-title">{t("pages.home.platform.title")}</h3>
-
-            <div class="content-description">
-              <h4>{t("pages.home.platform.content.title")}</h4>
-              <ul class="content-list">
-                <li>{t("pages.home.platform.content.items.frontend")}</li>
-                <li>{t("pages.home.platform.content.items.tips")}</li>
-                <li>{t("pages.home.platform.content.items.libraries")}</li>
-                <li>{t("pages.home.platform.content.items.daily")}</li>
-                <li>{t("pages.home.platform.content.items.guest")}</li>
-              </ul>
-            </div>
-
-            <div class="platform-list">
-              <h4>{t("pages.home.platform.platforms.title")}</h4>
-              <div class="platform-grid">
-                <a
-                  each={platform in state.homePlatforms}
-                  key={platform.name}
-                  href={platform.url}
-                  target="_blank"
-                  class="platform-card"
-                >
-                  <div class="platform-icon {platform.name.toLowerCase().replace(' ', '-')}">
-                    <sl-icon name={platform.icon}></sl-icon>
-                  </div>
-                  <span>{platform.name}</span>
-                </a>
-              </div>
-            </div>
-          </div>
+        <div class="platform-links">
+          <a
+            each={platform in state.homePlatforms}
+            key={platform.name}
+            href={platform.url}
+            target="_blank"
+            class="platform-link"
+          >
+            <sl-icon name={platform.icon}></sl-icon>
+            <span>{platform.name}</span>
+          </a>
         </div>
       </div>
     </section>
@@ -90,20 +40,6 @@
       </div>
     </section>
 
-    <!-- program Episodes Section -->
-    <section class="episodes-section program-episodes">
-      <div class="section-content">
-        <div class="section-header-casual">
-          <h2 class="section-title">
-            <span class="title-doodle">🎧</span>
-            {t("pages.home.episodes.featured.title")}
-          </h2>
-          <div class="title-underline"></div>
-        </div>
-
-        <program-card program-episodes={state.programEpisodes} show-more={true} />
-      </div>
-    </section>
 
 
     <!-- Programs - Artistic Grid -->
@@ -178,7 +114,7 @@
   </div>
 
   <script>
-    import { fetchRSSFeed, getLatestEpisodes, getRandomEpisodes } from '@/utils/rss';
+    import { fetchRSSFeed, getLatestEpisodes } from '@/utils/rss';
     import { HOME_PLATFORMS, OTHER_PROGRAMS } from '@/constants/links';
     import i18nStore from '@/stores/i18n-store';
 
@@ -189,16 +125,7 @@
           const RSS_URL = import.meta.env.VITE_RSS_URL;
           const episodes = await fetchRSSFeed(RSS_URL);
           this.update({
-            latestEpisodes: getLatestEpisodes(episodes, 3),
-            programEpisodes: getRandomEpisodes(episodes, 3).map((episode, index) => ({
-              id: index + 1,
-              title: episode.title,
-              description: episode.description,
-              pubDate: episode.pubDate,
-              link: episode.link,
-              imageUrl: episode.imageUrl || "/placeholder.svg?height=200&width=400",
-              imageClass: "dark-theme"//index === 0 ? "blue-gradient" : index === 1 ? "dark-theme" : "warm-gradient"
-            }))
+            latestEpisodes: getLatestEpisodes(episodes, 3)
           });
         } catch (error) {
           console.error('Failed to load RSS feed:', error);
@@ -206,7 +133,6 @@
       },
       state: {
         latestEpisodes: [],
-        programEpisodes: [],
         homePlatforms: HOME_PLATFORMS,
         otherPrograms: OTHER_PROGRAMS
       },
@@ -421,522 +347,77 @@
       50% { transform: translateY(-5px) rotate(var(--rotation, 0deg)); }
     }
 
-    /* Main Program Section Styles */
-    .main-program-section {
-      padding: 6rem 2rem;
-      background: var(--gray-50);
-      border-top: 1px solid var(--light-gray);
-      border-bottom: 1px solid var(--light-gray);
+    /* About Section - Minimal Style */
+    .about-section-minimal {
+      padding: 4rem 2rem;
+      background: var(--cream);
     }
 
-    .main-program-content {
-      max-width: 1200px;
+    .about-content {
+      max-width: 680px;
       margin: 0 auto;
-      display: grid;
-      grid-template-columns: 1.2fr 1fr;
-      gap: 4rem;
-      align-items: start;
+      text-align: center;
     }
 
-    .story-header {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      margin-bottom: 2rem;
-    }
-
-    .story-title {
-      font-size: 2.75rem;
-      font-weight: 800;
+    .about-title-minimal {
+      font-size: 1.5rem;
+      font-weight: 700;
       color: var(--text-dark);
-      letter-spacing: -0.02em;
-    }
-
-    .umbrella-decoration {
-      font-size: 2.5rem;
-      color: var(--umbrella-blue);
-      opacity: 0.8;
-      animation: gentle-sway 4s ease-in-out infinite;
-    }
-
-    .story-content {
-      margin-bottom: 2rem;
-    }
-
-    .story-text {
-      font-size: 1.1rem;
-      line-height: 1.7;
-      color: var(--text-color);
       margin-bottom: 1.5rem;
     }
 
-    .story-features {
-      display: flex;
-      gap: 1.5rem;
-      margin-top: 2rem;
-    }
-
-    .feature-item {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      padding: 1rem 1.5rem;
-      background: var(--warm-white);
-      border: 2px solid var(--warm-amber);
-      border-radius: 1rem;
-      font-weight: 600;
-      color: var(--coffee-brown);
-      transition: all 0.3s ease;
-      box-shadow: 0 4px 15px rgba(244, 173, 85, 0.1);
-    }
-
-    .feature-item:hover {
-      background: var(--warm-shelter);
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(244, 173, 85, 0.2);
-    }
-
-    .feature-icon {
-      font-size: 1.5rem;
-    }
-
-    @keyframes gentle-sway {
-      0%, 100% {
-        transform: rotate(-3deg);
-      }
-      50% {
-        transform: rotate(3deg);
-      }
-    }
-
-    /* Platform Info Section */
-    .platform-info {
-      padding: 2rem;
-      background: var(--warm-white);
-      border: 2px solid var(--soft-teal);
-      border-radius: 1.5rem;
-      box-shadow: 0 8px 32px rgba(56, 178, 172, 0.15);
-    }
-
-    .platform-title {
-      font-size: 1.75rem;
-      font-weight: 700;
-      color: var(--coffee-brown);
-      margin-bottom: 2rem;
-      text-align: center;
-    }
-
-    .content-description {
-      margin-bottom: 2rem;
-    }
-
-    .content-description h4,
-    .platform-list h4 {
-      font-size: 1.25rem;
-      font-weight: 600;
-      color: var(--coffee-brown);
+    .about-text {
+      font-size: 1rem;
+      line-height: 1.8;
+      color: var(--text-color);
       margin-bottom: 1rem;
     }
 
-    .content-list {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-    }
-
-    .content-list li {
-      padding: 0.5rem 0;
-      padding-left: 1.5rem;
-      position: relative;
-      color: var(--text-color);
-      line-height: 1.5;
-    }
-
-    .content-list li::before {
-      content: '🎙️';
-      position: absolute;
-      left: 0;
-      top: 0.5rem;
-      font-size: 0.9rem;
-    }
-
-    .platform-list {
+    .platform-links {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.75rem;
       margin-top: 2rem;
     }
 
-    .platform-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 1rem;
-    }
-
-    .platform-card {
-      display: flex;
-      flex-direction: column;
+    .platform-link {
+      display: inline-flex;
       align-items: center;
-      padding: 1.5rem 1rem;
-      background: var(--white);
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      background: var(--warm-white);
       border: 1px solid var(--light-gray);
-      border-radius: 12px;
+      border-radius: 2rem;
       text-decoration: none;
       color: var(--text-color);
-      transition: all 0.3s ease;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-    }
-
-    .platform-card:hover {
-      border-color: var(--blue-300);
-      transform: translateY(-4px);
-      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-      color: var(--blue-700);
-    }
-
-    .platform-icon {
-      width: 2.5rem;
-      height: 2.5rem;
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 0.75rem;
-      transition: all 0.3s ease;
-      background: var(--gray-100);
-      color: var(--text-dark);
-    }
-
-    .platform-card:hover .platform-icon {
-      transform: scale(1.1);
-      background: var(--blue-100);
-      color: var(--blue-600);
-    }
-
-    .platform-icon.apple {
-      background: var(--gray-100);
-      color: var(--text-dark);
-    }
-
-    .platform-icon.spotify {
-      background: var(--gray-100);
-      color: var(--text-dark);
-    }
-
-    .platform-icon.amazon {
-      background: var(--gray-100);
-      color: var(--text-dark);
-    }
-
-    .platform-icon.youtube {
-      background: var(--gray-100);
-      color: var(--text-dark);
-    }
-
-    .platform-icon.rss {
-      background: var(--orange-100);
-      color: var(--orange-600);
-    }
-
-    .platform-icon sl-icon {
-      font-size: 1.25rem;
-    }
-
-    .platform-card span {
       font-size: 0.875rem;
-      font-weight: 600;
-      text-align: center;
+      font-weight: 500;
+      transition: all 0.2s ease;
     }
 
-    @media (max-width: 768px) {
-      .main-program-content {
-        grid-template-columns: 1fr;
-        gap: 2.5rem;
-      }
+    .platform-link:hover {
+      border-color: var(--rain-blue);
+      color: var(--rain-blue);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(66, 153, 225, 0.15);
+    }
 
-      .stats-title {
-        font-size: 2.25rem;
-      }
-
-      .stats-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 1rem;
-      }
-
-      .stat-number {
-        font-size: 2rem;
-      }
-
-      .platform-grid {
-        grid-template-columns: 1fr;
-        gap: 0.75rem;
-        margin: 0 2rem;
-      }
-
-      .platform-card {
-        flex-direction: row;
-        justify-content: flex-start;
-        padding: 1rem 1.25rem;
-        text-align: left;
-      }
-
-      .platform-icon {
-        margin-bottom: 0;
-        margin-right: 1rem;
-        width: 2rem;
-        height: 2rem;
-      }
-
-      .platform-icon sl-icon {
-        font-size: 1rem;
-      }
+    .platform-link sl-icon {
+      font-size: 1rem;
     }
 
     @media (max-width: 480px) {
-      .main-program-section {
+      .about-section-minimal {
         padding: 3rem 1.5rem;
       }
 
-      .stats-grid {
-        grid-template-columns: 1fr;
-        gap: 1rem;
+      .about-title-minimal {
+        font-size: 1.25rem;
       }
 
       .programs-masonry {
         grid-template-columns: 1fr;
-      }
-    }
-
-    /* About Section Styles */
-    .about-section {
-      padding: 6rem 0;
-      background: var(--surface-color);
-      border-top: 1px solid var(--light-gray);
-      border-bottom: 1px solid var(--light-gray);
-    }
-
-    .about-container {
-      display: grid;
-      grid-template-columns: 1.2fr 1fr;
-      gap: 4rem;
-      align-items: center;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-
-    .story-header {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      margin-bottom: 2rem;
-    }
-
-    .about-title {
-      font-size: 2.5rem;
-      font-weight: 800;
-      color: var(--text-dark);
-      margin: 0;
-      letter-spacing: -0.02em;
-    }
-
-    .umbrella-decoration {
-      font-size: 2rem;
-      color: var(--umbrella-blue);
-      animation: gentle-sway 3s ease-in-out infinite;
-    }
-
-    .story-text {
-      font-size: 1.1rem;
-      line-height: 1.8;
-      color: var(--text-color);
-      margin-bottom: 1.5rem;
-      text-align: justify;
-    }
-
-    .host-profile {
-      background: var(--warm-white);
-      border-radius: 20px;
-      padding: 2rem;
-      margin-top: 2rem;
-      border: 2px solid var(--warm-amber);
-      box-shadow: 0 8px 32px rgba(244, 173, 85, 0.1);
-    }
-
-    .host-name {
-      font-size: 1.5rem;
-      font-weight: 700;
-      color: var(--coffee-brown);
-      margin-bottom: 0.75rem;
-    }
-
-    .host-description {
-      color: var(--text-color);
-      line-height: 1.6;
-      margin-bottom: 1.5rem;
-    }
-
-    .host-links {
-      display: flex;
-      gap: 1rem;
-    }
-
-    .social-link {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      padding: 0.5rem 1rem;
-      background: var(--cream);
-      border: 1px solid var(--warm-amber);
-      border-radius: 25px;
-      text-decoration: none;
-      color: var(--coffee-brown);
-      font-weight: 500;
-      transition: all 0.3s ease;
-    }
-
-    .social-link:hover {
-      background: var(--warm-amber);
-      color: var(--warm-white);
-      transform: translateY(-2px);
-      box-shadow: 0 4px 15px rgba(244, 173, 85, 0.3);
-    }
-
-    /* Cozy Illustration */
-    .cozy-illustration {
-      position: relative;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .window-frame {
-      width: 300px;
-      height: 250px;
-      background: var(--coffee-brown);
-      border-radius: 20px;
-      padding: 1rem;
-      box-shadow: 0 15px 50px rgba(45, 55, 72, 0.2);
-    }
-
-    .window-content {
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(135deg, var(--storm-cloud), var(--misty-gray));
-      border-radius: 12px;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .rain-outside {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-    }
-
-    .window-raindrop {
-      position: absolute;
-      width: 2px;
-      height: 15px;
-      background: linear-gradient(to bottom, var(--rain-blue), transparent);
-      border-radius: 0 0 50% 50%;
-      animation: window-rain 2s linear infinite;
-      opacity: 0.8;
-    }
-
-    .inside-warmth {
-      position: absolute;
-      bottom: 1rem;
-      left: 1rem;
-      right: 1rem;
-      height: 60px;
-      background: var(--window-light);
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: space-around;
-      padding: 0 1rem;
-    }
-
-    .coffee-cup {
-      font-size: 1.5rem;
-      animation: gentle-steam 3s ease-in-out infinite;
-    }
-
-    .book-stack {
-      font-size: 1.2rem;
-      animation: gentle-bounce 4s ease-in-out infinite;
-    }
-
-    .warm-light {
-      width: 20px;
-      height: 20px;
-      background: var(--warm-amber);
-      border-radius: 50%;
-      animation: warm-glow 2s ease-in-out infinite;
-      box-shadow: 0 0 20px rgba(244, 173, 85, 0.5);
-    }
-
-    /* About Section Animations */
-    @keyframes gentle-sway {
-      0%, 100% { transform: rotate(-3deg); }
-      50% { transform: rotate(3deg); }
-    }
-
-    @keyframes window-rain {
-      0% {
-        transform: translateY(-15px);
-        opacity: 0;
-      }
-      10% { opacity: 0.8; }
-      90% { opacity: 0.8; }
-      100% {
-        transform: translateY(250px);
-        opacity: 0;
-      }
-    }
-
-    @keyframes gentle-steam {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-3px); }
-    }
-
-    @keyframes gentle-bounce {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-2px); }
-    }
-
-    @keyframes warm-glow {
-      0%, 100% {
-        opacity: 1;
-        transform: scale(1);
-      }
-      50% {
-        opacity: 0.7;
-        transform: scale(1.1);
-      }
-    }
-
-    /* About Section Responsive */
-    @media (max-width: 768px) {
-      .about-container {
-        grid-template-columns: 1fr;
-        gap: 2rem;
-      }
-
-      .about-title {
-        font-size: 2rem;
-      }
-
-      .window-frame {
-        width: 250px;
-        height: 200px;
-      }
-
-      .host-links {
-        flex-direction: column;
-      }
-    }
-
-    @media (max-width: 480px) {
-      .story-features {
-        flex-direction: column;
       }
     }
   </style>
