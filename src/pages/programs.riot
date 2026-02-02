@@ -20,19 +20,10 @@
           <h1 class="page-title">{t("hero.title")}</h1>
           <p class="page-description" html={t("pages.program.description")}>
           </p>
-          <div class="header-stats">
-            <div class="stat">
-              <div class="stat-number">４</div>
-              <div class="stat-label">{t("pages.program.stats.seasons")}</div>
-            </div>
-            <div class="stat">
-              <div class="stat-number">{state.totalCount}</div>
-              <div class="stat-label">{t("pages.program.stats.episodes")}</div>
-            </div>
-            <div class="stat">
-              <div class="stat-number">週１回</div>
-              <div class="stat-label">{t("pages.program.stats.update")}</div>
-            </div>
+          <div class="header-badges">
+            <span class="badge">Season 4</span>
+            <span class="badge">{state.totalCount} {t("pages.program.stats.episodes")}</span>
+            <span class="badge">週1更新</span>
           </div>
         </div>
       </div>
@@ -71,12 +62,12 @@
         displayedCount: 0,
         totalCount: 0,
         currentPage: 1,
-        pageSize: 6
+        pageSize: 10
       },
       async onBeforeMount() {
         this.handleEpisodesLoaded = () => {
           // programsページ用のページサイズ（6）に設定
-          episodeStore.setPage(1, 6);
+          episodeStore.setPage(1, 10);
           this.update({
             programEpisodes: episodeStore.getDisplayedEpisodes(),
             displayedCount: episodeStore.getDisplayedCount(),
@@ -96,7 +87,7 @@
         };
 
         this.handlePageChange = (page) => {
-          episodeStore.setPage(page, 6);
+          episodeStore.setPage(page, 10);
         };
 
         episodeStore.on('episodes-loaded', this.handleEpisodesLoaded);
@@ -236,33 +227,22 @@
       text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
     }
 
-    .header-stats {
+    .header-badges {
       display: flex;
       justify-content: center;
-      gap: 3rem;
+      flex-wrap: wrap;
+      gap: 0.75rem;
     }
 
-    .stat {
-      text-align: center;
+    .badge {
+      display: inline-block;
+      padding: 0.375rem 0.875rem;
       background: var(--white-20);
-      padding: 1.5rem;
-      border-radius: 1rem;
-      backdrop-filter: blur(10px);
-      border: 1px solid var(--white-20);
-    }
-
-    .stat-number {
-      font-size: 2.2rem;
-      font-weight: 800;
+      border-radius: 2rem;
+      font-size: 0.875rem;
+      font-weight: 500;
       color: var(--warm-white);
-      display: block;
-      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-    }
-
-    .stat-label {
-      font-size: 0.9rem;
-      color: var(--white-80);
-      margin-top: 0.5rem;
+      backdrop-filter: blur(10px);
     }
 
     .featured-program {
@@ -649,8 +629,13 @@
         font-size: 2rem;
       }
 
-      .header-stats {
-        gap: 1.5rem;
+      .header-badges {
+        gap: 0.5rem;
+      }
+
+      .badge {
+        font-size: 0.8125rem;
+        padding: 0.25rem 0.75rem;
       }
 
       .featured-content,

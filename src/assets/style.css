@@ -153,6 +153,7 @@ body {
 
 section {
   padding: 0 4rem;
+  justify-items: center;
 }
 
 /* Shoelace customizations for new design */
@@ -205,8 +206,7 @@ html {
 }
 
 .section-content {
-  max-width: 1200px;
-  margin: 0 auto;
+  max-width: 1000px;
   padding-left: 2rem;
   padding-right: 2rem;
 }

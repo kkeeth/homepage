@@ -29,7 +29,7 @@
             key={platform.name}
             href={platform.url}
             target="_blank"
-            class="platform-icon-link"
+            class="platform-icon-link platform-{platform.icon}"
             title={platform.name}
           >
             <sl-icon name={platform.icon}></sl-icon>
@@ -236,23 +236,61 @@
       justify-content: center;
       width: 44px;
       height: 44px;
-      background: var(--warm-white);
-      border: 1px solid var(--light-gray);
+      border: none;
       border-radius: 10px;
-      color: var(--text-color);
+      color: white;
       text-decoration: none;
       transition: all 0.2s ease;
     }
 
     .platform-icon-link:hover {
-      border-color: var(--rain-blue);
-      color: var(--rain-blue);
       transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(66, 153, 225, 0.15);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     }
 
     .platform-icon-link sl-icon {
       font-size: 1.25rem;
+    }
+
+    /* Platform specific colors */
+    .platform-apple {
+      background: #A855F7;
+    }
+
+    .platform-apple:hover {
+      background: #9333EA;
+    }
+
+    .platform-spotify {
+      background: #1DB954;
+    }
+
+    .platform-spotify:hover {
+      background: #1AA34A;
+    }
+
+    .platform-amazon {
+      background: #FF9900;
+    }
+
+    .platform-amazon:hover {
+      background: #E68A00;
+    }
+
+    .platform-youtube {
+      background: #FF0000;
+    }
+
+    .platform-youtube:hover {
+      background: #CC0000;
+    }
+
+    .platform-rss {
+      background: #F97316;
+    }
+
+    .platform-rss:hover {
+      background: #EA580C;
     }
 
     /* Share Buttons */

@@ -19,7 +19,7 @@
             key={platform.name}
             href={platform.url}
             target="_blank"
-            class="platform-link"
+            class="platform-link platform-{platform.icon}"
           >
             <sl-icon name={platform.icon}></sl-icon>
             <span>{platform.name}</span>
@@ -251,7 +251,7 @@
     }
 
     .about-content {
-      max-width: 680px;
+      max-width: 720px;
       margin: 0 auto;
       text-align: center;
     }
@@ -275,10 +275,10 @@
       display: inline-flex;
       align-items: center;
       gap: 0.5rem;
-      padding: 0.5rem 1rem;
+      padding: 0.25rem 0.5rem;
       background: var(--warm-white);
       border: 1px solid var(--light-gray);
-      border-radius: 2rem;
+      border-radius: .5rem;
       text-decoration: none;
       color: var(--text-color);
       font-size: 0.875rem;
@@ -287,7 +287,6 @@
     }
 
     .platform-link:hover {
-      border-color: var(--rain-blue);
       color: var(--rain-blue);
       transform: translateY(-2px);
       box-shadow: 0 4px 12px rgba(66, 153, 225, 0.15);
@@ -295,6 +294,57 @@
 
     .platform-link sl-icon {
       font-size: 1rem;
+    }
+
+    /* Platform specific colors */
+    .platform-apple {
+      background: #A855F7;
+      color: white;
+    }
+
+    .platform-apple:hover {
+      background: #9333EA;
+      color: white;
+    }
+
+    .platform-spotify {
+      background: #1DB954;
+      color: white;
+    }
+
+    .platform-spotify:hover {
+      background: #1AA34A;
+      color: white;
+    }
+
+    .platform-amazon {
+      background: #FF9900;
+      color: white;
+    }
+
+    .platform-amazon:hover {
+      background: #E68A00;
+      color: white;
+    }
+
+    .platform-youtube {
+      background: #FF0000;
+      color: white;
+    }
+
+    .platform-youtube:hover {
+      background: #CC0000;
+      color: white;
+    }
+
+    .platform-rss {
+      background: #F97316;
+      color: white;
+    }
+
+    .platform-rss:hover {
+      background: #EA580C;
+      color: white;
     }
 
     @media (max-width: 480px) {
