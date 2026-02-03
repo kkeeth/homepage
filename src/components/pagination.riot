@@ -4,16 +4,31 @@
       size="small"
       circle
       if={props.currentPage > 1}
-      onclick={() => changePage(props.currentPage - 1)}
+      onclick={() => changePage(1)}
     >
-      <
+      &lt;&lt;
     </sl-button>
     <sl-button
       size="small"
       circle
       if={props.currentPage <= 1}
       disabled
-    ></sl-button>
+    >&lt;&lt;</sl-button>
+
+    <sl-button
+      size="small"
+      circle
+      if={props.currentPage > 1}
+      onclick={() => changePage(props.currentPage - 1)}
+    >
+      &lt;
+    </sl-button>
+    <sl-button
+      size="small"
+      circle
+      if={props.currentPage <= 1}
+      disabled
+    >&lt;</sl-button>
 
     <div class="pages">
       <sl-button
@@ -35,15 +50,29 @@
       if={props.currentPage < totalPages()}
       onclick={() => changePage(props.currentPage + 1)}
     >
-      >
+      &gt;
     </sl-button>
     <sl-button
       size="small"
       circle
       disabled
       if={props.currentPage >= totalPages()}
-      onclick={() => changePage(props.currentPage + 1)}
-    ></sl-button>
+    >&gt;</sl-button>
+
+    <sl-button
+      size="small"
+      circle
+      if={props.currentPage < totalPages()}
+      onclick={() => changePage(totalPages())}
+    >
+      &gt;&gt;
+    </sl-button>
+    <sl-button
+      size="small"
+      circle
+      disabled
+      if={props.currentPage >= totalPages()}
+    >&gt;&gt;</sl-button>
   </div>
 
   <script>
