@@ -43,14 +43,11 @@
         "latest": {
           "title": "最新エピソード"
         },
-        "featured": {
-          "title": "ピックアップエピソード"
-        },
         "other": {
           "title": "その他の番組"
         }
       },
-      "episode": {
+      "program": {
         "episodesCount": "話",
         "listen": "聴く"
       },
@@ -99,14 +96,14 @@
       "philosophy": "私は技術の力で人々の生活を変え，世界をより良い場所にすることを信じています．美しく，機能的でユーザーフレンドリーなデジタル体験を作ることに情熱を持っています．常に学び，進化し，Web開発の瞬く間に変化する世界で先を行くために努力しています．"
     },
     "episode": {
-      "title": "番組ラインナップ",
-      "description": "それぞれ異なるテーマとスタイルで、あなたの興味に合わせてお楽しみください。<br>すべての番組で心地よい対話をお届けします。",
+      "hero": {
+        "title": "エピソードラインナップ"
+      },
       "stats": {
         "seasons": "シーズン",
         "episodes": "エピソード",
         "update": "更新"
-      },
-      "allEpisodes": "全エピソード"
+      }
     },
     "contact": {
       "title": "CONTACT",
@@ -148,7 +145,7 @@
     "title": "雨宿りとWEBの小噺",
     "episodes": {
       "title": "エピソード",
-      "allEpisodes": "全エピソード一覧"
+      "allEpisodes": "全エピソード"
     },
     "connect": "つながる",
     "rights": "All rights reserved."

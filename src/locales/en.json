@@ -1,6 +1,5 @@
 {
   "hero": {
-    "title": "Program Lineup",
     "subtitle": "A passionate web developer crafting beautiful and functional digital experiences",
     "podcastTitle": "Amayadori to WEB no Kobanashi.fm",
     "subtitleLine1": "Take a break from the daily rain of information",
@@ -43,11 +42,8 @@
         "latest": {
           "title": "Latest Episodes"
         },
-        "featured": {
-          "title": "Featured Episodes"
-        },
         "other": {
-          "title": "Other Episodes"
+          "title": "Other Programs"
         }
       },
       "program": {
@@ -100,13 +96,21 @@
     },
     "program": {
       "title": "Episode Lineup",
-      "description": "Each has a different theme and style to suit your interests.<br>All episodes offer a pleasant dialogue.",
       "stats": {
         "seasons": "Seasons",
         "episodes": "Episodes",
         "update": "Updates"
+      }
+    },
+    "episode": {
+      "hero": {
+        "title": "All Episodes"
       },
-      "allEpisodes": "All Episodes"
+      "stats": {
+        "seasons": "Seasons",
+        "episodes": "Episodes",
+        "update": "Updates"
+      }
     },
     "output": {
       "title": "OUTPUT",
