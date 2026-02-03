@@ -39,13 +39,13 @@
           <div class="title-underline"></div>
         </div>
 
-        <program-card program-episodes={state.latestEpisodes} show-more={true} />
+        <episode-card program-episodes={state.latestEpisodes} show-more={true} />
       </div>
     </section>
 
 
 
-    <!-- Other Programs - Compact List -->
+    <!-- Other Episodes - Compact List -->
     <section class="other-programs-section">
       <div class="section-content">
         <h2 class="other-programs-title">{t("pages.home.episodes.other.title")}</h2>
@@ -56,14 +56,14 @@
             key={program.id}
             href={program.listen.spotify || program.listen.apple || '#'}
             target="_blank"
-            class="other-program-item"
+            class="other-programs-item"
           >
-            <img src={program.artworkUrl} alt={program.title} class="other-program-artwork" />
-            <div class="other-program-info">
-              <h3 class="other-program-name">{program.title}</h3>
-              <span class="other-program-meta">{t("pages.home.categories." + program.category)} · {program.episodes}{t("pages.home.program.episodesCount")}</span>
+            <img src={program.artworkUrl} alt={program.title} class="other-programs-artwork" />
+            <div class="other-programs-info">
+              <h3 class="other-programs-name">{program.title}</h3>
+              <span class="other-programs-meta">{t("pages.home.categories." + program.category)} · {program.episodes}{t("pages.home.program.episodesCount")}</span>
             </div>
-            <sl-icon name="chevron-right" class="other-program-arrow"></sl-icon>
+            <sl-icon name="chevron-right" class="other-programs-arrow"></sl-icon>
           </a>
         </div>
       </div>
@@ -150,7 +150,7 @@
       margin: 0 auto;
     }
 
-    .other-program-item {
+    .other-programs-item {
       display: flex;
       align-items: center;
       gap: 1rem;
@@ -163,12 +163,12 @@
       transition: all 0.2s ease;
     }
 
-    .other-program-item:hover {
+    .other-programs-item:hover {
       border-color: var(--rain-blue);
       box-shadow: 0 2px 8px rgba(66, 153, 225, 0.1);
     }
 
-    .other-program-artwork {
+    .other-programs-artwork {
       width: 48px;
       height: 48px;
       border-radius: 8px;
@@ -176,12 +176,12 @@
       flex-shrink: 0;
     }
 
-    .other-program-info {
+    .other-programs-info {
       flex: 1;
       min-width: 0;
     }
 
-    .other-program-name {
+    .other-programs-name {
       font-size: 0.9375rem;
       font-weight: 600;
       color: var(--text-dark);
@@ -191,18 +191,18 @@
       text-overflow: ellipsis;
     }
 
-    .other-program-meta {
+    .other-programs-meta {
       font-size: 0.8125rem;
       color: var(--text-light);
     }
 
-    .other-program-arrow {
+    .other-programs-arrow {
       color: var(--text-light);
       font-size: 1rem;
       flex-shrink: 0;
     }
 
-    .other-program-item:hover .other-program-arrow {
+    .other-programs-item:hover .other-programs-arrow {
       color: var(--rain-blue);
     }
 
@@ -354,10 +354,6 @@
 
       .about-title-minimal {
         font-size: 1.25rem;
-      }
-
-      .programs-masonry {
-        grid-template-columns: 1fr;
       }
     }
   </style>

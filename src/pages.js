@@ -5,9 +5,9 @@ export default [
     componentName: 'home',
   },
   {
-    path: '/programs',
-    label: 'PROGRAMS',
-    componentName: 'programs',
+    path: '/episodes',
+    label: 'EPISODES',
+    componentName: 'episodes',
   },
   {
     path: '/episodes/:id',

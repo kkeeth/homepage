@@ -1,5 +1,5 @@
-<programs>
-  <div class="programs">
+<episodes>
+  <div class="episodes">
     <!-- Page Header with Rain -->
     <section class="page-header">
       <div class="header-bg">
@@ -18,11 +18,11 @@
       <div class="container">
         <div class="header-content">
           <h1 class="page-title">{t("hero.title")}</h1>
-          <p class="page-description" html={t("pages.program.description")}>
+          <p class="page-description" html={t("pages.episode.description")}>
           </p>
           <div class="header-badges">
             <span class="badge">Season 4</span>
-            <span class="badge">{state.totalCount} {t("pages.program.stats.episodes")}</span>
+            <span class="badge">{state.totalCount} {t("pages.episode.stats.episodes")}</span>
             <span class="badge">週1更新</span>
           </div>
         </div>
@@ -34,12 +34,12 @@
         <div class="section-header-casual">
           <h2 class="section-title">
             <span class="title-doodle">🎧</span>
-            {t("pages.program.allEpisodes")}
+            {t("pages.episode.allEpisodes")}
           </h2>
           <div class="title-underline"></div>
         </div>
 
-        <program-card program-episodes={state.programEpisodes} show-more={false} />
+        <episode-card program-episodes={state.programEpisodes} show-more={false} />
 
         <pagination
           current-page={state.currentPage}
@@ -66,7 +66,7 @@
       },
       async onBeforeMount() {
         this.handleEpisodesLoaded = () => {
-          // programsページ用のページサイズ（6）に設定
+          // episodesページ用のページサイズ（6）に設定
           episodeStore.setPage(1, 10);
           this.update({
             programEpisodes: episodeStore.getDisplayedEpisodes(),
@@ -108,7 +108,7 @@
     }
   </script>
   <style>
-    .programs {
+    .episodes {
       min-height: 100vh;
     }
 
@@ -335,7 +335,7 @@
       color: var(--navy-600);
     }
 
-    .programs-grid {
+    .episodes-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
       gap: 2rem;
@@ -644,7 +644,7 @@
         gap: 2rem;
       }
 
-      .programs-grid {
+      .episodes-grid {
         grid-template-columns: 1fr;
       }
 
@@ -668,4 +668,4 @@
       }
     }
   </style>
-</programs>
+</episodes>

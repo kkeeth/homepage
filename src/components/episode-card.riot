@@ -1,4 +1,4 @@
-<program-card>
+<episode-card>
   <div class="episode-list">
     <a class="episode-item" each={episode in props.programEpisodes} key={episode.id} href={"/episodes/" + getEpisodeId(episode)}>
       <div class="episode-thumbnail">
@@ -19,7 +19,7 @@
   </div>
 
   <div class="view-all-section" if={props.showMore}>
-    <sl-button variant="outline" size="large" href="/programs" class="view-all-btn">
+    <sl-button variant="outline" size="large" href="/episodes" class="view-all-btn">
       {t("components.programCard.viewAll")}
       <sl-icon name="arrow-right" slot="suffix"></sl-icon>
     </sl-button>
@@ -261,4 +261,4 @@
       }
     }
   </style>
-</program-card>
+</episode-card>

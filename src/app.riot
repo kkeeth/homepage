@@ -21,7 +21,7 @@
           <ul>
             <li each={page in state.pages} if={!page.hidden}>
               <a
-                class={this.state.activePage === page ? 'active' : '' }
+                class={this.state.activePage === page.componentName ? 'active' : '' }
                 href={page.path}
                 onclick={closeMenu}>{page.label}</a>
             </li>
@@ -50,7 +50,7 @@
     import NotFound from '@/pages/not-found.riot'
     import pages from './pages'
     import Home from '@/pages/home.riot'
-    import Programs from '@/pages/programs.riot'
+    import Episodes from '@/pages/episodes.riot'
     import Profile from '@/pages/profile.riot'
     import Contact from '@/pages/contact.riot'
     import EpisodeDetail from '@/pages/episode-detail.riot'
@@ -62,7 +62,7 @@
         Route,
         NotFound,
         Home,
-        Programs,
+        Episodes,
         Profile,
         Contact,
         EpisodeDetail,

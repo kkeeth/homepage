@@ -1,7 +1,7 @@
 export const works = {
   en: [
     {
-      title: 'Advertisement placement in podcast programs',
+      title: 'Advertisement placement in podcast episodes',
       description:
         'Advertising placement on my engineering-related podcast program, and podcast program production.',
       image: '/images/work_kkeeth.png',

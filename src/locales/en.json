@@ -47,7 +47,7 @@
           "title": "Featured Episodes"
         },
         "other": {
-          "title": "Other Programs"
+          "title": "Other Episodes"
         }
       },
       "program": {
@@ -92,15 +92,15 @@
           },
           "community": {
             "title": "Community Growth",
-            "description": "Listener community grew and expanded into various programs."
+            "description": "Listener community grew and expanded into various episodes."
           }
         }
       },
       "philosophy": "I believe in the power of technology to transform lives and make the world a better place. I am passionate about creating digital experiences that are not only beautiful but also functional and user-friendly. I am constantly learning and evolving to stay ahead in the fast-paced world of web development."
     },
     "program": {
-      "title": "Program Lineup",
-      "description": "Each has a different theme and style to suit your interests.<br>All programs offer a pleasant dialogue.",
+      "title": "Episode Lineup",
+      "description": "Each has a different theme and style to suit your interests.<br>All episodes offer a pleasant dialogue.",
       "stats": {
         "seasons": "Seasons",
         "episodes": "Episodes",
@@ -153,9 +153,9 @@
   "footer": {
     "logoAlt": "Amayadori to WEB no Kobanashi Logo",
     "title": "Amayadori to WEB no Kobanashi",
-    "programs": {
-      "title": "Programs",
-      "allPrograms": "All Programs"
+    "episodes": {
+      "title": "Episodes",
+      "allEpisodes": "All Episodes"
     },
     "connect": "Connect",
     "rights": "All rights reserved."
