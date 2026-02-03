@@ -107,15 +107,11 @@
       }
     },
     "contact": {
-      "title": "CONTACT",
-      "subtitle": "ご連絡",
       "message": "お仕事のご依頼やご相談はお気軽にお問い合わせください。",
       "area": "東京都",
       "hero": {
-        "title": "雨宿りしながらお話ししませんか？",
-        "subtitle": "急な雨に濾れた時，軟先で出会う温かい会話のように<br>どんなことでもお気軽にお声かけください"
-      },
-      "description": "ご質問，ご感想，技術の話，コラボレーションのお誘いなど，<br>どんなことでもお待ちしています。雨音を聞きながら，<br>ゆっくりとお話ししましょう。"
+        "title": "ご連絡"
+      }
     }
   },
   "sections": {
@@ -144,11 +140,16 @@
   "footer": {
     "logoAlt": "雨宿りとWEBの小噺のロゴ",
     "title": "雨宿りとWEBの小噺",
+    "tagline": "毎日の情報の雨からちょっと雨宿り。軒先で聞くWEBの小噺。",
+    "navigation": {
+      "title": "ナビゲーション"
+    },
     "episodes": {
       "title": "エピソード",
       "allEpisodes": "全エピソード"
     },
-    "connect": "つながる",
+    "listen": "配信プラットフォーム",
+    "connect": "SNS",
     "rights": "All rights reserved."
   }
 }

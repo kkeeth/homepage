@@ -121,15 +121,11 @@
       "viewAll": "View All"
     },
     "contact": {
-      "title": "CONTACT",
-      "subtitle": "Let's Connect",
       "message": "Feel free to reach out for job requests or consultations.",
       "area": "Tokyo, Japan",
       "hero": {
-        "title": "Shall we chat while taking shelter from the rain?",
-        "subtitle": "Like a warm conversation you might have under an eave when caught in sudden rain<br>Feel free to reach out about anything"
-      },
-      "description": "Questions, feedback, tech talks, collaboration invitations, and more -<br>I'm waiting for anything. While listening to the sound of rain,<br>let's have a relaxed conversation."
+        "title": "Let's Connect"
+      }
     }
   },
   "sections": {
@@ -158,11 +154,16 @@
   "footer": {
     "logoAlt": "Amayadori to WEB no Kobanashi Logo",
     "title": "Amayadori to WEB no Kobanashi",
+    "tagline": "Take a break from the daily rain of information. Listen to WEB tales under the eaves.",
+    "navigation": {
+      "title": "Navigation"
+    },
     "episodes": {
       "title": "Episodes",
       "allEpisodes": "All Episodes"
     },
-    "connect": "Connect",
+    "listen": "Listen On",
+    "connect": "Social",
     "rights": "All rights reserved."
   }
 }
