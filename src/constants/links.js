@@ -14,6 +14,7 @@ export const PODCAST_PLATFORMS = {
 export const SOCIAL_LINKS = {
   TWITTER: 'https://x.com/kuwahara_jsri',
   GITHUB: 'https://github.com/kkeeth',
+  SPOTIFY: 'https://open.spotify.com/show/4ZqUQtob7eJrz9DQV7lPVd',
   SUBSTACK: 'https://kkeeth.substack.com',
   EMAIL: 'mailto:zensin0082@gmail.com',
 };
@@ -35,26 +36,8 @@ export const PLATFORM_CONFIG = [
   {
     name: 'spotify',
     icon: 'spotify',
-    url: PODCAST_PLATFORMS.SPOTIFY,
+    url: SOCIAL_LINKS.SPOTIFY,
     label: 'Spotify',
-  },
-  {
-    name: 'apple',
-    icon: 'apple',
-    url: PODCAST_PLATFORMS.APPLE_PODCASTS,
-    label: 'Apple Podcasts',
-  },
-  {
-    name: 'youtube',
-    icon: 'youtube',
-    url: PODCAST_PLATFORMS.YOUTUBE_MUSIC,
-    label: 'YouTube Music',
-  },
-  {
-    name: 'amazon',
-    icon: 'amazon',
-    url: PODCAST_PLATFORMS.AMAZON_MUSIC,
-    label: 'Amazon Music',
   },
   {
     name: 'substack',
@@ -97,6 +80,18 @@ export const HOME_PLATFORMS = [
     icon: 'rss',
     url: PODCAST_PLATFORMS.RSS_FEED,
   },
+];
+
+// 自分のスキルセット
+export const MY_SKILLS = [
+  'Riot.js',
+  'React',
+  'Node.js',
+  'TypeScript',
+  'Podcasting',
+  'Recruiting Support',
+  'Personal Coaching',
+  'Programming Education',
 ];
 
 // その他の番組情報

@@ -1,136 +1,95 @@
 <profile>
   <div class="profile-page">
-    <!-- Main Profile Section -->
-    <section class="profile-main">
-      <div class="section-content">
-        <div class="profile-layout">
-          <!-- Left Content -->
-          <div class="profile-content">
-            <div class="profile-header">
-              <h1 class="profile-title">{t("pages.profile.title")}</h1>
-              <div class="title-accent"></div>
-            </div>
-
-            <div class="profile-description">
-              <p>
-                {t("pages.profile.description1")}
-              </p>
-              <p>
-                {t("pages.profile.description2")}
-              </p>
-            </div>
-
-            <!-- Stats Cards -->
-            <div class="stats-grid">
-              <div class="stat-card">
-                <div class="stat-icon">🎙️</div>
-                <div class="stat-info">
-                  <div class="stat-number">800+</div>
-                  <div class="stat-label">{t("pages.profile.stats.episodes")}</div>
-                </div>
-              </div>
-              <div class="stat-card">
-                <div class="stat-icon">👥</div>
-                <div class="stat-info">
-                  <div class="stat-number">36K</div>
-                  <div class="stat-label">{t("pages.profile.stats.plays")}</div>
-                </div>
-              </div>
-              <div class="stat-card">
-                <div class="stat-icon">📅</div>
-                <div class="stat-info">
-                  <div class="stat-number">5年+</div>
-                  <div class="stat-label">{t("pages.profile.stats.experience")}</div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Skills Section -->
-            <div class="skills-section">
-              <h3 class="section-subtitle">{t("pages.profile.skills")}</h3>
-              <div class="skills-tags">
-                <span class="skill-tag react">⚛️ React</span>
-                <span class="skill-tag node">🟢 Node.js</span>
-                <span class="skill-tag design">🎨 UI/UX Design</span>
-                <span class="skill-tag podcast">🎙️ Podcasting</span>
-                <span class="skill-tag music">🎵 Audio Production</span>
-                <span class="skill-tag writing">✍️ Technical Writing</span>
-              </div>
-            </div>
-
-            <!-- Social Links Section -->
-            <div class="social-section">
-              <h3 class="section-subtitle">{t("pages.profile.follow")}</h3>
-
-              <div class="enhanced-social-links">
-                <a
-                  each={platform in state.platforms}
-                  key={platform.name}
-                  href={platform.url}
-                  target={platform.url.startsWith('mailto:') ? '_self' : '_blank'}
-                  class="enhanced-social-link"
-                >
-                  <sl-icon name={platform.icon}></sl-icon>
-                </a>
-              </div>
-            </div>
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="hero-content">
+        <div class="hero-image">
+          <img src="/images/mypicture.jpeg" alt="kkeeth" />
+        </div>
+        <div class="hero-text">
+          <h1 class="hero-name">{t("pages.profile.title")}</h1>
+          <p class="hero-role">{t("pages.profile.role")}</p>
+          <div class="hero-social">
+            <a
+              each={platform in state.platforms}
+              key={platform.name}
+              href={platform.url}
+              target={platform.url.startsWith('mailto:') ? '_self' : '_blank'}
+              class="social-icon"
+              aria-label={platform.name}
+            >
+              <sl-icon name={platform.icon}></sl-icon>
+            </a>
           </div>
+        </div>
+      </div>
+    </section>
 
-          <!-- Right Visual -->
-          <div class="profile-visual">
-            <div class="profile-image-section">
-              <div class="image-container">
-                <img src="/images/mypicture.jpeg" alt="kkeeth" class="profile-image">
-              </div>
-
-              <!-- Floating Elements -->
-              <div class="floating-elements">
-                <div class="float-element element-1">💻</div>
-                <div class="float-element element-2">🎨</div>
-                <div class="float-element element-3">☕</div>
-                <div class="float-element element-4">🎧</div>
-              </div>
-            </div>
+    <!-- About Section -->
+    <section class="about">
+      <div class="about-content">
+        <div class="about-text">
+          <p class="about-description">
+            {t("pages.profile.description1")}
+          </p>
+          <p class="about-description">
+            {t("pages.profile.description2")}
+          </p>
+        </div>
+        <div class="stats">
+          <div class="stat">
+            <span class="stat-number">800+</span>
+            <span class="stat-label">{t("pages.profile.stats.episodes")}</span>
           </div>
+          <div class="stat">
+            <span class="stat-number">36K</span>
+            <span class="stat-label">{t("pages.profile.stats.plays")}</span>
+          </div>
+          <div class="stat">
+            <span class="stat-number">5+</span>
+            <span class="stat-label">{t("pages.profile.stats.experience")}</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section class="skills">
+      <div class="skills-content">
+        <h2 class="section-label">{t("pages.profile.skills")}</h2>
+        <div class="skills-list">
+          <span class="skill" each={skill in state.skills}>{skill}</span>
         </div>
       </div>
     </section>
 
     <!-- Journey Section -->
-    <section class="journey-section">
-      <div class="section-content">
-        <div class="section-layout">
-          <div class="section-header">
-            <h2 class="section-title">{t("pages.profile.journey.title")}</h2>
-            <div class="title-underline"></div>
-          </div>
-
-          <div class="journey-grid">
-            <div class="journey-card" each={item in state.journeyItems} key={item.id}>
-              <div class="journey-image {item.color}">
-                <div class="journey-icon">{item.icon}</div>
-                <div class="journey-year">{item.year}</div>
-              </div>
-              <div class="journey-content">
-                <h3 class="journey-title">{item.title}</h3>
-                <p class="journey-description">{item.description}</p>
-              </div>
+    <section class="journey">
+      <div class="journey-content">
+        <h2 class="section-label">{t("pages.profile.journey.title")}</h2>
+        <div class="timeline">
+          <div class="timeline-item" each={item in state.journeyItems} key={item.id}>
+            <div class="timeline-marker"></div>
+            <div class="timeline-card">
+              <span class="timeline-year">{item.year}</span>
+              <h3 class="timeline-title">{item.title}</h3>
+              <p class="timeline-description">{item.description}</p>
             </div>
           </div>
         </div>
       </div>
     </section>
-
   </div>
 
   <script>
-    import { SOCIAL_LINKS, PLATFORM_CONFIG } from '@/constants/links';
+    import { PLATFORM_CONFIG, MY_SKILLS } from '@/constants/links';
     import i18nStore from '@/stores/i18n-store';
 
     export default {
       t: i18nStore.t.bind(i18nStore),
       state: {
         platforms: PLATFORM_CONFIG,
+        skills: MY_SKILLS,
         journeyItems: []
       },
       onBeforeUpdate(_, state) {
@@ -139,41 +98,31 @@
             id: 1,
             year: "2014",
             title: this.t("pages.profile.journey.items.webdev.title"),
-            description: this.t("pages.profile.journey.items.webdev.description"),
-            icon: "🌱",
-            color: "mint"
+            description: this.t("pages.profile.journey.items.webdev.description")
           },
           {
             id: 2,
             year: "2017",
             title: this.t("pages.profile.journey.items.frontend.title"),
-            description: this.t("pages.profile.journey.items.frontend.description"),
-            icon: "⚛️",
-            color: "blue"
+            description: this.t("pages.profile.journey.items.frontend.description")
           },
           {
             id: 3,
             year: "2020",
             title: this.t("pages.profile.journey.items.fullstack.title"),
-            description: this.t("pages.profile.journey.items.fullstack.description"),
-            icon: "🚀",
-            color: "purple"
+            description: this.t("pages.profile.journey.items.fullstack.description")
           },
           {
             id: 4,
             year: "2022",
             title: this.t("pages.profile.journey.items.podcast.title"),
-            description: this.t("pages.profile.journey.items.podcast.description"),
-            icon: "🎙️",
-            color: "yellow"
+            description: this.t("pages.profile.journey.items.podcast.description")
           },
           {
             id: 5,
             year: "2024",
             title: this.t("pages.profile.journey.items.community.title"),
-            description: this.t("pages.profile.journey.items.community.description"),
-            icon: "👥",
-            color: "pink"
+            description: this.t("pages.profile.journey.items.community.description")
           }
         ]
       }
@@ -182,518 +131,344 @@
 
   <style>
     .profile-page {
-      background: var(--mint-50);
+      background: var(--warm-white);
       min-height: 100vh;
     }
 
-    /* Main Profile Section */
-    .profile-main {
-      background: white;
-      padding: 4rem 0;
+    /* Hero Section */
+    .hero {
+      padding: 6rem 1rem;
+      background: linear-gradient(180deg, var(--mint-50) 0%, var(--warm-white) 100%);
     }
 
-    .profile-layout {
+    .hero-content {
+      max-width: 1000px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 4rem;
+    }
+
+    .hero-image {
+      flex-shrink: 0;
+    }
+
+    .hero-image img {
+      width: 280px;
+      height: 280px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 4px solid white;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+    }
+
+    .hero-text {
+      flex: 1;
+    }
+
+    .hero-greeting {
+      font-size: 1rem;
+      color: var(--mint-600);
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+      letter-spacing: 0.05em;
+    }
+
+    .hero-name {
+      font-size: 3.5rem;
+      font-weight: 700;
+      color: var(--navy-800);
+      line-height: 1.1;
+      margin-bottom: 0.5rem;
+    }
+
+    .hero-role {
+      font-size: 1.25rem;
+      color: var(--navy-500);
+      margin-bottom: 2.5rem;
+      font-weight: 200;
+    }
+
+    .hero-social {
+      display: flex;
+    }
+
+    .social-icon {
+      width: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: transparent !important;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .social-icon:hover {
+      transform: translateY(-4px);
+    }
+
+    .social-icon sl-icon {
+      font-size: 1.25rem;
+    }
+
+    /* Platform-specific colors */
+    .social-icon[href*="x.com"],
+    .social-icon[href*="twitter"] {
+      color: #000;
+    }
+
+    .social-icon[href*="github"] {
+      color: #24292e;
+    }
+
+    .social-icon[href*="spotify"] {
+      color: #1db954;
+    }
+
+    .social-icon[href*="substack"] {
+      color: #ff6719;
+    }
+
+    .social-icon[href*="mailto"] {
+      color: var(--mint-500);
+    }
+
+    .social-icon:hover {
+      opacity: 0.85;
+    }
+
+    /* About Section */
+    .about {
+      padding: 5rem 1rem;
+    }
+
+    .about-content {
+      max-width: 1000px;
+      margin: 0 auto;
       display: grid;
-      grid-template-columns: 1.2fr 1fr;
+      grid-template-columns: 1.5fr 1fr;
       gap: 4rem;
       align-items: start;
     }
 
-    .profile-header {
-      margin-bottom: 2rem;
+    .section-label {
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--mint-600);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 1.5rem;
     }
 
-    .profile-title {
-      font-size: 2.5rem;
-      font-weight: bold;
-      color: var(--navy-800);
-      margin-bottom: 0.5rem;
-      line-height: 1.2;
-    }
-
-    .title-accent {
-      width: 80px;
-      height: 4px;
-      background: var(--mint-400);
-      border-radius: 2px;
-      transform: rotate(-1deg);
-    }
-
-    .profile-description {
-      margin-bottom: 3rem;
-    }
-
-    .profile-description p {
+    .about-description {
       font-size: 1.125rem;
-      line-height: 1.7;
+      line-height: 1.8;
       color: var(--navy-600);
       margin-bottom: 1.5rem;
     }
 
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1rem;
-      margin-bottom: 3rem;
-    }
-
-    .stat-card {
-      background: var(--mint-50);
-      border: 1px solid var(--mint-200);
-      border-radius: 1rem;
-      padding: 1.5rem;
+    .stats {
       display: flex;
-      align-items: center;
-      gap: 1rem;
-      transition: transform 0.2s, box-shadow 0.2s;
+      flex-direction: column;
+      gap: 2rem;
+      padding: 2rem;
+      background: var(--mint-50);
+      border-radius: 1rem;
     }
 
-    .stat-card:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-    }
-
-    .stat-icon {
-      font-size: 1.5rem;
+    .stat {
+      display: flex;
+      flex-direction: column;
     }
 
     .stat-number {
-      font-size: 1.25rem;
-      font-weight: bold;
+      font-size: 2.5rem;
+      font-weight: 700;
       color: var(--navy-800);
-      display: block;
+      line-height: 1;
     }
 
     .stat-label {
       font-size: 0.875rem;
-      color: var(--navy-600);
+      color: var(--navy-500);
+      margin-top: 0.25rem;
     }
 
-    .skills-section {
-      margin-bottom: 3rem;
+    /* Skills Section */
+    .skills {
+      padding: 4rem 1rem;
+      background: var(--navy-800);
     }
 
-    .social-section {
-      margin-bottom: 2rem;
-    }
-
-    .enhanced-social-links {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, 28px);
-      gap: 2rem;
-    }
-
-    .enhanced-social-link {
-      width: 28px;
-      height: 28px;
-      border-radius: 1rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-decoration: none;
-      transition: all 0.3s ease;
-      box-shadow: 0 6px 20px rgba(56, 178, 172, 0.1);
-    }
-
-    .enhanced-social-link:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 12px 30px rgba(56, 178, 172, 0.2);
-    }
-
-    .enhanced-social-link sl-icon {
-      font-size: 2.5rem;
-      color: var(--text-color);
-      transition: all 0.3s ease;
-    }
-
-    .enhanced-social-link:hover sl-icon {
-      color: var(--rain-blue);
-      transform: scale(1.1);
-    }
-
-    /* Specific social platform colors on hover */
-    .enhanced-social-link[href*="twitter"]:hover sl-icon,
-    .enhanced-social-link[href*="x.com"]:hover sl-icon {
-      color: black;
-    }
-
-    .enhanced-social-link[href*="github"]:hover sl-icon {
-      color: #333;
-    }
-
-    .enhanced-social-link[href*="spotify"]:hover sl-icon {
-      color: #1db954;
-    }
-
-    .enhanced-social-link[href*="apple"]:hover sl-icon,
-    .enhanced-social-link[href*="podcasts.apple"]:hover sl-icon {
-      color: #000;
-    }
-
-    .enhanced-social-link[href*="youtube"]:hover sl-icon {
-      color: #ff0000;
-    }
-
-    .enhanced-social-link[href*="amazon"]:hover sl-icon {
-      color: #ff9900;
-    }
-
-    .enhanced-social-link[href*="substack"]:hover sl-icon {
-      color: #ff6719;
-    }
-
-    .enhanced-social-link[href*="mailto"]:hover sl-icon {
-      color: var(--warm-amber);
-    }
-
-    .section-subtitle {
-      font-size: 1.25rem;
-      font-weight: bold;
-      color: var(--navy-800);
-      margin-bottom: 1rem;
-    }
-
-    .skills-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.75rem;
-    }
-
-    .skill-tag {
-      background: white;
-      border: 1px solid var(--mint-200);
-      border-radius: 2rem;
-      padding: 0.5rem 1rem;
-      font-size: 0.875rem;
-      font-weight: 500;
-      color: var(--navy-700);
-      transition: all 0.2s;
-    }
-
-    .skill-tag:hover {
-      background: var(--mint-100);
-      border-color: var(--mint-300);
-      transform: translateY(-1px);
-    }
-
-    /* Profile Visual */
-    .profile-visual {
-      position: relative;
-    }
-
-    .profile-image-section {
-      position: relative;
-      display: flex;
-      justify-content: center;
-    }
-
-    .image-container {
-      position: relative;
-      width: 300px;
-      height: 400px;
-      border-radius: 1rem;
-      overflow: hidden;
-      background: linear-gradient(135deg, var(--mint-100), var(--mint-200));
-      border: 1px solid var(--mint-300);
-    }
-
-    .profile-image {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    .floating-elements {
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-    }
-
-    .float-element {
-      position: absolute;
-      font-size: 1.5rem;
-      background: rgba(255, 255, 255, 0.9);
-      border: 1px solid var(--mint-200);
-      border-radius: 50%;
-      width: 3rem;
-      height: 3rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      animation: float-gentle 4s ease-in-out infinite;
-      backdrop-filter: blur(10px);
-    }
-
-    .element-1 {
-      top: 10%;
-      right: 5%;
-      animation-delay: 0s;
-    }
-
-    .element-2 {
-      bottom: 30%;
-      left: 5%;
-      animation-delay: 1s;
-    }
-
-    .element-3 {
-      top: 60%;
-      right: -5%;
-      animation-delay: 2s;
-    }
-
-    .element-4 {
-      top: 30%;
-      left: -5%;
-      animation-delay: 3s;
-    }
-
-    /* Journey Section */
-    .journey-section {
-      background: var(--mint-50);
-      padding: 4rem 0;
-    }
-
-    .section-layout {
+    .skills-content {
       max-width: 1000px;
       margin: 0 auto;
     }
 
-    .section-header {
-      text-align: center;
-      margin-bottom: 3rem;
+    .skills .section-label {
+      color: var(--mint-300);
     }
 
-    .section-title {
-      font-size: 2rem;
-      font-weight: bold;
-      color: var(--navy-800);
-      margin-bottom: 0.5rem;
-    }
-
-    .journey-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 2rem;
-    }
-
-    .journey-card {
-      background: white;
-      border-radius: 1rem;
-      overflow: hidden;
-      border: 1px solid var(--mint-200);
-      transition: transform 0.2s, box-shadow 0.2s;
-    }
-
-    .journey-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 8px 30px rgba(0,0,0,0.12);
-    }
-
-    .journey-image {
-      height: 120px;
+    .skills-list {
       display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .skill {
+      padding: 0.75rem 1.5rem;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 2rem;
       color: white;
-      position: relative;
+      font-size: 1rem;
+      font-weight: 500;
+      transition: all 0.2s ease;
     }
 
-    .journey-image.mint { background: linear-gradient(135deg, var(--mint-400), var(--mint-500)); }
-    .journey-image.blue { background: linear-gradient(135deg, var(--blue-400), var(--blue-500)); }
-    .journey-image.purple { background: linear-gradient(135deg, var(--purple-400), var(--purple-500)); }
-    .journey-image.yellow { background: linear-gradient(135deg, var(--yellow-400), var(--yellow-500)); }
-    .journey-image.pink { background: linear-gradient(135deg, var(--pink-400), var(--pink-500)); }
-
-    .journey-icon {
-      font-size: 2rem;
-      margin-bottom: 0.5rem;
+    .skill:hover {
+      background: rgba(255, 255, 255, 0.15);
+      transform: translateY(-2px);
     }
 
-    .journey-year {
-      font-size: 0.875rem;
-      font-weight: 600;
-      opacity: 0.9;
+    /* Journey Section */
+    .journey {
+      padding: 5rem 1rem;
     }
 
     .journey-content {
-      padding: 1.5rem;
+      max-width: 1000px;
+      margin: 0 auto;
     }
 
-    .journey-title {
-      font-size: 1.125rem;
-      font-weight: bold;
-      color: var(--navy-800);
+    .timeline {
+      position: relative;
+      padding-left: 2rem;
+    }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: var(--mint-200);
+    }
+
+    .timeline-item {
+      position: relative;
+      padding-bottom: 2.5rem;
+    }
+
+    .timeline-item:last-child {
+      padding-bottom: 0;
+    }
+
+    .timeline-marker {
+      position: absolute;
+      left: -2rem;
+      top: 0.25rem;
+      width: 12px;
+      height: 12px;
+      background: var(--mint-500);
+      border-radius: 50%;
+      transform: translateX(-5px);
+    }
+
+    .timeline-card {
+      padding: 1.5rem;
+      background: white;
+      border-radius: 0.75rem;
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+      border: 1px solid var(--mint-100);
+      transition: all 0.2s ease;
+    }
+
+    .timeline-card:hover {
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+      transform: translateX(4px);
+    }
+
+    .timeline-year {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--mint-600);
+      background: var(--mint-50);
+      padding: 0.25rem 0.75rem;
+      border-radius: 1rem;
       margin-bottom: 0.75rem;
     }
 
-    .journey-description {
-      color: var(--navy-600);
-      line-height: 1.5;
-      font-size: 0.875rem;
-    }
-
-    /* Contact Section */
-    .contact-section {
-      background: white;
-      padding: 4rem 0;
-    }
-
-    .contact-layout {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 4rem;
-      align-items: start;
-    }
-
-    .contact-description {
+    .timeline-title {
       font-size: 1.125rem;
-      line-height: 1.7;
-      color: var(--navy-600);
-      margin-bottom: 2rem;
-    }
-
-    .contact-methods {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-    }
-
-    .contact-item {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      padding: 1rem;
-      background: var(--mint-50);
-      border: 1px solid var(--mint-200);
-      border-radius: 0.75rem;
-      transition: all 0.2s;
-    }
-
-    .contact-item:hover {
-      background: var(--mint-100);
-      border-color: var(--mint-300);
-    }
-
-    .contact-icon {
-      font-size: 1.5rem;
-    }
-
-    .contact-label {
-      font-size: 0.875rem;
-      color: var(--navy-500);
-      font-weight: 500;
-    }
-
-    .contact-value {
-      font-size: 1rem;
-      color: var(--navy-800);
       font-weight: 600;
-    }
-
-    /* Contact Form */
-    .contact-form {
-      background: var(--mint-50);
-      border: 1px solid var(--mint-200);
-      border-radius: 1rem;
-      padding: 2rem;
-    }
-
-    .form-title {
-      font-size: 1.25rem;
-      font-weight: bold;
       color: var(--navy-800);
-      margin-bottom: 1.5rem;
+      margin-bottom: 0.5rem;
     }
 
-    .form-group {
-      margin-bottom: 1rem;
-    }
-
-    .form-input,
-    .form-textarea {
-      width: 100%;
-      padding: 0.75rem 1rem;
-      border: 1px solid var(--mint-300);
-      border-radius: 0.5rem;
-      font-size: 1rem;
-      background: white;
-      transition: border-color 0.2s;
-    }
-
-    .form-input:focus,
-    .form-textarea:focus {
-      outline: none;
-      border-color: var(--mint-500);
-    }
-
-    .form-textarea {
-      resize: vertical;
-      min-height: 100px;
-    }
-
-    .form-disclaimer {
-      font-size: 0.75rem;
+    .timeline-description {
+      font-size: 0.9375rem;
       color: var(--navy-500);
-      margin-bottom: 1.5rem;
-      line-height: 1.4;
+      line-height: 1.6;
     }
 
-    .submit-btn::part(base) {
-      background: var(--mint-gradient);
-      border: none;
-      font-weight: 600;
-      border-radius: 0.75rem;
-      width: 100%;
-    }
-
-    .btn-emoji {
-      margin-right: 0.5rem;
-    }
-
-    /* Animations */
-    @keyframes rotate-slow {
-      from { transform: rotate(0deg); }
-      to { transform: rotate(360deg); }
-    }
-
-    @keyframes float-gentle {
-      0%, 100% { transform: translateY(0px); }
-      50% { transform: translateY(-8px); }
-    }
-
-    /* Responsive Design */
+    /* Responsive */
     @media (max-width: 768px) {
-      .section-content {
-        padding: 0 1rem;
+      .hero {
+        padding: 4rem 1rem;
       }
 
-      .profile-layout,
-      .contact-layout {
+      .hero-content {
+        flex-direction: column;
+        text-align: center;
+        gap: 2rem;
+      }
+
+      .hero-image img {
+        width: 200px;
+        height: 200px;
+      }
+
+      .hero-name {
+        font-size: 2.5rem;
+      }
+
+      .hero-social {
+        justify-content: center;
+      }
+
+      .about-content {
         grid-template-columns: 1fr;
         gap: 2rem;
       }
 
-      .profile-title {
+      .stats {
+        flex-direction: row;
+        justify-content: space-around;
+        text-align: center;
+      }
+
+      .stat-number {
         font-size: 2rem;
       }
 
-      .stats-grid {
-        grid-template-columns: 1fr;
+      .skills-list {
+        gap: 0.75rem;
       }
 
-      .journey-grid {
-        grid-template-columns: 1fr;
+      .skill {
+        padding: 0.5rem 1rem;
+        font-size: 0.875rem;
       }
 
-      .floating-elements {
-        display: none;
+      .timeline {
+        padding-left: 1.5rem;
       }
 
-      .image-container {
-        width: 250px;
-        height: 300px;
+      .timeline-marker {
+        left: -1.5rem;
       }
     }
   </style>
