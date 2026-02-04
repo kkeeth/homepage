@@ -107,6 +107,7 @@
       "hero": {
         "title": "All Episodes"
       },
+      "latest": "Latest Episode",
       "stats": {
         "seasons": "Seasons",
         "episodes": "Episodes",
