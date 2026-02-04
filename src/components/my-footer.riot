@@ -1,85 +1,74 @@
 <my-footer>
   <footer class="footer">
-    <!-- Rain elements for footer -->
     <div class="footer-rain">
       <div class="footer-raindrop" each={i in Array(6)} style="left: {10 + i * 15}%; animation-delay: {i * 0.8}s;"></div>
     </div>
 
-    <div class="audio-spectrum">
-      <div class="spectrum-bar" each={bar in spectrumBars} style="animation-delay: {bar.delay}ms; height: {bar.height}%; --hue: {bar.hue};"></div>
-    </div>
     <div class="container">
-      <div class="footer-content">
-        <div class="footer-section brand">
-          <div class="footer-logo">
-            <div class="logo-icon">
+      <!-- Bento Grid -->
+      <div class="bento-grid">
+        <!-- Large Card: Brand -->
+        <div class="bento-card large brand-card">
+          <div class="card-content">
+            <div class="footer-logo">
               <img src="/images/myself.png" alt={t("footer.logoAlt")} />
             </div>
-            <h3>{t("footer.title")}</h3>
+            <h2>{t("footer.title")}</h2>
+            <p class="tagline">{t("footer.tagline")}</p>
           </div>
-          <p class="footer-tagline">{t("footer.tagline")}</p>
         </div>
 
-        <div class="footer-section">
-          <h4>{t("footer.navigation.title")}</h4>
-          <ul>
-            <li><a href="/">Home</a></li>
-            <li><a href="/episodes">Episodes</a></li>
-            <li><a href="/profile">Profile</a></li>
-            <li><a href="/contact">Contact</a></li>
-          </ul>
+        <!-- Medium Card: Listen -->
+        <div class="bento-card medium listen-card">
+          <h3>{t("footer.listen")}</h3>
+          <div class="platform-grid">
+            <a href="https://podcasts.apple.com/jp/podcast/雨宿りとwebの小噺-fm/id1516699977" target="_blank" class="platform-item">
+              <sl-icon name="apple"></sl-icon>
+              <span>Apple</span>
+            </a>
+            <a href="https://open.spotify.com/show/4ZqUQtob7eJrz9DQV7lPVd" target="_blank" class="platform-item">
+              <sl-icon name="spotify"></sl-icon>
+              <span>Spotify</span>
+            </a>
+            <a href="https://music.amazon.co.jp/podcasts/1ea89476-2b4f-4ba4-8260-57ed5ef45df5" target="_blank" class="platform-item">
+              <sl-icon name="amazon"></sl-icon>
+              <span>Amazon</span>
+            </a>
+            <a href="https://music.youtube.com/playlist?list=PLVncrZRHU7RjSBziqoUGmfsyM41SY_l4u" target="_blank" class="platform-item">
+              <sl-icon name="youtube"></sl-icon>
+              <span>YouTube</span>
+            </a>
+          </div>
         </div>
 
-        <div class="footer-section">
-          <h4>{t("footer.listen")}</h4>
-          <ul>
-            <li>
-              <a href="https://podcasts.apple.com/jp/podcast/雨宿りとwebの小噺-fm/id1516699977" target="_blank">
-                <sl-icon name="apple"></sl-icon> Apple Podcasts
-              </a>
-            </li>
-            <li>
-              <a href="https://open.spotify.com/show/4ZqUQtob7eJrz9DQV7lPVd" target="_blank">
-                <sl-icon name="spotify"></sl-icon> Spotify
-              </a>
-            </li>
-            <li>
-              <a href="https://music.amazon.co.jp/podcasts/1ea89476-2b4f-4ba4-8260-57ed5ef45df5" target="_blank">
-                <sl-icon name="amazon"></sl-icon> Amazon Music
-              </a>
-            </li>
-            <li>
-              <a href="https://music.youtube.com/playlist?list=PLVncrZRHU7RjSBziqoUGmfsyM41SY_l4u" target="_blank">
-                <sl-icon name="youtube"></sl-icon> YouTube Music
-              </a>
-            </li>
-          </ul>
+        <!-- Small Card: Navigation -->
+        <div class="bento-card small nav-card">
+          <h4>Navigate</h4>
+          <div class="nav-links">
+            <a href="/">Home</a>
+            <a href="/episodes">Episodes</a>
+            <a href="/profile">Profile</a>
+            <a href="/contact">Contact</a>
+          </div>
         </div>
 
-        <div class="footer-section">
-          <h4>{t("footer.connect")}</h4>
-          <ul>
-            <li>
-              <a href="https://x.com/kuwahara_jsri" target="_blank">
-                <sl-icon name="twitter-x"></sl-icon> 𝕏
-              </a>
-            </li>
-            <li>
-              <a href="https://github.com/kkeeth" target="_blank">
-                <sl-icon name="github"></sl-icon> GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://kkeeth.substack.com" target="_blank">
-                <sl-icon name="substack"></sl-icon> Substack
-              </a>
-            </li>
-            <li>
-              <a href="mailto:zensin0082@gmail.com">
-                <sl-icon name="envelope-fill"></sl-icon> Email
-              </a>
-            </li>
-          </ul>
+        <!-- Small Card: Social -->
+        <div class="bento-card small social-card">
+          <h4>Connect</h4>
+          <div class="social-icons">
+            <a href="https://x.com/kuwahara_jsri" target="_blank" aria-label="X">
+              <sl-icon name="twitter-x"></sl-icon>
+            </a>
+            <a href="https://github.com/kkeeth" target="_blank" aria-label="GitHub">
+              <sl-icon name="github"></sl-icon>
+            </a>
+            <a href="https://kkeeth.substack.com" target="_blank" aria-label="Substack">
+              <sl-icon name="substack"></sl-icon>
+            </a>
+            <a href="mailto:zensin0082@gmail.com" aria-label="Email">
+              <sl-icon name="envelope-fill"></sl-icon>
+            </a>
+          </div>
         </div>
       </div>
 
@@ -95,19 +84,14 @@
     export default {
       t: i18nStore.t.bind(i18nStore),
       currentYear: new Date().getFullYear(),
-      spectrumBars: Array.from({ length: 50 }, (_, i) => ({
-        delay: i * 50,
-        height: Math.random() * 60 + 10,
-        hue: i * 18
-      })),
     }
   </script>
 
   <style>
     .footer {
-      background: var(--storm-cloud);
+      background: var(--navy-800);
       color: var(--warm-white);
-      padding: 3rem 4rem 1rem;
+      padding: 3rem 2rem 1.5rem;
       position: relative;
       overflow: hidden;
     }
@@ -117,9 +101,9 @@
       top: 0;
       left: 0;
       right: 0;
-      height: 30%;
+      height: 100%;
       pointer-events: none;
-      opacity: 0.1;
+      opacity: 0.08;
     }
 
     .footer-raindrop {
@@ -130,10 +114,6 @@
       background: linear-gradient(to bottom, var(--rain-blue), transparent);
       border-radius: 0 0 50% 50%;
       animation: footer-rain-fall 5s linear infinite;
-    }
-
-    .umbrella-icon {
-      color: var(--umbrella-blue);
     }
 
     @keyframes footer-rain-fall {
@@ -148,177 +128,249 @@
         opacity: 0.3;
       }
       100% {
-        transform: translateY(120px);
+        transform: translateY(300px);
         opacity: 0;
       }
     }
 
-    .audio-spectrum {
-      position: absolute;
-      bottom: 20px;
-      left: 0;
-      right: 0;
-      height: 100%;
-      display: flex;
-      align-items: flex-end;
-      justify-content: space-between;
-      padding: 0 2rem;
-      margin: 0 12rem;
-      pointer-events: none;
-      opacity: 0.1;
-    }
-
-    .spectrum-bar {
-      width: 8px;
-      background: linear-gradient(to top,
-        hsl(var(--hue), 70%, 60%),
-        hsl(calc(var(--hue) + 30), 70%, 70%),
-        hsl(calc(var(--hue) + 60), 70%, 80%)
-      );
-      border-radius: 4px;
-      animation: spectrum-bounce 1.5s ease-in-out infinite;
-      box-shadow: 0 0 10px hsla(var(--hue), 70%, 60%, 0.3);
-    }
-
-    @keyframes spectrum-bounce {
-      0%, 100% {
-        transform: scaleY(0.3);
-      }
-      50% {
-        transform: scaleY(1);
-      }
-    }
-
-    .footer-content {
-      display: grid;
-      grid-template-columns: 1.5fr 1fr 1fr 1fr;
-      gap: 3rem;
-      margin-bottom: 2rem;
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
       position: relative;
       z-index: 1;
     }
 
-    .footer-section.brand {
-      padding-right: 2rem;
+    /* Bento Grid */
+    .bento-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-template-rows: auto auto;
+      gap: 1rem;
+    }
+
+    .bento-card {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 1rem;
+      padding: 1.5rem;
+      transition: all 0.3s ease;
+    }
+
+    .bento-card:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.15);
+    }
+
+    /* Large Card - Brand */
+    .bento-card.large {
+      grid-column: span 2;
+      grid-row: span 2;
+      padding: 2rem;
+      display: flex;
+      align-items: flex-end;
+    }
+
+    .brand-card {
+      background: linear-gradient(135deg, rgba(66, 153, 225, 0.15), rgba(56, 178, 172, 0.1));
+    }
+
+    .brand-card .card-content {
+      width: 100%;
     }
 
     .footer-logo {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      margin-bottom: 1rem;
-    }
-
-    .logo-icon {
-      width: 3.5rem;
-      height: 3.5rem;
+      width: 4rem;
+      height: 4rem;
       border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      overflow: hidden;
+      margin-bottom: 1rem;
+      border: 2px solid rgba(255, 255, 255, 0.2);
     }
 
-    .footer-tagline {
-      font-size: 0.9rem;
-      color: rgba(255, 255, 255, 0.6);
-      line-height: 1.6;
+    .footer-logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
     }
 
-    .footer-section h3 {
-      font-size: 1.125rem;
+    .brand-card h2 {
+      font-size: 1.5rem;
+      font-weight: 700;
       margin-bottom: 0.5rem;
-      font-weight: 600;
+      line-height: 1.2;
     }
 
-    .footer-section h4 {
-      font-size: 0.75rem;
+    .tagline {
+      font-size: 0.875rem;
+      color: rgba(255, 255, 255, 0.6);
+      line-height: 1.5;
+    }
+
+    /* Medium Card - Listen */
+    .bento-card.medium {
+      grid-column: span 2;
+    }
+
+    .listen-card h3 {
+      font-size: 0.7rem;
       text-transform: uppercase;
-      letter-spacing: 0.1em;
+      letter-spacing: 0.15em;
       color: rgba(255, 255, 255, 0.5);
       margin-bottom: 1rem;
-      font-weight: 600;
     }
 
-    .footer-section ul {
-      list-style: none;
-      padding: 0;
-      margin: 0;
+    .platform-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.75rem;
     }
 
-    .footer-section ul li {
-      margin-bottom: 0.75rem;
-    }
-
-    .footer-section ul li a {
-      color: rgba(255, 255, 255, 0.8);
-      text-decoration: none;
-      transition: all 0.2s ease;
+    .platform-item {
       display: flex;
+      flex-direction: column;
       align-items: center;
       gap: 0.5rem;
-      font-size: 0.9rem;
+      padding: 1rem 0.5rem;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 0.75rem;
+      text-decoration: none;
+      color: rgba(255, 255, 255, 0.8);
+      transition: all 0.2s ease;
     }
 
-    .footer-section ul li a:hover {
+    .platform-item:hover {
+      background: rgba(255, 255, 255, 0.12);
       color: white;
-      transform: translateX(2px);
+      transform: translateY(-2px);
     }
 
-    .footer-section ul li a sl-icon {
-      font-size: 1rem;
+    .platform-item sl-icon {
+      font-size: 1.5rem;
       color: var(--mint-400);
     }
 
-    .footer-bottom {
-      border-top: 1px solid rgba(255, 255, 255, 0.1);
-      padding-top: 2rem;
-      margin: 0 8rem;
-      text-align: center;
-      color: rgba(255, 255, 255, 0.6);
+    .platform-item span {
+      font-size: 0.7rem;
+      font-weight: 500;
     }
 
+    /* Small Cards */
+    .bento-card.small {
+      grid-column: span 1;
+    }
+
+    .bento-card.small h4 {
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: rgba(255, 255, 255, 0.4);
+      margin-bottom: 1rem;
+    }
+
+    /* Nav Card */
+    .nav-links {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .nav-links a {
+      color: rgba(255, 255, 255, 0.7);
+      text-decoration: none;
+      font-size: 0.875rem;
+      transition: all 0.2s ease;
+      padding: 0.25rem 0;
+    }
+
+    .nav-links a:hover {
+      color: white;
+      padding-left: 0.5rem;
+    }
+
+    /* Social Card */
+    .social-icons {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.75rem;
+    }
+
+    .social-icons a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      aspect-ratio: 1;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 0.75rem;
+      color: rgba(255, 255, 255, 0.7);
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .social-icons a:hover {
+      background: rgba(255, 255, 255, 0.12);
+      color: white;
+      transform: scale(1.05);
+    }
+
+    .social-icons sl-icon {
+      font-size: 1.25rem;
+    }
+
+    /* Footer Bottom */
+    .footer-bottom {
+      margin-top: 2rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      text-align: center;
+    }
+
+    .footer-bottom p {
+      font-size: 0.8rem;
+      color: rgba(255, 255, 255, 0.4);
+    }
+
+    /* Responsive */
     @media (max-width: 768px) {
       .footer {
-        padding: 3rem 1.5rem 1rem;
+        padding: 2rem 1rem 1rem;
       }
 
-      .footer-content {
-        grid-template-columns: 1fr 1fr;
-        gap: 2rem;
+      .bento-grid {
+        grid-template-columns: repeat(2, 1fr);
       }
 
-      .footer-section.brand {
-        grid-column: 1 / -1;
-        padding-right: 0;
-        text-align: center;
+      .bento-card.large {
+        grid-column: span 2;
+        grid-row: span 1;
       }
 
-      .footer-logo {
-        justify-content: center;
+      .bento-card.medium {
+        grid-column: span 2;
       }
 
-      .footer-bottom {
-        margin: 0;
-      }
-
-      .audio-spectrum {
-        margin: 0;
-        height: 45%;
+      .platform-grid {
+        grid-template-columns: repeat(4, 1fr);
       }
     }
 
     @media (max-width: 480px) {
-      .footer-content {
+      .bento-grid {
         grid-template-columns: 1fr;
-        gap: 1.5rem;
       }
 
-      .footer-section {
-        text-align: center;
+      .bento-card.large,
+      .bento-card.medium,
+      .bento-card.small {
+        grid-column: span 1;
       }
 
-      .footer-section ul li a {
-        justify-content: center;
+      .platform-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .social-icons {
+        grid-template-columns: repeat(4, 1fr);
       }
     }
   </style>

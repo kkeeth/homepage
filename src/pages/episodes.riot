@@ -27,9 +27,50 @@
       </div>
     </section>
 
+    <!-- Latest Episode Hero -->
+    <section class="latest-episode" if={state.latestEpisode && state.currentPage === 1}>
+      <div class="section-content">
+        <div class="latest-label">
+          <span class="label-icon">🎧</span>
+          <h3>{t("pages.episode.latest")}</h3>
+        </div>
+        <div class="latest-card">
+          <a class="latest-image" href={"/episodes/" + getEpisodeId(state.latestEpisode)}>
+            <img src={state.latestEpisode.imageUrl || "/placeholder.svg"} alt={state.latestEpisode.title} />
+            <div class="play-overlay">
+              <span class="play-icon">▶</span>
+            </div>
+          </a>
+          <div class="latest-content">
+            <span class="latest-date">{state.latestEpisode.pubDate}</span>
+            <a class="latest-title-link" href={"/episodes/" + getEpisodeId(state.latestEpisode)}>
+              <h2 class="latest-title">{state.latestEpisode.title}</h2>
+            </a>
+            <p class="latest-description">{state.latestEpisode.description}</p>
+            <div class="platform-links">
+              <div class="platform-icons">
+                <a href="https://podcasts.apple.com/jp/podcast/雨宿りとwebの小噺-fm/id1516699977" target="_blank" class="platform-icon" aria-label="Apple Podcasts">
+                  <sl-icon name="apple"></sl-icon>
+                </a>
+                <a href="https://open.spotify.com/show/4ZqUQtob7eJrz9DQV7lPVd" target="_blank" class="platform-icon" aria-label="Spotify">
+                  <sl-icon name="spotify"></sl-icon>
+                </a>
+                <a href="https://music.amazon.co.jp/podcasts/1ea89476-2b4f-4ba4-8260-57ed5ef45df5" target="_blank" class="platform-icon" aria-label="Amazon Music">
+                  <sl-icon name="amazon"></sl-icon>
+                </a>
+                <a href="https://music.youtube.com/playlist?list=PLVncrZRHU7RjSBziqoUGmfsyM41SY_l4u" target="_blank" class="platform-icon" aria-label="YouTube Music">
+                  <sl-icon name="youtube"></sl-icon>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <section class="episodes-section">
       <div class="section-content">
-        <episode-card program-episodes={state.programEpisodes} show-more={false} />
+        <episode-card program-episodes={state.restEpisodes} show-more={false} />
 
         <pagination
           current-page={state.currentPage}
@@ -49,29 +90,49 @@
       t: i18nStore.t.bind(i18nStore),
       state: {
         programEpisodes: [],
+        latestEpisode: null,
+        restEpisodes: [],
         displayedCount: 0,
         totalCount: 0,
         currentPage: 1,
         pageSize: 10
       },
+      getEpisodeId(episode) {
+        if (episode.link) {
+          const match = episode.link.match(/episodes\/([a-f0-9-]+)/i);
+          if (match) {
+            return match[1];
+          }
+        }
+        return encodeURIComponent(episode.title);
+      },
       async onBeforeMount() {
         this.handleEpisodesLoaded = () => {
-          // episodesページ用のページサイズ（6）に設定
           episodeStore.setPage(1, 10);
+          const episodes = episodeStore.getDisplayedEpisodes();
+          const currentPage = episodeStore.getCurrentPage();
+
           this.update({
-            programEpisodes: episodeStore.getDisplayedEpisodes(),
+            programEpisodes: episodes,
+            latestEpisode: currentPage === 1 && episodes.length > 0 ? episodes[0] : null,
+            restEpisodes: currentPage === 1 ? episodes.slice(1) : episodes,
             displayedCount: episodeStore.getDisplayedCount(),
             totalCount: episodeStore.getTotalCount(),
-            currentPage: episodeStore.getCurrentPage(),
+            currentPage: currentPage,
             pageSize: episodeStore.getPageSize()
           });
         };
 
         this.handleEpisodesUpdated = () => {
+          const episodes = episodeStore.getDisplayedEpisodes();
+          const currentPage = episodeStore.getCurrentPage();
+
           this.update({
-            programEpisodes: episodeStore.getDisplayedEpisodes(),
+            programEpisodes: episodes,
+            latestEpisode: currentPage === 1 && episodes.length > 0 ? episodes[0] : null,
+            restEpisodes: currentPage === 1 ? episodes.slice(1) : episodes,
             displayedCount: episodeStore.getDisplayedCount(),
-            currentPage: episodeStore.getCurrentPage(),
+            currentPage: currentPage,
             pageSize: episodeStore.getPageSize()
           });
         };
@@ -85,7 +146,6 @@
 
         await episodeStore.loadAllEpisodes();
 
-        // 初期化後にすぐにページサイズを設定
         if (episodeStore.getIsInitialized()) {
           this.handleEpisodesLoaded();
         }
@@ -292,6 +352,197 @@
       }
     }
 
+    /* Latest Episode Section */
+    .latest-episode {
+      padding: 3rem 0;
+      background: var(--warm-white);
+    }
+
+    .latest-label {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--mint-600);
+      margin-bottom: 1.5rem;
+    }
+
+    .label-icon {
+      font-size: 1rem;
+    }
+
+    .latest-card {
+      display: grid;
+      grid-template-columns: 288px 1fr;
+      gap: 2rem;
+      background: linear-gradient(135deg, var(--mint-50), var(--cream));
+      border-radius: 1.5rem;
+      overflow: hidden;
+      transition: all 0.3s ease;
+      border: 1px solid var(--mint-200);
+    }
+
+    .latest-card:hover {
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    .latest-card:hover .play-overlay {
+      opacity: 1;
+    }
+
+    .latest-image {
+      display: block;
+      position: relative;
+      aspect-ratio: 1;
+      overflow: hidden;
+    }
+
+    .latest-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+    }
+
+    .latest-image:hover img {
+      transform: scale(1.05);
+    }
+
+    .play-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .play-icon {
+      width: 60px;
+      height: 60px;
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      color: var(--navy-800);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .latest-content {
+      padding: 2rem 2rem 2rem 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .latest-date {
+      font-size: 0.8125rem;
+      color: var(--coffee-brown);
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+    }
+
+    .latest-title-link {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .latest-title-link:hover .latest-title {
+      color: var(--mint-600);
+    }
+
+    .latest-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--navy-800);
+      line-height: 1.3;
+      margin-bottom: 0.75rem;
+      transition: color 0.2s ease;
+    }
+
+    .latest-description {
+      font-size: 0.9375rem;
+      color: var(--navy-600);
+      line-height: 1.6;
+      margin-bottom: 1.75rem;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .platform-links {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .platform-label {
+      font-size: 0.75rem;
+      color: var(--navy-500);
+      font-weight: 500;
+    }
+
+    .platform-icons {
+      display: flex;
+      gap: 0.75rem;
+    }
+
+    .platform-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      color: var(--navy-600);
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .platform-icon:hover {
+      transform: translateY(-2px);
+    }
+
+    .platform-icon sl-icon {
+      font-size: 1.5rem;
+    }
+
+    .platform-icon[href*="apple"] {
+      color: #a855f7;
+    }
+    .platform-icon[href*="apple"]:hover {
+      color: #9333EA;
+    }
+
+    .platform-icon[href*="spotify"] {
+      color: #1db954;
+    }
+    .platform-icon[href*="spotify"]:hover {
+      color: #1AA34A;
+    }
+
+    .platform-icon[href*="amazon"] {
+      color: #ff9900;
+    }
+    .platform-icon[href*="amazon"]:hover {
+      color: #e68a00;
+    }
+
+    .platform-icon[href*="youtube"] {
+      color: #ff0000;
+    }
+    .platform-icon[href*="youtube"]:hover {
+      color: #e60000;
+    }
+
     @media (max-width: 768px) {
       .page-title {
         font-size: 2rem;
@@ -304,6 +555,29 @@
       .badge {
         font-size: 0.8125rem;
         padding: 0.25rem 0.75rem;
+      }
+
+      .latest-card {
+        grid-template-columns: 1fr;
+        gap: 0;
+      }
+
+      .latest-image {
+        aspect-ratio: 4 / 3;
+      }
+
+      .latest-content {
+        padding: 1.5rem;
+      }
+
+      .latest-title {
+        font-size: 1.5rem;
+      }
+
+      .play-icon {
+        width: 60px;
+        height: 60px;
+        font-size: 1.5rem;
       }
     }
   </style>
