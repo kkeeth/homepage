@@ -1,5 +1,5 @@
 <app>
-  <div class="container">
+  <div class={'container page-' + (state.activePage || 'home')}>
     <router>
       <my-header>
         <nav slot="menu-nav" class="nav desktop-nav">
@@ -162,6 +162,42 @@
         position: absolute;
         bottom: 2rem;
       }
+    }
+
+    /* Transparent header for episodes page */
+    .page-Episodes my-header .header {
+      position: fixed;
+      left: 0;
+      background-color: transparent;
+      box-shadow: none;
+    }
+
+    .page-Episodes my-header .desktop-nav ul li a {
+      color: rgba(255, 255, 255, 0.9);
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+    }
+
+    .page-Episodes my-header .desktop-nav ul li a:hover,
+    .page-Episodes my-header .desktop-nav ul li a.active {
+      color: white;
+    }
+
+    .page-Episodes .menu-toggle {
+      color: white;
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+    }
+
+    .page-Episodes my-header .logo-icon {
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+    }
+
+    .page-Episodes my-header language-switcher {
+      color: white;
+    }
+
+    .page-Episodes my-header language-switcher sl-dropdown::part(trigger) {
+      color: rgba(255, 255, 255, 0.9);
     }
   </style>
 </app>

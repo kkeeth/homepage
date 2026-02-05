@@ -1,75 +1,65 @@
 <episodes>
   <div class="episodes">
-    <!-- Page Header with Rain -->
-    <section class="page-header">
-      <div class="header-bg">
-        <!-- Rain Animation -->
-        <div class="rain-container">
-          <div class="raindrop" each={i in Array(8)} style="left: {Math.random() * 100}%; animation-delay: {Math.random() * 3}s;"></div>
+    <!-- Full-Screen Latest Episode Hero - Split Layout -->
+    <section class="latest-hero" if={state.latestEpisode && state.currentPage === 1}>
+      <div class="hero-inner">
+        <!-- Left: Square Artwork -->
+        <div class="hero-artwork">
+          <a href={"/episodes/" + getEpisodeId(state.latestEpisode)} class="artwork-link">
+            <img src={state.latestEpisode.imageUrl || "/placeholder.svg"} alt={state.latestEpisode.title} />
+          </a>
         </div>
 
-        <!-- Cozy Elements -->
-        <div class="umbrella-element">☂</div>
-        <div class="music-note-1">♪</div>
-        <div class="music-note-2">♫</div>
-        <div class="coffee-steam"></div>
-      </div>
+        <!-- Right: Content -->
+        <div class="hero-content">
+          <div class="content-inner">
+            <!-- Giant Episode Number (decorative) -->
+            <div class="episode-number">
+              <span class="number-prefix">#</span>
+              <span class="number-value">{getEpisodeNumber()}</span>
+            </div>
 
-      <div class="container">
-        <div class="header-content">
-          <h1 class="page-title">{t("pages.episode.hero.title")}</h1>
-          <div class="header-badges">
-            <span class="badge">Season 5</span>
-            <span class="badge">{state.totalCount} {t("pages.episode.stats.episodes")}</span>
-            <span class="badge">週1更新</span>
+            <span class="hero-label">{t("pages.episode.latest")}</span>
+            <h1 class="hero-title">
+              <a href={"/episodes/" + getEpisodeId(state.latestEpisode)}>{state.latestEpisode.title}</a>
+            </h1>
+            <p class="hero-date">{state.latestEpisode.pubDate}</p>
+
+            <a href={"/episodes/" + getEpisodeId(state.latestEpisode)} class="hero-play">
+              <span class="play-btn">▶</span>
+              <span class="play-text">{t("episode.listenOn")}</span>
+            </a>
+
+            <!-- Platform Links -->
+            <div class="hero-platforms">
+              <a href="https://podcasts.apple.com/jp/podcast/雨宿りとwebの小噺-fm/id1516699977" target="_blank" class="platform-icon" aria-label="Apple Podcasts">
+                <sl-icon name="apple"></sl-icon>
+              </a>
+              <a href="https://open.spotify.com/show/4ZqUQtob7eJrz9DQV7lPVd" target="_blank" class="platform-icon" aria-label="Spotify">
+                <sl-icon name="spotify"></sl-icon>
+              </a>
+              <a href="https://music.amazon.co.jp/podcasts/1ea89476-2b4f-4ba4-8260-57ed5ef45df5" target="_blank" class="platform-icon" aria-label="Amazon Music">
+                <sl-icon name="amazon"></sl-icon>
+              </a>
+              <a href="https://music.youtube.com/playlist?list=PLVncrZRHU7RjSBziqoUGmfsyM41SY_l4u" target="_blank" class="platform-icon" aria-label="YouTube Music">
+                <sl-icon name="youtube"></sl-icon>
+              </a>
+            </div>
           </div>
         </div>
+      </div>
+
+      <!-- Scroll indicator -->
+      <div class="scroll-indicator">
+        <span></span>
       </div>
     </section>
 
-    <!-- Latest Episode Hero - Magazine Cover Style -->
-    <section class="latest-hero" if={state.latestEpisode && state.currentPage === 1}>
-      <a class="hero-link" href={"/episodes/" + getEpisodeId(state.latestEpisode)}>
-        <!-- Background Image -->
-        <div class="hero-bg">
-          <img src={state.latestEpisode.imageUrl || "/placeholder.svg"} alt="" />
-          <div class="hero-overlay"></div>
-        </div>
-
-        <!-- Giant Episode Number -->
-        <div class="episode-number">
-          <span class="number-prefix">#</span>
-          <span class="number-value">{getEpisodeNumber()}</span>
-        </div>
-
-        <!-- Content -->
-        <div class="hero-content">
-          <div class="hero-label">
-            <span>{t("pages.episode.latest")}</span>
-          </div>
-          <h2 class="hero-title">{state.latestEpisode.title}</h2>
-          <p class="hero-date">{state.latestEpisode.pubDate}</p>
-          <div class="hero-play">
-            <span class="play-btn">▶</span>
-            <span class="play-text">{t("episode.listenOn")}</span>
-          </div>
-        </div>
-      </a>
-
-      <!-- Platform Links (outside the main link) -->
-      <div class="hero-platforms">
-        <a href="https://podcasts.apple.com/jp/podcast/雨宿りとwebの小噺-fm/id1516699977" target="_blank" class="platform-icon" aria-label="Apple Podcasts">
-          <sl-icon name="apple"></sl-icon>
-        </a>
-        <a href="https://open.spotify.com/show/4ZqUQtob7eJrz9DQV7lPVd" target="_blank" class="platform-icon" aria-label="Spotify">
-          <sl-icon name="spotify"></sl-icon>
-        </a>
-        <a href="https://music.amazon.co.jp/podcasts/1ea89476-2b4f-4ba4-8260-57ed5ef45df5" target="_blank" class="platform-icon" aria-label="Amazon Music">
-          <sl-icon name="amazon"></sl-icon>
-        </a>
-        <a href="https://music.youtube.com/playlist?list=PLVncrZRHU7RjSBziqoUGmfsyM41SY_l4u" target="_blank" class="platform-icon" aria-label="YouTube Music">
-          <sl-icon name="youtube"></sl-icon>
-        </a>
+    <!-- Fallback header for page 2+ -->
+    <section class="mini-header" if={state.currentPage > 1}>
+      <div class="mini-header-content">
+        <h1>{t("pages.episode.hero.title")}</h1>
+        <span class="page-indicator">Page {state.currentPage}</span>
       </div>
     </section>
 
@@ -171,253 +161,74 @@
       min-height: 100vh;
     }
 
-    .page-header {
-      position: relative;
-      padding: 6rem 0;
-      background: var(--hero-gradient);
-      overflow: hidden;
-      color: var(--warm-white);
-    }
-
-    .container {
-      max-width: 1000px;
-      margin: 0 auto;
-      padding: 0 2rem;
-      position: relative;
-      z-index: 1;
-    }
-
-    .header-bg {
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-    }
-
-    /* Rain Animation */
-    .rain-container {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-    }
-
-    .raindrop {
-      position: absolute;
-      top: -10px;
-      width: 2px;
-      height: 20px;
-      background: linear-gradient(to bottom, var(--rain-blue), transparent);
-      border-radius: 0 0 50% 50%;
-      animation: falling-rain 3s linear infinite;
-      opacity: 0.6;
-    }
-
-    /* Cozy Elements */
-    .umbrella-element {
-      position: absolute;
-      top: 20%;
-      right: 15%;
-      font-size: 3rem;
-      color: var(--umbrella-blue);
-      animation: gentle-sway 4s ease-in-out infinite;
-      opacity: 0.4;
-    }
-
-    .music-note-1 {
-      position: absolute;
-      top: 30%;
-      left: 10%;
-      font-size: 2rem;
-      color: var(--warm-amber);
-      animation: float-notes 3s ease-in-out infinite;
-      opacity: 0.3;
-    }
-
-    .music-note-2 {
-      position: absolute;
-      bottom: 25%;
-      right: 25%;
-      font-size: 1.5rem;
-      color: var(--soft-teal);
-      animation: float-notes 3s ease-in-out infinite 1.5s;
-      opacity: 0.3;
-    }
-
-    .coffee-steam {
-      position: absolute;
-      bottom: 20%;
-      left: 20%;
-      width: 30px;
-      height: 40px;
-      opacity: 0.2;
-    }
-
-    .coffee-steam::before,
-    .coffee-steam::after {
-      content: '';
-      position: absolute;
-      width: 3px;
-      height: 15px;
-      background: var(--warm-amber);
-      border-radius: 50%;
-      animation: steam-rise 2s ease-in-out infinite;
-    }
-
-    .coffee-steam::before {
-      left: 8px;
-      animation-delay: 0s;
-    }
-
-    .coffee-steam::after {
-      left: 15px;
-      animation-delay: 0.5s;
-    }
-
-    .header-content {
-      text-align: center;
-      position: relative;
-      z-index: 10;
-    }
-
-    .page-title {
-      font-size: 3rem;
-      font-weight: bold;
-      margin-bottom: 1.5rem;
-    }
-
-    .page-description {
-      font-size: 1.2rem;
-      color: var(--white-90);
-      line-height: 1.6;
-      margin-bottom: 2.5rem;
-      margin-left: auto;
-      margin-right: auto;
-      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
-    }
-
-    .header-badges {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 0.75rem;
-    }
-
-    .badge {
-      display: inline-block;
-      padding: 0.375rem 0.875rem;
-      background: var(--white-20);
-      border-radius: 2rem;
-      font-size: 0.875rem;
-      font-weight: 500;
-      color: var(--warm-white);
-      backdrop-filter: blur(10px);
-    }
-
-    /* Animations */
-    @keyframes falling-rain {
-      0% {
-        transform: translateY(-10px);
-        opacity: 0;
-      }
-      10% {
-        opacity: 0.6;
-      }
-      90% {
-        opacity: 0.6;
-      }
-      100% {
-        transform: translateY(calc(100vh + 20px));
-        opacity: 0;
-      }
-    }
-
-    @keyframes gentle-sway {
-      0%, 100% {
-        transform: rotate(-3deg);
-      }
-      50% {
-        transform: rotate(3deg);
-      }
-    }
-
-    @keyframes float-notes {
-      0%, 100% {
-        transform: translateY(0) rotate(0deg);
-      }
-      25% {
-        transform: translateY(-8px) rotate(5deg);
-      }
-      50% {
-        transform: translateY(-12px) rotate(-3deg);
-      }
-      75% {
-        transform: translateY(-6px) rotate(2deg);
-      }
-    }
-
-    @keyframes steam-rise {
-      0% {
-        transform: translateY(0) scale(1);
-        opacity: 0.8;
-      }
-      50% {
-        transform: translateY(-15px) scale(1.2);
-        opacity: 0.4;
-      }
-      100% {
-        transform: translateY(-30px) scale(0.8);
-        opacity: 0;
-      }
-    }
-
-    /* Latest Episode Hero - Magazine Cover Style */
+    /* ===== Split Layout Hero ===== */
     .latest-hero {
       position: relative;
-      min-height: 480px;
+      height: 90vh;
+      min-height: 600px;
+      background: var(--navy-800);
+    }
+
+    .hero-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      height: 90%;
+    }
+
+    /* ===== Left: Square Artwork ===== */
+    .hero-artwork {
       display: flex;
-      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 4rem;
+      background: linear-gradient(135deg, var(--navy-900) 0%, var(--navy-800) 100%);
     }
 
-    .hero-link {
-      position: relative;
+    .artwork-link {
       display: block;
-      min-height: 480px;
-      text-decoration: none;
-      color: white;
+      width: 100%;
+      max-width: 480px;
+      aspect-ratio: 1;
+      border-radius: 1rem;
       overflow: hidden;
+      box-shadow:
+        0 25px 50px -12px rgba(0, 0, 0, 0.5),
+        0 0 0 1px rgba(255, 255, 255, 0.05);
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
     }
 
-    .hero-bg {
-      position: absolute;
-      inset: 0;
-      z-index: 0;
+    .artwork-link:hover {
+      transform: scale(1.02) translateY(-4px);
+      box-shadow:
+        0 30px 60px -15px rgba(0, 0, 0, 0.6),
+        0 0 0 1px rgba(255, 255, 255, 0.1);
     }
 
-    .hero-bg img {
+    .artwork-link img {
       width: 100%;
       height: 100%;
       object-fit: cover;
-      transition: transform 0.6s ease;
     }
 
-    .hero-link:hover .hero-bg img {
-      transform: scale(1.03);
+    /* ===== Right: Content ===== */
+    .hero-content {
+      display: flex;
+      align-items: center;
+      padding: 4rem;
+      position: relative;
+      overflow: hidden;
     }
 
-    .hero-overlay {
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(
-        135deg,
-        rgba(45, 55, 72, 0.85) 0%,
-        rgba(45, 55, 72, 0.6) 50%,
-        rgba(66, 153, 225, 0.4) 100%
-      );
+    .content-inner {
+      position: relative;
+      z-index: 2;
+      max-width: 500px;
     }
 
-    /* Giant Episode Number */
+    /* Giant Episode Number (background decoration) */
     .episode-number {
       position: absolute;
-      right: -2rem;
+      right: -10%;
       top: 50%;
       transform: translateY(-50%);
       z-index: 1;
@@ -425,7 +236,7 @@
       align-items: baseline;
       font-family: 'Josefin Sans', sans-serif;
       font-weight: 700;
-      color: rgba(255, 255, 255, 0.08);
+      color: rgba(255, 255, 255, 0.03);
       line-height: 1;
       pointer-events: none;
       user-select: none;
@@ -440,84 +251,85 @@
       letter-spacing: -0.05em;
     }
 
-    /* Hero Content */
-    .hero-content {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      padding: 3rem;
-      z-index: 2;
-      max-width: 700px;
-    }
-
+    /* Typography */
     .hero-label {
       display: inline-block;
-      padding: 0.5rem 1rem;
-      background: var(--mint-500);
-      border-radius: 2rem;
-      font-size: 0.75rem;
-      font-weight: 600;
+      font-size: 0.6875rem;
+      font-weight: 500;
       text-transform: uppercase;
-      letter-spacing: 0.1em;
+      letter-spacing: 0.25em;
+      color: var(--mint-400);
       margin-bottom: 1.5rem;
     }
 
     .hero-title {
-      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .hero-title a {
+      color: white;
+      text-decoration: none;
+      font-size: 2.75rem;
       font-weight: 700;
       line-height: 1.2;
-      margin-bottom: 1rem;
-      text-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
+      letter-spacing: -0.02em;
+      transition: color 0.3s ease;
+    }
+
+    .hero-title a:hover {
+      color: var(--mint-300);
     }
 
     .hero-date {
       font-size: 0.9375rem;
-      opacity: 0.8;
-      margin-bottom: 2rem;
+      color: rgba(255, 255, 255, 0.5);
+      font-weight: 400;
+      letter-spacing: 0.02em;
+      margin-bottom: 3rem;
     }
 
+    /* Play Button */
     .hero-play {
       display: inline-flex;
       align-items: center;
-      gap: 0.75rem;
-      padding: 0.75rem 1.5rem;
-      background: rgba(255, 255, 255, 0.15);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      border-radius: 3rem;
+      gap: 1rem;
+      padding: 1rem 2rem;
+      background: var(--mint-500);
+      border-radius: 4rem;
+      color: var(--navy-900);
+      text-decoration: none;
+      font-weight: 600;
       transition: all 0.3s ease;
+      margin-bottom: 3rem;
     }
 
-    .hero-link:hover .hero-play {
-      background: rgba(255, 255, 255, 0.25);
+    .hero-play:hover {
+      background: var(--mint-400);
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(56, 178, 172, 0.3);
     }
 
     .play-btn {
-      width: 32px;
-      height: 32px;
+      width: 36px;
+      height: 36px;
       background: white;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 0.875rem;
+      font-size: 0.75rem;
       color: var(--navy-800);
     }
 
     .play-text {
-      font-size: 0.875rem;
-      font-weight: 600;
+      font-size: 0.9375rem;
+      letter-spacing: 0.02em;
     }
 
     /* Platform Links */
     .hero-platforms {
-      position: absolute;
-      bottom: 3rem;
-      right: 3rem;
       display: flex;
       gap: 0.75rem;
-      z-index: 3;
     }
 
     .platform-icon {
@@ -526,22 +338,21 @@
       justify-content: center;
       width: 44px;
       height: 44px;
-      background: rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.1);
       border-radius: 50%;
-      color: white;
+      color: rgba(255, 255, 255, 0.6);
       text-decoration: none;
-      transition: all 0.2s ease;
+      transition: all 0.3s ease;
     }
 
     .platform-icon:hover {
       transform: translateY(-3px);
-      background: rgba(255, 255, 255, 0.2);
+      color: white;
     }
 
     .platform-icon sl-icon {
-      font-size: 1.25rem;
+      font-size: 1.125rem;
     }
 
     .platform-icon[href*="apple"]:hover {
@@ -564,10 +375,78 @@
       border-color: #ff0000;
     }
 
-    /* Episodes Section */
+    /* Scroll Indicator */
+    .scroll-indicator {
+      position: absolute;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 3;
+    }
+
+    .scroll-indicator span {
+      display: block;
+      width: 24px;
+      height: 40px;
+      border: 2px solid rgba(255, 255, 255, 0.2);
+      border-radius: 12px;
+      position: relative;
+    }
+
+    .scroll-indicator span::before {
+      content: '';
+      position: absolute;
+      top: 8px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 4px;
+      height: 8px;
+      background: rgba(255, 255, 255, 0.4);
+      border-radius: 2px;
+      animation: scroll-bounce 2s ease-in-out infinite;
+    }
+
+    @keyframes scroll-bounce {
+      0%, 100% {
+        transform: translateX(-50%) translateY(0);
+        opacity: 1;
+      }
+      50% {
+        transform: translateX(-50%) translateY(10px);
+        opacity: 0.3;
+      }
+    }
+
+    /* ===== Mini Header (Page 2+) ===== */
+    .mini-header {
+      background: var(--navy-800);
+      padding: 2rem 0;
+      color: white;
+    }
+
+    .mini-header-content {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .mini-header h1 {
+      font-size: 1.5rem;
+      font-weight: 600;
+    }
+
+    .page-indicator {
+      font-size: 0.875rem;
+      opacity: 0.6;
+    }
+
+    /* ===== Episodes Section ===== */
     .episodes-section {
       background: var(--warm-white);
-      padding: 3rem 0;
+      padding: 4rem 0;
     }
 
     .section-content {
@@ -576,10 +455,22 @@
       padding: 0 2rem;
     }
 
-    /* Tablet */
+    /* ===== Tablet ===== */
     @media (max-width: 1024px) {
-      .episode-number {
-        right: -1rem;
+      .hero-artwork {
+        padding: 3rem;
+      }
+
+      .artwork-link {
+        max-width: 400px;
+      }
+
+      .hero-content {
+        padding: 3rem;
+      }
+
+      .hero-title a {
+        font-size: 2.25rem;
       }
 
       .number-prefix {
@@ -589,141 +480,111 @@
       .number-value {
         font-size: 14rem;
       }
-
-      .hero-title {
-        font-size: 2rem;
-      }
     }
 
-    /* Mobile */
+    /* ===== Mobile ===== */
     @media (max-width: 768px) {
-      .page-header {
-        padding: 4rem 0;
-      }
-
-      .page-title {
-        font-size: 2rem;
-      }
-
-      .header-badges {
-        gap: 0.5rem;
-      }
-
-      .badge {
-        font-size: 0.8125rem;
-        padding: 0.25rem 0.75rem;
-      }
-
-      /* Latest Hero - Mobile */
       .latest-hero {
-        min-height: 400px;
+        height: auto;
+        min-height: auto;
+        padding: 0 2rem;
       }
 
-      .hero-link {
-        min-height: 400px;
+      .hero-inner {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto;
       }
 
-      .episode-number {
-        right: -0.5rem;
-        top: auto;
-        bottom: 30%;
-        transform: none;
+      .hero-artwork {
+        padding: 6rem 2rem 2rem;
+        justify-content: center;
       }
 
-      .number-prefix {
-        font-size: 3rem;
-      }
-
-      .number-value {
-        font-size: 8rem;
+      .artwork-link {
+        max-width: 320px;
       }
 
       .hero-content {
-        padding: 1.5rem;
+        padding: 2rem;
+        text-align: center;
+      }
+
+      .content-inner {
         max-width: 100%;
       }
 
+      .episode-number {
+        display: none;
+      }
+
       .hero-label {
-        padding: 0.375rem 0.75rem;
-        font-size: 0.6875rem;
         margin-bottom: 1rem;
       }
 
-      .hero-title {
-        font-size: 1.5rem;
-        margin-bottom: 0.75rem;
+      .hero-title a {
+        font-size: 1.75rem;
       }
 
       .hero-date {
-        font-size: 0.875rem;
-        margin-bottom: 1.5rem;
+        margin-bottom: 2rem;
       }
 
       .hero-play {
-        padding: 0.5rem 1rem;
-        gap: 0.5rem;
-      }
-
-      .play-btn {
-        width: 28px;
-        height: 28px;
-        font-size: 0.75rem;
-      }
-
-      .play-text {
-        font-size: 0.8125rem;
+        margin-bottom: 2rem;
       }
 
       .hero-platforms {
-        position: static;
         justify-content: center;
-        padding: 1rem;
-        background: var(--navy-800);
-        gap: 1rem;
       }
 
-      .platform-icon {
-        width: 48px;
-        height: 48px;
+      .scroll-indicator {
+        display: none;
       }
 
       .section-content {
         padding: 0 1rem;
       }
+
+      .mini-header-content {
+        padding: 0 1rem;
+      }
     }
 
-    /* Small Mobile */
+    /* ===== Small Mobile ===== */
     @media (max-width: 480px) {
-      .page-header {
-        padding: 3rem 0;
+      .hero-artwork {
+        padding: 5rem 1.5rem 1.5rem;
       }
 
-      .page-title {
-        font-size: 1.75rem;
+      .artwork-link {
+        max-width: 280px;
       }
 
-      .latest-hero {
-        min-height: 350px;
+      .hero-content {
+        padding: 1.5rem;
       }
 
-      .hero-link {
-        min-height: 350px;
+      .hero-title a {
+        font-size: 1.5rem;
       }
 
-      .episode-number {
-        bottom: 25%;
+      .hero-play {
+        padding: 0.875rem 1.5rem;
+        gap: 0.75rem;
       }
 
-      .number-prefix {
-        font-size: 2rem;
+      .play-btn {
+        width: 32px;
+        height: 32px;
       }
 
-      .number-value {
-        font-size: 5rem;
+      .play-text {
+        font-size: 0.875rem;
       }
 
-      .hero-title {
-        font-size: 1.25rem;
+      .platform-icon {
+        width: 40px;
+        height: 40px;
       }
     }
   </style>

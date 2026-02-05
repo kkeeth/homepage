@@ -142,14 +142,6 @@
       text-align: center;
     }
 
-    .other-programs-list {
-      display: flex;
-      flex-direction: column;
-      gap: 0.75rem;
-      max-width: 600px;
-      margin: 0 auto;
-    }
-
     .other-programs-item {
       display: flex;
       align-items: center;
@@ -205,7 +197,6 @@
     .other-programs-item:hover .other-programs-arrow {
       color: var(--rain-blue);
     }
-
 
     /* Modern Animations */
     @keyframes gentle-float {
@@ -347,6 +338,14 @@
       color: white;
     }
 
+    @media (min-width: 768px) {
+      .other-programs-list {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+      }
+    }
+
     @media (max-width: 480px) {
       .about-section-minimal {
         padding: 3rem 1.5rem;
@@ -354,6 +353,11 @@
 
       .about-title-minimal {
         font-size: 1.25rem;
+      }
+
+      .other-programs-list {
+        display: grid;
+        gap: 1rem;
       }
     }
   </style>
