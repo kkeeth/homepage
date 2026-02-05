@@ -27,44 +27,49 @@
       </div>
     </section>
 
-    <!-- Latest Episode Hero -->
-    <section class="latest-episode" if={state.latestEpisode && state.currentPage === 1}>
-      <div class="section-content">
-        <div class="latest-label">
-          <span class="label-icon">🎧</span>
-          <h3>{t("pages.episode.latest")}</h3>
+    <!-- Latest Episode Hero - Magazine Cover Style -->
+    <section class="latest-hero" if={state.latestEpisode && state.currentPage === 1}>
+      <a class="hero-link" href={"/episodes/" + getEpisodeId(state.latestEpisode)}>
+        <!-- Background Image -->
+        <div class="hero-bg">
+          <img src={state.latestEpisode.imageUrl || "/placeholder.svg"} alt="" />
+          <div class="hero-overlay"></div>
         </div>
-        <div class="latest-card">
-          <a class="latest-image" href={"/episodes/" + getEpisodeId(state.latestEpisode)}>
-            <img src={state.latestEpisode.imageUrl || "/placeholder.svg"} alt={state.latestEpisode.title} />
-            <div class="play-overlay">
-              <span class="play-icon">▶</span>
-            </div>
-          </a>
-          <div class="latest-content">
-            <span class="latest-date">{state.latestEpisode.pubDate}</span>
-            <a class="latest-title-link" href={"/episodes/" + getEpisodeId(state.latestEpisode)}>
-              <h2 class="latest-title">{state.latestEpisode.title}</h2>
-            </a>
-            <p class="latest-description">{state.latestEpisode.description}</p>
-            <div class="platform-links">
-              <div class="platform-icons">
-                <a href="https://podcasts.apple.com/jp/podcast/雨宿りとwebの小噺-fm/id1516699977" target="_blank" class="platform-icon" aria-label="Apple Podcasts">
-                  <sl-icon name="apple"></sl-icon>
-                </a>
-                <a href="https://open.spotify.com/show/4ZqUQtob7eJrz9DQV7lPVd" target="_blank" class="platform-icon" aria-label="Spotify">
-                  <sl-icon name="spotify"></sl-icon>
-                </a>
-                <a href="https://music.amazon.co.jp/podcasts/1ea89476-2b4f-4ba4-8260-57ed5ef45df5" target="_blank" class="platform-icon" aria-label="Amazon Music">
-                  <sl-icon name="amazon"></sl-icon>
-                </a>
-                <a href="https://music.youtube.com/playlist?list=PLVncrZRHU7RjSBziqoUGmfsyM41SY_l4u" target="_blank" class="platform-icon" aria-label="YouTube Music">
-                  <sl-icon name="youtube"></sl-icon>
-                </a>
-              </div>
-            </div>
+
+        <!-- Giant Episode Number -->
+        <div class="episode-number">
+          <span class="number-prefix">#</span>
+          <span class="number-value">{getEpisodeNumber()}</span>
+        </div>
+
+        <!-- Content -->
+        <div class="hero-content">
+          <div class="hero-label">
+            <span>{t("pages.episode.latest")}</span>
+          </div>
+          <h2 class="hero-title">{state.latestEpisode.title}</h2>
+          <p class="hero-date">{state.latestEpisode.pubDate}</p>
+          <div class="hero-play">
+            <span class="play-btn">▶</span>
+            <span class="play-text">{t("episode.listenOn")}</span>
           </div>
         </div>
+      </a>
+
+      <!-- Platform Links (outside the main link) -->
+      <div class="hero-platforms">
+        <a href="https://podcasts.apple.com/jp/podcast/雨宿りとwebの小噺-fm/id1516699977" target="_blank" class="platform-icon" aria-label="Apple Podcasts">
+          <sl-icon name="apple"></sl-icon>
+        </a>
+        <a href="https://open.spotify.com/show/4ZqUQtob7eJrz9DQV7lPVd" target="_blank" class="platform-icon" aria-label="Spotify">
+          <sl-icon name="spotify"></sl-icon>
+        </a>
+        <a href="https://music.amazon.co.jp/podcasts/1ea89476-2b4f-4ba4-8260-57ed5ef45df5" target="_blank" class="platform-icon" aria-label="Amazon Music">
+          <sl-icon name="amazon"></sl-icon>
+        </a>
+        <a href="https://music.youtube.com/playlist?list=PLVncrZRHU7RjSBziqoUGmfsyM41SY_l4u" target="_blank" class="platform-icon" aria-label="YouTube Music">
+          <sl-icon name="youtube"></sl-icon>
+        </a>
       </div>
     </section>
 
@@ -105,6 +110,10 @@
           }
         }
         return encodeURIComponent(episode.title);
+      },
+      getEpisodeNumber() {
+        // 最新エピソード = totalCount（最新が一番大きい番号）
+        return this.state.totalCount;
       },
       async onBeforeMount() {
         this.handleEpisodesLoaded = () => {
@@ -168,6 +177,14 @@
       background: var(--hero-gradient);
       overflow: hidden;
       color: var(--warm-white);
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      position: relative;
+      z-index: 1;
     }
 
     .header-bg {
@@ -352,198 +369,238 @@
       }
     }
 
-    /* Latest Episode Section */
-    .latest-episode {
-      padding: 3rem 0;
-      background: var(--warm-white);
+    /* Latest Episode Hero - Magazine Cover Style */
+    .latest-hero {
+      position: relative;
+      min-height: 480px;
+      display: flex;
+      flex-direction: column;
     }
 
-    .latest-label {
+    .hero-link {
+      position: relative;
+      display: block;
+      min-height: 480px;
+      text-decoration: none;
+      color: white;
+      overflow: hidden;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+    }
+
+    .hero-bg img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.6s ease;
+    }
+
+    .hero-link:hover .hero-bg img {
+      transform: scale(1.03);
+    }
+
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        135deg,
+        rgba(45, 55, 72, 0.85) 0%,
+        rgba(45, 55, 72, 0.6) 50%,
+        rgba(66, 153, 225, 0.4) 100%
+      );
+    }
+
+    /* Giant Episode Number */
+    .episode-number {
+      position: absolute;
+      right: -2rem;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 1;
       display: flex;
-      align-items: center;
-      gap: 0.5rem;
+      align-items: baseline;
+      font-family: 'Josefin Sans', sans-serif;
+      font-weight: 700;
+      color: rgba(255, 255, 255, 0.08);
+      line-height: 1;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .number-prefix {
+      font-size: 8rem;
+    }
+
+    .number-value {
+      font-size: 20rem;
+      letter-spacing: -0.05em;
+    }
+
+    /* Hero Content */
+    .hero-content {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 3rem;
+      z-index: 2;
+      max-width: 700px;
+    }
+
+    .hero-label {
+      display: inline-block;
+      padding: 0.5rem 1rem;
+      background: var(--mint-500);
+      border-radius: 2rem;
       font-size: 0.75rem;
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 0.1em;
-      color: var(--mint-600);
       margin-bottom: 1.5rem;
     }
 
-    .label-icon {
-      font-size: 1rem;
+    .hero-title {
+      font-size: 2.5rem;
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 1rem;
+      text-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
     }
 
-    .latest-card {
-      display: grid;
-      grid-template-columns: 288px 1fr;
-      gap: 2rem;
-      background: linear-gradient(135deg, var(--mint-50), var(--cream));
-      border-radius: 1.5rem;
-      overflow: hidden;
-      transition: all 0.3s ease;
-      border: 1px solid var(--mint-200);
+    .hero-date {
+      font-size: 0.9375rem;
+      opacity: 0.8;
+      margin-bottom: 2rem;
     }
 
-    .latest-card:hover {
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-    }
-
-    .latest-card:hover .play-overlay {
-      opacity: 1;
-    }
-
-    .latest-image {
-      display: block;
-      position: relative;
-      aspect-ratio: 1;
-      overflow: hidden;
-    }
-
-    .latest-image img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: transform 0.3s ease;
-    }
-
-    .latest-image:hover img {
-      transform: scale(1.05);
-    }
-
-    .play-overlay {
-      position: absolute;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.3);
-      display: flex;
+    .hero-play {
+      display: inline-flex;
       align-items: center;
-      justify-content: center;
-      opacity: 0;
-      transition: opacity 0.3s ease;
+      gap: 0.75rem;
+      padding: 0.75rem 1.5rem;
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 3rem;
+      transition: all 0.3s ease;
     }
 
-    .play-icon {
-      width: 60px;
-      height: 60px;
-      background: rgba(255, 255, 255, 0.95);
+    .hero-link:hover .hero-play {
+      background: rgba(255, 255, 255, 0.25);
+    }
+
+    .play-btn {
+      width: 32px;
+      height: 32px;
+      background: white;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.5rem;
+      font-size: 0.875rem;
       color: var(--navy-800);
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
     }
 
-    .latest-content {
-      padding: 2rem 2rem 2rem 0;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
+    .play-text {
+      font-size: 0.875rem;
+      font-weight: 600;
     }
 
-    .latest-date {
-      font-size: 0.8125rem;
-      color: var(--coffee-brown);
-      font-weight: 500;
-      margin-bottom: 0.5rem;
-    }
-
-    .latest-title-link {
-      text-decoration: none;
-      color: inherit;
-    }
-
-    .latest-title-link:hover .latest-title {
-      color: var(--mint-600);
-    }
-
-    .latest-title {
-      font-size: 1.5rem;
-      font-weight: 700;
-      color: var(--navy-800);
-      line-height: 1.3;
-      margin-bottom: 0.75rem;
-      transition: color 0.2s ease;
-    }
-
-    .latest-description {
-      font-size: 0.9375rem;
-      color: var(--navy-600);
-      line-height: 1.6;
-      margin-bottom: 1.75rem;
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-    }
-
-    .platform-links {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-    }
-
-    .platform-label {
-      font-size: 0.75rem;
-      color: var(--navy-500);
-      font-weight: 500;
-    }
-
-    .platform-icons {
+    /* Platform Links */
+    .hero-platforms {
+      position: absolute;
+      bottom: 3rem;
+      right: 3rem;
       display: flex;
       gap: 0.75rem;
+      z-index: 3;
     }
 
     .platform-icon {
       display: flex;
       align-items: center;
       justify-content: center;
-      width: 36px;
-      height: 36px;
+      width: 44px;
+      height: 44px;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
       border-radius: 50%;
-      color: var(--navy-600);
+      color: white;
       text-decoration: none;
       transition: all 0.2s ease;
     }
 
     .platform-icon:hover {
-      transform: translateY(-2px);
+      transform: translateY(-3px);
+      background: rgba(255, 255, 255, 0.2);
     }
 
     .platform-icon sl-icon {
-      font-size: 1.5rem;
+      font-size: 1.25rem;
     }
 
-    .platform-icon[href*="apple"] {
-      color: #a855f7;
-    }
     .platform-icon[href*="apple"]:hover {
-      color: #9333EA;
+      background: #fc3c44;
+      border-color: #fc3c44;
     }
 
-    .platform-icon[href*="spotify"] {
-      color: #1db954;
-    }
     .platform-icon[href*="spotify"]:hover {
-      color: #1AA34A;
+      background: #1db954;
+      border-color: #1db954;
     }
 
-    .platform-icon[href*="amazon"] {
-      color: #ff9900;
-    }
     .platform-icon[href*="amazon"]:hover {
-      color: #e68a00;
+      background: #ff9900;
+      border-color: #ff9900;
     }
 
-    .platform-icon[href*="youtube"] {
-      color: #ff0000;
-    }
     .platform-icon[href*="youtube"]:hover {
-      color: #e60000;
+      background: #ff0000;
+      border-color: #ff0000;
     }
 
+    /* Episodes Section */
+    .episodes-section {
+      background: var(--warm-white);
+      padding: 3rem 0;
+    }
+
+    .section-content {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    /* Tablet */
+    @media (max-width: 1024px) {
+      .episode-number {
+        right: -1rem;
+      }
+
+      .number-prefix {
+        font-size: 5rem;
+      }
+
+      .number-value {
+        font-size: 14rem;
+      }
+
+      .hero-title {
+        font-size: 2rem;
+      }
+    }
+
+    /* Mobile */
     @media (max-width: 768px) {
+      .page-header {
+        padding: 4rem 0;
+      }
+
       .page-title {
         font-size: 2rem;
       }
@@ -557,27 +614,116 @@
         padding: 0.25rem 0.75rem;
       }
 
-      .latest-card {
-        grid-template-columns: 1fr;
-        gap: 0;
+      /* Latest Hero - Mobile */
+      .latest-hero {
+        min-height: 400px;
       }
 
-      .latest-image {
-        aspect-ratio: 4 / 3;
+      .hero-link {
+        min-height: 400px;
       }
 
-      .latest-content {
+      .episode-number {
+        right: -0.5rem;
+        top: auto;
+        bottom: 30%;
+        transform: none;
+      }
+
+      .number-prefix {
+        font-size: 3rem;
+      }
+
+      .number-value {
+        font-size: 8rem;
+      }
+
+      .hero-content {
         padding: 1.5rem;
+        max-width: 100%;
       }
 
-      .latest-title {
-        font-size: 1.5rem;
+      .hero-label {
+        padding: 0.375rem 0.75rem;
+        font-size: 0.6875rem;
+        margin-bottom: 1rem;
       }
 
-      .play-icon {
-        width: 60px;
-        height: 60px;
+      .hero-title {
         font-size: 1.5rem;
+        margin-bottom: 0.75rem;
+      }
+
+      .hero-date {
+        font-size: 0.875rem;
+        margin-bottom: 1.5rem;
+      }
+
+      .hero-play {
+        padding: 0.5rem 1rem;
+        gap: 0.5rem;
+      }
+
+      .play-btn {
+        width: 28px;
+        height: 28px;
+        font-size: 0.75rem;
+      }
+
+      .play-text {
+        font-size: 0.8125rem;
+      }
+
+      .hero-platforms {
+        position: static;
+        justify-content: center;
+        padding: 1rem;
+        background: var(--navy-800);
+        gap: 1rem;
+      }
+
+      .platform-icon {
+        width: 48px;
+        height: 48px;
+      }
+
+      .section-content {
+        padding: 0 1rem;
+      }
+    }
+
+    /* Small Mobile */
+    @media (max-width: 480px) {
+      .page-header {
+        padding: 3rem 0;
+      }
+
+      .page-title {
+        font-size: 1.75rem;
+      }
+
+      .latest-hero {
+        min-height: 350px;
+      }
+
+      .hero-link {
+        min-height: 350px;
+      }
+
+      .episode-number {
+        bottom: 25%;
+      }
+
+      .number-prefix {
+        font-size: 2rem;
+      }
+
+      .number-value {
+        font-size: 5rem;
+      }
+
+      .hero-title {
+        font-size: 1.25rem;
       }
     }
   </style>
