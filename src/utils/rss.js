@@ -48,6 +48,12 @@ export function parseRSSFeed(xmlText) {
       item.querySelector('itunes\\:duration, duration')?.textContent?.trim() ||
       '';
 
+    // Extract season and episode number from iTunes tags
+    const itunesSeason =
+      item.querySelector('itunes\\:season, season')?.textContent?.trim() || '';
+    const itunesEpisode =
+      item.querySelector('itunes\\:episode, episode')?.textContent?.trim() || '';
+
     episodes.push({
       title,
       description: truncateText(description, 120),
@@ -58,6 +64,8 @@ export function parseRSSFeed(xmlText) {
       imageUrl,
       imageClass: 'mint',
       duration: itunesDuration,
+      season: itunesSeason,
+      episodeNum: itunesEpisode,
     });
   });
 

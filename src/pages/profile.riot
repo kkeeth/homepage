@@ -46,7 +46,7 @@
             <span class="stat-label">{t("pages.profile.stats.plays")}</span>
           </div>
           <div class="stat">
-            <span class="stat-number">5+</span>
+            <span class="stat-number">5+ years</span>
             <span class="stat-label">{t("pages.profile.stats.experience")}</span>
           </div>
         </div>
@@ -59,6 +59,74 @@
         <h2 class="section-label">{t("pages.profile.skills")}</h2>
         <div class="skills-list">
           <span class="skill" each={skill in state.skills}>{skill}</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Output Section - Bento Grid -->
+    <section class="output-section">
+      <div class="output-content">
+        <h2 class="section-label">Output</h2>
+        <div class="bento-grid">
+          <!-- Blog (cols 1-2, rows 1-2) -->
+          <a href="https://kkeeth.substack.com" target="_blank" class="bento-card blog-card">
+            <div class="card-bg-logo"><sl-icon name="pencil-square"></sl-icon></div>
+            <div class="card-icon">
+              <sl-icon name="pencil-square"></sl-icon>
+            </div>
+            <div class="card-body">
+              <h3 class="card-title">Blog / Newsletter</h3>
+              <p class="card-description">技術記事やポッドキャストの裏話、日々の学びを発信</p>
+              <span class="card-link">Substack →</span>
+            </div>
+          </a>
+
+          <!-- Note (cols 3-4, row 1) -->
+          <a href="https://note.com/clown0082" target="_blank" class="bento-card note-card">
+            <div class="card-bg-logo"><sl-icon name="journal-text"></sl-icon></div>
+            <div class="card-icon"><sl-icon name="journal-text"></sl-icon></div>
+            <div class="card-body">
+              <h3 class="card-title">note</h3>
+              <p class="card-description">エッセイ・コラム</p>
+              <span class="card-link">note →</span>
+            </div>
+          </a>
+
+          <!-- GitHub (col 3, rows 2-3) -->
+          <a href="https://github.com/kkeeth" target="_blank" class="bento-card github-card">
+            <div class="card-bg-logo"><sl-icon name="github"></sl-icon></div>
+            <div class="card-icon"><sl-icon name="github"></sl-icon></div>
+            <div class="card-body">
+              <h3 class="card-title">GitHub</h3>
+              <p class="card-description">OSS・個人プロジェクト</p>
+              <span class="card-link">View →</span>
+            </div>
+          </a>
+
+          <!-- Slides (col 4, rows 2-3) -->
+          <a href="https://speakerdeck.com/kkeeth" target="_blank" class="bento-card slides-card">
+            <div class="card-bg-logo"><sl-icon name="easel"></sl-icon></div>
+            <div class="card-icon"><sl-icon name="easel"></sl-icon></div>
+            <div class="card-body">
+              <h3 class="card-title">Slides</h3>
+              <p class="card-description">登壇・発表資料</p>
+              <span class="card-link">View →</span>
+            </div>
+          </a>
+
+          <!-- Zenn (col 1, row 3) -->
+          <a href="https://zenn.dev/kkeeth" target="_blank" class="bento-card zenn-card">
+            <div class="card-bg-logo"><span class="zenn-logo">Z</span></div>
+            <span class="zenn-logo">Z</span>
+            <span class="card-label">Zenn</span>
+          </a>
+
+          <!-- X (col 2, row 3) -->
+          <a href="https://x.com/kuwahara_jsri" target="_blank" class="bento-card twitter-card">
+            <div class="card-bg-logo"><sl-icon name="twitter-x"></sl-icon></div>
+            <sl-icon name="twitter-x"></sl-icon>
+            <span class="card-label">𝕏</span>
+          </a>
         </div>
       </div>
     </section>
@@ -414,6 +482,249 @@
       line-height: 1.6;
     }
 
+    /* ===== Output Section - Bento Grid ===== */
+    .output-section {
+      padding: 5rem 1rem;
+      background: var(--cream);
+    }
+
+    .output-content {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .bento-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-template-rows: repeat(3, 1fr);
+      gap: 1rem;
+      aspect-ratio: 4 / 3;
+    }
+
+    .bento-card {
+      display: flex;
+      flex-direction: column;
+      padding: 1.5rem;
+      border-radius: 1.25rem;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      min-height: 0;
+    }
+
+    .bento-card:hover {
+      transform: translateY(-4px);
+    }
+
+    /* Background Logo */
+    .card-bg-logo {
+      position: absolute;
+      right: -5%;
+      bottom: -5%;
+      opacity: 0.08;
+      pointer-events: none;
+      line-height: 1;
+    }
+
+    .card-bg-logo sl-icon {
+      font-size: 8rem;
+    }
+
+    .card-bg-logo .zenn-logo {
+      font-size: 7rem;
+    }
+
+    .bento-card:hover .card-bg-logo {
+      opacity: 0.12;
+    }
+
+    /* Blog: 2×2 (cols 1-2, rows 1-2) */
+    .blog-card {
+      grid-column: 1 / 3;
+      grid-row: 1 / 3;
+      padding: 2rem;
+      justify-content: flex-end;
+    }
+
+    /* Note: 2×1 (cols 3-4, row 1) */
+    .note-card {
+      grid-column: 3 / 5;
+      grid-row: 1 / 2;
+    }
+
+    /* GitHub: 1×2 (col 3, rows 2-3) */
+    .github-card {
+      grid-column: 3 / 4;
+      grid-row: 2 / 4;
+      justify-content: flex-end;
+    }
+
+    /* Slides: 1×2 (col 4, rows 2-3) */
+    .slides-card {
+      grid-column: 4 / 5;
+      grid-row: 2 / 4;
+      justify-content: flex-end;
+    }
+
+    /* Zenn: 1×1 (col 1, row 3) */
+    .zenn-card {
+      grid-column: 1 / 2;
+      grid-row: 3 / 4;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+
+    /* X: 1×1 (col 2, row 3) */
+    .twitter-card {
+      grid-column: 2 / 3;
+      grid-row: 3 / 4;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+
+    .zenn-card sl-icon,
+    .twitter-card sl-icon {
+      font-size: 2rem;
+    }
+
+    .card-label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      opacity: 0.9;
+    }
+
+    .card-icon {
+      margin-bottom: 1rem;
+    }
+
+    .card-icon sl-icon {
+      font-size: 2.5rem;
+    }
+
+    .card-body {
+      position: relative;
+      z-index: 1;
+    }
+
+    .card-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .card-description {
+      font-size: 0.875rem;
+      opacity: 0.8;
+      line-height: 1.5;
+      margin-bottom: 1rem;
+    }
+
+    .card-link {
+      font-size: 0.8125rem;
+      font-weight: 600;
+      opacity: 0.7;
+    }
+
+    /* Card Colors - subtle backgrounds with semi-transparent logo */
+    .blog-card {
+      background: rgba(255, 107, 53, 0.08);
+      border: 1px solid rgba(255, 107, 53, 0.15);
+      color: #c2410c;
+    }
+
+    .blog-card .card-bg-logo {
+      color: #FF6B35;
+    }
+
+    .blog-card:hover {
+      box-shadow: 0 8px 30px rgba(255, 107, 53, 0.12);
+      background: rgba(255, 107, 53, 0.12);
+    }
+
+    .note-card {
+      background: rgba(65, 201, 180, 0.08);
+      border: 1px solid rgba(65, 201, 180, 0.15);
+      color: #1a9a7e;
+    }
+
+    .note-card .card-bg-logo {
+      color: #41C9B4;
+    }
+
+    .note-card:hover {
+      box-shadow: 0 8px 30px rgba(65, 201, 180, 0.12);
+      background: rgba(65, 201, 180, 0.12);
+    }
+
+    .github-card {
+      background: rgba(36, 41, 46, 0.06);
+      border: 1px solid rgba(36, 41, 46, 0.12);
+      color: #24292e;
+    }
+
+    .github-card .card-bg-logo {
+      color: #24292e;
+    }
+
+    .github-card:hover {
+      box-shadow: 0 8px 25px rgba(36, 41, 46, 0.12);
+      background: rgba(36, 41, 46, 0.1);
+    }
+
+    .slides-card {
+      background: rgba(0, 164, 189, 0.08);
+      border: 1px solid rgba(0, 164, 189, 0.15);
+      color: #0077B5;
+    }
+
+    .slides-card .card-bg-logo {
+      color: #00A4BD;
+    }
+
+    .slides-card:hover {
+      box-shadow: 0 8px 25px rgba(0, 164, 189, 0.12);
+      background: rgba(0, 164, 189, 0.12);
+    }
+
+    .zenn-card {
+      background: rgba(62, 168, 255, 0.08);
+      border: 1px solid rgba(62, 168, 255, 0.15);
+      color: #1A91DA;
+    }
+
+    .zenn-card .card-bg-logo {
+      color: #3EA8FF;
+    }
+
+    .zenn-card:hover {
+      box-shadow: 0 8px 30px rgba(62, 168, 255, 0.12);
+      background: rgba(62, 168, 255, 0.12);
+    }
+
+    .zenn-logo {
+      font-size: 2.5rem;
+      font-weight: 800;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .twitter-card {
+      background: rgba(0, 0, 0, 0.05);
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      color: #000;
+    }
+
+    .twitter-card .card-bg-logo {
+      color: #000;
+    }
+
+    .twitter-card:hover {
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+      background: rgba(0, 0, 0, 0.08);
+    }
+
     /* Responsive */
     @media (max-width: 768px) {
       .hero {
@@ -469,6 +780,71 @@
 
       .timeline-marker {
         left: -1.5rem;
+      }
+
+      /* Bento Grid - Tablet: reset to 2-col flow */
+      .bento-grid {
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: auto;
+        aspect-ratio: auto;
+      }
+
+      .blog-card {
+        grid-column: 1 / -1;
+        grid-row: auto;
+      }
+
+      .note-card {
+        grid-column: 1 / -1;
+        grid-row: auto;
+      }
+
+      .github-card,
+      .slides-card {
+        grid-column: auto;
+        grid-row: auto;
+        justify-content: flex-start;
+      }
+
+      .zenn-card,
+      .twitter-card {
+        grid-column: auto;
+        grid-row: auto;
+        aspect-ratio: auto;
+        flex-direction: row;
+        justify-content: flex-start;
+        gap: 1rem;
+        padding: 1.25rem;
+      }
+
+      .zenn-card sl-icon,
+      .twitter-card sl-icon {
+        font-size: 1.5rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .bento-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 0.75rem;
+      }
+
+      .blog-card,
+      .note-card {
+        grid-column: 1 / -1;
+      }
+
+      .bento-card {
+        padding: 1.25rem;
+        border-radius: 1rem;
+      }
+
+      .card-title {
+        font-size: 1.125rem;
+      }
+
+      .card-description {
+        font-size: 0.8125rem;
       }
     }
   </style>

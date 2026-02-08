@@ -1,21 +1,23 @@
 <episode-card>
   <div class="episode-list">
-    <a class="episode-item" each={episode in props.programEpisodes} key={episode.id} href={"/episodes/" + getEpisodeId(episode)}>
-      <div class="episode-thumbnail">
-        <div class="musical-notes">
-          <span class="note note-1">♪</span>
-          <span class="note note-2">♫</span>
-          <span class="note note-3">♪</span>
-        </div>
-        <img src={episode.imageUrl || "/placeholder.svg"} alt={episode.title} />
-        <span class="play-button">▶</span>
-      </div>
-      <div class="episode-info">
-        <h3 class="episode-title">{episode.title}</h3>
+    <div class="episode-item" each={episode in props.programEpisodes} key={episode.id}>
+      <div class="episode-date-col">
         <span class="episode-date">{episode.pubDate}</span>
-        <p class="episode-description">{truncateText(episode.description, 120)}</p>
       </div>
-    </a>
+      <div class="episode-content-col">
+        <span class="episode-badge" if={parseSeasonLabel(episode.title)}>{parseSeasonLabel(episode.title)}</span>
+        <h3 class="episode-title">
+          <a href={"/episodes/" + getEpisodeId(episode)}>{stripSeasonPrefix(episode.title)}</a>
+        </h3>
+        <p class="episode-description">{truncateText(episode.description, 120)}</p>
+        <div class="episode-actions">
+          <a href={"/episodes/" + getEpisodeId(episode)} class="listen-btn">
+            <sl-icon name="play-circle-fill"></sl-icon>
+            {t("episode.listenOn")}{episode.duration ? ' (' + formatDuration(episode.duration) + ')' : ''}
+          </a>
+        </div>
+      </div>
+    </div>
   </div>
 
   <div class="view-all-section" if={props.showMore}>
@@ -42,6 +44,32 @@
         }
         // Fallback to encoded title
         return encodeURIComponent(episode.title);
+      },
+      parseSeasonLabel(title) {
+        const match = title.match(/^(Season \d+-\d+)\.\s*/);
+        return match ? match[1] : '';
+      },
+      stripSeasonPrefix(title) {
+        return title.replace(/^Season \d+-\d+\.\s*/, '');
+      },
+      formatDuration(duration) {
+        if (!duration) return '';
+        // Handle HH:MM:SS or MM:SS format
+        if (duration.includes(':')) {
+          const parts = duration.split(':').map(Number);
+          if (parts.length === 3) {
+            return Math.round(parts[0] * 60 + parts[1] + parts[2] / 60) + 'm';
+          }
+          if (parts.length === 2) {
+            return parts[0] + 'm';
+          }
+        }
+        // Handle seconds format
+        const seconds = parseInt(duration);
+        if (!isNaN(seconds)) {
+          return Math.round(seconds / 60) + 'm';
+        }
+        return duration;
       }
     }
   </script>
@@ -54,153 +82,104 @@
 
     .episode-item {
       display: flex;
-      gap: 1.5rem;
-      padding: 2.5rem 0;
-      border-bottom: 2px solid var(--light-gray);
-      text-decoration: none;
-      color: inherit;
-      transition: background-color 0.2s ease;
+      gap: 2rem;
+      padding: 3rem 0;
+      border-top: 1px solid var(--light-gray);
     }
 
-    .episode-item:first-child {
-      border-top: 2px solid var(--light-gray);
+    .episode-item:last-child {
+      border-bottom: 1px solid var(--light-gray);
     }
 
-    .episode-item:hover {
-      background-color: rgba(0, 0, 0, 0.02);
-    }
-
-    .episode-item:hover .play-button {
-      opacity: 1;
-    }
-
-    .episode-item:hover .musical-notes .note {
-      opacity: 1;
-      animation: floating-notes 2s ease-in-out infinite;
-    }
-
-    .episode-thumbnail {
-      position: relative;
-      width: 120px;
-      height: 120px;
+    /* Date Column */
+    .episode-date-col {
       flex-shrink: 0;
-      border-radius: 8px;
-      overflow: hidden;
-    }
-
-    .episode-thumbnail img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    .play-button {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 44px;
-      height: 44px;
-      background: rgba(0, 0, 0, 0.7);
-      color: var(--warm-white);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 18px;
-      opacity: 0;
-      transition: opacity 0.2s ease;
-    }
-
-    /* Musical Notes Animation */
-    .musical-notes {
-      position: absolute;
-      top: -8px;
-      left: -8px;
-      pointer-events: none;
-      z-index: 1;
-    }
-
-    .note {
-      position: absolute;
-      color: var(--warm-amber);
-      font-size: 1rem;
-      opacity: 0;
-      transition: all 0.3s ease;
-    }
-
-    .note-1 {
-      top: 0;
-      left: 0;
-      animation-delay: 0s;
-    }
-
-    .note-2 {
-      top: -6px;
-      left: 12px;
-      animation-delay: 0.3s;
-    }
-
-    .note-3 {
-      top: 6px;
-      left: 6px;
-      animation-delay: 0.6s;
-    }
-
-    @keyframes floating-notes {
-      0%, 100% {
-        transform: translateY(0) rotate(0deg);
-      }
-      25% {
-        transform: translateY(-6px) rotate(5deg);
-      }
-      50% {
-        transform: translateY(-10px) rotate(-3deg);
-      }
-      75% {
-        transform: translateY(-4px) rotate(2deg);
-      }
-    }
-
-    .episode-info {
-      flex: 1;
-      min-width: 0;
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-      justify-content: center;
-    }
-
-    .episode-title {
-      font-size: 1.25rem;
-      font-weight: 600;
-      line-height: 1.4;
-      color: var(--text-dark);
-      margin: 0;
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-      text-overflow: ellipsis;
+      width: 130px;
+      padding-top: 0.25rem;
     }
 
     .episode-date {
-      font-size: 0.9375rem;
+      font-size: 0.8125rem;
+      font-weight: 500;
       color: var(--coffee-brown);
+      letter-spacing: 0.03em;
+    }
+
+    /* Content Column */
+    .episode-content-col {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .episode-badge {
+      display: inline-block;
+      padding: 0.2rem 0.625rem;
+      background: var(--deep-rain);
+      color: white;
+      font-size: 0.6875rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      border-radius: 4px;
+      text-transform: uppercase;
+      margin-bottom: 0.75rem;
+    }
+
+    .episode-title {
+      font-size: 1.625rem;
+      font-weight: 700;
+      line-height: 1.3;
+      margin: 0 0 0.75rem;
+    }
+
+    .episode-title a {
+      color: var(--text-dark);
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    .episode-title a:hover {
+      color: var(--rain-blue);
     }
 
     .episode-description {
-      font-size: 1rem;
+      font-size: 0.9375rem;
       color: var(--text-color);
-      line-height: 1.6;
-      margin: 0;
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-      text-overflow: ellipsis;
+      line-height: 1.7;
+      margin: 0 0 1.5rem;
     }
 
+    /* Actions */
+    .episode-actions {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+    }
+
+    .listen-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.625rem 1.25rem;
+      background: var(--storm-cloud);
+      color: white;
+      border-radius: 50px;
+      text-decoration: none;
+      font-size: 0.875rem;
+      font-weight: 600;
+      transition: all 0.2s ease;
+    }
+
+    .listen-btn:hover {
+      background: var(--deep-rain);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(43, 108, 176, 0.2);
+    }
+
+    .listen-btn sl-icon {
+      font-size: 1.125rem;
+    }
+
+    /* View All */
     .view-all-section {
       text-align: center;
       margin-top: 2rem;
@@ -221,43 +200,47 @@
       color: var(--warm-white);
     }
 
-    /* Responsive Design */
+    /* Responsive: Tablet */
+    @media (max-width: 768px) {
+      .episode-item {
+        flex-direction: column;
+        gap: 0.5rem;
+        padding: 2rem 0;
+      }
+
+      .episode-date-col {
+        width: auto;
+      }
+
+      .episode-title {
+        font-size: 1.375rem;
+      }
+    }
+
+    /* Responsive: Mobile */
     @media (max-width: 480px) {
       .episode-list {
         margin-left: calc(-1 * var(--section-padding, 1rem));
         margin-right: calc(-1 * var(--section-padding, 1rem));
-        max-width: none;
         width: calc(100% + 2 * var(--section-padding, 1rem));
       }
 
       .episode-item {
-        padding: 1.25rem 1rem;
-        gap: 1rem;
-      }
-
-      .episode-thumbnail {
-        width: 80px;
-        height: 80px;
-      }
-
-      .play-button {
-        width: 36px;
-        height: 36px;
-        font-size: 14px;
-        opacity: 1;
+        padding: 1.5rem 1rem;
       }
 
       .episode-title {
-        font-size: 1.125rem;
-      }
-
-      .episode-date {
-        font-size: 0.875rem;
+        font-size: 1.25rem;
       }
 
       .episode-description {
-        font-size: 0.9375rem;
-        -webkit-line-clamp: 2;
+        font-size: 0.875rem;
+        margin-bottom: 1rem;
+      }
+
+      .listen-btn {
+        padding: 0.5rem 1rem;
+        font-size: 0.8125rem;
       }
     }
   </style>

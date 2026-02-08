@@ -4,6 +4,33 @@
 
     export default {
       t: i18nStore.t.bind(i18nStore),
+      getEpisodeId(episode) {
+        if (episode && episode.link) {
+          const match = episode.link.match(/episodes\/([a-f0-9-]+)/i);
+          if (match) return match[1];
+        }
+        return episode ? encodeURIComponent(episode.title) : '';
+      },
+      formatDuration(duration) {
+        if (!duration) return '';
+        if (duration.includes(':')) {
+          const parts = duration.split(':').map(Number);
+          if (parts.length === 3) {
+            return Math.round(parts[0] * 60 + parts[1] + parts[2] / 60) + 'm';
+          }
+          if (parts.length === 2) {
+            return parts[0] + 'm';
+          }
+        }
+        const seconds = parseInt(duration);
+        if (!isNaN(seconds)) {
+          return Math.round(seconds / 60) + 'm';
+        }
+        return duration;
+      },
+      stripSeasonPrefix(title) {
+        return title ? title.replace(/^Season \d+-\d+\.\s*/, '') : '';
+      }
     }
   </script>
 
@@ -45,25 +72,29 @@
       </div>
     </div>
 
-    <!-- Centered content layout -->
+    <!-- Content -->
     <div class="hero-container">
-      <div class="hero-content">
-        <div class="hero-image-wrapper">
-          <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/%E9%9B%A8%E5%AE%BF%E3%82%8A%E3%81%A8%20Web%20%E3%81%AE%E5%B0%8F%E5%99%BA-XnAjzyKbW0lVXd3o7wE5Jn9Zf46A8A.png" alt="雨宿りとWEBの小噺" class="hero-image">
-        </div>
+      <div class="hero-upper">
+        <span class="hero-label">P O D C A S T</span>
+        <h1 class="hero-title-giant">{t("hero.podcastTitle")}</h1>
+        <p class="hero-subtitle">
+          {t("hero.subtitleLine1")}<br>
+          {t("hero.subtitleLine2")}<span class="accent-text">{t("hero.subtitleAccent")}</span>
+        </p>
+      </div>
 
-        <div class="hero-text">
-          <h1 class="hero-title">{t("hero.podcastTitle")}</h1>
-          <p class="hero-subtitle">
-            {t("hero.subtitleLine1")}<br>
-            {t("hero.subtitleLine2")}<span class="accent-text">{t("hero.subtitleAccent")}</span>
-          </p>
-          <div class="hero-cta">
-            <div class="latest-episode-embed">
-              <iframe src={`${props.link.link}/embed`} style="width: 100%; height: 200px; border: 0 none;" scrolling="no" sandbox="allow-scripts allow-popups allow-popups-to-escape-sandbox"></iframe>
-            </div>
+      <div class="hero-bottom">
+        <div class="hero-bottom-left">
+          <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/%E9%9B%A8%E5%AE%BF%E3%82%8A%E3%81%A8%20Web%20%E3%81%AE%E5%B0%8F%E5%99%BA-XnAjzyKbW0lVXd3o7wE5Jn9Zf46A8A.png" alt="雨宿りとWEBの小噺" class="hero-artwork-mini" />
+          <div class="hero-bottom-meta">
+            <span class="available-text">AVAILABLE NOW</span>
+            <span class="latest-title" if={props.link}>{stripSeasonPrefix(props.link.title)}</span>
           </div>
         </div>
+        <a if={props.link} href={"/episodes/" + getEpisodeId(props.link)} class="hero-play-cta">
+          <span class="play-meta">PLAY LATEST{props.link.duration ? ' · ' + formatDuration(props.link.duration) : ''}</span>
+          <span class="play-circle">▶</span>
+        </a>
       </div>
     </div>
   </section>
@@ -75,8 +106,6 @@
       overflow: hidden;
       min-height: calc(100vh - 96px);
       display: flex;
-      align-items: center;
-      justify-content: center;
     }
 
     .hero-bg {
@@ -101,7 +130,7 @@
       background: linear-gradient(to bottom, var(--rain-blue), transparent);
       border-radius: 0 0 50% 50%;
       animation: falling-rain 3s linear infinite;
-      opacity: 0.7;
+      opacity: 0.5;
     }
 
     .raindrop:nth-child(odd) {
@@ -112,7 +141,7 @@
     .raindrop:nth-child(3n) {
       height: 25px;
       animation-duration: 3.5s;
-      opacity: 0.5;
+      opacity: 0.3;
     }
 
     /* Cozy Elements */
@@ -129,7 +158,7 @@
       font-size: 3rem;
       color: var(--umbrella-blue);
       animation: sway 4s ease-in-out infinite;
-      opacity: 0.8;
+      opacity: 0.5;
     }
 
     .coffee-steam {
@@ -138,7 +167,7 @@
       left: 8%;
       width: 40px;
       height: 60px;
-      opacity: 0.2;
+      opacity: 0.15;
     }
 
     .coffee-steam::before,
@@ -164,12 +193,12 @@
 
     .microphone-icon {
       position: absolute;
-      top: 25%;
+      top: 20%;
       left: 12%;
       font-size: 2.5rem;
       color: var(--warm-amber);
       animation: gentle-bounce 3s ease-in-out infinite;
-      opacity: 0.6;
+      opacity: 0.4;
     }
 
     .sound-waves {
@@ -186,7 +215,7 @@
       background: var(--soft-teal);
       border-radius: 2px;
       animation: sound-wave 1.5s ease-in-out infinite;
-      opacity: 0.4;
+      opacity: 0.3;
     }
 
     .wave:nth-child(1) {
@@ -204,91 +233,155 @@
       animation-delay: 0.6s;
     }
 
+    /* Hero Container */
     .hero-container {
-      max-width: 1200px;
       width: 100%;
-      padding: 0 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 6rem 4rem 3rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
       position: relative;
       z-index: 2;
     }
 
-    .hero-content {
+    /* Upper Content */
+    .hero-upper {
+      flex: 1;
       display: flex;
       flex-direction: column;
-      align-items: center;
-      text-align: center;
-      gap: 3rem;
-      padding: 4rem 0;
+      justify-content: center;
     }
 
-    .hero-image-wrapper {
-      position: relative;
+    .hero-label {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.4em;
+      color: var(--warm-amber);
+      margin-bottom: 2rem;
     }
 
-    .hero-image {
-      width: 280px;
-      height: 280px;
-      object-fit: cover;
-      border-radius: 20px;
-      border: 6px solid var(--warm-shelter);
-      box-shadow: 0 20px 60px rgba(45, 55, 72, 0.2);
-      transition: all 0.3s ease;
-      filter: brightness(1.1) contrast(1.05);
-    }
-
-    .hero-image:hover {
-      transform: scale(1.05) rotate(2deg);
-      box-shadow: 0 30px 80px rgba(45, 55, 72, 0.3);
-      border-color: var(--warm-amber);
-    }
-
-    .hero-title {
-      font-size: 3.5rem;
-      font-weight: 800;
-      margin-bottom: 1.5rem;
-      color: var(--light-gray);
-      letter-spacing: -0.03em;
+    .hero-title-giant {
+      font-size: clamp(2.5rem, 7.5vw, 6.25rem);
+      font-weight: 700;
+      line-height: 1.05;
+      color: white;
+      letter-spacing: -0.02em;
+      margin-bottom: 2rem;
+      white-space: nowrap;
     }
 
     .hero-subtitle {
-      font-size: 1.5rem;
-      line-height: 1.5;
-      color: var(--text-light);
-      margin-bottom: 1.5rem;
+      font-size: 1.125rem;
+      line-height: 1.7;
+      color: rgba(255, 255, 255, 0.5);
+      max-width: 480px;
     }
 
     .accent-text {
       color: var(--warm-amber);
       font-weight: 700;
-      text-shadow: 0 2px 4px rgba(244, 173, 85, 0.3);
     }
 
-    .hero-description {
-      font-size: 1.1rem;
-      line-height: 1.6;
-      color: var(--text-light);
-      margin-bottom: 3rem;
+    /* Bottom Bar */
+    .hero-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 2rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      margin-top: 3rem;
     }
 
-    .latest-episode-embed {
-      background: var(--warm-shelter);
-      border-radius: 16px;
-      padding: 1.2rem;
-      box-shadow: 0 8px 32px rgba(45, 55, 72, 0.15);
-      border: 2px solid var(--warm-amber);
+    .hero-bottom-left {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
     }
 
-    /* Rain & Cozy Animations */
+    .hero-artwork-mini {
+      width: 56px;
+      height: 56px;
+      border-radius: 10px;
+      object-fit: cover;
+      border: 2px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .hero-bottom-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+
+    .available-text {
+      font-size: 0.6875rem;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      color: var(--warm-amber);
+      text-transform: uppercase;
+    }
+
+    .latest-title {
+      font-size: 0.875rem;
+      color: rgba(255, 255, 255, 0.6);
+      max-width: 300px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .hero-play-cta {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      text-decoration: none;
+      color: white;
+      transition: all 0.3s ease;
+    }
+
+    .hero-play-cta:hover {
+      transform: translateX(4px);
+    }
+
+    .hero-play-cta:hover .play-circle {
+      background: var(--warm-amber);
+      color: var(--storm-cloud);
+    }
+
+    .play-meta {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    .play-circle {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 48px;
+      height: 48px;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      font-size: 0.875rem;
+      color: white;
+      transition: all 0.3s ease;
+    }
+
+    /* Animations */
     @keyframes falling-rain {
       0% {
         transform: translateY(-10px);
         opacity: 0;
       }
       10% {
-        opacity: 0.7;
+        opacity: 0.5;
       }
       90% {
-        opacity: 0.7;
+        opacity: 0.5;
       }
       100% {
         transform: translateY(calc(100vh + 20px));
@@ -338,70 +431,64 @@
       }
     }
 
-    /* Responsive Design */
+    /* Responsive: Tablet */
     @media (max-width: 768px) {
       .hero {
         min-height: 90vh;
-        padding: 4rem 0;
       }
 
-      .hero-content {
-        gap: 2rem;
-        padding: 0;
-      }
-
-      .hero-image {
-        width: 200px;
-        height: 200px;
-      }
-
-      .hero-title {
-        font-size: 2.5rem;
+      .hero-container {
+        padding: 5rem 2rem 2rem;
       }
 
       .hero-subtitle {
-        font-size: 1.25rem;
-      }
-
-      .hero-description {
         font-size: 1rem;
       }
 
-      .circle-1 {
-        width: 200px;
-        height: 200px;
+      .hero-bottom {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1.5rem;
       }
 
-      .circle-2 {
-        width: 100px;
-        height: 100px;
+      .hero-play-cta {
+        align-self: flex-end;
       }
     }
 
+    /* Responsive: Mobile */
     @media (max-width: 480px) {
       .hero-container {
-        padding: 0 1rem;
+        padding: 4rem 1.5rem 1.5rem;
       }
 
-      .hero-title {
-        font-size: 2rem;
+      .hero-label {
+        font-size: 0.625rem;
+        margin-bottom: 1.5rem;
       }
 
-      .hero-text {
-        width: 100%;
+      .hero-title-giant {
+        white-space: normal;
       }
 
       .hero-subtitle {
-        font-size: 1.1rem;
+        font-size: 0.9375rem;
       }
 
-      .hero-image {
-        width: 160px;
-        height: 160px;
+      .hero-artwork-mini {
+        width: 44px;
+        height: 44px;
       }
 
-      .latest-episode-embed {
-        padding: 1rem;
+      .latest-title {
+        max-width: 160px;
+        font-size: 0.8125rem;
       }
+
+      .play-circle {
+        width: 40px;
+        height: 40px;
+      }
+    }
   </style>
 </hero-section>

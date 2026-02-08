@@ -21,15 +21,19 @@ const episodeStore = observable({
       if (!RSS_URL) {
         console.warn('VITE_RSS_URL is not set, using fallback data');
         // Fallback data for testing: 30 items to verify pagination
-        this.allEpisodes = Array.from({ length: 30 }, (_, i) => ({
+        const fallback = Array.from({ length: 30 }, (_, i) => ({
           id: i + 1,
           title: `サンプルエピソード ${i + 1}`,
           description: `これはテスト用のサンプルエピソード ${i + 1} です。`,
           pubDate: `2024-01-${String((i % 28) + 1).padStart(2, '0')}`,
           link: "#",
           imageUrl: "/placeholder.svg?height=200&width=400",
-          imageClass: (i % 3 === 0) ? "blue-gradient" : (i % 3 === 1) ? "dark-theme" : "warm-gradient"
+          imageClass: (i % 3 === 0) ? "blue-gradient" : (i % 3 === 1) ? "dark-theme" : "warm-gradient",
+          duration: String((30 + i * 2) * 60),
+          season: String(Math.floor(i / 10) + 1),
+          episodeNum: String((i % 10) + 1)
         })).reverse();
+        this.allEpisodes = fallback;
       } else {
         const episodes = await fetchRSSFeed(RSS_URL);
 
@@ -40,7 +44,10 @@ const episodeStore = observable({
           pubDate: episode.pubDate,
           link: episode.link,
           imageUrl: episode.imageUrl || "/placeholder.svg?height=200&width=400",
-          imageClass: index === 0 ? "blue-gradient" : index === 1 ? "dark-theme" : "warm-gradient"
+          imageClass: index === 0 ? "blue-gradient" : index === 1 ? "dark-theme" : "warm-gradient",
+          duration: episode.duration,
+          season: episode.season,
+          episodeNum: episode.episodeNum
         }));
       }
 

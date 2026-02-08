@@ -231,67 +231,30 @@
     }
 
     .platform-icon-link {
+      width: 40px;
       display: flex;
       align-items: center;
       justify-content: center;
-      width: 44px;
-      height: 44px;
+      background: transparent;
       border: none;
-      border-radius: 10px;
-      color: white;
       text-decoration: none;
       transition: all 0.2s ease;
     }
 
     .platform-icon-link:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      transform: translateY(-4px);
+      opacity: 0.85;
     }
 
     .platform-icon-link sl-icon {
       font-size: 1.25rem;
     }
 
-    /* Platform specific colors */
-    .platform-apple {
-      background: #A855F7;
-    }
-
-    .platform-apple:hover {
-      background: #9333EA;
-    }
-
-    .platform-spotify {
-      background: #1DB954;
-    }
-
-    .platform-spotify:hover {
-      background: #1AA34A;
-    }
-
-    .platform-amazon {
-      background: #FF9900;
-    }
-
-    .platform-amazon:hover {
-      background: #E68A00;
-    }
-
-    .platform-youtube {
-      background: #FF0000;
-    }
-
-    .platform-youtube:hover {
-      background: #CC0000;
-    }
-
-    .platform-rss {
-      background: #F97316;
-    }
-
-    .platform-rss:hover {
-      background: #EA580C;
-    }
+    .platform-apple { color: #A855F7; }
+    .platform-spotify { color: #1DB954; }
+    .platform-amazon { color: #FF9900; }
+    .platform-youtube { color: #FF0000; }
+    .platform-rss { color: #F97316; }
 
     /* Share Buttons */
     .share-section {
@@ -300,61 +263,33 @@
 
     .share-buttons {
       display: flex;
-      gap: 0.75rem;
+      gap: 0.5rem;
     }
 
     .share-btn {
+      width: 40px;
       display: flex;
       align-items: center;
       justify-content: center;
-      width: 44px;
-      height: 44px;
+      background: transparent;
       border: none;
-      border-radius: 10px;
       cursor: pointer;
       transition: all 0.2s ease;
     }
 
+    .share-btn:hover {
+      transform: translateY(-4px);
+      opacity: 0.85;
+    }
+
     .share-btn sl-icon {
       font-size: 1.25rem;
-      color: white;
     }
 
-    .share-twitter {
-      background: #000;
-    }
-
-    .share-twitter:hover {
-      background: #333;
-      transform: translateY(-2px);
-    }
-
-    .share-facebook {
-      background: #1877f2;
-    }
-
-    .share-facebook:hover {
-      background: #0d65d9;
-      transform: translateY(-2px);
-    }
-
-    .share-line {
-      background: #00b900;
-    }
-
-    .share-line:hover {
-      background: #009900;
-      transform: translateY(-2px);
-    }
-
-    .share-copy {
-      background: var(--warm-gray);
-    }
-
-    .share-copy:hover {
-      background: var(--charcoal);
-      transform: translateY(-2px);
-    }
+    .share-twitter { color: #000; }
+    .share-facebook { color: #1877f2; }
+    .share-line { color: #00b900; }
+    .share-copy { color: var(--warm-gray); }
 
     /* Back Link */
     .back-section {

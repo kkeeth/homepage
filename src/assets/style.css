@@ -1,30 +1,44 @@
-/* CSS Custom Properties - Rainy Day Warmth Theme */
+/* CSS Custom Properties - Yunomi × Tech Theme (Experimental)
+ *
+ * === ORIGINAL VALUES (Rainy Day Warmth) - uncomment to revert ===
+ * --rain-blue: #4299e1;
+ * --deep-rain: #2b6cb0;
+ * --warm-amber: #f6ad55;
+ * --cozy-orange: #ed8936;
+ * --soft-teal: #38b2ac;
+ * --coffee-brown: #744210;
+ * --umbrella-blue: #4a90e2;
+ * --puddle-reflection: #bee3f8;
+ * --warm-shelter: #fed7aa;
+ * --hero-gradient: linear-gradient(135deg, var(--storm-cloud) 0%, var(--warm-gray) 50%, var(--rain-blue) 100%);
+ * === END ORIGINAL ===
+ */
 :root {
-  /* Rainy Day Color Palette */
+  /* Base Neutrals (unchanged) */
   --charcoal: #2d3748;
   --warm-gray: #4a5568;
   --light-gray: #e2e8f0;
-  --cream: #fef9e7;
-  --warm-white: #fffef7;
+  --cream: #f0f4f0;
+  --warm-white: #fafcfa;
 
-  /* Rain & Coffee Colors */
-  --rain-blue: #4299e1;
-  --deep-rain: #2b6cb0;
+  /* Yunomi × Tech Colors */
+  --rain-blue: #06b6d4;
+  --deep-rain: #0891b2;
   --storm-cloud: #2d3748;
-  --coffee-brown: #744210;
-  --warm-amber: #f6ad55;
-  --cozy-orange: #ed8936;
-  --soft-teal: #38b2ac;
-  --misty-gray: #a0aec0;
+  --coffee-brown: #854d0e;
+  --warm-amber: #facc15;
+  --cozy-orange: #eab308;
+  --soft-teal: #2dd4bf;
+  --misty-gray: #94a3b8;
 
   /* Primary Theme Colors */
   --primary-color: var(--rain-blue);
   --secondary-color: var(--warm-amber);
   --hero-gradient: linear-gradient(
-    135deg,
-    var(--storm-cloud) 0%,
-    var(--warm-gray) 50%,
-    var(--rain-blue) 100%
+    160deg,
+    #0f172a 0%,
+    var(--storm-cloud) 50%,
+    #164e63 100%
   );
 
   /* Semantic Colors */
@@ -37,11 +51,11 @@
   --accent-color: var(--rain-blue);
   --social-link-color: var(--soft-teal);
 
-  /* Rain Theme Variants */
-  --umbrella-blue: #4a90e2;
-  --window-light: #fef9e7;
-  --puddle-reflection: #bee3f8;
-  --warm-shelter: #fed7aa;
+  /* Yunomi × Tech Variants */
+  --umbrella-blue: #22d3ee;
+  --window-light: #f0f4f0;
+  --puddle-reflection: #a5f3fc;
+  --warm-shelter: #fef9c3;
 
   /* White/Black Transparency Variants */
   --white-10: rgba(255, 255, 255, 0.1);
