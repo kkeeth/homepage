@@ -15,13 +15,12 @@
           <div class="content-inner">
             <!-- Giant Episode Number (decorative) -->
             <div class="episode-number">
-              <span class="number-prefix">#</span>
-              <span class="number-value">{getEpisodeNumber()}</span>
+              <span class="number-value">#{getEpisodeNumber()}</span>
             </div>
 
             <span class="hero-label">{t("pages.episode.latest")}</span>
             <h1 class="hero-title">
-              <a href={"/episodes/" + getEpisodeId(state.latestEpisode)}>{state.latestEpisode.title}</a>
+              <a href={"/episodes/" + getEpisodeId(state.latestEpisode)}>{stripSeasonPrefix(state.latestEpisode.title)}</a>
             </h1>
             <p class="hero-date">{state.latestEpisode.pubDate}</p>
 
@@ -88,8 +87,9 @@
         latestEpisode: null,
         restEpisodes: [],
         displayedCount: 0,
-        totalCount: 0,
+        latestEpisodeNumber: 0,
         currentPage: 1,
+        totalCount: 0,
         pageSize: 10
       },
       getEpisodeId(episode) {
@@ -102,8 +102,7 @@
         return encodeURIComponent(episode.title);
       },
       getEpisodeNumber() {
-        // 最新エピソード = totalCount（最新が一番大きい番号）
-        return this.state.totalCount;
+        return this.state.latestEpisodeNumber;
       },
       async onBeforeMount() {
         this.handleEpisodesLoaded = () => {
@@ -116,6 +115,7 @@
             latestEpisode: currentPage === 1 && episodes.length > 0 ? episodes[0] : null,
             restEpisodes: currentPage === 1 ? episodes.slice(1) : episodes,
             displayedCount: episodeStore.getDisplayedCount(),
+            latestEpisodeNumber: this.parseSeasonLabel(episodes[0].title),
             totalCount: episodeStore.getTotalCount(),
             currentPage: currentPage,
             pageSize: episodeStore.getPageSize()
@@ -148,6 +148,15 @@
         if (episodeStore.getIsInitialized()) {
           this.handleEpisodesLoaded();
         }
+      },
+
+      parseSeasonLabel(title) {
+        const match = title.match(/^(Season \d+-\d+)\.\s*/);
+        return match ? match[1] : '';
+      },
+
+      stripSeasonPrefix(title) {
+        return title.replace(/^Season \d+-\d+\.\s*/, '');
       },
 
       onBeforeUnmount() {
@@ -242,12 +251,8 @@
       user-select: none;
     }
 
-    .number-prefix {
-      font-size: 8rem;
-    }
-
     .number-value {
-      font-size: 20rem;
+      font-size: 9rem;
       letter-spacing: -0.05em;
     }
 

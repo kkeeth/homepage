@@ -26,12 +26,17 @@ const episodeStore = observable({
           title: `サンプルエピソード ${i + 1}`,
           description: `これはテスト用のサンプルエピソード ${i + 1} です。`,
           pubDate: `2024-01-${String((i % 28) + 1).padStart(2, '0')}`,
-          link: "#",
-          imageUrl: "/placeholder.svg?height=200&width=400",
-          imageClass: (i % 3 === 0) ? "blue-gradient" : (i % 3 === 1) ? "dark-theme" : "warm-gradient",
+          link: '#',
+          imageUrl: '/placeholder.svg?height=200&width=400',
+          imageClass:
+            i % 3 === 0
+              ? 'blue-gradient'
+              : i % 3 === 1
+                ? 'dark-theme'
+                : 'warm-gradient',
           duration: String((30 + i * 2) * 60),
           season: String(Math.floor(i / 10) + 1),
-          episodeNum: String((i % 10) + 1)
+          episodeNum: String((i % 10) + 1),
         })).reverse();
         this.allEpisodes = fallback;
       } else {
@@ -43,11 +48,16 @@ const episodeStore = observable({
           description: episode.description,
           pubDate: episode.pubDate,
           link: episode.link,
-          imageUrl: episode.imageUrl || "/placeholder.svg?height=200&width=400",
-          imageClass: index === 0 ? "blue-gradient" : index === 1 ? "dark-theme" : "warm-gradient",
+          imageUrl: episode.imageUrl || '/placeholder.svg?height=200&width=400',
+          imageClass:
+            index === 0
+              ? 'blue-gradient'
+              : index === 1
+                ? 'dark-theme'
+                : 'warm-gradient',
           duration: episode.duration,
           season: episode.season,
-          episodeNum: episode.episodeNum
+          episodeNum: episode.episodeNum,
         }));
       }
 
@@ -116,7 +126,7 @@ const episodeStore = observable({
     this.isInitialized = false;
     this.currentPage = 1;
     this.pageSize = DEFAULT_PAGE_SIZE;
-  }
+  },
 });
 
 export default episodeStore;
