@@ -130,23 +130,6 @@
         </div>
       </div>
     </section>
-
-    <!-- Journey Section -->
-    <section class="journey">
-      <div class="journey-content">
-        <h2 class="section-label">{t("pages.profile.journey.title")}</h2>
-        <div class="timeline">
-          <div class="timeline-item" each={item in state.journeyItems} key={item.id}>
-            <div class="timeline-marker"></div>
-            <div class="timeline-card">
-              <span class="timeline-year">{item.year}</span>
-              <h3 class="timeline-title">{item.title}</h3>
-              <p class="timeline-description">{item.description}</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
   </div>
 
   <script>
@@ -399,88 +382,6 @@
       transform: translateY(-2px);
     }
 
-    /* Journey Section */
-    .journey {
-      padding: 5rem 1rem;
-    }
-
-    .journey-content {
-      max-width: 1000px;
-      margin: 0 auto;
-    }
-
-    .timeline {
-      position: relative;
-      padding-left: 2rem;
-    }
-
-    .timeline::before {
-      content: '';
-      position: absolute;
-      left: 0;
-      top: 0;
-      bottom: 0;
-      width: 2px;
-      background: var(--mint-200);
-    }
-
-    .timeline-item {
-      position: relative;
-      padding-bottom: 2.5rem;
-    }
-
-    .timeline-item:last-child {
-      padding-bottom: 0;
-    }
-
-    .timeline-marker {
-      position: absolute;
-      left: -2rem;
-      top: 0.25rem;
-      width: 12px;
-      height: 12px;
-      background: var(--mint-500);
-      border-radius: 50%;
-      transform: translateX(-5px);
-    }
-
-    .timeline-card {
-      padding: 1.5rem;
-      background: white;
-      border-radius: 0.75rem;
-      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
-      border: 1px solid var(--mint-100);
-      transition: all 0.2s ease;
-    }
-
-    .timeline-card:hover {
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-      transform: translateX(4px);
-    }
-
-    .timeline-year {
-      display: inline-block;
-      font-size: 0.75rem;
-      font-weight: 600;
-      color: var(--mint-600);
-      background: var(--mint-50);
-      padding: 0.25rem 0.75rem;
-      border-radius: 1rem;
-      margin-bottom: 0.75rem;
-    }
-
-    .timeline-title {
-      font-size: 1.125rem;
-      font-weight: 600;
-      color: var(--navy-800);
-      margin-bottom: 0.5rem;
-    }
-
-    .timeline-description {
-      font-size: 0.9375rem;
-      color: var(--navy-500);
-      line-height: 1.6;
-    }
 
     /* ===== Output Section - Bento Grid ===== */
     .output-section {
