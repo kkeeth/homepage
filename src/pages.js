@@ -16,6 +16,11 @@ export default [
     hidden: true,
   },
   {
+    path: '/info',
+    label: 'INFO',
+    componentName: 'info',
+  },
+  {
     path: '/profile',
     label: 'PROFILE',
     componentName: 'profile',

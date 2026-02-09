@@ -35,7 +35,7 @@
   <style>
     .not-found-page {
       min-height: 100vh;
-      background: var(--hero-gradient);
+      background: var(--hero-bg);
       position: relative;
       overflow: hidden;
       display: flex;
@@ -55,7 +55,8 @@
       top: -10px;
       width: 2px;
       height: 20px;
-      background: linear-gradient(to bottom, var(--rain-blue), transparent);
+      background: var(--rain-blue);
+      opacity: 0.4;
       border-radius: 0 0 50% 50%;
       animation: falling-rain 3s linear infinite;
       opacity: 0.6;
@@ -93,19 +94,19 @@
     }
 
     .home-btn::part(base) {
-      background: linear-gradient(135deg, var(--rain-blue), var(--deep-rain));
+      background: var(--rain-blue);
       border: 2px solid var(--white-20);
       padding: 1rem 2rem;
       font-weight: 600;
       font-size: 1.1rem;
-      box-shadow: 0 4px 20px rgba(66, 153, 225, 0.3);
+      box-shadow: 0 4px 20px rgba(52, 152, 219, 0.3);
       transition: all 0.3s ease;
     }
 
     .home-btn:hover::part(base) {
-      background: linear-gradient(135deg, var(--deep-rain), var(--storm-cloud));
+      background: var(--deep-rain);
       transform: translateY(-2px);
-      box-shadow: 0 8px 30px rgba(66, 153, 225, 0.4);
+      box-shadow: 0 8px 30px rgba(52, 152, 219, 0.4);
     }
 
     .btn-icon {

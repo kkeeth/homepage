@@ -1,0 +1,727 @@
+<info>
+  <div class="info-page">
+    <!-- Hero: Editorial Split -->
+    <section class="hero">
+      <div class="hero-photo">
+        <img src="/images/mypicture.jpeg" alt="kkeeth" />
+      </div>
+      <div class="hero-text">
+        <h1 class="hero-title">{t("pages.info.hero.title")}</h1>
+        <p class="hero-description">{t("pages.info.concept.description1")}</p>
+        <p class="hero-description">{t("pages.info.concept.description2")}</p>
+        <div class="hero-label">
+          <span class="hero-line"></span>
+          <span class="hero-label-text">{t("pages.info.hero.label")}</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Timeline: Zigzag Evolution -->
+    <section class="evolution">
+      <div class="section-inner">
+        <h2 class="evolution-title">{t("pages.info.timeline.title")}</h2>
+        <div class="zigzag-timeline">
+          <div
+            each={item in state.timelineItems}
+            key={item.id}
+            class={'timeline-row ' + (item.id % 2 === 1 ? 'row-left' : 'row-right')}
+          >
+            <div class="timeline-content">
+              <span class="timeline-date">{item.year}</span>
+              <h3 class="timeline-heading">{item.title}</h3>
+              <p class="timeline-desc">{item.description}</p>
+            </div>
+            <div class="timeline-dot"></div>
+            <div class="timeline-spacer"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Stats: Numbered Cards -->
+    <section class="stats-section">
+      <div class="section-inner">
+        <div class="stats-row">
+          <div class="stat-item" each={stat in state.stats} key={stat.num}>
+            <span class="stat-bg-num">{stat.num}</span>
+            <span class="stat-value">{stat.value}</span>
+            <span class="stat-label">{stat.label}</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Personality: Brief Host Section -->
+    <section class="personality">
+      <div class="section-inner personality-inner">
+        <div class="personality-info">
+          <span class="personality-role">{t("pages.info.personality.title")}</span>
+          <h3 class="personality-name">{t("pages.info.personality.name")}</h3>
+          <p class="personality-desc">{t("pages.info.personality.description")}</p>
+          <a href="/profile" class="profile-link">{t("pages.info.personality.profileLink")} &rarr;</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Topics: Word Cloud -->
+    <section class="themes">
+      <div class="section-inner themes-inner">
+        <span class="themes-subtitle">{t("pages.info.concept.title")}</span>
+        <h2 class="themes-title">{t("pages.info.topics.title")}</h2>
+        <div class="word-cloud">
+          <span each={topic in state.topics} class={'word ' + topic.style}>{topic.label}</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Listen: Split Layout -->
+    <section class="join">
+      <div class="section-inner join-inner">
+        <div class="join-text">
+          <h2 class="join-title">{t("pages.info.listen.title")}</h2>
+          <p class="join-desc">{t("pages.info.listen.description")}</p>
+        </div>
+        <div class="join-platforms">
+          <a
+            each={platform in state.platforms}
+            key={platform.name}
+            href={platform.url}
+            target="_blank"
+            class="platform-card"
+          >
+            <sl-icon name={platform.icon}></sl-icon>
+            <span class="platform-name">{platform.name}</span>
+          </a>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    import { HOME_PLATFORMS } from '@/constants/links';
+    import i18nStore from '@/stores/i18n-store';
+
+    const TOPIC_STYLES = [
+      'italic-serif',
+      'caps-sans',
+      'underline-serif',
+      'normal-light',
+      'bold-large',
+      'italic-accent',
+    ];
+
+    export default {
+      t: i18nStore.t.bind(i18nStore),
+      state: {
+        platforms: HOME_PLATFORMS,
+        timelineItems: [],
+        stats: [],
+        topics: [],
+      },
+      onBeforeUpdate(_, state) {
+        const timelineKeys = ['start', 'growth', 'expansion', 'milestone', 'current'];
+        state.timelineItems = timelineKeys.map((key, i) => ({
+          id: i + 1,
+          year: this.t(`pages.info.timeline.items.${key}.year`),
+          title: this.t(`pages.info.timeline.items.${key}.title`),
+          description: this.t(`pages.info.timeline.items.${key}.description`),
+        }));
+
+        const statKeys = ['episodes', 'plays', 'years', 'programs'];
+        state.stats = statKeys.map((key, i) => ({
+          num: String(i + 1).padStart(2, '0'),
+          value: this.t(`pages.info.achievements.${key}.value`),
+          label: this.t(`pages.info.achievements.${key}.label`),
+        }));
+
+        const topicKeys = ['frontend', 'backend', 'libraries', 'career', 'daily', 'creative'];
+        state.topics = topicKeys.map((key, i) => ({
+          label: this.t(`pages.info.topics.items.${key}.label`),
+          style: TOPIC_STYLES[i],
+        }));
+      },
+    }
+  </script>
+
+  <style>
+    .info-page {
+      background: var(--warm-white);
+      min-height: 100vh;
+    }
+
+    .section-inner {
+      max-width: 960px;
+      margin: 0 auto;
+    }
+
+    /* ===== Hero: Editorial Split ===== */
+    .hero {
+      display: grid;
+      grid-template-columns: 2fr 3fr;
+      min-height: 80vh;
+    }
+
+    .hero-photo {
+      background: var(--storm-cloud);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 3rem;
+    }
+
+    .hero-photo img {
+      width: 100%;
+      max-width: 360px;
+      aspect-ratio: 3 / 4;
+      object-fit: cover;
+      border-radius: 0.5rem;
+    }
+
+    .hero-text {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 4rem 4rem 4rem 3rem;
+    }
+
+    .hero-title {
+      font-size: 3.5rem;
+      font-weight: 900;
+      color: var(--warm-gray);
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      margin-bottom: 2rem;
+    }
+
+    .hero-description {
+      font-size: 1rem;
+      line-height: 1.8;
+      color: var(--misty-gray);
+      margin-bottom: 1rem;
+    }
+
+    .hero-description:last-of-type {
+      margin-bottom: 2.5rem;
+    }
+
+    .hero-label {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .hero-line {
+      display: block;
+      width: 40px;
+      height: 2px;
+      background: var(--rain-blue);
+    }
+
+    .hero-label-text {
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      color: var(--misty-gray);
+      text-transform: uppercase;
+    }
+
+    /* ===== Timeline: Zigzag Evolution ===== */
+    .evolution {
+      padding: 6rem 2rem;
+    }
+
+    .evolution-title {
+      font-size: 3rem;
+      font-weight: 900;
+      color: var(--warm-gray);
+      text-align: center;
+      letter-spacing: -0.02em;
+      margin-bottom: 4rem;
+    }
+
+    .zigzag-timeline {
+      position: relative;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .zigzag-timeline::before {
+      content: '';
+      position: absolute;
+      left: 50%;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: var(--light-gray);
+      transform: translateX(-50%);
+    }
+
+    .timeline-row {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: 2rem;
+      margin-bottom: 3rem;
+      align-items: start;
+    }
+
+    .timeline-row:last-child {
+      margin-bottom: 0;
+    }
+
+    .timeline-dot {
+      width: 14px;
+      height: 14px;
+      background: var(--rain-blue);
+      border-radius: 50%;
+      margin-top: 0.25rem;
+      z-index: 1;
+      grid-column: 2;
+      grid-row: 1;
+    }
+
+    .timeline-spacer {
+      grid-row: 1;
+    }
+
+    .timeline-content {
+      grid-row: 1;
+    }
+
+    /* Left-aligned items */
+    .row-left .timeline-content {
+      grid-column: 1;
+      text-align: right;
+    }
+
+    .row-left .timeline-spacer {
+      grid-column: 3;
+    }
+
+    /* Right-aligned items */
+    .row-right .timeline-content {
+      grid-column: 3;
+      text-align: left;
+    }
+
+    .row-right .timeline-spacer {
+      grid-column: 1;
+    }
+
+    .timeline-date {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      color: var(--rain-blue);
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+
+    .timeline-heading {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--warm-gray);
+      margin-bottom: 0.5rem;
+    }
+
+    .timeline-desc {
+      font-size: 0.875rem;
+      line-height: 1.6;
+      color: var(--misty-gray);
+    }
+
+    /* ===== Stats: Numbered Cards ===== */
+    .stats-section {
+      padding: 4rem 2rem;
+    }
+
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.5rem;
+      background: var(--cream);
+      border-radius: 1rem;
+      padding: 3rem 2rem;
+    }
+
+    .stat-item {
+      text-align: center;
+      position: relative;
+      padding: 1rem 0;
+    }
+
+    .stat-bg-num {
+      display: block;
+      font-size: 5rem;
+      font-weight: 900;
+      color: var(--rain-blue);
+      opacity: 0.1;
+      line-height: 1;
+      letter-spacing: -0.04em;
+    }
+
+    .stat-value {
+      display: block;
+      font-size: 1.75rem;
+      font-weight: 800;
+      color: var(--warm-gray);
+      margin-top: -0.5rem;
+    }
+
+    .stat-label {
+      display: block;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--misty-gray);
+      margin-top: 0.25rem;
+    }
+
+    /* ===== Personality: Brief Host ===== */
+    .personality {
+      padding: 5rem 2rem;
+      border-top: 1px solid var(--light-gray);
+    }
+
+    .personality-inner {
+      max-width: 640px;
+    }
+
+    .personality-role {
+      display: block;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      color: var(--rain-blue);
+      text-transform: uppercase;
+      margin-bottom: 0.75rem;
+    }
+
+    .personality-name {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--warm-gray);
+      margin-bottom: 1rem;
+    }
+
+    .personality-desc {
+      font-size: 0.9375rem;
+      line-height: 1.8;
+      color: var(--misty-gray);
+      margin-bottom: 1.5rem;
+    }
+
+    .profile-link {
+      display: inline-block;
+      color: var(--rain-blue);
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.875rem;
+      transition: color 0.2s ease;
+    }
+
+    .profile-link:hover {
+      color: var(--deep-rain);
+    }
+
+    /* ===== Topics: Word Cloud ===== */
+    .themes {
+      padding: 6rem 2rem;
+    }
+
+    .themes-inner {
+      text-align: center;
+    }
+
+    .themes-subtitle {
+      display: block;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      color: var(--rain-blue);
+      text-transform: uppercase;
+      margin-bottom: 0.75rem;
+    }
+
+    .themes-title {
+      font-size: 2.5rem;
+      font-weight: 900;
+      color: var(--warm-gray);
+      letter-spacing: -0.02em;
+      margin-bottom: 3rem;
+    }
+
+    .word-cloud {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: baseline;
+      gap: 1.5rem 2rem;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .word {
+      transition: opacity 0.2s ease;
+    }
+
+    .word:hover {
+      opacity: 0.7;
+    }
+
+    .word.italic-serif {
+      font-family: Georgia, 'Times New Roman', serif;
+      font-style: italic;
+      font-size: 2.5rem;
+      color: var(--warm-gray);
+    }
+
+    .word.caps-sans {
+      font-size: 1.75rem;
+      font-weight: 300;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--misty-gray);
+    }
+
+    .word.underline-serif {
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--warm-gray);
+      text-decoration: underline;
+      text-decoration-color: var(--rain-blue);
+      text-underline-offset: 4px;
+    }
+
+    .word.normal-light {
+      font-size: 1.5rem;
+      font-weight: 300;
+      color: var(--misty-gray);
+    }
+
+    .word.bold-large {
+      font-size: 2.75rem;
+      font-weight: 900;
+      color: var(--warm-gray);
+    }
+
+    .word.italic-accent {
+      font-family: Georgia, 'Times New Roman', serif;
+      font-style: italic;
+      font-size: 2rem;
+      color: var(--warm-amber);
+    }
+
+    /* ===== Listen: Split Layout ===== */
+    .join {
+      padding: 5rem 2rem;
+      background: var(--cream);
+      border-top: 1px solid var(--light-gray);
+    }
+
+    .join-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+
+    .join-title {
+      font-size: 2rem;
+      font-weight: 900;
+      color: var(--warm-gray);
+      letter-spacing: -0.02em;
+      margin-bottom: 1rem;
+      line-height: 1.2;
+    }
+
+    .join-desc {
+      font-size: 0.9375rem;
+      line-height: 1.7;
+      color: var(--misty-gray);
+    }
+
+    .join-platforms {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+    }
+
+    .platform-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 1.5rem 1rem;
+      background: white;
+      border: 1px solid var(--light-gray);
+      border-radius: 0.75rem;
+      text-decoration: none;
+      color: var(--warm-gray);
+      transition: all 0.2s ease;
+    }
+
+    .platform-card:hover {
+      border-color: var(--rain-blue);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+    }
+
+    .platform-card sl-icon {
+      font-size: 1.75rem;
+      color: var(--rain-blue);
+    }
+
+    .platform-name {
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    /* ===== Responsive ===== */
+    @media (max-width: 768px) {
+      .hero {
+        grid-template-columns: 1fr;
+        min-height: auto;
+      }
+
+      .hero-photo {
+        padding: 2rem;
+        min-height: 300px;
+      }
+
+      .hero-photo img {
+        max-width: 240px;
+      }
+
+      .hero-text {
+        padding: 2.5rem 1.5rem;
+      }
+
+      .hero-title {
+        font-size: 2.5rem;
+      }
+
+      .evolution {
+        padding: 4rem 1.5rem;
+      }
+
+      .evolution-title {
+        font-size: 2rem;
+        margin-bottom: 3rem;
+      }
+
+      .zigzag-timeline::before {
+        left: 0;
+        transform: none;
+      }
+
+      .timeline-row {
+        display: block;
+        padding-left: 2rem;
+        position: relative;
+        margin-bottom: 2.5rem;
+      }
+
+      .timeline-dot {
+        position: absolute;
+        left: -7px;
+        top: 0.25rem;
+      }
+
+      .timeline-spacer {
+        display: none;
+      }
+
+      .row-left .timeline-content,
+      .row-right .timeline-content {
+        text-align: left;
+      }
+
+      .stats-section {
+        padding: 3rem 1.5rem;
+      }
+
+      .stats-row {
+        grid-template-columns: repeat(2, 1fr);
+        padding: 2rem 1.5rem;
+        gap: 1rem;
+      }
+
+      .stat-bg-num {
+        font-size: 3.5rem;
+      }
+
+      .stat-value {
+        font-size: 1.5rem;
+      }
+
+      .personality {
+        padding: 3rem 1.5rem;
+      }
+
+      .themes {
+        padding: 4rem 1.5rem;
+      }
+
+      .themes-title {
+        font-size: 1.75rem;
+      }
+
+      .word.italic-serif {
+        font-size: 1.75rem;
+      }
+
+      .word.caps-sans {
+        font-size: 1.25rem;
+      }
+
+      .word.underline-serif {
+        font-size: 1.5rem;
+      }
+
+      .word.normal-light {
+        font-size: 1.125rem;
+      }
+
+      .word.bold-large {
+        font-size: 2rem;
+      }
+
+      .word.italic-accent {
+        font-size: 1.5rem;
+      }
+
+      .join {
+        padding: 3rem 1.5rem;
+      }
+
+      .join-inner {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+
+      .join-title {
+        font-size: 1.5rem;
+      }
+
+      .join-platforms {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero-title {
+        font-size: 2rem;
+      }
+
+      .join-platforms {
+        grid-template-columns: 1fr 1fr;
+        gap: 0.75rem;
+      }
+    }
+  </style>
+</info>

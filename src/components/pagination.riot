@@ -131,26 +131,5 @@
       display: flex;
       gap: 0.25rem;
     }
-
-    sl-button.target::part(base) {
-      background: var(--sl-color-primary-600);
-      color: var(--sl-color-neutral-0);
-    }
-
-    sl-button::part(base) {
-      font-weight: 600;
-    }
-
-    sl-button[disabled]::part(base) {
-      background: transparent;
-      border: none;
-      color: var(--sl-color-neutral-400);
-      cursor: default;
-    }
-
-    sl-button[disabled]:hover::part(base) {
-      background: transparent;
-      color: var(--sl-color-neutral-400);
-    }
   </style>
 </pagination>

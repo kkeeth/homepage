@@ -107,6 +107,106 @@
         "update": "更新"
       }
     },
+    "info": {
+      "hero": {
+        "title": "マイクの向こう側。",
+        "subtitle": "雨宿りとWEBの小噺.fm のすべて",
+        "label": "PODCAST FEATURE"
+      },
+      "concept": {
+        "title": "コンセプト",
+        "description1": "「雨宿りとWEBの小噺.fm」は，毎日の情報の雨からちょっと雨宿りして，軒先でWEBの小噺を聞くような，そんなポッドキャスト番組です．",
+        "description2": "フロントエンドを中心としたWeb技術の話題から，日常の気づきやクリエイティブな話題まで，肩の力を抜いて楽しめるコンテンツをお届けしています．"
+      },
+      "timeline": {
+        "title": "番組の歩み",
+        "items": {
+          "start": {
+            "year": "2020",
+            "title": "番組スタート",
+            "description": "Web技術をもっと気軽に共有したいという想いから配信を開始．"
+          },
+          "growth": {
+            "year": "2021",
+            "title": "リスナー拡大",
+            "description": "定期配信を続け，リスナーコミュニティが徐々に成長．"
+          },
+          "expansion": {
+            "year": "2022",
+            "title": "番組展開",
+            "description": "新たな番組シリーズを立ち上げ，扱うテーマの幅を拡大．"
+          },
+          "milestone": {
+            "year": "2023",
+            "title": "800エピソード突破",
+            "description": "全番組合わせて800エピソードを達成，多くのリスナーに支えられる．"
+          },
+          "current": {
+            "year": "2024",
+            "title": "さらなる進化",
+            "description": "6つの番組を運営し，コミュニティとともに成長を続ける．"
+          }
+        }
+      },
+      "personality": {
+        "title": "パーソナリティ",
+        "name": "桑原聖仁 (Keeth)",
+        "description": "Web開発者 / ポッドキャスター．フロントエンドからバックエンドまで幅広く経験し，技術の話をもっと身近に，もっと楽しく伝えたいという想いで番組を運営しています．",
+        "profileLink": "プロフィールを見る"
+      },
+      "achievements": {
+        "title": "番組実績",
+        "episodes": {
+          "value": "800+",
+          "label": "エピソード"
+        },
+        "plays": {
+          "value": "36K",
+          "label": "再生回数"
+        },
+        "years": {
+          "value": "5+",
+          "label": "年の配信歴"
+        },
+        "programs": {
+          "value": "6",
+          "label": "番組"
+        }
+      },
+      "topics": {
+        "title": "扱うテーマ",
+        "items": {
+          "frontend": {
+            "icon": "code-slash",
+            "label": "フロントエンド"
+          },
+          "backend": {
+            "icon": "server",
+            "label": "バックエンド"
+          },
+          "libraries": {
+            "icon": "box-seam",
+            "label": "ライブラリ・FW"
+          },
+          "career": {
+            "icon": "briefcase",
+            "label": "キャリア"
+          },
+          "daily": {
+            "icon": "chat-dots",
+            "label": "日常・雑談"
+          },
+          "creative": {
+            "icon": "palette",
+            "label": "クリエイティブ"
+          }
+        }
+      },
+      "listen": {
+        "title": "聞き方",
+        "description": "お好みのプラットフォームで番組をお楽しみください．"
+      }
+    },
     "contact": {
       "message": "お仕事のご依頼やご相談はお気軽にお問い合わせください。",
       "area": "東京都",

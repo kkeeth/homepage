@@ -121,6 +121,106 @@
       "artworks": "Artworks",
       "viewAll": "View All"
     },
+    "info": {
+      "hero": {
+        "title": "THE VOICE BEHIND THE MIC.",
+        "subtitle": "Everything about Amayadori to WEB no Kobanashi.fm",
+        "label": "PODCAST FEATURE"
+      },
+      "concept": {
+        "title": "Concept",
+        "description1": "'Amayadori to WEB no Kobanashi.fm' is a podcast where you take a break from the daily rain of information and listen to small web tales under the eaves.",
+        "description2": "From frontend-focused web technology topics to daily insights and creative discussions, we deliver content you can enjoy in a relaxed atmosphere."
+      },
+      "timeline": {
+        "title": "Our Journey",
+        "items": {
+          "start": {
+            "year": "2020",
+            "title": "Show Launch",
+            "description": "Started broadcasting with the desire to share web technology more casually."
+          },
+          "growth": {
+            "year": "2021",
+            "title": "Growing Audience",
+            "description": "Through regular broadcasting, the listener community gradually grew."
+          },
+          "expansion": {
+            "year": "2022",
+            "title": "Show Expansion",
+            "description": "Launched new show series and expanded the range of topics covered."
+          },
+          "milestone": {
+            "year": "2023",
+            "title": "800+ Episodes",
+            "description": "Reached 800 episodes across all shows, supported by many listeners."
+          },
+          "current": {
+            "year": "2024",
+            "title": "Continuing Evolution",
+            "description": "Operating 6 shows and continuing to grow with the community."
+          }
+        }
+      },
+      "personality": {
+        "title": "Host",
+        "name": "Kuwahara Kiyohito (Keeth)",
+        "description": "Web Developer / Podcaster. With broad experience from frontend to backend, running the show with the desire to make tech talks more accessible and enjoyable.",
+        "profileLink": "View Profile"
+      },
+      "achievements": {
+        "title": "Achievements",
+        "episodes": {
+          "value": "800+",
+          "label": "Episodes"
+        },
+        "plays": {
+          "value": "36K",
+          "label": "Plays"
+        },
+        "years": {
+          "value": "5+",
+          "label": "Years"
+        },
+        "programs": {
+          "value": "6",
+          "label": "Shows"
+        }
+      },
+      "topics": {
+        "title": "Topics We Cover",
+        "items": {
+          "frontend": {
+            "icon": "code-slash",
+            "label": "Frontend"
+          },
+          "backend": {
+            "icon": "server",
+            "label": "Backend"
+          },
+          "libraries": {
+            "icon": "box-seam",
+            "label": "Libraries & FW"
+          },
+          "career": {
+            "icon": "briefcase",
+            "label": "Career"
+          },
+          "daily": {
+            "icon": "chat-dots",
+            "label": "Daily Life"
+          },
+          "creative": {
+            "icon": "palette",
+            "label": "Creative"
+          }
+        }
+      },
+      "listen": {
+        "title": "How to Listen",
+        "description": "Enjoy the show on your favorite platform."
+      }
+    },
     "contact": {
       "message": "Feel free to reach out for job requests or consultations.",
       "area": "Tokyo, Japan",

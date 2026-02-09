@@ -1,45 +1,26 @@
-/* CSS Custom Properties - Yunomi × Tech Theme (Experimental)
- *
- * === ORIGINAL VALUES (Rainy Day Warmth) - uncomment to revert ===
- * --rain-blue: #4299e1;
- * --deep-rain: #2b6cb0;
- * --warm-amber: #f6ad55;
- * --cozy-orange: #ed8936;
- * --soft-teal: #38b2ac;
- * --coffee-brown: #744210;
- * --umbrella-blue: #4a90e2;
- * --puddle-reflection: #bee3f8;
- * --warm-shelter: #fed7aa;
- * --hero-gradient: linear-gradient(135deg, var(--storm-cloud) 0%, var(--warm-gray) 50%, var(--rain-blue) 100%);
- * === END ORIGINAL ===
- */
+/* CSS Custom Properties - Blue × Orange-Red Theme */
 :root {
-  /* Base Neutrals (unchanged) */
-  --charcoal: #2d3748;
-  --warm-gray: #4a5568;
+  /* Base Neutrals */
+  --charcoal: #2c3e50;
+  --warm-gray: #455a64;
   --light-gray: #e2e8f0;
-  --cream: #f0f4f0;
-  --warm-white: #fafcfa;
+  --cream: #f0f2f5;
+  --warm-white: #f8f9fa;
 
-  /* Yunomi × Tech Colors */
-  --rain-blue: #06b6d4;
-  --deep-rain: #0891b2;
-  --storm-cloud: #2d3748;
-  --coffee-brown: #854d0e;
-  --warm-amber: #facc15;
-  --cozy-orange: #eab308;
-  --soft-teal: #2dd4bf;
-  --misty-gray: #94a3b8;
+  /* Blue × Orange-Red Colors */
+  --rain-blue: #3498db;
+  --deep-rain: #2980b9;
+  --storm-cloud: #2c3e50;
+  --coffee-brown: #2c3e50;
+  --warm-amber: #ff9800;
+  --cozy-orange: #ff7043;
+  --soft-teal: #3498db;
+  --misty-gray: #7f8c8d;
 
   /* Primary Theme Colors */
   --primary-color: var(--rain-blue);
   --secondary-color: var(--warm-amber);
-  --hero-gradient: linear-gradient(
-    160deg,
-    #0f172a 0%,
-    var(--storm-cloud) 50%,
-    #164e63 100%
-  );
+  --hero-bg: #2c3e50;
 
   /* Semantic Colors */
   --background-color: var(--warm-white);
@@ -51,11 +32,11 @@
   --accent-color: var(--rain-blue);
   --social-link-color: var(--soft-teal);
 
-  /* Yunomi × Tech Variants */
-  --umbrella-blue: #22d3ee;
-  --window-light: #f0f4f0;
-  --puddle-reflection: #a5f3fc;
-  --warm-shelter: #fef9c3;
+  /* Color Variants */
+  --umbrella-blue: #5dade2;
+  --window-light: #f0f2f5;
+  --puddle-reflection: #d6eaf8;
+  --warm-shelter: #fadbd8;
 
   /* White/Black Transparency Variants */
   --white-10: rgba(255, 255, 255, 0.1);
@@ -66,28 +47,12 @@
   --black-20: rgba(0, 0, 0, 0.2);
 
   /* Shoelace overrides for rain theme */
-  --sl-color-primary-50: var(--puddle-reflection);
-  --sl-color-primary-100: var(--puddle-reflection);
-  --sl-color-primary-200: var(--rain-blue);
-  --sl-color-primary-300: var(--rain-blue);
-  --sl-color-primary-400: var(--rain-blue);
-  --sl-color-primary-500: var(--rain-blue);
   --sl-color-primary-600: var(--deep-rain);
-  --sl-color-primary-700: var(--deep-rain);
-  --sl-color-primary-800: var(--storm-cloud);
-  --sl-color-primary-900: var(--storm-cloud);
 
   --sl-color-neutral-0: var(--warm-white);
-  --sl-color-neutral-50: var(--cream);
   --sl-color-neutral-100: var(--light-gray);
   --sl-color-neutral-200: var(--light-gray);
-  --sl-color-neutral-300: var(--misty-gray);
   --sl-color-neutral-400: var(--misty-gray);
-  --sl-color-neutral-500: var(--warm-gray);
-  --sl-color-neutral-600: var(--warm-gray);
-  --sl-color-neutral-700: var(--charcoal);
-  --sl-color-neutral-800: var(--charcoal);
-  --sl-color-neutral-900: var(--storm-cloud);
   --sl-color-neutral-1000: var(--storm-cloud);
 
   /* Legacy aliases updated for rain theme */
@@ -98,14 +63,8 @@
   --mint-400: var(--soft-teal);
   --mint-500: var(--rain-blue);
   --mint-600: var(--deep-rain);
-  --mint-700: var(--storm-cloud);
-  --mint-800: var(--storm-cloud);
 
   --navy-50: var(--cream);
-  --navy-100: var(--light-gray);
-  --navy-200: var(--light-gray);
-  --navy-300: var(--misty-gray);
-  --navy-400: var(--misty-gray);
   --navy-500: var(--warm-gray);
   --navy-600: var(--warm-gray);
   --navy-700: var(--charcoal);
@@ -124,12 +83,8 @@
   --purple-400: var(--soft-teal);
   --purple-500: var(--soft-teal);
 
-  /* Rain theme gradients */
-  --mint-gradient: linear-gradient(
-    135deg,
-    var(--cream),
-    var(--puddle-reflection)
-  );
+  /* Surface variant */
+  --mint-gradient: var(--cream);
 
   /* Geometric shapes for modern decoration */
   --droplet-large-width: 3rem;
@@ -209,7 +164,7 @@ html {
 .title-underline {
   width: 80px;
   height: 3px;
-  background: linear-gradient(135deg, var(--rain-blue), var(--warm-amber));
+  background: var(--rain-blue);
   margin: 0 auto;
   border-radius: 2px;
 }
@@ -239,30 +194,42 @@ sl-button::part(base) {
 }
 
 sl-button[variant='primary']::part(base) {
-  background: linear-gradient(135deg, var(--rain-blue), var(--deep-rain));
+  background: var(--warm-amber);
   border: 2px solid var(--white-20);
-  color: var(--warm-white);
-  box-shadow: 0 4px 15px rgba(66, 153, 225, 0.2);
+  color: white;
+  box-shadow: 0 4px 15px rgba(231, 76, 60, 0.2);
 }
 
 sl-button[variant='primary']:hover::part(base) {
-  background: linear-gradient(135deg, var(--deep-rain), var(--storm-cloud));
+  background: var(--cozy-orange);
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(66, 153, 225, 0.3);
+  box-shadow: 0 6px 20px rgba(231, 76, 60, 0.3);
 }
 
 sl-button[variant='neutral']::part(base) {
-  background: var(--warm-white);
+  background: white;
   border: 2px solid var(--warm-amber);
-  color: var(--coffee-brown);
-  box-shadow: 0 4px 15px rgba(244, 173, 85, 0.1);
+  color: var(--warm-amber);
+  box-shadow: 0 4px 15px rgba(231, 76, 60, 0.1);
 }
 
 sl-button[variant='neutral']:hover::part(base) {
-  background: var(--warm-shelter);
-  border-color: var(--cozy-orange);
+  color: white;
+  background-color: var(--cozy-orange);
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(244, 173, 85, 0.2);
+  box-shadow: 0 6px 20px rgba(231, 76, 60, 0.2);
+}
+
+sl-button[disabled]::part(base) {
+  background: transparent;
+  border: none;
+  color: var(--sl-color-neutral-400);
+  cursor: default;
+}
+
+sl-button[disabled]:hover::part(base) {
+  background: transparent;
+  color: var(--sl-color-neutral-400);
 }
 
 /* Loading indicator with rain theme */

@@ -101,7 +101,7 @@
 
   <style>
     .hero {
-      background: var(--hero-gradient);
+      background: var(--hero-bg);
       position: relative;
       overflow: hidden;
       min-height: calc(100vh - 96px);
@@ -127,7 +127,8 @@
       top: -10px;
       width: 2px;
       height: 20px;
-      background: linear-gradient(to bottom, var(--rain-blue), transparent);
+      background: var(--rain-blue);
+      opacity: 0.4;
       border-radius: 0 0 50% 50%;
       animation: falling-rain 3s linear infinite;
       opacity: 0.5;
@@ -347,7 +348,7 @@
 
     .hero-play-cta:hover .play-circle {
       background: var(--warm-amber);
-      color: var(--storm-cloud);
+      border: none;
     }
 
     .play-meta {
