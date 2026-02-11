@@ -208,10 +208,30 @@
       }
     },
     "contact": {
-      "message": "お仕事のご依頼やご相談はお気軽にお問い合わせください。",
-      "area": "東京都",
+      "message": "お便りお待ちしております！お気軽にお送りください。",
       "hero": {
-        "title": "ご連絡"
+        "title": "お便り"
+      },
+      "form": {
+        "handleName": "ハンドルネーム",
+        "handleNamePlaceholder": "ハンドルネームを入力",
+        "contactInfo": "連絡先（SNSアカウントも可）",
+        "contactInfoPlaceholder": "メールアドレスやSNSアカウント",
+        "theme": "お便りテーマ",
+        "themeOptions": {
+          "question": "ご質問",
+          "feedback": "ご感想・ご意見",
+          "topic": "話してほしいテーマ",
+          "other": "その他"
+        },
+        "otherPlaceholder": "テーマを入力してください",
+        "content": "お便り内容",
+        "contentPlaceholder": "お便りの内容を入力してください",
+        "required": "必須",
+        "submit": "送信する",
+        "sending": "送信中...",
+        "success": "お便りを送信しました！ありがとうございます。",
+        "error": "送信に失敗しました。時間をおいて再度お試しください。"
       }
     }
   },

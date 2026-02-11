@@ -222,10 +222,30 @@
       }
     },
     "contact": {
-      "message": "Feel free to reach out for job requests or consultations.",
-      "area": "Tokyo, Japan",
+      "message": "We'd love to hear from you! Feel free to send us a message.",
       "hero": {
         "title": "Let's Connect"
+      },
+      "form": {
+        "handleName": "Handle Name",
+        "handleNamePlaceholder": "Enter your handle name",
+        "contactInfo": "Contact Info (SNS accounts accepted)",
+        "contactInfoPlaceholder": "Email or SNS account",
+        "theme": "Message Theme",
+        "themeOptions": {
+          "question": "Question",
+          "feedback": "Feedback / Opinion",
+          "topic": "Topic Request",
+          "other": "Other"
+        },
+        "otherPlaceholder": "Please enter your theme",
+        "content": "Message",
+        "contentPlaceholder": "Enter your message here",
+        "required": "Required",
+        "submit": "Submit",
+        "sending": "Sending...",
+        "success": "Your message has been sent! Thank you.",
+        "error": "Failed to send. Please try again later."
       }
     }
   },

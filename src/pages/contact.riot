@@ -19,29 +19,115 @@
         <div class="header-content">
           <h1 class="page-title">
             {t("pages.contact.hero.title")}
-            <sl-icon name="cup-hot-fill"></sl-icon>
+            <sl-icon name="envelope-fill"></sl-icon>
           </h1>
+          <p class="page-subtitle">{t("pages.contact.message")}</p>
         </div>
       </div>
     </section>
 
-    <!-- Contact Content -->
+    <!-- Contact Form -->
     <section class="contact-main">
       <div class="section-content">
-        <div class="contact-layout">
-          <!-- Contact Form -->
-          <div class="contact-form-section">
-            <div class="form-container">
-              <iframe
-                src="https://docs.google.com/forms/d/e/1FAIpQLScc_w1FgDRkekc4pUYF1aeZuKnQ_16eo4I6Ila9MuuZJ2DWCA/viewform?embedded=true"
-                class="contact-iframe"
-                frameborder="0"
-                marginheight="0"
-                marginwidth="0">
-                Loading...
-              </iframe>
+        <div class="contact-form-section">
+          <form class="contact-form" onsubmit={handleSubmit} novalidate>
+
+            <!-- ハンドルネーム -->
+            <div class="form-group">
+              <label for="handleName" class="form-label">
+                {t("pages.contact.form.handleName")}
+                <span class="required-badge">{t("pages.contact.form.required")}</span>
+              </label>
+              <input
+                type="text"
+                id="handleName"
+                name="handleName"
+                class="form-input"
+                placeholder={t("pages.contact.form.handleNamePlaceholder")}
+                required
+              />
             </div>
-          </div>
+
+            <!-- 連絡先 -->
+            <div class="form-group">
+              <label for="contactInfo" class="form-label">
+                {t("pages.contact.form.contactInfo")}
+              </label>
+              <input
+                type="text"
+                id="contactInfo"
+                name="contactInfo"
+                class="form-input"
+                placeholder={t("pages.contact.form.contactInfoPlaceholder")}
+              />
+            </div>
+
+            <!-- お便りテーマ -->
+            <div class="form-group">
+              <label class="form-label">
+                {t("pages.contact.form.theme")}
+                <span class="required-badge">{t("pages.contact.form.required")}</span>
+              </label>
+              <div class="radio-group">
+                <label class="radio-label">
+                  <input type="radio" name="theme" value="ご質問" onchange={handleThemeChange} required />
+                  <span class="radio-text">{t("pages.contact.form.themeOptions.question")}</span>
+                </label>
+                <label class="radio-label">
+                  <input type="radio" name="theme" value="ご感想・ご意見" onchange={handleThemeChange} />
+                  <span class="radio-text">{t("pages.contact.form.themeOptions.feedback")}</span>
+                </label>
+                <label class="radio-label">
+                  <input type="radio" name="theme" value="話してほしいテーマ" onchange={handleThemeChange} />
+                  <span class="radio-text">{t("pages.contact.form.themeOptions.topic")}</span>
+                </label>
+                <label class="radio-label">
+                  <input type="radio" name="theme" value="__other_option__" onchange={handleThemeChange} />
+                  <span class="radio-text">{t("pages.contact.form.themeOptions.other")}</span>
+                </label>
+              </div>
+              <input
+                type="text"
+                name="otherTheme"
+                class="form-input other-theme-input {state.showOtherInput ? 'visible' : ''}"
+                placeholder={t("pages.contact.form.otherPlaceholder")}
+              />
+            </div>
+
+            <!-- お便り内容 -->
+            <div class="form-group">
+              <label for="content" class="form-label">
+                {t("pages.contact.form.content")}
+                <span class="required-badge">{t("pages.contact.form.required")}</span>
+              </label>
+              <textarea
+                id="content"
+                name="content"
+                class="form-textarea"
+                rows="8"
+                placeholder={t("pages.contact.form.contentPlaceholder")}
+                required
+              ></textarea>
+            </div>
+
+            <!-- 送信ボタン -->
+            <div class="form-actions">
+              <button type="submit" class="submit-button" disabled={state.sending}>
+                <sl-icon name={state.sending ? 'arrow-repeat' : 'send-fill'}></sl-icon>
+                {state.sending ? t("pages.contact.form.sending") : t("pages.contact.form.submit")}
+              </button>
+            </div>
+
+            <!-- メッセージ -->
+            <div class="form-message success" if={state.success}>
+              <sl-icon name="check-circle-fill"></sl-icon>
+              {t("pages.contact.form.success")}
+            </div>
+            <div class="form-message error" if={state.error}>
+              <sl-icon name="exclamation-circle-fill"></sl-icon>
+              {t("pages.contact.form.error")}
+            </div>
+          </form>
         </div>
       </div>
     </section>
@@ -51,7 +137,49 @@
     import i18nStore from '@/stores/i18n-store';
 
     export default {
-      t: i18nStore.t.bind(i18nStore)
+      t: i18nStore.t.bind(i18nStore),
+
+      state: {
+        showOtherInput: false,
+        sending: false,
+        success: false,
+        error: false,
+      },
+
+      handleThemeChange(e) {
+        this.update({
+          showOtherInput: e.target.value === '__other_option__',
+        });
+      },
+
+      handleSubmit(e) {
+        e.preventDefault();
+        const form = e.target;
+
+        if (!form.checkValidity()) {
+          form.reportValidity();
+          return;
+        }
+
+        const formData = new FormData(form);
+        const postData = new URLSearchParams(formData);
+
+        this.update({ sending: true, success: false, error: false });
+
+        fetch(import.meta.env.VITE_GAS_URL, {
+          method: 'POST',
+          body: postData,
+          mode: 'no-cors',
+        })
+        .then(() => {
+          this.update({ sending: false, success: true });
+          form.reset();
+          this.update({ showOtherInput: false });
+        })
+        .catch(() => {
+          this.update({ sending: false, error: true });
+        });
+      },
     };
   </script>
 
@@ -89,10 +217,9 @@
       width: 2px;
       height: 20px;
       background: var(--rain-blue);
-      opacity: 0.4;
+      opacity: 0.6;
       border-radius: 0 0 50% 50%;
       animation: falling-rain 3s linear infinite;
-      opacity: 0.6;
     }
 
     /* Cozy Elements */
@@ -165,16 +292,21 @@
     .page-title {
       font-size: 3rem;
       font-weight: bold;
-      margin-bottom: 1.5rem;
+      margin-bottom: 1rem;
     }
 
     .page-title sl-icon {
       margin-left: 1rem;
     }
 
+    .page-subtitle {
+      font-size: 1.1rem;
+      opacity: 0.9;
+    }
+
     /* Main Contact Section */
     .contact-main {
-      padding: 6rem 0;
+      padding: 4rem 0;
       background: var(--surface-color);
     }
 
@@ -182,46 +314,184 @@
       min-width: 60%;
     }
 
-    /* Contact Info */
-    .info-header {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
+    .contact-form-section {
+      max-width: 640px;
+      margin: 0 auto;
+    }
+
+    /* Form Styles */
+    .contact-form {
+      background: #ffffff;
+      border-radius: 1.5rem;
+      padding: 3rem;
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+      border: 1px solid var(--light-gray);
+    }
+
+    .form-group {
       margin-bottom: 2rem;
     }
 
-    .info-title {
-      font-size: 2.2rem;
-      font-weight: 800;
+    .form-label {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 1rem;
+      font-weight: 700;
       color: var(--text-dark);
-      margin: 0;
+      margin-bottom: 0.5rem;
     }
 
-    .coffee-icon {
-      font-size: 2rem;
-      animation: gentle-steam 3s ease-in-out infinite;
+    .required-badge {
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: #ffffff;
+      background: var(--warm-amber);
+      padding: 0.1rem 0.5rem;
+      border-radius: 0.25rem;
     }
 
-    .contact-description {
-      font-size: 1.1rem;
-      line-height: 1.7;
-      color: var(--text-color);
-      margin-bottom: 3rem;
-    }
-
-    /* Contact Form */
-    .form-container {
-      border: 2px solid var(--soft-teal);
-      border-radius: 1.5rem;
-      overflow: hidden;
-      box-shadow: 0 8px 32px rgba(56, 178, 172, 0.15);
-    }
-
-    .contact-iframe {
+    .form-input {
       width: 100%;
-      height: 800px;
-      border: none;
+      padding: 0.85rem 1rem;
+      font-size: 1rem;
+      font-family: inherit;
+      border: 2px solid var(--light-gray);
+      border-radius: 0.75rem;
       background: var(--warm-white);
+      color: var(--text-dark);
+      transition: border-color 0.2s ease;
+    }
+
+    .form-input:focus {
+      outline: none;
+      border-color: var(--rain-blue);
+    }
+
+    .form-input::placeholder {
+      color: var(--misty-gray);
+    }
+
+    /* Radio Group */
+    .radio-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+      margin-top: 0.25rem;
+    }
+
+    .radio-label {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      cursor: pointer;
+      padding: 0.6rem 1rem;
+      border-radius: 0.5rem;
+      transition: background-color 0.2s ease;
+    }
+
+    .radio-label:hover {
+      background: var(--warm-white);
+    }
+
+    .radio-label input[type="radio"] {
+      width: 18px;
+      height: 18px;
+      accent-color: var(--rain-blue);
+      cursor: pointer;
+    }
+
+    .radio-text {
+      font-size: 1rem;
+      color: var(--text-color);
+    }
+
+    /* Other Theme Input */
+    .other-theme-input {
+      display: none;
+      margin-top: 0.75rem;
+    }
+
+    .other-theme-input.visible {
+      display: block;
+    }
+
+    /* Textarea */
+    .form-textarea {
+      width: 100%;
+      padding: 0.85rem 1rem;
+      font-size: 1rem;
+      font-family: inherit;
+      border: 2px solid var(--light-gray);
+      border-radius: 0.75rem;
+      background: var(--warm-white);
+      color: var(--text-dark);
+      resize: vertical;
+      min-height: 160px;
+      transition: border-color 0.2s ease;
+    }
+
+    .form-textarea:focus {
+      outline: none;
+      border-color: var(--rain-blue);
+    }
+
+    .form-textarea::placeholder {
+      color: var(--misty-gray);
+    }
+
+    /* Submit Button */
+    .form-actions {
+      text-align: center;
+      margin-top: 0.5rem;
+    }
+
+    .submit-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.9rem 2.5rem;
+      font-size: 1.05rem;
+      font-weight: 700;
+      font-family: inherit;
+      color: #ffffff;
+      background: var(--warm-amber);
+      border: none;
+      border-radius: 1rem;
+      cursor: pointer;
+      transition: background-color 0.2s ease, transform 0.2s ease;
+    }
+
+    .submit-button:hover:not(:disabled) {
+      background: var(--cozy-orange);
+      transform: translateY(-2px);
+    }
+
+    .submit-button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    /* Form Messages */
+    .form-message {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-top: 1.5rem;
+      padding: 1rem 1.25rem;
+      border-radius: 0.75rem;
+      font-size: 0.95rem;
+      font-weight: 600;
+    }
+
+    .form-message.success {
+      color: #2e7d32;
+      background: #e8f5e9;
+    }
+
+    .form-message.error {
+      color: #c62828;
+      background: #ffebee;
     }
 
     /* Animations */
@@ -281,33 +551,15 @@
       }
     }
 
-    @keyframes gentle-steam {
-      0%, 100% {
-        transform: translateY(0);
-      }
-      50% {
-        transform: translateY(-3px);
-      }
-    }
-
     /* Responsive Design */
     @media (max-width: 768px) {
       .page-title {
         font-size: 2rem;
       }
 
-      .contact-layout {
-        grid-template-columns: 1fr;
-        gap: 2rem;
-      }
-
-      .info-title {
-        font-size: 2rem;
-      }
-
-      .contact-iframe {
-        height: 600px;
-        padding: 2rem 1rem;
+      .contact-form {
+        padding: 2rem 1.5rem;
+        border-radius: 1rem;
       }
     }
 
@@ -317,11 +569,15 @@
       }
 
       .contact-main {
-        padding: 3rem 0;
+        padding: 2rem 0;
       }
 
       .section-content {
         padding: 0 1rem;
+      }
+
+      .contact-form {
+        padding: 1.5rem 1rem;
       }
     }
   </style>
