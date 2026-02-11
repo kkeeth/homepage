@@ -1,39 +1,4 @@
 <hero-section>
-  <script>
-    import i18nStore from '@/stores/i18n-store';
-
-    export default {
-      t: i18nStore.t.bind(i18nStore),
-      getEpisodeId(episode) {
-        if (episode && episode.link) {
-          const match = episode.link.match(/episodes\/([a-f0-9-]+)/i);
-          if (match) return match[1];
-        }
-        return episode ? encodeURIComponent(episode.title) : '';
-      },
-      formatDuration(duration) {
-        if (!duration) return '';
-        if (duration.includes(':')) {
-          const parts = duration.split(':').map(Number);
-          if (parts.length === 3) {
-            return Math.round(parts[0] * 60 + parts[1] + parts[2] / 60) + 'm';
-          }
-          if (parts.length === 2) {
-            return parts[0] + 'm';
-          }
-        }
-        const seconds = parseInt(duration);
-        if (!isNaN(seconds)) {
-          return Math.round(seconds / 60) + 'm';
-        }
-        return duration;
-      },
-      stripSeasonPrefix(title) {
-        return title ? title.replace(/^Season \d+-\d+\.\s*/, '') : '';
-      }
-    }
-  </script>
-
   <section class="hero">
     <!-- Rain Animation Background -->
     <div class="hero-bg">
@@ -76,7 +41,7 @@
     <div class="hero-container">
       <div class="hero-upper">
         <span class="hero-label">P O D C A S T</span>
-        <h1 class="hero-title-giant">{t("hero.podcastTitle")}</h1>
+        <h1 class="hero-title-giant">{t("hero.podcastTitle1")}<br>{t("hero.podcastTitle2")}</h1>
         <p class="hero-subtitle">
           {t("hero.subtitleLine1")}<br>
           {t("hero.subtitleLine2")}<span class="accent-text">{t("hero.subtitleAccent")}</span>
@@ -98,6 +63,41 @@
       </div>
     </div>
   </section>
+
+  <script>
+    import i18nStore from '@/stores/i18n-store';
+
+    export default {
+      t: i18nStore.t.bind(i18nStore),
+      getEpisodeId(episode) {
+        if (episode && episode.link) {
+          const match = episode.link.match(/episodes\/([a-f0-9-]+)/i);
+          if (match) return match[1];
+        }
+        return episode ? encodeURIComponent(episode.title) : '';
+      },
+      formatDuration(duration) {
+        if (!duration) return '';
+        if (duration.includes(':')) {
+          const parts = duration.split(':').map(Number);
+          if (parts.length === 3) {
+            return Math.round(parts[0] * 60 + parts[1] + parts[2] / 60) + 'm';
+          }
+          if (parts.length === 2) {
+            return parts[0] + 'm';
+          }
+        }
+        const seconds = parseInt(duration);
+        if (!isNaN(seconds)) {
+          return Math.round(seconds / 60) + 'm';
+        }
+        return duration;
+      },
+      stripSeasonPrefix(title) {
+        return title ? title.replace(/^Season \d+-\d+\.\s*/, '') : '';
+      }
+    }
+  </script>
 
   <style>
     .hero {

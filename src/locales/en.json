@@ -1,10 +1,11 @@
 {
   "hero": {
     "subtitle": "A passionate web developer crafting beautiful and functional digital experiences",
-    "podcastTitle": "Amayadori to WEB no Kobanashi.fm",
-    "subtitleLine1": "Take a break from the daily rain of information",
-    "subtitleLine2": "Listen to ",
-    "subtitleAccent": "WEB tales under the eaves",
+    "podcastTitle1": "Amayadori FM",
+    "podcastTitle2": " ",
+    "subtitleLine1": "A brief shelter from the daily rain of information. ",
+    "subtitleLine2": "Short ",
+    "subtitleAccent": "WEB tales told under the eaves.",
     "cta": {
       "work": "View My Work",
       "contact": "Get in Touch"

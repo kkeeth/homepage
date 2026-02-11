@@ -5,12 +5,12 @@ import ja from '@/locales/ja.json';
 const STORAGE_KEY = 'preferred-language';
 
 const translations = {
-  en,
   ja,
+  en,
 };
 
 const i18nStore = observable({
-  currentLocale: localStorage.getItem(STORAGE_KEY) || 'en',
+  currentLocale: localStorage.getItem(STORAGE_KEY) || 'ja',
 
   t(key) {
     const keys = key.split('.');
