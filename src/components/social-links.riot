@@ -1,10 +1,10 @@
 <social-links>
   <div class="social-links">
-    <a 
-      each={link in state.socialLinks} 
+    <a
+      each={link in state.socialLinks}
       key={link.name}
-      href={link.url} 
-      target="_blank" 
+      href={link.url}
+      target="_blank"
       aria-label={link.label}
     >
       <sl-icon name={link.icon}></sl-icon>
@@ -12,36 +12,11 @@
   </div>
 
   <script>
-    import { SOCIAL_LINKS, PODCAST_PLATFORMS } from '@/constants/links';
+    import { SOCIAL_LINKS } from '@/constants/links';
 
     export default {
       state: {
-        socialLinks: [
-          {
-            name: 'twitter',
-            icon: 'twitter-x',
-            url: SOCIAL_LINKS.TWITTER,
-            label: 'Twitter'
-          },
-          {
-            name: 'spotify',
-            icon: 'spotify',
-            url: PODCAST_PLATFORMS.SPOTIFY,
-            label: 'Spotify'
-          },
-          {
-            name: 'substack',
-            icon: 'substack',
-            url: SOCIAL_LINKS.SUBSTACK,
-            label: 'Substack'
-          },
-          {
-            name: 'github',
-            icon: 'github',
-            url: SOCIAL_LINKS.GITHUB,
-            label: 'GitHub'
-          }
-        ]
+        socialLinks: SOCIAL_LINKS,
       }
     };
   </script>
