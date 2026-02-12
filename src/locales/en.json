@@ -225,14 +225,12 @@
       "title": "SIGNAL.",
       "desc1": "Slip your thoughts into the sound of rain and send them our way.",
       "desc2": "From technical questions to show feedback, or just casual chats you'd like someone to hear.",
-      "desc3": "Kuwahara receives all signals while taking shelter from the rain.",
       "community": {
         "title": "Join the Community",
         "description": "Real-time discussions and post-show chats happen on our Discord server.",
         "link": "CONNECT TO SERVER"
       },
-      "note1": "// Average response time: 24-72 hours.",
-      "note2": "// Depends on the server load and rain condition.",
+      "note": "// Average response time: 1-3 days.",
       "form": {
         "handleName": "Handle Name",
         "handleNamePlaceholder": "Input your name",
@@ -250,8 +248,8 @@
         "content": "Message Content",
         "contentPlaceholder": "Type your message frequency here...",
         "required": "*",
-        "submit": "TRANSMIT SIGNAL",
-        "sending": "TRANSMITTING...",
+        "submit": "SEND",
+        "sending": "SENDING...",
         "success": "Your message has been sent! Thank you.",
         "error": "Failed to send. Please try again later."
       }

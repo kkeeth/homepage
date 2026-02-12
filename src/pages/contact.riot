@@ -1,42 +1,45 @@
 <contact>
   <div class="contact-page">
-    <!-- Hero Section with Rain Animation -->
-    <section class="page-header">
-      <div class="header-bg">
-        <!-- Rain Animation -->
-        <div class="rain-container">
-          <div class="raindrop" each={i in Array(8)} style="left: {Math.random() * 100}%; animation-delay: {Math.random() * 3}s;"></div>
+    <div class="contact-layout">
+
+      <!-- Left Column: Info -->
+      <div class="contact-info">
+        <span class="section-label">{t("pages.contact.label")}</span>
+        <h1 class="contact-title">{t("pages.contact.title")}</h1>
+
+        <div class="contact-description">
+          <p>{t("pages.contact.desc1")}</p>
+          <p>{t("pages.contact.desc2")}</p>
         </div>
 
-        <!-- Cozy Elements -->
-        <div class="umbrella-element">☂</div>
-        <div class="music-note-1">♪</div>
-        <div class="music-note-2">♫</div>
-        <div class="coffee-steam"></div>
-      </div>
+        <!-- TODO: paid subscription service
+        <div class="community-card">
+          <h3 class="community-title">
+            <span class="community-dot"></span>
+            {t("pages.contact.community.title")}
+          </h3>
+          <p class="community-desc">{t("pages.contact.community.description")}</p>
+          <a href="https://discord.gg/yWMEGGenZB" target="_blank" rel="noopener noreferrer" class="community-link">
+            {t("pages.contact.community.link")} <span class="arrow">→</span>
+          </a>
+        </div>
+        -->
 
-      <div class="container">
-        <div class="header-content">
-          <h1 class="page-title">
-            {t("pages.contact.hero.title")}
-            <sl-icon name="envelope-fill"></sl-icon>
-          </h1>
-          <p class="page-subtitle">{t("pages.contact.message")}</p>
+        <div class="response-note">
+          <p>{t("pages.contact.note")}</p>
         </div>
       </div>
-    </section>
 
-    <!-- Contact Form -->
-    <section class="contact-main">
-      <div class="section-content">
-        <div class="contact-form-section">
-          <form class="contact-form" onsubmit={handleSubmit} novalidate>
+      <!-- Right Column: Form -->
+      <div class="contact-form-section">
+        <form class="contact-form" onsubmit={handleSubmit} novalidate>
 
-            <!-- ハンドルネーム -->
+          <!-- Row: ハンドルネーム + 連絡先 -->
+          <div class="form-row">
             <div class="form-group">
               <label for="handleName" class="form-label">
                 {t("pages.contact.form.handleName")}
-                <span class="required-badge">{t("pages.contact.form.required")}</span>
+                <span class="required-mark">{t("pages.contact.form.required")}</span>
               </label>
               <input
                 type="text"
@@ -47,8 +50,6 @@
                 required
               />
             </div>
-
-            <!-- 連絡先 -->
             <div class="form-group">
               <label for="contactInfo" class="form-label">
                 {t("pages.contact.form.contactInfo")}
@@ -61,76 +62,70 @@
                 placeholder={t("pages.contact.form.contactInfoPlaceholder")}
               />
             </div>
+          </div>
 
-            <!-- お便りテーマ -->
-            <div class="form-group">
-              <label class="form-label">
-                {t("pages.contact.form.theme")}
-                <span class="required-badge">{t("pages.contact.form.required")}</span>
-              </label>
-              <div class="radio-group">
-                <label class="radio-label">
-                  <input type="radio" name="theme" value="ご質問" onchange={handleThemeChange} required />
-                  <span class="radio-text">{t("pages.contact.form.themeOptions.question")}</span>
-                </label>
-                <label class="radio-label">
-                  <input type="radio" name="theme" value="ご感想・ご意見" onchange={handleThemeChange} />
-                  <span class="radio-text">{t("pages.contact.form.themeOptions.feedback")}</span>
-                </label>
-                <label class="radio-label">
-                  <input type="radio" name="theme" value="話してほしいテーマ" onchange={handleThemeChange} />
-                  <span class="radio-text">{t("pages.contact.form.themeOptions.topic")}</span>
-                </label>
-                <label class="radio-label">
-                  <input type="radio" name="theme" value="__other_option__" onchange={handleThemeChange} />
-                  <span class="radio-text">{t("pages.contact.form.themeOptions.other")}</span>
-                </label>
-              </div>
-              <input
-                type="text"
-                name="otherTheme"
-                class="form-input other-theme-input {state.showOtherInput ? 'visible' : ''}"
-                placeholder={t("pages.contact.form.otherPlaceholder")}
-              />
-            </div>
+          <!-- お便りテーマ -->
+          <div class="form-group">
+            <label for="theme" class="form-label">
+              {t("pages.contact.form.theme")}
+              <span class="required-mark">{t("pages.contact.form.required")}</span>
+            </label>
+            <select
+              id="theme"
+              name="theme"
+              class="form-select"
+              onchange={handleThemeChange}
+              required
+            >
+              <option value="" disabled selected>{t("pages.contact.form.themePlaceholder")}</option>
+              <option value="ご質問">{t("pages.contact.form.themeOptions.question")}</option>
+              <option value="ご感想・ご意見">{t("pages.contact.form.themeOptions.feedback")}</option>
+              <option value="話してほしいテーマ">{t("pages.contact.form.themeOptions.topic")}</option>
+              <option value="__other_option__">{t("pages.contact.form.themeOptions.other")}</option>
+            </select>
+            <input
+              type="text"
+              name="otherTheme"
+              class="form-input other-theme-input {state.showOtherInput ? 'visible' : ''}"
+              placeholder={t("pages.contact.form.otherPlaceholder")}
+            />
+          </div>
 
-            <!-- お便り内容 -->
-            <div class="form-group">
-              <label for="content" class="form-label">
-                {t("pages.contact.form.content")}
-                <span class="required-badge">{t("pages.contact.form.required")}</span>
-              </label>
-              <textarea
-                id="content"
-                name="content"
-                class="form-textarea"
-                rows="8"
-                placeholder={t("pages.contact.form.contentPlaceholder")}
-                required
-              ></textarea>
-            </div>
+          <!-- お便り内容 -->
+          <div class="form-group">
+            <label for="content" class="form-label">
+              {t("pages.contact.form.content")}
+              <span class="required-mark">{t("pages.contact.form.required")}</span>
+            </label>
+            <textarea
+              id="content"
+              name="content"
+              class="form-textarea"
+              rows="8"
+              placeholder={t("pages.contact.form.contentPlaceholder")}
+              required
+            ></textarea>
+          </div>
 
-            <!-- 送信ボタン -->
-            <div class="form-actions">
-              <button type="submit" class="submit-button" disabled={state.sending}>
-                <sl-icon name={state.sending ? 'arrow-repeat' : 'send-fill'}></sl-icon>
-                {state.sending ? t("pages.contact.form.sending") : t("pages.contact.form.submit")}
-              </button>
-            </div>
+          <!-- 送信ボタン -->
+          <button type="submit" class="submit-button" disabled={state.sending}>
+            {state.sending ? t("pages.contact.form.sending") : t("pages.contact.form.submit")}
+            <span class="arrow">→</span>
+          </button>
 
-            <!-- メッセージ -->
-            <div class="form-message success" if={state.success}>
-              <sl-icon name="check-circle-fill"></sl-icon>
-              {t("pages.contact.form.success")}
-            </div>
-            <div class="form-message error" if={state.error}>
-              <sl-icon name="exclamation-circle-fill"></sl-icon>
-              {t("pages.contact.form.error")}
-            </div>
-          </form>
-        </div>
+          <!-- メッセージ -->
+          <div class="form-message success" if={state.success}>
+            <sl-icon name="check-circle-fill"></sl-icon>
+            {t("pages.contact.form.success")}
+          </div>
+          <div class="form-message error" if={state.error}>
+            <sl-icon name="exclamation-circle-fill"></sl-icon>
+            {t("pages.contact.form.error")}
+          </div>
+        </form>
       </div>
-    </section>
+
+    </div>
   </div>
 
   <script>
@@ -184,320 +179,270 @@
   </script>
 
   <style>
+    /* Page */
     .contact-page {
-      background: var(--background-color);
+      background: var(--warm-white);
       min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 5rem 4rem;
     }
 
-    /* Hero Section */
-    .page-header {
-      position: relative;
-      padding: 6rem 0;
-      background: var(--hero-bg);
-      overflow: hidden;
-      color: var(--warm-white);
-    }
-
-    .header-bg {
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-    }
-
-    /* Rain Animation */
-    .rain-container {
-      position: absolute;
+    /* 2-Column Layout */
+    .contact-layout {
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: 4rem;
+      max-width: 1200px;
       width: 100%;
-      height: 100%;
+      align-items: start;
     }
 
-    .raindrop {
-      position: absolute;
-      top: -10px;
-      width: 2px;
-      height: 20px;
+    /* ===== Left Column ===== */
+    .contact-info {
+      color: var(--charcoal);
+    }
+
+    .section-label {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--rain-blue);
+      letter-spacing: 0.12em;
+      margin-bottom: 0.75rem;
+      font-family: monospace;
+    }
+
+    .contact-title {
+      font-size: 4.5rem;
+      font-weight: 900;
+      font-style: italic;
+      color: var(--charcoal);
+      line-height: 1;
+      margin-bottom: 2rem;
+      letter-spacing: -0.02em;
+    }
+
+    .contact-description {
+      margin-bottom: 2.5rem;
+    }
+
+    .contact-description p {
+      font-size: 1rem;
+      line-height: 1.8;
+      color: var(--misty-gray);
+    }
+
+    /* Community Card */
+    .community-card {
+      border: 1px solid var(--light-gray);
+      border-radius: 1rem;
+      padding: 1.5rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .community-title {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--charcoal);
+      margin-bottom: 0.6rem;
+    }
+
+    .community-dot {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
       background: var(--rain-blue);
-      opacity: 0.6;
-      border-radius: 0 0 50% 50%;
-      animation: falling-rain 3s linear infinite;
-    }
-
-    /* Cozy Elements */
-    .umbrella-element {
-      position: absolute;
-      top: 20%;
-      right: 15%;
-      font-size: 3rem;
-      color: var(--umbrella-blue);
-      animation: gentle-sway 4s ease-in-out infinite;
-      opacity: 0.4;
-    }
-
-    .music-note-1 {
-      position: absolute;
-      top: 30%;
-      left: 10%;
-      font-size: 2rem;
-      color: var(--warm-amber);
-      animation: float-notes 3s ease-in-out infinite;
-      opacity: 0.3;
-    }
-
-    .music-note-2 {
-      position: absolute;
-      bottom: 25%;
-      right: 25%;
-      font-size: 1.5rem;
-      color: var(--soft-teal);
-      animation: float-notes 3s ease-in-out infinite 1.5s;
-      opacity: 0.3;
-    }
-
-    .coffee-steam {
-      position: absolute;
-      bottom: 20%;
-      left: 20%;
-      width: 30px;
-      height: 40px;
-      opacity: 0.2;
-    }
-
-    .coffee-steam::before,
-    .coffee-steam::after {
-      content: '';
-      position: absolute;
-      width: 3px;
-      height: 15px;
-      background: var(--warm-amber);
       border-radius: 50%;
-      animation: steam-rise 2s ease-in-out infinite;
+      box-shadow: 0 0 8px rgba(52, 152, 219, 0.5);
     }
 
-    .coffee-steam::before {
-      left: 8px;
-      animation-delay: 0s;
-    }
-
-    .coffee-steam::after {
-      left: 15px;
-      animation-delay: 0.5s;
-    }
-
-    .header-content {
-      text-align: center;
-      position: relative;
-      z-index: 10;
-    }
-
-    .page-title {
-      font-size: 3rem;
-      font-weight: bold;
+    .community-desc {
+      font-size: 0.9rem;
+      line-height: 1.7;
+      color: var(--misty-gray);
       margin-bottom: 1rem;
     }
 
-    .page-title sl-icon {
-      margin-left: 1rem;
+    .community-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--rain-blue);
+      text-decoration: none;
+      letter-spacing: 0.08em;
+      font-family: monospace;
+      transition: color 0.2s ease;
     }
 
-    .page-subtitle {
-      font-size: 1.1rem;
-      opacity: 0.9;
+    .community-link:hover {
+      color: var(--deep-rain);
     }
 
-    /* Main Contact Section */
-    .contact-main {
-      padding: 4rem 0;
-      background: var(--surface-color);
+    /* Response Note */
+    .response-note p {
+      font-size: 0.8rem;
+      color: var(--misty-gray);
+      font-family: monospace;
+      line-height: 1.8;
     }
 
-    .section-content {
-      min-width: 60%;
-    }
-
-    .contact-form-section {
-      max-width: 680px;
-      margin: 0 auto;
-    }
-
-    /* Form Styles */
+    /* ===== Right Column: Form ===== */
     .contact-form {
-      background: var(--hero-bg);
-      border-radius: 1.5rem;
-      padding: 3rem;
-      box-shadow: 0 8px 40px rgba(0, 0, 0, 0.3);
-      border: 1px solid rgba(52, 152, 219, 0.15);
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
     }
 
-    .form-group {
-      margin-bottom: 2.5rem;
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
     }
 
     .form-label {
       display: flex;
       align-items: center;
-      gap: 0.5rem;
-      font-size: 0.85rem;
-      color: var(--white-80);
-      margin-bottom: 0.25rem;
-      letter-spacing: 0.05em;
+      gap: 0.4rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--warm-gray);
+      letter-spacing: 0.1em;
       text-transform: uppercase;
+      margin-bottom: 0.5rem;
     }
 
-    .required-badge {
-      font-size: 0.6rem;
+    .required-mark {
+      color: var(--rain-blue);
       font-weight: 700;
-      color: var(--warm-amber);
-      background: rgba(255, 152, 0, 0.15);
-      padding: 0.15rem 0.45rem;
-      border-radius: 0.2rem;
-      letter-spacing: 0.03em;
     }
 
-    /* Futuristic underline-only inputs */
+    /* Input Fields */
     .form-input {
       width: 100%;
-      padding: 0.75rem 0;
-      font-size: 1.05rem;
+      padding: 0.9rem 1rem;
+      font-size: 0.95rem;
       font-family: inherit;
-      border: none;
-      border-bottom: 2px solid rgba(52, 152, 219, 0.25);
-      border-radius: 0;
-      background: transparent;
-      color: var(--warm-white);
+      border: 1px solid var(--light-gray);
+      border-radius: 0.6rem;
+      background: var(--warm-white);
+      color: var(--charcoal);
       transition: border-color 0.3s ease, box-shadow 0.3s ease;
     }
 
     .form-input:focus {
       outline: none;
-      border-bottom-color: var(--rain-blue);
-      box-shadow: 0 2px 12px rgba(52, 152, 219, 0.4);
+      border-color: var(--rain-blue);
+      box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.12);
     }
 
     .form-input::placeholder {
-      color: rgba(127, 140, 141, 0.6);
+      color: var(--misty-gray);
     }
 
-    /* Neon Radio Group */
-    .radio-group {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.75rem;
-      margin-top: 0.5rem;
-    }
-
-    .radio-label {
-      position: relative;
-      display: flex;
-      align-items: center;
-      cursor: pointer;
-      padding: 0.6rem 1.2rem;
-      border: 1px solid rgba(52, 152, 219, 0.3);
-      border-radius: 2rem;
-      transition: all 0.3s ease;
-    }
-
-    .radio-label:hover {
-      border-color: var(--rain-blue);
-      box-shadow: 0 0 10px rgba(52, 152, 219, 0.2);
-    }
-
-    .radio-label input[type="radio"] {
-      position: absolute;
-      opacity: 0;
-      width: 0;
-      height: 0;
-    }
-
-    .radio-label input[type="radio"]:checked + .radio-text {
-      color: #ffffff;
-    }
-
-    .radio-label:has(input:checked) {
-      border-color: var(--rain-blue);
-      background: rgba(52, 152, 219, 0.15);
-      box-shadow:
-        0 0 8px rgba(52, 152, 219, 0.4),
-        0 0 20px rgba(52, 152, 219, 0.15),
-        inset 0 0 8px rgba(52, 152, 219, 0.1);
-    }
-
-    .radio-text {
+    /* Select */
+    .form-select {
+      width: 100%;
+      padding: 0.9rem 1rem;
       font-size: 0.95rem;
-      color: rgba(255, 255, 255, 0.8);
-      transition: color 0.3s ease;
-      user-select: none;
+      font-family: inherit;
+      border: 1px solid var(--light-gray);
+      border-radius: 0.6rem;
+      background: var(--warm-white);
+      color: var(--charcoal);
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%233498db' d='M1 1l5 5 5-5'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 1rem center;
+      cursor: pointer;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .form-select:focus {
+      outline: none;
+      border-color: var(--rain-blue);
+      box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.12);
+    }
+
+    .form-select option {
+      background: #ffffff;
+      color: var(--charcoal);
     }
 
     /* Other Theme Input */
     .other-theme-input {
       display: none;
-      margin-top: 1rem;
+      margin-top: 0.75rem;
     }
 
     .other-theme-input.visible {
       display: block;
     }
 
-    /* Futuristic Textarea */
+    /* Textarea */
     .form-textarea {
       width: 100%;
-      padding: 0.75rem 0;
-      font-size: 1.05rem;
+      padding: 0.9rem 1rem;
+      font-size: 0.95rem;
       font-family: inherit;
-      border: none;
-      border-bottom: 2px solid rgba(52, 152, 219, 0.25);
-      border-radius: 0;
-      background: transparent;
-      color: var(--warm-white);
+      border: 1px solid var(--light-gray);
+      border-radius: 0.6rem;
+      background: var(--warm-white);
+      color: var(--charcoal);
       resize: vertical;
-      min-height: 140px;
+      min-height: 180px;
       transition: border-color 0.3s ease, box-shadow 0.3s ease;
     }
 
     .form-textarea:focus {
       outline: none;
-      border-bottom-color: var(--rain-blue);
-      box-shadow: 0 2px 12px rgba(52, 152, 219, 0.4);
+      border-color: var(--rain-blue);
+      box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.12);
     }
 
     .form-textarea::placeholder {
-      color: rgba(127, 140, 141, 0.6);
+      color: var(--misty-gray);
     }
 
     /* Submit Button */
-    .form-actions {
-      text-align: center;
-      margin-top: 1rem;
-    }
-
     .submit-button {
-      display: inline-flex;
+      display: flex;
       align-items: center;
+      justify-content: center;
       gap: 0.6rem;
-      padding: 0.9rem 2.8rem;
+      width: 100%;
+      padding: 1.1rem;
       font-size: 1rem;
-      font-weight: 700;
+      font-weight: 800;
       font-family: inherit;
       color: #ffffff;
-      background: transparent;
-      border: 2px solid var(--rain-blue);
-      border-radius: 2rem;
+      background: var(--rain-blue);
+      border: none;
+      border-radius: 0.75rem;
       cursor: pointer;
-      letter-spacing: 0.05em;
-      transition: all 0.3s ease;
+      letter-spacing: 0.1em;
+      transition: background-color 0.2s ease, box-shadow 0.3s ease, transform 0.2s ease;
     }
 
     .submit-button:hover:not(:disabled) {
-      background: rgba(52, 152, 219, 0.15);
-      box-shadow:
-        0 0 12px rgba(52, 152, 219, 0.5),
-        0 0 30px rgba(52, 152, 219, 0.2);
-      transform: translateY(-2px);
+      background: var(--deep-rain);
+      box-shadow: 0 4px 16px rgba(52, 152, 219, 0.35);
+      transform: translateY(-1px);
     }
 
     .submit-button:disabled {
-      opacity: 0.4;
+      opacity: 0.5;
       cursor: not-allowed;
+    }
+
+    .arrow {
+      font-size: 1.1em;
     }
 
     /* Form Messages */
@@ -505,109 +450,51 @@
       display: flex;
       align-items: center;
       gap: 0.5rem;
-      margin-top: 1.5rem;
       padding: 1rem 1.25rem;
       border-radius: 0.5rem;
-      font-size: 0.95rem;
+      font-size: 0.9rem;
       font-weight: 600;
     }
 
     .form-message.success {
-      color: #66bb6a;
-      background: rgba(102, 187, 106, 0.1);
-      border: 1px solid rgba(102, 187, 106, 0.3);
+      color: #2e7d32;
+      background: #e8f5e9;
+      border: 1px solid #c8e6c9;
     }
 
     .form-message.error {
-      color: #ef5350;
-      background: rgba(239, 83, 80, 0.1);
-      border: 1px solid rgba(239, 83, 80, 0.3);
+      color: #c62828;
+      background: #ffebee;
+      border: 1px solid #ffcdd2;
     }
 
-    /* Animations */
-    @keyframes falling-rain {
-      0% {
-        transform: translateY(-10px);
-        opacity: 0;
-      }
-      10% {
-        opacity: 0.6;
-      }
-      90% {
-        opacity: 0.6;
-      }
-      100% {
-        transform: translateY(calc(100vh + 20px));
-        opacity: 0;
-      }
-    }
-
-    @keyframes gentle-sway {
-      0%, 100% {
-        transform: rotate(-3deg);
-      }
-      50% {
-        transform: rotate(3deg);
-      }
-    }
-
-    @keyframes float-notes {
-      0%, 100% {
-        transform: translateY(0) rotate(0deg);
-      }
-      25% {
-        transform: translateY(-8px) rotate(5deg);
-      }
-      50% {
-        transform: translateY(-12px) rotate(-3deg);
-      }
-      75% {
-        transform: translateY(-6px) rotate(2deg);
-      }
-    }
-
-    @keyframes steam-rise {
-      0% {
-        transform: translateY(0) scale(1);
-        opacity: 0.8;
-      }
-      50% {
-        transform: translateY(-15px) scale(1.2);
-        opacity: 0.4;
-      }
-      100% {
-        transform: translateY(-30px) scale(0.8);
-        opacity: 0;
-      }
-    }
-
-    /* Responsive Design */
-    @media (max-width: 768px) {
-      .page-title {
-        font-size: 2rem;
+    /* ===== Responsive ===== */
+    @media (max-width: 900px) {
+      .contact-page {
+        padding: 3rem 1.5rem;
       }
 
-      .contact-form {
-        padding: 2rem 1.5rem;
-        border-radius: 1rem;
+      .contact-layout {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+      }
+
+      .contact-title {
+        font-size: 3.5rem;
       }
     }
 
     @media (max-width: 480px) {
-      .page-title {
-        font-size: 1.8rem;
+      .contact-page {
+        padding: 2rem 1rem;
       }
 
-      .contact-main {
-        padding: 2rem 0;
+      .contact-title {
+        font-size: 2.8rem;
       }
 
-      .section-content {
-        padding: 0 1rem;
-      }
-
-      .contact-form {
-        padding: 1.5rem 1rem;
+      .form-row {
+        grid-template-columns: 1fr;
       }
     }
   </style>
