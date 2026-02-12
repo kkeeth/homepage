@@ -96,14 +96,6 @@
       },
       "philosophy": "I believe in the power of technology to transform lives and make the world a better place. I am passionate about creating digital experiences that are not only beautiful but also functional and user-friendly. I am constantly learning and evolving to stay ahead in the fast-paced world of web development."
     },
-    "program": {
-      "title": "Episode Lineup",
-      "stats": {
-        "seasons": "Seasons",
-        "episodes": "Episodes",
-        "update": "Updates"
-      }
-    },
     "episode": {
       "hero": {
         "title": "All Episodes"
@@ -114,13 +106,6 @@
         "episodes": "Episodes",
         "update": "Updates"
       }
-    },
-    "output": {
-      "title": "OUTPUT",
-      "podcasts": "Podcasts",
-      "blogs": "Blogs",
-      "artworks": "Artworks",
-      "viewAll": "View All"
     },
     "info": {
       "hero": {
@@ -136,30 +121,35 @@
       "timeline": {
         "title": "Our Journey",
         "items": {
-          "start": {
+          "2020": {
             "year": "2020",
             "title": "Show Launch",
-            "description": "Started broadcasting with the desire to share web technology more casually."
+            "description": "Started broadcasting with the desire to casually chat about web technology."
           },
-          "growth": {
+          "2021": {
             "year": "2021",
             "title": "Growing Audience",
-            "description": "Through regular broadcasting, the listener community gradually grew."
+            "description": "Through broadcasting, the listener gradually grew."
           },
-          "expansion": {
+          "2022": {
             "year": "2022",
             "title": "Show Expansion",
             "description": "Launched new show series and expanded the range of topics covered."
           },
-          "milestone": {
+          "2023": {
             "year": "2023",
             "title": "800+ Episodes",
             "description": "Reached 800 episodes across all shows, supported by many listeners."
           },
-          "current": {
+          "2024": {
             "year": "2024",
-            "title": "Continuing Evolution",
+            "title": "Increasing Shows",
             "description": "Operating 6 shows and continuing to grow with the community."
+          },
+          "2025": {
+            "year": "2025",
+            "title": "Participating in Events",
+            "description": "<a href=\"https://webcreator-podcast-day.com/\" target=\"_blank\">WEB CREATOR PODCAST DAY</a>, <a href=\"https://connpass.com/event/370351//\" target=\"_blank\">Engineer Podcast Meetup #2</a> appearances"
           }
         }
       },
@@ -213,7 +203,15 @@
           },
           "creative": {
             "icon": "palette",
-            "label": "Creative"
+            "label": "Generative Art"
+          },
+          "community": {
+            "icon": "people",
+            "label": "Community"
+          },
+          "genai": {
+            "icon": "robot",
+            "label": "Generative AI"
           }
         }
       },

@@ -122,30 +122,35 @@
       "timeline": {
         "title": "番組の歩み",
         "items": {
-          "start": {
+          "2020": {
             "year": "2020",
             "title": "番組スタート",
-            "description": "Web技術をもっと気軽に共有したいという想いから配信を開始．"
+            "description": "Web技術について気軽に雑談したいという想いから配信を開始．"
           },
-          "growth": {
+          "2021": {
             "year": "2021",
             "title": "リスナー拡大",
-            "description": "定期配信を続け，リスナーコミュニティが徐々に成長．"
+            "description": "配信を続け，リスナーが徐々に成長．"
           },
-          "expansion": {
+          "2022": {
             "year": "2022",
             "title": "番組展開",
             "description": "新たな番組シリーズを立ち上げ，扱うテーマの幅を拡大．"
           },
-          "milestone": {
+          "2023": {
             "year": "2023",
             "title": "800エピソード突破",
             "description": "全番組合わせて800エピソードを達成，多くのリスナーに支えられる．"
           },
-          "current": {
+          "2024": {
             "year": "2024",
-            "title": "さらなる進化",
+            "title": "番組を増やす",
             "description": "6つの番組を運営し，コミュニティとともに成長を続ける．"
+          },
+          "2025": {
+            "year": "2025",
+            "title": "各イベントに参加",
+            "description": "<a href=\"https://webcreator-podcast-day.com/\" target=\"_blank\">WEB CREATOR PODCAST DAY</a>，<a href=\"https://connpass.com/event/370351//\" target=\"_blank\">エンジニアポッドキャストMeetup #2</a> に出演"
           }
         }
       },
@@ -199,7 +204,15 @@
           },
           "creative": {
             "icon": "palette",
-            "label": "クリエイティブ"
+            "label": "ジェネラティブアート"
+          },
+          "community": {
+            "icon": "people",
+            "label": "コミュニティ"
+          },
+          "genai": {
+            "icon": "robot",
+            "label": "生成AI"
           }
         }
       },

@@ -36,7 +36,7 @@
         <span class="section-label">// {t("pages.info.concept.title")}</span>
         <h2 class="section-title">{t("pages.info.topics.title")}</h2>
         <div class="tag-list">
-          <span each={topic in state.topics} class="tag">{topic.label}</span>
+          <span each={topic in state.topics} class="tag"><sl-icon name={topic.icon}></sl-icon>{"\u00A0" + topic.label}</span>
         </div>
       </div>
     </section>
@@ -54,7 +54,7 @@
             </div>
             <div class="timeline-body">
               <h3 class="timeline-heading">{item.title}</h3>
-              <p class="timeline-desc">{item.description}</p>
+              <p class="timeline-desc"><raw html={item.description} /></p>
             </div>
           </div>
         </div>
@@ -86,7 +86,7 @@
         topics: [],
       },
       onBeforeUpdate(_, state) {
-        const timelineKeys = ['start', 'growth', 'expansion', 'milestone', 'current'];
+        const timelineKeys = ['2020', '2021', '2022', '2023', '2024', '2025'];
         state.timelineItems = timelineKeys.map((key, i) => ({
           id: i + 1,
           year: this.t(`pages.info.timeline.items.${key}.year`),
@@ -101,9 +101,10 @@
           label: this.t(`pages.info.achievements.${key}.label`),
         }));
 
-        const topicKeys = ['frontend', 'backend', 'libraries', 'career', 'daily', 'creative'];
+        const topicKeys = ['frontend', 'backend', 'libraries', 'career', 'daily', 'creative', 'community', 'genai'];
         state.topics = topicKeys.map((key, i) => ({
           label: this.t(`pages.info.topics.items.${key}.label`),
+          icon: this.t(`pages.info.topics.items.${key}.icon`),
         }));
       },
     }
