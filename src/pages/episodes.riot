@@ -45,6 +45,10 @@
           </div>
         </div>
       </div>
+      <!-- Scroll indicator -->
+      <div class="scroll-indicator">
+        <span></span>
+      </div>
     </section>
 
     <!-- Mini header for page 2+ -->
@@ -219,6 +223,48 @@
 
     .content-inner {
       max-width: 500px;
+    }
+
+    /* Scroll Indicator */
+    .scroll-indicator {
+      position: absolute;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 3;
+    }
+
+    .scroll-indicator span {
+      display: block;
+      width: 24px;
+      height: 40px;
+      border: 2px solid rgba(255, 255, 255, 0.2);
+      border-radius: 12px;
+      position: relative;
+    }
+
+    .scroll-indicator span::before {
+      content: '';
+      position: absolute;
+      top: 8px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 4px;
+      height: 8px;
+      background: rgba(255, 255, 255, 0.4);
+      border-radius: 2px;
+      animation: scroll-bounce 2s ease-in-out infinite;
+    }
+
+    @keyframes scroll-bounce {
+      0%, 100% {
+        transform: translateX(-50%) translateY(0);
+        opacity: 1;
+      }
+      50% {
+        transform: translateX(-50%) translateY(10px);
+        opacity: 0.3;
+      }
     }
 
    /* Giant Episode Number (background decoration) */
