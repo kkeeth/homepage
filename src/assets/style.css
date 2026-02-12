@@ -11,7 +11,6 @@
   --rain-blue: #3498db;
   --deep-rain: #2980b9;
   --storm-cloud: #2c3e50;
-  --coffee-brown: #2c3e50;
   --warm-amber: #ff9800;
   --cozy-orange: #ff7043;
   --soft-teal: #3498db;
@@ -20,7 +19,7 @@
   /* Primary Theme Colors */
   --primary-color: var(--rain-blue);
   --secondary-color: var(--warm-amber);
-  --hero-bg: #2c3e50;
+  --hero-bg: var(--storm-cloud);
 
   /* Semantic Colors */
   --background-color: var(--warm-white);
@@ -143,30 +142,36 @@ html {
   outline-offset: 2px;
 }
 
-/* Card styles */
-.section-title {
-  font-size: 2rem;
-  font-weight: 800;
-  margin-bottom: 1rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 1rem;
-  color: #1a1a1a;
+/* Shared utility classes — contact-style design system */
+.section-label {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--rain-blue);
+  letter-spacing: 0.12em;
+  margin-bottom: 0.75rem;
+  font-family: monospace;
+}
+
+.page-title {
+  font-size: 4.5rem;
+  font-weight: 900;
+  font-style: italic;
+  color: var(--charcoal);
+  line-height: 1;
+  margin-bottom: 2rem;
   letter-spacing: -0.02em;
 }
 
-.section-header-casual {
-  text-align: center;
-  margin-bottom: 4rem;
-}
-
-.title-underline {
-  width: 80px;
-  height: 3px;
-  background: var(--rain-blue);
-  margin: 0 auto;
-  border-radius: 2px;
+/* Section title — large italic */
+.section-title {
+  font-size: 2.5rem;
+  font-weight: 900;
+  font-style: italic;
+  color: var(--charcoal);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  margin-bottom: 1rem;
 }
 
 .episodes-section {
@@ -239,5 +244,5 @@ sl-button[disabled]:hover::part(base) {
   align-items: center;
   gap: 1rem;
   margin: 3rem 0;
-  color: var(--coffee-brown);
+  color: var(----storm-cloud);
 }
