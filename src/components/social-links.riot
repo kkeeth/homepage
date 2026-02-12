@@ -4,7 +4,9 @@
       each={link in state.socialLinks}
       key={link.name}
       href={link.url}
-      target="_blank"
+      target={link.url.startsWith('mailto:') ? '_self' : '_blank'}
+      rel="noopener noreferrer"
+      class="social-icon"
       aria-label={link.label}
     >
       <sl-icon name={link.icon}></sl-icon>
@@ -27,14 +29,37 @@
       gap: 1rem;
     }
 
-    .social-links a {
-      color: var(--social-link-color);
-      font-size: 1rem;
-      transition: color 0.3s ease;
+    .social-icon {
+      font-size: 1.5rem;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
-    .social-links a:hover {
-      color: var(--accent-color);
+    .social-icon[href*="x.com"],
+    .social-icon[href*="twitter"] {
+      color: #000;
+    }
+
+    .social-icon[href*="linkedin"] {
+      color: #0a66c2;
+    }
+
+    .social-icon[href*="github"] {
+      color: #000;
+    }
+
+    .social-icon[href*="mailto"] {
+      color: var(--mint-500);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .social-links {
+        justify-content: center;
+      }
     }
   </style>
 </social-links>

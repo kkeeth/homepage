@@ -236,13 +236,3 @@ sl-button[disabled]:hover::part(base) {
   background: transparent;
   color: var(--sl-color-neutral-400);
 }
-
-/* Loading indicator with rain theme */
-.loading-indicator {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1rem;
-  margin: 3rem 0;
-  color: var(----storm-cloud);
-}

@@ -1,30 +1,27 @@
 // ソーシャルメディアリンク
-export const SOCIAL_LINKS = {
-  TWITTER: 'https://x.com/kuwahara_jsri',
-  GITHUB: 'https://github.com/kkeeth',
-  SPOTIFY: 'https://open.spotify.com/show/4ZqUQtob7eJrz9DQV7lPVd',
-  SUBSTACK: 'https://kkeeth.substack.com',
-  EMAIL: 'mailto:zensin0082@gmail.com',
-};
-
-// プラットフォーム情報（アイコン名とURL）
-export const PLATFORM_CONFIG = [
+export const SOCIAL_LINKS = [
   {
     name: '𝕏',
     icon: 'twitter-x',
-    url: SOCIAL_LINKS.TWITTER,
+    url: 'https://x.com/kuwahara_jsri',
     label: '𝕏',
   },
   {
     name: 'github',
     icon: 'github',
-    url: SOCIAL_LINKS.GITHUB,
+    url: 'https://github.com/kkeeth',
     label: 'GitHub',
+  },
+  {
+    name: 'linkedin',
+    icon: 'linkedin',
+    url: 'https://www.linkedin.com/in/kkeeth/',
+    label: 'LinkedIn',
   },
   {
     name: 'email',
     icon: 'envelope-fill',
-    url: SOCIAL_LINKS.EMAIL,
+    url: 'mailto:zensin0082@gmail.com',
     label: 'Email',
   },
 ];

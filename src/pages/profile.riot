@@ -9,18 +9,7 @@
           <div class="hero-image">
             <img src="/images/mypicture.jpeg" alt="kkeeth" />
           </div>
-          <div class="hero-social">
-            <a
-              each={platform in state.platforms}
-              key={platform.name}
-              href={platform.url}
-              target={platform.url.startsWith('mailto:') ? '_self' : '_blank'}
-              class="social-icon"
-              aria-label={platform.name}
-            >
-              <sl-icon name={platform.icon}></sl-icon>
-            </a>
-          </div>
+          <social-links />
         </div>
         <div class="hero-right">
           <p class="hero-role">{t("pages.profile.role")}</p>
@@ -97,13 +86,13 @@
   </div>
 
   <script>
-    import { PLATFORM_CONFIG, MY_SKILLS } from '@/constants/links';
+    import { SOCIAL_LINKS, MY_SKILLS } from '@/constants/links';
     import i18nStore from '@/stores/i18n-store';
 
     export default {
       t: i18nStore.t.bind(i18nStore),
       state: {
-        platforms: PLATFORM_CONFIG,
+        socials: SOCIAL_LINKS,
         skills: MY_SKILLS,
         journeyItems: []
       },
@@ -182,45 +171,6 @@
       color: var(--misty-gray);
       margin-bottom: 2rem;
       font-weight: 400;
-    }
-
-    /* Platform-specific colors */
-    .hero-social {
-      display: flex;
-      gap: 0.25rem;
-    }
-
-    .social-icon {
-      font-size: 1.5rem;
-      width: 40px;
-      height: 40px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-decoration: none;
-      transition: all 0.2s ease;
-    }
-
-    .social-icon:hover {
-      color: var(--rain-blue);
-      transform: translateY(-2px);
-    }
-
-    .social-icon[href*="x.com"],
-    .social-icon[href*="twitter"] {
-      color: #000;
-    }
-
-    .social-icon[href*="spotify"] {
-      color: #1db954;
-    }
-
-    .social-icon[href*="substack"] {
-      color: #ff6719;
-    }
-
-    .social-icon[href*="mailto"] {
-      color: var(--mint-500);
     }
 
     .about-description {
@@ -344,13 +294,14 @@
         text-align: center;
       }
 
+      .hero-image {
+        display: flex;
+        justify-content: center;
+      }
+
       .hero-image img {
         width: 200px;
         height: 200px;
-      }
-
-      .hero-social {
-        justify-content: center;
       }
 
       .stats {
