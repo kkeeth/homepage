@@ -1,6 +1,6 @@
 <episodes>
   <div class="episodes">
-    <!-- Full-Screen Latest Episode Hero - Split Layout -->
+    <!-- Latest Episode Hero - Dark Split Layout -->
     <section class="latest-hero" if={state.latestEpisode && state.currentPage === 1}>
       <div class="hero-inner">
         <!-- Left: Square Artwork -->
@@ -13,12 +13,12 @@
         <!-- Right: Content -->
         <div class="hero-content">
           <div class="content-inner">
-            <!-- Giant Episode Number (decorative) -->
+          <!-- Giant Episode Number (decorative) -->
             <div class="episode-number">
-              <span class="number-value">#{getEpisodeNumber()}</span>
+              <span class="number-value">#Season</span>
+              <span class="number-value">{getEpisodeNumber()}</span>
             </div>
-
-            <span class="hero-label">{t("pages.episode.latest")}</span>
+            <span class="section-label">// LATEST EPISODE</span>
             <h1 class="hero-title">
               <a href={"/episodes/" + getEpisodeId(state.latestEpisode)}>{stripSeasonPrefix(state.latestEpisode.title)}</a>
             </h1>
@@ -30,34 +30,28 @@
             </a>
 
             <!-- Platform Links -->
-            <div class="hero-platforms">
-              <a href="https://podcasts.apple.com/jp/podcast/雨宿りとwebの小噺-fm/id1516699977" target="_blank" class="platform-icon" aria-label="Apple Podcasts">
-                <sl-icon name="apple"></sl-icon>
-              </a>
-              <a href="https://open.spotify.com/show/4ZqUQtob7eJrz9DQV7lPVd" target="_blank" class="platform-icon" aria-label="Spotify">
-                <sl-icon name="spotify"></sl-icon>
-              </a>
-              <a href="https://music.amazon.co.jp/podcasts/1ea89476-2b4f-4ba4-8260-57ed5ef45df5" target="_blank" class="platform-icon" aria-label="Amazon Music">
-                <sl-icon name="amazon"></sl-icon>
-              </a>
-              <a href="https://music.youtube.com/playlist?list=PLVncrZRHU7RjSBziqoUGmfsyM41SY_l4u" target="_blank" class="platform-icon" aria-label="YouTube Music">
-                <sl-icon name="youtube"></sl-icon>
+            <div class="platform-icons">
+              <a
+                each={platform in state.platforms}
+                key={platform.name}
+                href={platform.url}
+                target="_blank"
+                class="platform-icon-link platform-{platform.icon}"
+                title={platform.name}
+              >
+                <sl-icon name={platform.icon}></sl-icon>
               </a>
             </div>
           </div>
         </div>
       </div>
-
-      <!-- Scroll indicator -->
-      <div class="scroll-indicator">
-        <span></span>
-      </div>
     </section>
 
-    <!-- Fallback header for page 2+ -->
+    <!-- Mini header for page 2+ -->
     <section class="mini-header" if={state.currentPage > 1}>
       <div class="mini-header-content">
-        <h1>{t("pages.episode.hero.title")}</h1>
+        <span class="section-label">// EPISODES</span>
+        <h1 class="mini-title">{t("pages.episode.hero.title")}</h1>
         <span class="page-indicator">Page {state.currentPage}</span>
       </div>
     </section>
@@ -79,6 +73,7 @@
   <script>
     import episodeStore from '@/stores/episode-store';
     import i18nStore from '@/stores/i18n-store';
+    import { PODCAST_PLATFORMS } from '@/constants/links';
 
     export default {
       t: i18nStore.t.bind(i18nStore),
@@ -90,7 +85,8 @@
         latestEpisodeNumber: 0,
         currentPage: 1,
         totalCount: 0,
-        pageSize: 10
+        pageSize: 10,
+        platforms: PODCAST_PLATFORMS,
       },
       getEpisodeId(episode) {
         if (episode.link) {
@@ -151,7 +147,7 @@
       },
 
       parseSeasonLabel(title) {
-        const match = title.match(/^(Season \d+-\d+)\.\s*/);
+        const match = title.match(/^Season (\d+-\d+)\.\s*/);
         return match ? match[1] : '';
       },
 
@@ -170,12 +166,12 @@
       min-height: 100vh;
     }
 
-    /* ===== Split Layout Hero ===== */
+    /* ===== Dark Split Layout Hero ===== */
     .latest-hero {
       position: relative;
       height: 90vh;
       min-height: 600px;
-      background: var(--navy-800);
+      background: var(--charcoal);
     }
 
     .hero-inner {
@@ -184,13 +180,13 @@
       height: 90%;
     }
 
-    /* ===== Left: Square Artwork ===== */
+    /* Left: Artwork */
     .hero-artwork {
       display: flex;
       align-items: center;
       justify-content: center;
       padding: 4rem;
-      background: var(--navy-900);
+      background: var(--storm-cloud);
     }
 
     .artwork-link {
@@ -200,17 +196,12 @@
       aspect-ratio: 1;
       border-radius: 1rem;
       overflow: hidden;
-      box-shadow:
-        0 25px 50px -12px rgba(0, 0, 0, 0.5),
-        0 0 0 1px rgba(255, 255, 255, 0.05);
-      transition: transform 0.4s ease, box-shadow 0.4s ease;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+      transition: transform 0.3s ease;
     }
 
     .artwork-link:hover {
       transform: scale(1.02) translateY(-4px);
-      box-shadow:
-        0 30px 60px -15px rgba(0, 0, 0, 0.6),
-        0 0 0 1px rgba(255, 255, 255, 0.1);
     }
 
     .artwork-link img {
@@ -219,52 +210,48 @@
       object-fit: cover;
     }
 
-    /* ===== Right: Content ===== */
+    /* Right: Content */
     .hero-content {
       display: flex;
       align-items: center;
       padding: 4rem;
-      position: relative;
-      overflow: hidden;
     }
 
     .content-inner {
-      position: relative;
-      z-index: 2;
       max-width: 500px;
     }
 
-    /* Giant Episode Number (background decoration) */
-    .episode-number {
-      position: absolute;
-      right: -10%;
-      top: 50%;
-      transform: translateY(-50%);
-      z-index: 1;
-      display: flex;
-      align-items: baseline;
-      font-family: 'Josefin Sans', sans-serif;
-      font-weight: 700;
-      color: rgba(255, 255, 255, 0.03);
-      line-height: 1;
-      pointer-events: none;
-      user-select: none;
-    }
+   /* Giant Episode Number (background decoration) */
+   .episode-number {
+     position: absolute;
+     right: 0;
+     top: 45%;
+     transform: translateY(-50%);
+     z-index: 1;
+     display: flex;
+     flex-direction: column;
+     align-items: flex-start;
+     font-family: 'Josefin Sans', sans-serif;
+     font-weight: 700;
+     color: rgba(255, 255, 255, 0.03);
+     line-height: 1;
+     pointer-events: none;
+     user-select: none;
+   }
 
-    .number-value {
-      font-size: 9rem;
-      letter-spacing: -0.05em;
-    }
+   .number-value {
+     font-size: 9rem;
+     letter-spacing: -0.05em;
+   }
 
-    /* Typography */
-    .hero-label {
-      display: inline-block;
-      font-size: 0.6875rem;
-      font-weight: 500;
-      text-transform: uppercase;
-      letter-spacing: 0.25em;
-      color: var(--mint-400);
+    .section-label {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--warm-amber);
+      letter-spacing: 0.12em;
       margin-bottom: 1.5rem;
+      font-family: monospace;
     }
 
     .hero-title {
@@ -275,22 +262,22 @@
       color: white;
       text-decoration: none;
       font-size: 2.75rem;
-      font-weight: 700;
-      line-height: 1.2;
+      font-weight: 900;
+      font-style: italic;
+      line-height: 1.15;
       letter-spacing: -0.02em;
-      transition: color 0.3s ease;
+      transition: color 0.2s ease;
     }
 
     .hero-title a:hover {
-      color: var(--mint-300);
+      color: var(--rain-blue);
     }
 
     .hero-date {
       font-size: 0.9375rem;
       color: rgba(255, 255, 255, 0.5);
-      font-weight: 400;
-      letter-spacing: 0.02em;
       margin-bottom: 3rem;
+      font-family: monospace;
     }
 
     /* Play Button */
@@ -301,10 +288,10 @@
       padding: 1rem 2rem;
       background: var(--mint-500);
       border-radius: 4rem;
-      color: var(--navy-900);
+      color: var(--warm-white);
       text-decoration: none;
       font-weight: 600;
-      transition: all 0.3s ease;
+      transition: all 0.2s ease;
       margin-bottom: 3rem;
     }
 
@@ -323,7 +310,7 @@
       align-items: center;
       justify-content: center;
       font-size: 0.75rem;
-      color: var(--navy-800);
+      color: var(--charcoal);
     }
 
     .play-text {
@@ -332,120 +319,66 @@
     }
 
     /* Platform Links */
-    .hero-platforms {
+    .platform-icons {
       display: flex;
       gap: 0.75rem;
     }
 
-    .platform-icon {
+    .platform-icon-link {
+      width: 40px;
+      height: 40px;
       display: flex;
       align-items: center;
       justify-content: center;
-      width: 44px;
-      height: 44px;
-      background: rgba(255, 255, 255, 0.08);
-      border: 1px solid rgba(255, 255, 255, 0.1);
       border-radius: 50%;
       color: rgba(255, 255, 255, 0.6);
       text-decoration: none;
       transition: all 0.3s ease;
     }
 
-    .platform-icon:hover {
-      transform: translateY(-3px);
+    .platform-icon-link:hover {
+      transform: translateY(-4px);
       color: white;
     }
 
-    .platform-icon sl-icon {
-      font-size: 1.125rem;
+    .platform-icon-link sl-icon {
+      font-size: 1.25rem;
     }
 
-    .platform-icon[href*="apple"]:hover {
-      background: #A855F7;
-      border-color: #A855F7;
-    }
-
-    .platform-icon[href*="spotify"]:hover {
-      background: #1db954;
-      border-color: #1db954;
-    }
-
-    .platform-icon[href*="amazon"]:hover {
-      background: #ff9900;
-      border-color: #ff9900;
-    }
-
-    .platform-icon[href*="youtube"]:hover {
-      background: #ff0000;
-      border-color: #ff0000;
-    }
-
-    /* Scroll Indicator */
-    .scroll-indicator {
-      position: absolute;
-      bottom: 2rem;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 3;
-    }
-
-    .scroll-indicator span {
-      display: block;
-      width: 24px;
-      height: 40px;
-      border: 2px solid rgba(255, 255, 255, 0.2);
-      border-radius: 12px;
-      position: relative;
-    }
-
-    .scroll-indicator span::before {
-      content: '';
-      position: absolute;
-      top: 8px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 4px;
-      height: 8px;
-      background: rgba(255, 255, 255, 0.4);
-      border-radius: 2px;
-      animation: scroll-bounce 2s ease-in-out infinite;
-    }
-
-    @keyframes scroll-bounce {
-      0%, 100% {
-        transform: translateX(-50%) translateY(0);
-        opacity: 1;
-      }
-      50% {
-        transform: translateX(-50%) translateY(10px);
-        opacity: 0.3;
-      }
-    }
+    .platform-apple:hover { background: #A855F7; border-color: #A855F7; }
+    .platform-spotify:hover { background: #1DB954; border-color: #1DB954; }
+    .platform-amazon:hover { background: #FF9900; border-color: #FF9900; }
+    .platform-youtube:hover { background: #FF0000; border-color: #FF0000; }
+    .platform-rss:hover { background: #F97316; border-color: #F97316; }
 
     /* ===== Mini Header (Page 2+) ===== */
     .mini-header {
-      background: var(--navy-800);
-      padding: 2rem 0;
-      color: white;
+      padding: 3rem 4rem 2rem;
+      border-bottom: 1px solid var(--light-gray);
+    }
+
+    .mini-header .section-label {
+      color: var(--rain-blue);
     }
 
     .mini-header-content {
-      max-width: 1000px;
+      max-width: 1200px;
       margin: 0 auto;
-      padding: 0 2rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
     }
 
-    .mini-header h1 {
-      font-size: 1.5rem;
-      font-weight: 600;
+    .mini-title {
+      font-size: 2.5rem;
+      font-weight: 900;
+      font-style: italic;
+      color: var(--charcoal);
+      letter-spacing: -0.02em;
+      margin-bottom: 0.5rem;
     }
 
     .page-indicator {
       font-size: 0.875rem;
-      opacity: 0.6;
+      color: var(--misty-gray);
+      font-family: monospace;
     }
 
     /* ===== Episodes Section ===== */
@@ -476,14 +409,6 @@
 
       .hero-title a {
         font-size: 2.25rem;
-      }
-
-      .number-prefix {
-        font-size: 5rem;
-      }
-
-      .number-value {
-        font-size: 14rem;
       }
     }
 
@@ -518,14 +443,6 @@
         max-width: 100%;
       }
 
-      .episode-number {
-        display: none;
-      }
-
-      .hero-label {
-        margin-bottom: 1rem;
-      }
-
       .hero-title a {
         font-size: 1.75rem;
       }
@@ -542,16 +459,16 @@
         justify-content: center;
       }
 
-      .scroll-indicator {
-        display: none;
-      }
-
       .section-content {
         padding: 0 1rem;
       }
 
-      .mini-header-content {
-        padding: 0 1rem;
+      .mini-header {
+        padding: 2rem 2rem 1.5rem;
+      }
+
+      .mini-title {
+        font-size: 2rem;
       }
     }
 
@@ -590,6 +507,10 @@
       .platform-icon {
         width: 40px;
         height: 40px;
+      }
+
+      .mini-header {
+        padding: 2rem 1.5rem 1rem;
       }
     }
   </style>

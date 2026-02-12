@@ -1,15 +1,3 @@
-// ポッドキャスト配信プラットフォーム
-export const PODCAST_PLATFORMS = {
-  SPOTIFY: 'https://open.spotify.com/show/4ZqUQtob7eJrz9DQV7lPVd',
-  APPLE_PODCASTS:
-    'https://podcasts.apple.com/jp/podcast/雨宿りとwebの小噺-fm/id1516699977',
-  YOUTUBE_MUSIC:
-    'https://music.youtube.com/playlist?list=PLVncrZRHU7RjSBziqoUGmfsyM41SY_l4u',
-  AMAZON_MUSIC:
-    'https://music.amazon.co.jp/podcasts/1ea89476-2b4f-4ba4-8260-57ed5ef45df5',
-  RSS_FEED: 'https://rss.art19.com/kkeethengineers',
-};
-
 // ソーシャルメディアリンク
 export const SOCIAL_LINKS = {
   TWITTER: 'https://x.com/kuwahara_jsri',
@@ -22,28 +10,16 @@ export const SOCIAL_LINKS = {
 // プラットフォーム情報（アイコン名とURL）
 export const PLATFORM_CONFIG = [
   {
-    name: 'twitter',
+    name: '𝕏',
     icon: 'twitter-x',
     url: SOCIAL_LINKS.TWITTER,
-    label: 'Twitter',
+    label: '𝕏',
   },
   {
     name: 'github',
     icon: 'github',
     url: SOCIAL_LINKS.GITHUB,
     label: 'GitHub',
-  },
-  {
-    name: 'spotify',
-    icon: 'spotify',
-    url: SOCIAL_LINKS.SPOTIFY,
-    label: 'Spotify',
-  },
-  {
-    name: 'substack',
-    icon: 'substack',
-    url: SOCIAL_LINKS.SUBSTACK,
-    label: 'Substack',
   },
   {
     name: 'email',
@@ -53,32 +29,32 @@ export const PLATFORM_CONFIG = [
   },
 ];
 
-// プラットフォーム配信用の設定（homeページ用）
-export const HOME_PLATFORMS = [
+// プラットフォーム配信用
+export const PODCAST_PLATFORMS = [
   {
     name: 'Apple Podcasts',
     icon: 'apple',
-    url: PODCAST_PLATFORMS.APPLE_PODCASTS,
+    url: 'https://podcasts.apple.com/jp/podcast/雨宿りとwebの小噺-fm/id1516699977',
   },
   {
     name: 'Spotify',
     icon: 'spotify',
-    url: PODCAST_PLATFORMS.SPOTIFY,
+    url: 'https://open.spotify.com/show/4ZqUQtob7eJrz9DQV7lPVd',
   },
   {
     name: 'Amazon Music',
     icon: 'amazon',
-    url: PODCAST_PLATFORMS.AMAZON_MUSIC,
+    url: 'https://music.amazon.co.jp/podcasts/1ea89476-2b4f-4ba4-8260-57ed5ef45df5',
   },
   {
     name: 'YouTube Music',
     icon: 'youtube',
-    url: PODCAST_PLATFORMS.YOUTUBE_MUSIC,
+    url: 'https://music.youtube.com/playlist?list=PLVncrZRHU7RjSBziqoUGmfsyM41SY_l4u',
   },
   {
     name: 'RSS Feed',
     icon: 'rss',
-    url: PODCAST_PLATFORMS.RSS_FEED,
+    url: 'https://rss.art19.com/kkeethengineers',
   },
 ];
 
