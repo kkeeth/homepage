@@ -223,16 +223,25 @@
       }
     },
     "contact": {
-      "message": "We'd love to hear from you! Feel free to send us a message.",
-      "hero": {
-        "title": "Let's Connect"
+      "label": "// SEND FREQUENCY",
+      "title": "SIGNAL.",
+      "desc1": "Slip your thoughts into the sound of rain and send them our way.",
+      "desc2": "From technical questions to show feedback, or just casual chats you'd like someone to hear.",
+      "desc3": "Kuwahara receives all signals while taking shelter from the rain.",
+      "community": {
+        "title": "Join the Community",
+        "description": "Real-time discussions and post-show chats happen on our Discord server.",
+        "link": "CONNECT TO SERVER"
       },
+      "note1": "// Average response time: 24-72 hours.",
+      "note2": "// Depends on the server load and rain condition.",
       "form": {
         "handleName": "Handle Name",
-        "handleNamePlaceholder": "Enter your handle name",
-        "contactInfo": "Contact Info (SNS accounts accepted)",
-        "contactInfoPlaceholder": "Email or SNS account",
-        "theme": "Message Theme",
+        "handleNamePlaceholder": "Input your name",
+        "contactInfo": "Contact Info",
+        "contactInfoPlaceholder": "Email or Social ID",
+        "theme": "Topic Selection",
+        "themePlaceholder": "Select a frequency theme...",
         "themeOptions": {
           "question": "Question",
           "feedback": "Feedback / Opinion",
@@ -240,11 +249,11 @@
           "other": "Other"
         },
         "otherPlaceholder": "Please enter your theme",
-        "content": "Message",
-        "contentPlaceholder": "Enter your message here",
-        "required": "Required",
-        "submit": "Submit",
-        "sending": "Sending...",
+        "content": "Message Content",
+        "contentPlaceholder": "Type your message frequency here...",
+        "required": "*",
+        "submit": "TRANSMIT SIGNAL",
+        "sending": "TRANSMITTING...",
         "success": "Your message has been sent! Thank you.",
         "error": "Failed to send. Please try again later."
       }

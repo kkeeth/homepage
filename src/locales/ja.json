@@ -209,16 +209,25 @@
       }
     },
     "contact": {
-      "message": "お便りお待ちしております！お気軽にお送りください。",
-      "hero": {
-        "title": "お便り"
+      "label": "// SEND FREQUENCY",
+      "title": "SIGNAL.",
+      "desc1": "雨音に紛れて、あなたの思考を届けてください。",
+      "desc2": "技術的な質問、番組へのフィードバック、あるいは誰かに聞いてほしい雑談まで。",
+      "desc3": "桑原が雨宿りしながら、全ての信号を受信します。",
+      "community": {
+        "title": "Join the Community",
+        "description": "リアルタイムな交流や、放送後の雑談はDiscordサーバーで行われています。",
+        "link": "CONNECT TO SERVER"
       },
+      "note1": "// Average response time: 24-72 hours.",
+      "note2": "// Depends on the server load and rain condition.",
       "form": {
         "handleName": "ハンドルネーム",
         "handleNamePlaceholder": "ハンドルネームを入力",
-        "contactInfo": "連絡先（SNSアカウントも可）",
-        "contactInfoPlaceholder": "メールアドレスやSNSアカウント",
+        "contactInfo": "連絡先",
+        "contactInfoPlaceholder": "SNSアカウントやメールアドレス",
         "theme": "お便りテーマ",
+        "themePlaceholder": "テーマを選択してください…",
         "themeOptions": {
           "question": "ご質問",
           "feedback": "ご感想・ご意見",
@@ -227,10 +236,10 @@
         },
         "otherPlaceholder": "テーマを入力してください",
         "content": "お便り内容",
-        "contentPlaceholder": "お便りの内容を入力してください",
-        "required": "必須",
-        "submit": "送信する",
-        "sending": "送信中...",
+        "contentPlaceholder": "お便りの内容を入力してください…",
+        "required": "*",
+        "submit": "TRANSMIT SIGNAL",
+        "sending": "TRANSMITTING...",
         "success": "お便りを送信しました！ありがとうございます。",
         "error": "送信に失敗しました。時間をおいて再度お試しください。"
       }
