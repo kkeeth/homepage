@@ -1,52 +1,18 @@
 <info>
   <div class="info-page">
-    <!-- Hero: Editorial Split -->
+    <!-- Hero: Editorial Split (dark photo + white text) -->
     <section class="hero">
       <div class="hero-photo">
         <img src="/images/mypicture.jpeg" alt="kkeeth" />
       </div>
       <div class="hero-text">
-        <h1 class="hero-title">{t("pages.info.hero.title")}</h1>
+        <span class="section-label hero-label-light">// ABOUT THE SHOW</span>
+        <h1 class="page-title hero-title-light">{t("pages.info.hero.title")}</h1>
         <p class="hero-description">{t("pages.info.concept.description1")}</p>
         <p class="hero-description">{t("pages.info.concept.description2")}</p>
-        <div class="hero-label">
+        <div class="hero-label-row">
           <span class="hero-line"></span>
           <span class="hero-label-text">{t("pages.info.hero.label")}</span>
-        </div>
-      </div>
-    </section>
-
-    <!-- Timeline: Zigzag Evolution -->
-    <section class="evolution">
-      <div class="section-inner">
-        <h2 class="evolution-title">{t("pages.info.timeline.title")}</h2>
-        <div class="zigzag-timeline">
-          <div
-            each={item in state.timelineItems}
-            key={item.id}
-            class={'timeline-row ' + (item.id % 2 === 1 ? 'row-left' : 'row-right')}
-          >
-            <div class="timeline-content">
-              <span class="timeline-date">{item.year}</span>
-              <h3 class="timeline-heading">{item.title}</h3>
-              <p class="timeline-desc">{item.description}</p>
-            </div>
-            <div class="timeline-dot"></div>
-            <div class="timeline-spacer"></div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Stats: Numbered Cards -->
-    <section class="stats-section">
-      <div class="section-inner">
-        <div class="stats-row">
-          <div class="stat-item" each={stat in state.stats} key={stat.num}>
-            <span class="stat-bg-num">{stat.num}</span>
-            <span class="stat-value">{stat.value}</span>
-            <span class="stat-label">{stat.label}</span>
-          </div>
         </div>
       </div>
     </section>
@@ -55,65 +21,66 @@
     <section class="personality">
       <div class="section-inner personality-inner">
         <div class="personality-info">
-          <span class="personality-role">{t("pages.info.personality.title")}</span>
+          <span class="section-label">// HOST</span>
           <h3 class="personality-name">{t("pages.info.personality.name")}</h3>
+          <p class="personality-role-text">{t("pages.info.personality.title")}</p>
           <p class="personality-desc">{t("pages.info.personality.description")}</p>
-          <a href="/profile" class="profile-link">{t("pages.info.personality.profileLink")} &rarr;</a>
+          <a href="/profile" class="profile-link">{t("pages.info.personality.profileLink")} →</a>
         </div>
       </div>
     </section>
 
-    <!-- Topics: Word Cloud -->
+    <!-- Topics: Simple Tag List -->
     <section class="themes">
       <div class="section-inner themes-inner">
-        <span class="themes-subtitle">{t("pages.info.concept.title")}</span>
-        <h2 class="themes-title">{t("pages.info.topics.title")}</h2>
-        <div class="word-cloud">
-          <span each={topic in state.topics} class={'word ' + topic.style}>{topic.label}</span>
+        <span class="section-label">// {t("pages.info.concept.title")}</span>
+        <h2 class="section-title">{t("pages.info.topics.title")}</h2>
+        <div class="tag-list">
+          <span each={topic in state.topics} class="tag">{topic.label}</span>
         </div>
       </div>
     </section>
 
-    <!-- Listen: Split Layout -->
-    <section class="join">
-      <div class="section-inner join-inner">
-        <div class="join-text">
-          <h2 class="join-title">{t("pages.info.listen.title")}</h2>
-          <p class="join-desc">{t("pages.info.listen.description")}</p>
+    <!-- Timeline: Vertical with line + dots -->
+    <section class="evolution">
+      <div class="section-inner">
+        <span class="section-label">// TIMELINE</span>
+        <h2 class="section-title">{t("pages.info.timeline.title")}</h2>
+        <div class="timeline">
+          <div each={item in state.timelineItems} key={item.id} class="timeline-item">
+            <span class="timeline-year">{item.year}</span>
+            <div class="timeline-marker">
+              <span class="timeline-dot"></span>
+            </div>
+            <div class="timeline-body">
+              <h3 class="timeline-heading">{item.title}</h3>
+              <p class="timeline-desc">{item.description}</p>
+            </div>
+          </div>
         </div>
-        <div class="join-platforms">
-          <a
-            each={platform in state.platforms}
-            key={platform.name}
-            href={platform.url}
-            target="_blank"
-            class="platform-card"
-          >
-            <sl-icon name={platform.icon}></sl-icon>
-            <span class="platform-name">{platform.name}</span>
-          </a>
+      </div>
+    </section>
+
+    <!-- Stats: Clean Bordered Cards -->
+    <section class="stats-section">
+      <div class="section-inner">
+        <span class="section-label">// STATS</span>
+        <div class="stats-row">
+          <div class="stat-item" each={stat in state.stats} key={stat.num}>
+            <span class="stat-value">{stat.value}</span>
+            <span class="stat-label">{stat.label}</span>
+          </div>
         </div>
       </div>
     </section>
   </div>
 
   <script>
-    import { HOME_PLATFORMS } from '@/constants/links';
     import i18nStore from '@/stores/i18n-store';
-
-    const TOPIC_STYLES = [
-      'italic-serif',
-      'caps-sans',
-      'underline-serif',
-      'normal-light',
-      'bold-large',
-      'italic-accent',
-    ];
 
     export default {
       t: i18nStore.t.bind(i18nStore),
       state: {
-        platforms: HOME_PLATFORMS,
         timelineItems: [],
         stats: [],
         topics: [],
@@ -137,7 +104,6 @@
         const topicKeys = ['frontend', 'backend', 'libraries', 'career', 'daily', 'creative'];
         state.topics = topicKeys.map((key, i) => ({
           label: this.t(`pages.info.topics.items.${key}.label`),
-          style: TOPIC_STYLES[i],
         }));
       },
     }
@@ -150,7 +116,7 @@
     }
 
     .section-inner {
-      max-width: 960px;
+      max-width: 1200px;
       margin: 0 auto;
     }
 
@@ -158,7 +124,7 @@
     .hero {
       display: grid;
       grid-template-columns: 2fr 3fr;
-      min-height: 80vh;
+      min-height: 70vh;
     }
 
     .hero-photo {
@@ -184,13 +150,12 @@
       padding: 4rem 4rem 4rem 3rem;
     }
 
-    .hero-title {
-      font-size: 3.5rem;
-      font-weight: 900;
-      color: var(--warm-gray);
-      line-height: 1.1;
-      letter-spacing: -0.02em;
-      margin-bottom: 2rem;
+    .hero-label-light {
+      color: var(--rain-blue);
+    }
+
+    .hero-title-light {
+      color: var(--charcoal);
     }
 
     .hero-description {
@@ -201,10 +166,10 @@
     }
 
     .hero-description:last-of-type {
-      margin-bottom: 2.5rem;
+      margin-bottom: 2rem;
     }
 
-    .hero-label {
+    .hero-label-row {
       display: flex;
       align-items: center;
       gap: 1rem;
@@ -223,49 +188,54 @@
       letter-spacing: 0.15em;
       color: var(--misty-gray);
       text-transform: uppercase;
+      font-family: monospace;
     }
 
-    /* ===== Timeline: Zigzag Evolution ===== */
+    /* ===== Timeline: Vertical with line + dots ===== */
     .evolution {
-      padding: 6rem 2rem;
+      padding: 5rem 4rem;
+      border-top: 1px solid var(--light-gray);
     }
 
-    .evolution-title {
-      font-size: 3rem;
-      font-weight: 900;
-      color: var(--warm-gray);
-      text-align: center;
-      letter-spacing: -0.02em;
-      margin-bottom: 4rem;
-    }
-
-    .zigzag-timeline {
+    .timeline {
       position: relative;
-      max-width: 800px;
-      margin: 0 auto;
+      margin-top: 2rem;
     }
 
-    .zigzag-timeline::before {
+    .timeline-item {
+      display: grid;
+      grid-template-columns: 80px 24px 1fr;
+      gap: 1.5rem;
+      align-items: start;
+      padding-bottom: 2.5rem;
+      position: relative;
+    }
+
+    .timeline-item:last-child {
+      padding-bottom: 0;
+    }
+
+    /* Vertical line between dots */
+    .timeline-marker {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+    }
+
+    .timeline-marker::after {
       content: '';
       position: absolute;
+      top: 18px;
       left: 50%;
-      top: 0;
-      bottom: 0;
-      width: 2px;
-      background: var(--light-gray);
       transform: translateX(-50%);
+      width: 2px;
+      height: calc(100% + 2.5rem);
+      background: var(--light-gray);
     }
 
-    .timeline-row {
-      display: grid;
-      grid-template-columns: 1fr auto 1fr;
-      gap: 2rem;
-      margin-bottom: 3rem;
-      align-items: start;
-    }
-
-    .timeline-row:last-child {
-      margin-bottom: 0;
+    .timeline-item:last-child .timeline-marker::after {
+      display: none;
     }
 
     .timeline-dot {
@@ -273,54 +243,27 @@
       height: 14px;
       background: var(--rain-blue);
       border-radius: 50%;
-      margin-top: 0.25rem;
+      border: 3px solid var(--warm-white);
+      box-shadow: 0 0 0 2px var(--rain-blue);
       z-index: 1;
-      grid-column: 2;
-      grid-row: 1;
+      margin-top: 0.25rem;
+      flex-shrink: 0;
     }
 
-    .timeline-spacer {
-      grid-row: 1;
-    }
-
-    .timeline-content {
-      grid-row: 1;
-    }
-
-    /* Left-aligned items */
-    .row-left .timeline-content {
-      grid-column: 1;
-      text-align: right;
-    }
-
-    .row-left .timeline-spacer {
-      grid-column: 3;
-    }
-
-    /* Right-aligned items */
-    .row-right .timeline-content {
-      grid-column: 3;
-      text-align: left;
-    }
-
-    .row-right .timeline-spacer {
-      grid-column: 1;
-    }
-
-    .timeline-date {
-      display: inline-block;
-      font-size: 0.75rem;
+    .timeline-year {
+      font-size: 0.8rem;
       font-weight: 700;
       letter-spacing: 0.1em;
       color: var(--rain-blue);
-      text-transform: uppercase;
-      margin-bottom: 0.5rem;
+      font-family: monospace;
+      padding-top: 0.25rem;
+      text-align: right;
     }
 
     .timeline-heading {
-      font-size: 1.25rem;
+      font-size: 1.125rem;
       font-weight: 700;
-      color: var(--warm-gray);
+      color: var(--charcoal);
       margin-bottom: 0.5rem;
     }
 
@@ -330,57 +273,46 @@
       color: var(--misty-gray);
     }
 
-    /* ===== Stats: Numbered Cards ===== */
+    /* ===== Stats: Clean Bordered Cards ===== */
     .stats-section {
-      padding: 4rem 2rem;
+      padding: 4rem 4rem;
     }
 
     .stats-row {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      gap: 1.5rem;
-      background: var(--cream);
-      border-radius: 1rem;
-      padding: 3rem 2rem;
+      gap: 1rem;
+      margin-top: 1rem;
     }
 
     .stat-item {
+      border: 1px solid var(--light-gray);
+      border-radius: 1rem;
+      padding: 2rem 1.5rem;
       text-align: center;
-      position: relative;
-      padding: 1rem 0;
-    }
-
-    .stat-bg-num {
-      display: block;
-      font-size: 5rem;
-      font-weight: 900;
-      color: var(--rain-blue);
-      opacity: 0.1;
-      line-height: 1;
-      letter-spacing: -0.04em;
     }
 
     .stat-value {
       display: block;
-      font-size: 1.75rem;
+      font-size: 2rem;
       font-weight: 800;
-      color: var(--warm-gray);
-      margin-top: -0.5rem;
+      color: var(--charcoal);
+      margin-bottom: 0.25rem;
     }
 
     .stat-label {
       display: block;
       font-size: 0.7rem;
-      font-weight: 700;
-      letter-spacing: 0.12em;
+      font-weight: 600;
+      letter-spacing: 0.1em;
       text-transform: uppercase;
       color: var(--misty-gray);
-      margin-top: 0.25rem;
+      font-family: monospace;
     }
 
     /* ===== Personality: Brief Host ===== */
     .personality {
-      padding: 5rem 2rem;
+      padding: 5rem 4rem;
       border-top: 1px solid var(--light-gray);
     }
 
@@ -388,21 +320,17 @@
       max-width: 640px;
     }
 
-    .personality-role {
-      display: block;
-      font-size: 0.75rem;
-      font-weight: 700;
-      letter-spacing: 0.15em;
-      color: var(--rain-blue);
-      text-transform: uppercase;
-      margin-bottom: 0.75rem;
-    }
-
     .personality-name {
       font-size: 1.5rem;
       font-weight: 800;
-      color: var(--warm-gray);
-      margin-bottom: 1rem;
+      color: var(--charcoal);
+      margin-bottom: 0.5rem;
+    }
+
+    .personality-role-text {
+      font-size: 0.9375rem;
+      color: var(--misty-gray);
+      margin-bottom: 1.5rem;
     }
 
     .personality-desc {
@@ -418,6 +346,7 @@
       text-decoration: none;
       font-weight: 700;
       font-size: 0.875rem;
+      font-family: monospace;
       transition: color 0.2s ease;
     }
 
@@ -425,160 +354,39 @@
       color: var(--deep-rain);
     }
 
-    /* ===== Topics: Word Cloud ===== */
+    /* ===== Topics: Simple Tag List ===== */
     .themes {
-      padding: 6rem 2rem;
+      padding: 5rem 4rem;
+      border-top: 1px solid var(--light-gray);
     }
 
     .themes-inner {
       text-align: center;
     }
 
-    .themes-subtitle {
-      display: block;
-      font-size: 0.75rem;
-      font-weight: 700;
-      letter-spacing: 0.2em;
-      color: var(--rain-blue);
-      text-transform: uppercase;
-      margin-bottom: 0.75rem;
-    }
-
-    .themes-title {
-      font-size: 2.5rem;
-      font-weight: 900;
-      color: var(--warm-gray);
-      letter-spacing: -0.02em;
-      margin-bottom: 3rem;
-    }
-
-    .word-cloud {
+    .tag-list {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      align-items: baseline;
-      gap: 1.5rem 2rem;
-      max-width: 700px;
-      margin: 0 auto;
-    }
-
-    .word {
-      transition: opacity 0.2s ease;
-    }
-
-    .word:hover {
-      opacity: 0.7;
-    }
-
-    .word.italic-serif {
-      font-family: Georgia, 'Times New Roman', serif;
-      font-style: italic;
-      font-size: 2.5rem;
-      color: var(--warm-gray);
-    }
-
-    .word.caps-sans {
-      font-size: 1.75rem;
-      font-weight: 300;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--misty-gray);
-    }
-
-    .word.underline-serif {
-      font-family: Georgia, 'Times New Roman', serif;
-      font-size: 2rem;
-      font-weight: 700;
-      color: var(--warm-gray);
-      text-decoration: underline;
-      text-decoration-color: var(--rain-blue);
-      text-underline-offset: 4px;
-    }
-
-    .word.normal-light {
-      font-size: 1.5rem;
-      font-weight: 300;
-      color: var(--misty-gray);
-    }
-
-    .word.bold-large {
-      font-size: 2.75rem;
-      font-weight: 900;
-      color: var(--warm-gray);
-    }
-
-    .word.italic-accent {
-      font-family: Georgia, 'Times New Roman', serif;
-      font-style: italic;
-      font-size: 2rem;
-      color: var(--warm-amber);
-    }
-
-    /* ===== Listen: Split Layout ===== */
-    .join {
-      padding: 5rem 2rem;
-      background: var(--cream);
-      border-top: 1px solid var(--light-gray);
-    }
-
-    .join-inner {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 4rem;
-      align-items: center;
-    }
-
-    .join-title {
-      font-size: 2rem;
-      font-weight: 900;
-      color: var(--warm-gray);
-      letter-spacing: -0.02em;
-      margin-bottom: 1rem;
-      line-height: 1.2;
-    }
-
-    .join-desc {
-      font-size: 0.9375rem;
-      line-height: 1.7;
-      color: var(--misty-gray);
-    }
-
-    .join-platforms {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 1rem;
-    }
-
-    .platform-card {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
       gap: 0.75rem;
-      padding: 1.5rem 1rem;
-      background: white;
+      max-width: 700px;
+      margin: 2rem auto 0;
+    }
+
+    .tag {
+      padding: 0.5rem 1.25rem;
       border: 1px solid var(--light-gray);
-      border-radius: 0.75rem;
-      text-decoration: none;
-      color: var(--warm-gray);
+      border-radius: 2rem;
+      font-size: 0.9375rem;
+      font-weight: 500;
+      color: var(--charcoal);
       transition: all 0.2s ease;
     }
 
-    .platform-card:hover {
+    .tag:hover {
       border-color: var(--rain-blue);
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
-    }
-
-    .platform-card sl-icon {
-      font-size: 1.75rem;
       color: var(--rain-blue);
-    }
-
-    .platform-name {
-      font-size: 0.75rem;
-      font-weight: 700;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
+      transform: translateY(-2px);
     }
 
     /* ===== Responsive ===== */
@@ -601,44 +409,53 @@
         padding: 2.5rem 1.5rem;
       }
 
-      .hero-title {
-        font-size: 2.5rem;
+      .evolution {
+        padding: 4rem 2rem;
+      }
+
+      .timeline-item {
+        grid-template-columns: 60px 20px 1fr;
+        gap: 1rem;
+      }
+
+      .stats-section {
+        padding: 3rem 2rem;
+      }
+
+      .stats-row {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .personality {
+        padding: 3rem 2rem;
+      }
+
+      .themes {
+        padding: 4rem 2rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero-text {
+        padding: 2rem 1.5rem;
       }
 
       .evolution {
-        padding: 4rem 1.5rem;
+        padding: 3rem 1.5rem;
       }
 
-      .evolution-title {
-        font-size: 2rem;
-        margin-bottom: 3rem;
-      }
-
-      .zigzag-timeline::before {
-        left: 0;
-        transform: none;
-      }
-
-      .timeline-row {
-        display: block;
-        padding-left: 2rem;
-        position: relative;
-        margin-bottom: 2.5rem;
+      .timeline-item {
+        grid-template-columns: 50px 16px 1fr;
+        gap: 0.75rem;
       }
 
       .timeline-dot {
-        position: absolute;
-        left: -7px;
-        top: 0.25rem;
+        width: 12px;
+        height: 12px;
       }
 
-      .timeline-spacer {
-        display: none;
-      }
-
-      .row-left .timeline-content,
-      .row-right .timeline-content {
-        text-align: left;
+      .timeline-year {
+        font-size: 0.75rem;
       }
 
       .stats-section {
@@ -646,13 +463,11 @@
       }
 
       .stats-row {
-        grid-template-columns: repeat(2, 1fr);
-        padding: 2rem 1.5rem;
-        gap: 1rem;
+        gap: 0.75rem;
       }
 
-      .stat-bg-num {
-        font-size: 3.5rem;
+      .stat-item {
+        padding: 1.5rem 1rem;
       }
 
       .stat-value {
@@ -664,63 +479,7 @@
       }
 
       .themes {
-        padding: 4rem 1.5rem;
-      }
-
-      .themes-title {
-        font-size: 1.75rem;
-      }
-
-      .word.italic-serif {
-        font-size: 1.75rem;
-      }
-
-      .word.caps-sans {
-        font-size: 1.25rem;
-      }
-
-      .word.underline-serif {
-        font-size: 1.5rem;
-      }
-
-      .word.normal-light {
-        font-size: 1.125rem;
-      }
-
-      .word.bold-large {
-        font-size: 2rem;
-      }
-
-      .word.italic-accent {
-        font-size: 1.5rem;
-      }
-
-      .join {
         padding: 3rem 1.5rem;
-      }
-
-      .join-inner {
-        grid-template-columns: 1fr;
-        gap: 2rem;
-      }
-
-      .join-title {
-        font-size: 1.5rem;
-      }
-
-      .join-platforms {
-        grid-template-columns: repeat(2, 1fr);
-      }
-    }
-
-    @media (max-width: 480px) {
-      .hero-title {
-        font-size: 2rem;
-      }
-
-      .join-platforms {
-        grid-template-columns: 1fr 1fr;
-        gap: 0.75rem;
       }
     }
   </style>
