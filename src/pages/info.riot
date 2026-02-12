@@ -208,12 +208,12 @@
       grid-template-columns: 80px 24px 1fr;
       gap: 1.5rem;
       align-items: start;
-      padding-bottom: 2.5rem;
+      margin-bottom: 4rem;
       position: relative;
     }
 
     .timeline-item:last-child {
-      padding-bottom: 0;
+      margin-bottom: 0;
     }
 
     /* Vertical line between dots */
@@ -231,12 +231,8 @@
       left: 50%;
       transform: translateX(-50%);
       width: 2px;
-      height: calc(100% + 2.5rem);
+      height: calc(100% + 5.5rem);
       background: var(--light-gray);
-    }
-
-    .timeline-item:last-child .timeline-marker::after {
-      display: none;
     }
 
     .timeline-dot {

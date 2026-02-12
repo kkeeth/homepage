@@ -73,7 +73,7 @@
 
   <script>
     import { fetchRSSFeed } from '@/utils/rss';
-    import { HOME_PLATFORMS } from '@/constants/links';
+    import { PODCAST_PLATFORMS } from '@/constants/links';
     import i18nStore from '@/stores/i18n-store';
 
     export default {
@@ -81,7 +81,7 @@
       state: {
         loading: true,
         episode: null,
-        platforms: HOME_PLATFORMS,
+        platforms: PODCAST_PLATFORMS,
         copied: false,
       },
       async onBeforeMount() {
@@ -157,8 +157,8 @@
   <style>
     .episode-detail {
       min-height: 100vh;
-      background: var(--background-color);
-      padding: 2rem;
+      background: var(--warm-white);
+      padding: 5rem 4rem;
     }
 
     .episode-container {
@@ -212,12 +212,13 @@
 
     /* Section Label */
     .section-label {
-      font-size: 0.8125rem;
+      font-size: 0.8rem;
       font-weight: 600;
-      color: var(--text-light);
+      color: var(--rain-blue);
       text-transform: uppercase;
-      letter-spacing: 0.05em;
+      letter-spacing: 0.12em;
       margin: 0 0 0.75rem 0;
+      font-family: monospace;
     }
 
     /* Platform Icons */
@@ -325,7 +326,7 @@
     /* Responsive */
     @media (max-width: 640px) {
       .episode-detail {
-        padding: 1.5rem;
+        padding: 3rem 1.5rem;
       }
 
       .episode-header {

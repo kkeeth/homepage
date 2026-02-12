@@ -1,29 +1,31 @@
 <home>
   <div class="home">
-    <!-- Hero Section - Clean Modern Layout -->
+    <!-- Hero Section -->
     <hero-section if={state.latestEpisodes[0]} link={state.latestEpisodes[0]} />
 
-    <!-- About Section - Clean & Minimal -->
-    <section class="about-section-minimal">
-      <div class="about-content">
-        <div class="section-header-casual">
+    <!-- About Section - 2-Column Layout -->
+    <section class="about-section">
+      <div class="about-layout">
+        <div class="about-left">
+          <span class="section-label">// ABOUT</span>
           <h2 class="section-title">{t("pages.home.story.title")}</h2>
-          <div class="title-underline"></div>
         </div>
-        <p class="about-text">{t("pages.home.story.description1")}</p>
-        <p class="about-text">{t("pages.home.story.description2")}</p>
+        <div class="about-right">
+          <p class="about-text">{t("pages.home.story.description1")}</p>
+          <p class="about-text">{t("pages.home.story.description2")}</p>
 
-        <div class="platform-links">
-          <a
-            each={platform in state.homePlatforms}
-            key={platform.name}
-            href={platform.url}
-            target="_blank"
-            class="platform-link platform-{platform.icon}"
-          >
-            <sl-icon name={platform.icon}></sl-icon>
-            <span>{platform.name}</span>
-          </a>
+          <div class="platform-links">
+            <a
+              each={platform in state.homePlatforms}
+              key={platform.name}
+              href={platform.url}
+              target="_blank"
+              class="platform-link platform-{platform.name.toLowerCase()}"
+            >
+              <sl-icon name={platform.icon}></sl-icon>
+              <span>{platform.name}</span>
+            </a>
+          </div>
         </div>
       </div>
     </section>
@@ -31,27 +33,18 @@
     <!-- Latest Episodes Section -->
     <section class="episodes-section">
       <div class="section-content">
-        <div class="section-header-casual">
-          <h2 class="section-title">
-            <span class="title-doodle">🎧</span>
-            {t("pages.home.episodes.latest.title")}
-          </h2>
-          <div class="title-underline"></div>
-        </div>
+        <span class="section-label">// LATEST EPISODES</span>
+        <h2 class="section-title">{t("pages.home.episodes.latest.title")}</h2>
 
         <episode-card program-episodes={state.latestEpisodes} show-more={true} />
       </div>
     </section>
 
-
-
     <!-- Other Episodes - Compact List -->
     <section class="other-programs-section">
       <div class="section-content">
-        <div class="section-header-casual">
-          <h2 class="section-title">{t("pages.home.episodes.other.title")}</h2>
-          <div class="title-underline"></div>
-        </div>
+        <span class="section-label">// OTHER PROGRAMS</span>
+        <h2 class="section-title">{t("pages.home.episodes.other.title")}</h2>
 
         <div class="other-programs-list">
           <a
@@ -72,7 +65,7 @@
 
   <script>
     import { fetchRSSFeed, getLatestEpisodes } from '@/utils/rss';
-    import { HOME_PLATFORMS, OTHER_PROGRAMS } from '@/constants/links';
+    import { PODCAST_PLATFORMS, OTHER_PROGRAMS } from '@/constants/links';
     import i18nStore from '@/stores/i18n-store';
 
     export default {
@@ -90,7 +83,7 @@
       },
       state: {
         latestEpisodes: [],
-        homePlatforms: HOME_PLATFORMS,
+        homePlatforms: PODCAST_PLATFORMS,
         otherPrograms: OTHER_PROGRAMS
       },
     }
@@ -99,40 +92,85 @@
   <style>
     .home {
       min-height: 100vh;
-      background: var(--background-color);
-      color: var(--text-dark);
+      background: var(--warm-white);
+      color: var(--charcoal);
     }
 
-    .highlight-text {
-      color: var(--warm-amber);
-      font-weight: 700;
-    }
-
-    .description-text {
-      font-size: 1rem;
-      line-height: 1.7;
-      color: var(--white-80);
-      margin-bottom: 3rem;
-    }
-
-    .episode-iframe {
-      width: 100%;
-      height: 200px;
-      border: none;
-      border-radius: 12px;
-      background: var(--white-10);
-      backdrop-filter: blur(10px);
-      overflow: hidden;
-    }
-
-    /* Other Programs Section - Compact */
-    .other-programs-section {
-      padding: 3rem 0;
+    /* About Section - 2-Column */
+    .about-section {
+      padding: 5rem 4rem;
       background: var(--cream);
     }
 
-    .other-programs-section .section-header-casual {
-      margin-bottom: 2rem;
+    .about-layout {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: 4rem;
+      align-items: start;
+    }
+
+    .about-text {
+      font-size: 1rem;
+      line-height: 1.8;
+      color: var(--misty-gray);
+      margin-bottom: 1rem;
+    }
+
+    .platform-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-top: 2rem;
+    }
+
+    .platform-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.25rem 0.5rem;
+      background: var(--warm-white);
+      border-radius: .5rem;
+      text-decoration: none;
+      color: var(--warm-white);
+      font-size: 0.875rem;
+      font-weight: 500;
+      transition: all 0.2s ease;
+    }
+
+    .platform-apple { background-color: #A855F7; border-color: #A855F7;}
+    .platform-spotify { background-color: #1DB954; border-color: #1DB954;}
+    .platform-amazon { background-color: #FF9900; border-color: #FF9900;}
+    .platform-youtube { background-color: #FF0000; border-color: #FF0000;}
+    .platform-rss { background-color: #F97316; border-color: #F97316;}
+
+    .platform-link:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 12px rgba(66, 153, 225, 0.15);
+    }
+
+    .platform-link sl-icon {
+      font-size: 1rem;
+    }
+
+    /* Other Programs Section */
+    .other-programs-section {
+      padding: 4rem 0;
+      background: var(--warm-white);
+      border-top: 1px solid var(--light-gray);
+    }
+
+    .other-programs-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1rem;
+    }
+
+    @media (min-width: 960px) {
+      .other-programs-list {
+        grid-template-columns: repeat(5, 1fr);
+      }
     }
 
     .other-programs-item {
@@ -145,14 +183,13 @@
       border: 1px solid var(--light-gray);
       border-radius: 0.75rem;
       text-decoration: none;
-      color: var(--text-dark);
+      color: var(--charcoal);
       text-align: center;
       transition: all 0.2s ease;
     }
 
     .other-programs-item:hover {
       border-color: var(--rain-blue);
-      box-shadow: 0 4px 12px rgba(66, 153, 225, 0.1);
       transform: translateY(-2px);
     }
 
@@ -167,7 +204,7 @@
     .other-programs-name {
       font-size: 0.875rem;
       font-weight: 600;
-      color: var(--text-dark);
+      color: var(--charcoal);
       margin: 0;
       display: -webkit-box;
       -webkit-line-clamp: 2;
@@ -178,7 +215,7 @@
 
     .other-programs-meta {
       font-size: 0.75rem;
-      color: var(--text-light);
+      color: var(--misty-gray);
     }
 
     /* Modern Animations */
@@ -218,128 +255,20 @@
       50% { transform: translateY(-5px) rotate(var(--rotation, 0deg)); }
     }
 
-    /* About Section - Minimal Style */
-    .about-section-minimal {
-      padding: 4rem 2rem;
-      background: var(--cream);
-    }
+    @media (max-width: 768px) {
+      .about-section {
+        padding: 4rem 2rem;
+      }
 
-    .about-content {
-      max-width: 720px;
-      margin: 0 auto;
-      text-align: center;
-    }
-
-    .about-text {
-      font-size: 1rem;
-      line-height: 1.8;
-      color: var(--text-color);
-      margin-bottom: 1rem;
-    }
-
-    .platform-links {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 0.75rem;
-      margin-top: 2rem;
-    }
-
-    .platform-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      padding: 0.25rem 0.5rem;
-      background: var(--warm-white);
-      border: 1px solid var(--light-gray);
-      border-radius: .5rem;
-      text-decoration: none;
-      color: var(--text-color);
-      font-size: 0.875rem;
-      font-weight: 500;
-      transition: all 0.2s ease;
-    }
-
-    .platform-link:hover {
-      color: var(--rain-blue);
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(66, 153, 225, 0.15);
-    }
-
-    .platform-link sl-icon {
-      font-size: 1rem;
-    }
-
-    /* Platform specific colors */
-    .platform-apple {
-      background: #A855F7;
-      color: white;
-    }
-
-    .platform-apple:hover {
-      background: #9333EA;
-      color: white;
-    }
-
-    .platform-spotify {
-      background: #1DB954;
-      color: white;
-    }
-
-    .platform-spotify:hover {
-      background: #1AA34A;
-      color: white;
-    }
-
-    .platform-amazon {
-      background: #FF9900;
-      color: white;
-    }
-
-    .platform-amazon:hover {
-      background: #E68A00;
-      color: white;
-    }
-
-    .platform-youtube {
-      background: #FF0000;
-      color: white;
-    }
-
-    .platform-youtube:hover {
-      background: #CC0000;
-      color: white;
-    }
-
-    .platform-rss {
-      background: #F97316;
-      color: white;
-    }
-
-    .platform-rss:hover {
-      background: #EA580C;
-      color: white;
-    }
-
-    .other-programs-list {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 1rem;
-    }
-
-    @media (min-width: 960px) {
-      .other-programs-list {
-        grid-template-columns: repeat(5, 1fr);
+      .about-layout {
+        grid-template-columns: 1fr;
+        gap: 2rem;
       }
     }
 
     @media (max-width: 480px) {
-      .about-section-minimal {
+      .about-section {
         padding: 3rem 1.5rem;
-      }
-
-      .about-title-minimal {
-        font-size: 1.25rem;
       }
 
       .other-programs-list {

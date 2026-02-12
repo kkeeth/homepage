@@ -1,14 +1,14 @@
 <profile>
   <div class="profile-page">
-    <!-- Hero Section -->
+    <!-- Hero Section - 2-Column -->
     <section class="hero">
-      <div class="hero-content">
-        <div class="hero-image">
-          <img src="/images/mypicture.jpeg" alt="kkeeth" />
-        </div>
-        <div class="hero-text">
-          <h1 class="hero-name">{t("pages.profile.title")}</h1>
-          <p class="hero-role">{t("pages.profile.role")}</p>
+      <div class="hero-layout">
+        <div class="hero-left">
+          <span class="section-label">// PROFILE</span>
+          <h1 class="page-title">{t("pages.profile.title")}</h1>
+          <div class="hero-image">
+            <img src="/images/mypicture.jpeg" alt="kkeeth" />
+          </div>
           <div class="hero-social">
             <a
               each={platform in state.platforms}
@@ -22,33 +22,10 @@
             </a>
           </div>
         </div>
-      </div>
-    </section>
-
-    <!-- About Section -->
-    <section class="about">
-      <div class="about-content">
-        <div class="about-text">
-          <p class="about-description">
-            {t("pages.profile.description1")}
-          </p>
-          <p class="about-description">
-            {t("pages.profile.description2")}
-          </p>
-        </div>
-        <div class="stats">
-          <div class="stat">
-            <span class="stat-number">800+</span>
-            <span class="stat-label">{t("pages.profile.stats.episodes")}</span>
-          </div>
-          <div class="stat">
-            <span class="stat-number">36K</span>
-            <span class="stat-label">{t("pages.profile.stats.plays")}</span>
-          </div>
-          <div class="stat">
-            <span class="stat-number">5+ years</span>
-            <span class="stat-label">{t("pages.profile.stats.experience")}</span>
-          </div>
+        <div class="hero-right">
+          <p class="hero-role">{t("pages.profile.role")}</p>
+          <p class="about-description">{t("pages.profile.description1")}</p>
+          <p class="about-description">{t("pages.profile.description2")}</p>
         </div>
       </div>
     </section>
@@ -56,76 +33,63 @@
     <!-- Skills Section -->
     <section class="skills">
       <div class="skills-content">
-        <h2 class="section-label">{t("pages.profile.skills")}</h2>
+        <span class="section-label">// SKILLS</span>
+        <h2 class="section-title">{t("pages.profile.skills")}</h2>
         <div class="skills-list">
           <span class="skill" each={skill in state.skills}>{skill}</span>
         </div>
       </div>
     </section>
 
-    <!-- Output Section - Bento Grid -->
+    <!-- Output Section - Simple Card Grid -->
     <section class="output-section">
       <div class="output-content">
-        <h2 class="section-label">Output</h2>
-        <div class="bento-grid">
-          <!-- Blog (cols 1-2, rows 1-2) -->
-          <a href="https://kkeeth.substack.com" target="_blank" class="bento-card blog-card">
-            <div class="card-bg-logo"><sl-icon name="pencil-square"></sl-icon></div>
-            <div class="card-icon">
-              <sl-icon name="pencil-square"></sl-icon>
+        <span class="section-label">// OUTPUT</span>
+        <h2 class="section-title">Output</h2>
+        <div class="output-grid">
+          <a href="https://kkeeth.substack.com" target="_blank" class="output-card">
+            <sl-icon name="pencil-square"></sl-icon>
+            <div class="output-card-body">
+              <h3>Blog / Newsletter</h3>
+              <p>技術記事やポッドキャストの裏話、日々の学びを発信</p>
             </div>
-            <div class="card-body">
-              <h3 class="card-title">Blog / Newsletter</h3>
-              <p class="card-description">技術記事やポッドキャストの裏話、日々の学びを発信</p>
-              <span class="card-link">Substack →</span>
-            </div>
+            <span class="output-card-link">Substack →</span>
           </a>
 
-          <!-- Note (cols 3-4, row 1) -->
-          <a href="https://note.com/clown0082" target="_blank" class="bento-card note-card">
-            <div class="card-bg-logo"><sl-icon name="journal-text"></sl-icon></div>
-            <div class="card-icon"><sl-icon name="journal-text"></sl-icon></div>
-            <div class="card-body">
-              <h3 class="card-title">note</h3>
-              <p class="card-description">エッセイ・コラム</p>
-              <span class="card-link">note →</span>
+          <a href="https://note.com/clown0082" target="_blank" class="output-card">
+            <sl-icon name="journal-text"></sl-icon>
+            <div class="output-card-body">
+              <h3>note</h3>
+              <p>エッセイ・コラム</p>
             </div>
+            <span class="output-card-link">note →</span>
           </a>
 
-          <!-- GitHub (col 3, rows 2-3) -->
-          <a href="https://github.com/kkeeth" target="_blank" class="bento-card github-card">
-            <div class="card-bg-logo"><sl-icon name="github"></sl-icon></div>
-            <div class="card-icon"><sl-icon name="github"></sl-icon></div>
-            <div class="card-body">
-              <h3 class="card-title">GitHub</h3>
-              <p class="card-description">OSS・個人プロジェクト</p>
-              <span class="card-link">View →</span>
+          <a href="https://github.com/kkeeth" target="_blank" class="output-card">
+            <sl-icon name="github"></sl-icon>
+            <div class="output-card-body">
+              <h3>GitHub</h3>
+              <p>OSS・個人プロジェクト</p>
             </div>
+            <span class="output-card-link">View →</span>
           </a>
 
-          <!-- Slides (col 4, rows 2-3) -->
-          <a href="https://speakerdeck.com/kkeeth" target="_blank" class="bento-card slides-card">
-            <div class="card-bg-logo"><sl-icon name="easel"></sl-icon></div>
-            <div class="card-icon"><sl-icon name="easel"></sl-icon></div>
-            <div class="card-body">
-              <h3 class="card-title">Slides</h3>
-              <p class="card-description">登壇・発表資料</p>
-              <span class="card-link">View →</span>
+          <a href="https://speakerdeck.com/kkeeth" target="_blank" class="output-card">
+            <sl-icon name="easel"></sl-icon>
+            <div class="output-card-body">
+              <h3>Slides</h3>
+              <p>登壇・発表資料</p>
             </div>
+            <span class="output-card-link">View →</span>
           </a>
 
-          <!-- Zenn (col 1, row 3) -->
-          <a href="https://zenn.dev/kkeeth" target="_blank" class="bento-card zenn-card">
-            <div class="card-bg-logo"><span class="zenn-logo">Z</span></div>
+          <a href="https://zenn.dev/kkeeth" target="_blank" class="output-card">
             <span class="zenn-logo">Z</span>
-            <span class="card-label">Zenn</span>
-          </a>
-
-          <!-- X (col 2, row 3) -->
-          <a href="https://x.com/kuwahara_jsri" target="_blank" class="bento-card twitter-card">
-            <div class="card-bg-logo"><sl-icon name="twitter-x"></sl-icon></div>
-            <sl-icon name="twitter-x"></sl-icon>
-            <span class="card-label">𝕏</span>
+            <div class="output-card-body">
+              <h3>Zenn</h3>
+              <p>技術記事</p>
+            </div>
+            <span class="output-card-link">View →</span>
           </a>
         </div>
       </div>
@@ -186,90 +150,65 @@
       min-height: 100vh;
     }
 
-    /* Hero Section */
+    /* Hero Section - 2-Column */
     .hero {
-      padding: 6rem 1rem;
-      background: var(--mint-50);
+      padding: 5rem 4rem;
     }
 
-    .hero-content {
-      max-width: 1000px;
+    .hero-layout {
+      max-width: 1200px;
       margin: 0 auto;
-      display: flex;
-      align-items: center;
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
       gap: 4rem;
+      align-items: center;
     }
 
     .hero-image {
-      flex-shrink: 0;
+      margin: 2rem 0;
     }
 
     .hero-image img {
-      width: 280px;
-      height: 280px;
+      width: 240px;
+      height: 240px;
       border-radius: 50%;
       object-fit: cover;
       border: 4px solid white;
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
-    }
-
-    .hero-text {
-      flex: 1;
-    }
-
-    .hero-greeting {
-      font-size: 1rem;
-      color: var(--mint-600);
-      font-weight: 500;
-      margin-bottom: 0.5rem;
-      letter-spacing: 0.05em;
-    }
-
-    .hero-name {
-      font-size: 3.5rem;
-      font-weight: 700;
-      color: var(--navy-800);
-      line-height: 1.1;
-      margin-bottom: 0.5rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
     }
 
     .hero-role {
-      font-size: 1.25rem;
-      color: var(--navy-500);
-      margin-bottom: 2.5rem;
-      font-weight: 200;
+      font-size: 1.125rem;
+      color: var(--misty-gray);
+      margin-bottom: 2rem;
+      font-weight: 400;
     }
 
+    /* Platform-specific colors */
     .hero-social {
       display: flex;
+      gap: 0.25rem;
     }
 
     .social-icon {
+      font-size: 1.5rem;
       width: 40px;
+      height: 40px;
       display: flex;
       align-items: center;
       justify-content: center;
-      background: transparent !important;
       text-decoration: none;
       transition: all 0.2s ease;
     }
 
     .social-icon:hover {
-      transform: translateY(-4px);
+      color: var(--rain-blue);
+      transform: translateY(-2px);
     }
 
-    .social-icon sl-icon {
-      font-size: 1.25rem;
-    }
-
-    /* Platform-specific colors */
     .social-icon[href*="x.com"],
     .social-icon[href*="twitter"] {
       color: #000;
-    }
-
-    .social-icon[href*="github"] {
-      color: #24292e;
     }
 
     .social-icon[href*="spotify"] {
@@ -284,358 +223,125 @@
       color: var(--mint-500);
     }
 
-    .social-icon:hover {
-      opacity: 0.85;
-    }
-
-    /* About Section */
-    .about {
-      padding: 5rem 1rem;
-    }
-
-    .about-content {
-      max-width: 1000px;
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: 1.5fr 1fr;
-      gap: 4rem;
-      align-items: start;
-    }
-
-    .section-label {
-      font-size: 0.875rem;
-      font-weight: 600;
-      color: var(--mint-600);
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      margin-bottom: 1.5rem;
-    }
-
     .about-description {
-      font-size: 1.125rem;
+      font-size: 1rem;
       line-height: 1.8;
-      color: var(--navy-600);
+      color: var(--misty-gray);
       margin-bottom: 1.5rem;
-    }
-
-    .stats {
-      display: flex;
-      flex-direction: column;
-      gap: 2rem;
-      padding: 2rem;
-      background: var(--mint-50);
-      border-radius: 1rem;
-    }
-
-    .stat {
-      display: flex;
-      flex-direction: column;
-    }
-
-    .stat-number {
-      font-size: 2.5rem;
-      font-weight: 700;
-      color: var(--navy-800);
-      line-height: 1;
-    }
-
-    .stat-label {
-      font-size: 0.875rem;
-      color: var(--navy-500);
-      margin-top: 0.25rem;
     }
 
     /* Skills Section */
     .skills {
-      padding: 4rem 1rem;
-      background: var(--navy-800);
+      padding: 4rem 4rem;
+      background: var(--warm-white);
+      border-top: 1px solid var(--light-gray);
     }
 
     .skills-content {
-      max-width: 1000px;
+      max-width: 1200px;
       margin: 0 auto;
-    }
-
-    .skills .section-label {
-      color: var(--mint-300);
     }
 
     .skills-list {
       display: flex;
       flex-wrap: wrap;
-      gap: 1rem;
+      gap: 0.75rem;
     }
 
     .skill {
-      padding: 0.75rem 1.5rem;
-      background: rgba(255, 255, 255, 0.1);
-      border: 1px solid rgba(255, 255, 255, 0.2);
+      padding: 0.5rem 1.25rem;
+      background: var(--warm-white);
+      border: 1px solid var(--rain-blue);
       border-radius: 2rem;
-      color: white;
-      font-size: 1rem;
+      color: var(--rain-blue);
+      font-size: 0.9375rem;
       font-weight: 500;
       transition: all 0.2s ease;
     }
 
-    .skill:hover {
-      background: rgba(255, 255, 255, 0.15);
-      transform: translateY(-2px);
-    }
-
-
-    /* ===== Output Section - Bento Grid ===== */
+    /* Output Section - Simple Card Grid */
     .output-section {
-      padding: 5rem 1rem;
-      background: var(--cream);
+      padding: 5rem 4rem;
+      background: var(--warm-white);
+      border-top: 1px solid var(--light-gray);
     }
 
     .output-content {
-      max-width: 1000px;
+      max-width: 1200px;
       margin: 0 auto;
     }
 
-    .bento-grid {
+    .output-grid {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      grid-template-rows: repeat(3, 1fr);
+      grid-template-columns: repeat(2, 1fr);
       gap: 1rem;
-      aspect-ratio: 4 / 3;
     }
 
-    .bento-card {
+    .output-card {
       display: flex;
-      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
       padding: 1.5rem;
-      border-radius: 1.25rem;
+      border: 1px solid var(--light-gray);
+      border-radius: 1rem;
       text-decoration: none;
-      transition: all 0.3s ease;
-      position: relative;
-      overflow: hidden;
-      min-height: 0;
+      color: var(--charcoal);
+      transition: all 0.2s ease;
     }
 
-    .bento-card:hover {
-      transform: translateY(-4px);
+    .output-card:hover {
+      border-color: var(--rain-blue);
+      transform: translateY(-2px);
     }
 
-    /* Background Logo */
-    .card-bg-logo {
-      position: absolute;
-      right: -5%;
-      bottom: -5%;
-      opacity: 0.08;
-      pointer-events: none;
-      line-height: 1;
-    }
-
-    .card-bg-logo sl-icon {
-      font-size: 8rem;
-    }
-
-    .card-bg-logo .zenn-logo {
-      font-size: 7rem;
-    }
-
-    .bento-card:hover .card-bg-logo {
-      opacity: 0.12;
-    }
-
-    /* Blog: 2×2 (cols 1-2, rows 1-2) */
-    .blog-card {
-      grid-column: 1 / 3;
-      grid-row: 1 / 3;
-      padding: 2rem;
-      justify-content: flex-end;
-    }
-
-    /* Note: 2×1 (cols 3-4, row 1) */
-    .note-card {
-      grid-column: 3 / 5;
-      grid-row: 1 / 2;
-    }
-
-    /* GitHub: 1×2 (col 3, rows 2-3) */
-    .github-card {
-      grid-column: 3 / 4;
-      grid-row: 2 / 4;
-      justify-content: flex-end;
-    }
-
-    /* Slides: 1×2 (col 4, rows 2-3) */
-    .slides-card {
-      grid-column: 4 / 5;
-      grid-row: 2 / 4;
-      justify-content: flex-end;
-    }
-
-    /* Zenn: 1×1 (col 1, row 3) */
-    .zenn-card {
-      grid-column: 1 / 2;
-      grid-row: 3 / 4;
-      align-items: center;
-      justify-content: center;
-      gap: 0.5rem;
-    }
-
-    /* X: 1×1 (col 2, row 3) */
-    .twitter-card {
-      grid-column: 2 / 3;
-      grid-row: 3 / 4;
-      align-items: center;
-      justify-content: center;
-      gap: 0.5rem;
-    }
-
-    .zenn-card sl-icon,
-    .twitter-card sl-icon {
-      font-size: 2rem;
-    }
-
-    .card-label {
-      font-size: 0.75rem;
-      font-weight: 600;
-      opacity: 0.9;
-    }
-
-    .card-icon {
-      margin-bottom: 1rem;
-    }
-
-    .card-icon sl-icon {
-      font-size: 2.5rem;
-    }
-
-    .card-body {
-      position: relative;
-      z-index: 1;
-    }
-
-    .card-title {
-      font-size: 1.25rem;
-      font-weight: 700;
-      margin-bottom: 0.5rem;
-    }
-
-    .card-description {
-      font-size: 0.875rem;
-      opacity: 0.8;
-      line-height: 1.5;
-      margin-bottom: 1rem;
-    }
-
-    .card-link {
-      font-size: 0.8125rem;
-      font-weight: 600;
-      opacity: 0.7;
-    }
-
-    /* Card Colors - subtle backgrounds with semi-transparent logo */
-    .blog-card {
-      background: rgba(255, 107, 53, 0.08);
-      border: 1px solid rgba(255, 107, 53, 0.15);
-      color: #c2410c;
-    }
-
-    .blog-card .card-bg-logo {
-      color: #FF6B35;
-    }
-
-    .blog-card:hover {
-      box-shadow: 0 8px 30px rgba(255, 107, 53, 0.12);
-      background: rgba(255, 107, 53, 0.12);
-    }
-
-    .note-card {
-      background: rgba(65, 201, 180, 0.08);
-      border: 1px solid rgba(65, 201, 180, 0.15);
-      color: #1a9a7e;
-    }
-
-    .note-card .card-bg-logo {
-      color: #41C9B4;
-    }
-
-    .note-card:hover {
-      box-shadow: 0 8px 30px rgba(65, 201, 180, 0.12);
-      background: rgba(65, 201, 180, 0.12);
-    }
-
-    .github-card {
-      background: rgba(36, 41, 46, 0.06);
-      border: 1px solid rgba(36, 41, 46, 0.12);
-      color: #24292e;
-    }
-
-    .github-card .card-bg-logo {
-      color: #24292e;
-    }
-
-    .github-card:hover {
-      box-shadow: 0 8px 25px rgba(36, 41, 46, 0.12);
-      background: rgba(36, 41, 46, 0.1);
-    }
-
-    .slides-card {
-      background: rgba(0, 164, 189, 0.08);
-      border: 1px solid rgba(0, 164, 189, 0.15);
-      color: #0077B5;
-    }
-
-    .slides-card .card-bg-logo {
-      color: #00A4BD;
-    }
-
-    .slides-card:hover {
-      box-shadow: 0 8px 25px rgba(0, 164, 189, 0.12);
-      background: rgba(0, 164, 189, 0.12);
-    }
-
-    .zenn-card {
-      background: rgba(62, 168, 255, 0.08);
-      border: 1px solid rgba(62, 168, 255, 0.15);
-      color: #1A91DA;
-    }
-
-    .zenn-card .card-bg-logo {
-      color: #3EA8FF;
-    }
-
-    .zenn-card:hover {
-      box-shadow: 0 8px 30px rgba(62, 168, 255, 0.12);
-      background: rgba(62, 168, 255, 0.12);
+    .output-card sl-icon {
+      font-size: 1.5rem;
+      flex-shrink: 0;
+      color: var(--rain-blue);
     }
 
     .zenn-logo {
-      font-size: 2.5rem;
+      font-size: 1.5rem;
       font-weight: 800;
-      font-family: 'Inter', sans-serif;
+      color: var(--rain-blue);
+      flex-shrink: 0;
     }
 
-    .twitter-card {
-      background: rgba(0, 0, 0, 0.05);
-      border: 1px solid rgba(0, 0, 0, 0.1);
-      color: #000;
+    .output-card-body {
+      flex: 1;
+      min-width: 0;
     }
 
-    .twitter-card .card-bg-logo {
-      color: #000;
+    .output-card-body h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 0.25rem;
     }
 
-    .twitter-card:hover {
-      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-      background: rgba(0, 0, 0, 0.08);
+    .output-card-body p {
+      font-size: 0.8125rem;
+      color: var(--misty-gray);
+      line-height: 1.4;
+    }
+
+    .output-card-link {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--rain-blue);
+      white-space: nowrap;
+      font-family: monospace;
     }
 
     /* Responsive */
     @media (max-width: 768px) {
       .hero {
-        padding: 4rem 1rem;
+        padding: 4rem 2rem;
       }
 
-      .hero-content {
-        flex-direction: column;
-        text-align: center;
+      .hero-layout {
+        grid-template-columns: 1fr;
         gap: 2rem;
+        text-align: center;
       }
 
       .hero-image img {
@@ -643,31 +349,25 @@
         height: 200px;
       }
 
-      .hero-name {
-        font-size: 2.5rem;
-      }
-
       .hero-social {
         justify-content: center;
       }
 
-      .about-content {
-        grid-template-columns: 1fr;
-        gap: 2rem;
-      }
-
       .stats {
-        flex-direction: row;
         justify-content: space-around;
         text-align: center;
       }
 
       .stat-number {
-        font-size: 2rem;
+        font-size: 1.75rem;
+      }
+
+      .skills {
+        padding: 3rem 2rem;
       }
 
       .skills-list {
-        gap: 0.75rem;
+        gap: 0.5rem;
       }
 
       .skill {
@@ -675,77 +375,30 @@
         font-size: 0.875rem;
       }
 
-      .timeline {
-        padding-left: 1.5rem;
+      .output-section {
+        padding: 4rem 2rem;
       }
 
-      .timeline-marker {
-        left: -1.5rem;
-      }
-
-      /* Bento Grid - Tablet: reset to 2-col flow */
-      .bento-grid {
-        grid-template-columns: repeat(2, 1fr);
-        grid-template-rows: auto;
-        aspect-ratio: auto;
-      }
-
-      .blog-card {
-        grid-column: 1 / -1;
-        grid-row: auto;
-      }
-
-      .note-card {
-        grid-column: 1 / -1;
-        grid-row: auto;
-      }
-
-      .github-card,
-      .slides-card {
-        grid-column: auto;
-        grid-row: auto;
-        justify-content: flex-start;
-      }
-
-      .zenn-card,
-      .twitter-card {
-        grid-column: auto;
-        grid-row: auto;
-        aspect-ratio: auto;
-        flex-direction: row;
-        justify-content: flex-start;
-        gap: 1rem;
-        padding: 1.25rem;
-      }
-
-      .zenn-card sl-icon,
-      .twitter-card sl-icon {
-        font-size: 1.5rem;
+      .output-grid {
+        grid-template-columns: 1fr;
       }
     }
 
     @media (max-width: 480px) {
-      .bento-grid {
-        grid-template-columns: 1fr 1fr;
-        gap: 0.75rem;
+      .hero {
+        padding: 3rem 1.5rem;
       }
 
-      .blog-card,
-      .note-card {
-        grid-column: 1 / -1;
+      .skills {
+        padding: 3rem 1.5rem;
       }
 
-      .bento-card {
+      .output-section {
+        padding: 3rem 1.5rem;
+      }
+
+      .output-card {
         padding: 1.25rem;
-        border-radius: 1rem;
-      }
-
-      .card-title {
-        font-size: 1.125rem;
-      }
-
-      .card-description {
-        font-size: 0.8125rem;
       }
     }
   </style>
