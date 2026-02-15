@@ -1,0 +1,110 @@
+<premium-gate>
+  <div class="premium-gate">
+    <div class="gate-content">
+      <sl-icon name="lock-fill" class="gate-icon"></sl-icon>
+      <h2 class="gate-title">{t("membership.gateTitle")}</h2>
+      <p class="gate-description">{t("membership.gateDescription")}</p>
+      <div class="gate-actions">
+        <sl-button if={state.isLoggedIn} variant="primary" class="gate-btn" onclick={handleUpgrade}>
+          {t("membership.gateButton")}
+        </sl-button>
+        <div if={!state.isLoggedIn} class="gate-login">
+          <sl-button variant="primary" href="/login" class="gate-btn">
+            {t("membership.gateButton")}
+          </sl-button>
+          <a href="/login" class="gate-login-link">{t("membership.gateLogin")}</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    import authStore from '@/stores/auth-store';
+    import membershipStore from '@/stores/membership-store';
+    import i18nStore from '@/stores/i18n-store';
+
+    export default {
+      t: i18nStore.t.bind(i18nStore),
+      state: {
+        isLoggedIn: authStore.isLoggedIn(),
+      },
+      onMounted() {
+        authStore.on('auth-changed', () => {
+          this.update({ isLoggedIn: authStore.isLoggedIn() });
+        });
+      },
+      async handleUpgrade() {
+        try {
+          await membershipStore.createCheckoutSession();
+        } catch (err) {
+          console.error('Failed to start checkout:', err);
+        }
+      },
+    }
+  </script>
+
+  <style>
+    .premium-gate {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 3rem 2rem;
+      background: #fffbeb;
+      border: 2px solid #fcd34d;
+      border-radius: 12px;
+      margin: 2rem 0;
+    }
+
+    .gate-content {
+      text-align: center;
+      max-width: 400px;
+    }
+
+    .gate-icon {
+      font-size: 2.5rem;
+      color: #d97706;
+      margin-bottom: 1rem;
+    }
+
+    .gate-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--text-dark);
+      margin: 0 0 0.75rem;
+    }
+
+    .gate-description {
+      font-size: 0.9375rem;
+      color: var(--text-color);
+      line-height: 1.6;
+      margin: 0 0 1.5rem;
+    }
+
+    .gate-actions {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .gate-btn::part(base) {
+      background: #d97706;
+      border-color: #d97706;
+    }
+
+    .gate-btn:hover::part(base) {
+      background: #b45309;
+      border-color: #b45309;
+    }
+
+    .gate-login-link {
+      font-size: 0.875rem;
+      color: var(--rain-blue);
+      text-decoration: none;
+    }
+
+    .gate-login-link:hover {
+      text-decoration: underline;
+    }
+  </style>
+</premium-gate>

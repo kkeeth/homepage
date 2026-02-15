@@ -278,6 +278,48 @@
     "backToList": "Back to Episodes",
     "notFound": "Episode not found"
   },
+  "auth": {
+    "title": "Login",
+    "subtitle": "Sign in to your account",
+    "loginTab": "Login",
+    "signupTab": "Sign Up",
+    "email": "Email",
+    "emailPlaceholder": "Enter your email",
+    "password": "Password",
+    "passwordPlaceholder": "Enter your password",
+    "confirmPassword": "Confirm Password",
+    "confirmPasswordPlaceholder": "Re-enter your password",
+    "login": "Login",
+    "signup": "Sign Up",
+    "google": "Sign in with Google",
+    "logout": "Logout",
+    "account": "Account",
+    "noName": "No name set",
+    "errors": {
+      "auth/invalid-email": "Invalid email address",
+      "auth/user-not-found": "Account not found",
+      "auth/wrong-password": "Incorrect password",
+      "auth/email-already-in-use": "This email is already registered",
+      "auth/weak-password": "Password must be at least 6 characters",
+      "auth/too-many-requests": "Too many login attempts. Please wait and try again",
+      "passwordMismatch": "Passwords do not match",
+      "default": "An error occurred. Please try again"
+    }
+  },
+  "membership": {
+    "planTitle": "Membership Plan",
+    "free": "Free",
+    "premium": "Premium",
+    "freeDesc": "You are on the free plan",
+    "premiumDesc": "You are on the premium plan",
+    "upgrade": "Upgrade to Premium",
+    "manage": "Manage Subscription",
+    "premiumBadge": "PREMIUM",
+    "gateTitle": "Premium Content",
+    "gateDescription": "This episode is for premium members only. Upgrade to enjoy all content.",
+    "gateButton": "Upgrade to Premium",
+    "gateLogin": "Login here"
+  },
   "footer": {
     "logoAlt": "Amayadori to WEB no Kobanashi Logo",
     "title": "Amayadori to WEB no Kobanashi",

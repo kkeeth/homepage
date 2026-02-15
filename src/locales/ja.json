@@ -279,6 +279,48 @@
     "backToList": "エピソード一覧に戻る",
     "notFound": "エピソードが見つかりませんでした"
   },
+  "auth": {
+    "title": "ログイン",
+    "subtitle": "アカウントにログインしてください",
+    "loginTab": "ログイン",
+    "signupTab": "新規登録",
+    "email": "メールアドレス",
+    "emailPlaceholder": "メールアドレスを入力",
+    "password": "パスワード",
+    "passwordPlaceholder": "パスワードを入力",
+    "confirmPassword": "パスワード確認",
+    "confirmPasswordPlaceholder": "パスワードを再入力",
+    "login": "ログイン",
+    "signup": "登録する",
+    "google": "Googleでログイン",
+    "logout": "ログアウト",
+    "account": "アカウント",
+    "noName": "名前未設定",
+    "errors": {
+      "auth/invalid-email": "メールアドレスの形式が正しくありません",
+      "auth/user-not-found": "アカウントが見つかりません",
+      "auth/wrong-password": "パスワードが間違っています",
+      "auth/email-already-in-use": "このメールアドレスは既に使用されています",
+      "auth/weak-password": "パスワードは6文字以上で入力してください",
+      "auth/too-many-requests": "ログイン試行回数が多すぎます。しばらくお待ちください",
+      "passwordMismatch": "パスワードが一致しません",
+      "default": "エラーが発生しました。もう一度お試しください"
+    }
+  },
+  "membership": {
+    "planTitle": "メンバーシッププラン",
+    "free": "Free",
+    "premium": "Premium",
+    "freeDesc": "無料プランをご利用中です",
+    "premiumDesc": "プレミアムプランをご利用中です",
+    "upgrade": "プレミアムにアップグレード",
+    "manage": "サブスクリプション管理",
+    "premiumBadge": "PREMIUM",
+    "gateTitle": "プレミアム限定コンテンツ",
+    "gateDescription": "このエピソードはプレミアム会員限定です。アップグレードしてすべてのコンテンツをお楽しみください。",
+    "gateButton": "プレミアムにアップグレード",
+    "gateLogin": "ログインはこちら"
+  },
   "footer": {
     "logoAlt": "雨宿りとWEBの小噺のロゴ",
     "title": "雨宿りとWEBの小噺",

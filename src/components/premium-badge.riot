@@ -1,0 +1,35 @@
+<premium-badge>
+  <span class="premium-badge" if={props.show}>
+    <sl-icon name="star-fill"></sl-icon>
+    {t("membership.premiumBadge")}
+  </span>
+
+  <script>
+    import i18nStore from '@/stores/i18n-store';
+
+    export default {
+      t: i18nStore.t.bind(i18nStore),
+    }
+  </script>
+
+  <style>
+    .premium-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      padding: 0.2rem 0.625rem;
+      background: #d97706;
+      color: #ffffff;
+      font-size: 0.6875rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      border-radius: 4px;
+      text-transform: uppercase;
+      margin-left: 0.5rem;
+    }
+
+    .premium-badge sl-icon {
+      font-size: 0.75rem;
+    }
+  </style>
+</premium-badge>

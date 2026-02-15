@@ -1,0 +1,198 @@
+<account>
+  <div class="account-page">
+    <div class="account-container">
+      <h1 class="account-title">{t("auth.account")}</h1>
+
+      <div class="account-card">
+        <div class="user-info">
+          <sl-avatar
+            image={state.user?.photoURL || ''}
+            label={state.user?.displayName || state.user?.email || ''}
+            style="--size: 64px;"
+          ></sl-avatar>
+          <div class="user-details">
+            <h2 class="user-name">{state.user?.displayName || t("auth.noName")}</h2>
+            <p class="user-email">{state.user?.email}</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="account-card">
+        <h3 class="card-title">{t("membership.planTitle")}</h3>
+        <div class="plan-info">
+          <span class="plan-badge {state.isPremium ? 'premium' : 'free'}">
+            {state.isPremium ? t("membership.premium") : t("membership.free")}
+          </span>
+          <p class="plan-description">
+            {state.isPremium ? t("membership.premiumDesc") : t("membership.freeDesc")}
+          </p>
+        </div>
+
+        <div if={!state.isPremium} class="upgrade-section">
+          <sl-button variant="primary" class="upgrade-btn" onclick={handleUpgrade}>
+            {t("membership.upgrade")}
+          </sl-button>
+        </div>
+
+        <div if={state.isPremium} class="manage-section">
+          <sl-button variant="default" onclick={handleManage}>
+            {t("membership.manage")}
+          </sl-button>
+        </div>
+      </div>
+
+      <div class="account-actions">
+        <sl-button variant="text" onclick={handleLogout}>
+          <sl-icon name="box-arrow-right" slot="prefix"></sl-icon>
+          {t("auth.logout")}
+        </sl-button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    import authStore from '@/stores/auth-store';
+    import membershipStore from '@/stores/membership-store';
+    import i18nStore from '@/stores/i18n-store';
+    import { router } from '@riotjs/route';
+
+    export default {
+      t: i18nStore.t.bind(i18nStore),
+      state: {
+        user: authStore.user,
+        isPremium: authStore.isPremium,
+      },
+      onMounted() {
+        if (!authStore.isLoggedIn()) {
+          router.push('/login');
+          return;
+        }
+        authStore.on('auth-changed', () => {
+          this.update({ user: authStore.user });
+        });
+        authStore.on('membership-changed', () => {
+          this.update({ isPremium: authStore.isPremium });
+        });
+      },
+      async handleUpgrade() {
+        try {
+          await membershipStore.createCheckoutSession();
+        } catch (err) {
+          console.error('Failed to start checkout:', err);
+        }
+      },
+      async handleManage() {
+        try {
+          await membershipStore.openCustomerPortal();
+        } catch (err) {
+          console.error('Failed to open portal:', err);
+        }
+      },
+      async handleLogout() {
+        await authStore.logout();
+        router.push('/');
+      },
+    }
+  </script>
+
+  <style>
+    .account-page {
+      min-height: 100vh;
+      background: var(--warm-white);
+      padding: 5rem 2rem;
+    }
+
+    .account-container {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .account-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--text-dark);
+      margin: 0 0 2rem;
+    }
+
+    .account-card {
+      background: #ffffff;
+      border-radius: 12px;
+      padding: 1.5rem;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+      margin-bottom: 1.5rem;
+    }
+
+    .user-info {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .user-name {
+      font-size: 1.125rem;
+      font-weight: 600;
+      color: var(--text-dark);
+      margin: 0;
+    }
+
+    .user-email {
+      font-size: 0.875rem;
+      color: var(--text-light);
+      margin: 0.25rem 0 0;
+    }
+
+    .card-title {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text-dark);
+      margin: 0 0 1rem;
+    }
+
+    .plan-info {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .plan-badge {
+      display: inline-block;
+      padding: 0.25rem 0.75rem;
+      border-radius: 50px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .plan-badge.free {
+      background: #f3f4f6;
+      color: #6b7280;
+    }
+
+    .plan-badge.premium {
+      background: #fef3c7;
+      color: #d97706;
+    }
+
+    .plan-description {
+      font-size: 0.875rem;
+      color: var(--text-color);
+      margin: 0;
+    }
+
+    .upgrade-btn::part(base) {
+      background: var(--rain-blue);
+      border-color: var(--rain-blue);
+    }
+
+    .upgrade-btn:hover::part(base) {
+      background: var(--deep-rain);
+      border-color: var(--deep-rain);
+    }
+
+    .account-actions {
+      margin-top: 1rem;
+    }
+  </style>
+</account>

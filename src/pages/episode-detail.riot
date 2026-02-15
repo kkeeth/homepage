@@ -7,21 +7,30 @@
       <div class="episode-header">
         <div class="episode-info">
           <span class="episode-date">{state.episode.pubDate}</span>
-          <h1 class="episode-title">{state.episode.title}</h1>
-          <!-- Embedded Player -->
-          <div class="player-section">
+          <h1 class="episode-title">
+            {state.episode.title}
+            <premium-badge show={state.isPremiumEpisode} />
+          </h1>
+
+          <!-- Premium Gate -->
+          <premium-gate if={state.isPremiumEpisode && !state.canAccess} />
+
+          <!-- Embedded Player (visible for non-premium or premium members) -->
+          <div class="player-section" if={!state.isPremiumEpisode || state.canAccess}>
             <iframe
               src={`${state.episode.link}/embed`}
               style="width: 100%; height: 200px; border: 0 none;" scrolling="no"
               sandbox="allow-scripts allow-popups allow-popups-to-escape-sandbox"></iframe>
           </div>
 
-          <p class="episode-description"><raw html={ state.episode.fullDescription } /></p>
+          <p class="episode-description" if={!state.isPremiumEpisode || state.canAccess}>
+            <raw html={ state.episode.fullDescription } />
+          </p>
         </div>
       </div>
 
-      <!-- Platform Links -->
-      <div class="platforms-section">
+      <!-- Platform Links (only if accessible) -->
+      <div class="platforms-section" if={!state.isPremiumEpisode || state.canAccess}>
         <h3 class="section-label">{t("episode.listenOn")}</h3>
         <div class="platform-icons">
           <a
@@ -38,7 +47,7 @@
       </div>
 
       <!-- Share Buttons -->
-      <div class="share-section">
+      <div class="share-section" if={!state.isPremiumEpisode || state.canAccess}>
         <h3 class="section-label">{t("episode.share")}</h3>
         <div class="share-buttons">
           <button onclick={shareTwitter} class="share-btn share-twitter" title="X (Twitter)">
@@ -75,6 +84,8 @@
     import { fetchRSSFeed } from '@/utils/rss';
     import { PODCAST_PLATFORMS } from '@/constants/links';
     import i18nStore from '@/stores/i18n-store';
+    import authStore from '@/stores/auth-store';
+    import membershipStore from '@/stores/membership-store';
 
     export default {
       t: i18nStore.t.bind(i18nStore),
@@ -83,6 +94,8 @@
         episode: null,
         platforms: PODCAST_PLATFORMS,
         copied: false,
+        isPremiumEpisode: false,
+        canAccess: false,
       },
       async onBeforeMount() {
         const episodeId = this.getEpisodeId();
@@ -109,9 +122,13 @@
           });
 
           if (foundEpisode) {
+            const isPremiumEpisode = membershipStore.isEpisodePremium(episodeId);
+            const canAccess = !isPremiumEpisode || authStore.isPremium;
             this.update({
               loading: false,
               episode: foundEpisode,
+              isPremiumEpisode,
+              canAccess,
             });
           } else {
             this.update({ loading: false });

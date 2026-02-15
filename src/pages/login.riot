@@ -1,0 +1,237 @@
+<login>
+  <div class="login-page">
+    <div class="login-container">
+      <h1 class="login-title">{t("auth.title")}</h1>
+      <p class="login-subtitle">{t("auth.subtitle")}</p>
+
+      <div if={state.error} class="error-message">
+        <sl-icon name="exclamation-triangle"></sl-icon>
+        {state.error}
+      </div>
+
+      <sl-tab-group>
+        <sl-tab slot="nav" panel="login">{t("auth.loginTab")}</sl-tab>
+        <sl-tab slot="nav" panel="signup">{t("auth.signupTab")}</sl-tab>
+
+        <sl-tab-panel name="login">
+          <form onsubmit={handleLogin}>
+            <sl-input
+              type="email"
+              label={t("auth.email")}
+              placeholder={t("auth.emailPlaceholder")}
+              required
+              oninput={(e) => this.update({ loginEmail: e.target.value })}
+            ></sl-input>
+            <sl-input
+              type="password"
+              label={t("auth.password")}
+              placeholder={t("auth.passwordPlaceholder")}
+              required
+              password-toggle
+              oninput={(e) => this.update({ loginPassword: e.target.value })}
+            ></sl-input>
+            <sl-button
+              type="submit"
+              variant="primary"
+              class="submit-btn"
+              loading={state.submitting}
+            >
+              {t("auth.login")}
+            </sl-button>
+          </form>
+        </sl-tab-panel>
+
+        <sl-tab-panel name="signup">
+          <form onsubmit={handleSignup}>
+            <sl-input
+              type="email"
+              label={t("auth.email")}
+              placeholder={t("auth.emailPlaceholder")}
+              required
+              oninput={(e) => this.update({ signupEmail: e.target.value })}
+            ></sl-input>
+            <sl-input
+              type="password"
+              label={t("auth.password")}
+              placeholder={t("auth.passwordPlaceholder")}
+              required
+              password-toggle
+              oninput={(e) => this.update({ signupPassword: e.target.value })}
+            ></sl-input>
+            <sl-input
+              type="password"
+              label={t("auth.confirmPassword")}
+              placeholder={t("auth.confirmPasswordPlaceholder")}
+              required
+              password-toggle
+              oninput={(e) => this.update({ signupConfirm: e.target.value })}
+            ></sl-input>
+            <sl-button
+              type="submit"
+              variant="primary"
+              class="submit-btn"
+              loading={state.submitting}
+            >
+              {t("auth.signup")}
+            </sl-button>
+          </form>
+        </sl-tab-panel>
+      </sl-tab-group>
+
+      <sl-divider></sl-divider>
+
+      <sl-button
+        variant="default"
+        class="google-btn"
+        onclick={handleGoogle}
+        loading={state.submitting}
+      >
+        <sl-icon name="google" slot="prefix"></sl-icon>
+        {t("auth.google")}
+      </sl-button>
+    </div>
+  </div>
+
+  <script>
+    import authStore from '@/stores/auth-store';
+    import i18nStore from '@/stores/i18n-store';
+    import { router } from '@riotjs/route';
+
+    export default {
+      t: i18nStore.t.bind(i18nStore),
+      state: {
+        error: null,
+        submitting: false,
+        loginEmail: '',
+        loginPassword: '',
+        signupEmail: '',
+        signupPassword: '',
+        signupConfirm: '',
+      },
+      onMounted() {
+        if (authStore.isLoggedIn()) {
+          router.push('/account');
+        }
+      },
+      async handleLogin(e) {
+        e.preventDefault();
+        this.update({ error: null, submitting: true });
+        try {
+          await authStore.loginWithEmail(this.state.loginEmail, this.state.loginPassword);
+          router.push('/account');
+        } catch (err) {
+          this.update({ error: this._getErrorMessage(err.code), submitting: false });
+        }
+      },
+      async handleSignup(e) {
+        e.preventDefault();
+        if (this.state.signupPassword !== this.state.signupConfirm) {
+          this.update({ error: i18nStore.t('auth.errors.passwordMismatch') });
+          return;
+        }
+        this.update({ error: null, submitting: true });
+        try {
+          await authStore.signupWithEmail(this.state.signupEmail, this.state.signupPassword);
+          router.push('/account');
+        } catch (err) {
+          this.update({ error: this._getErrorMessage(err.code), submitting: false });
+        }
+      },
+      async handleGoogle() {
+        this.update({ error: null, submitting: true });
+        try {
+          await authStore.loginWithGoogle();
+          router.push('/account');
+        } catch (err) {
+          this.update({ error: this._getErrorMessage(err.code), submitting: false });
+        }
+      },
+      _getErrorMessage(code) {
+        const key = `auth.errors.${code}`;
+        const msg = i18nStore.t(key);
+        return msg === key ? i18nStore.t('auth.errors.default') : msg;
+      },
+    }
+  </script>
+
+  <style>
+    .login-page {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--warm-white);
+      padding: 2rem;
+    }
+
+    .login-container {
+      max-width: 420px;
+      width: 100%;
+      background: #ffffff;
+      border-radius: 12px;
+      padding: 2.5rem;
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+    }
+
+    .login-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--text-dark);
+      margin: 0 0 0.5rem;
+      text-align: center;
+    }
+
+    .login-subtitle {
+      font-size: 0.875rem;
+      color: var(--text-light);
+      text-align: center;
+      margin: 0 0 1.5rem;
+    }
+
+    .error-message {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1rem;
+      background: #fef2f2;
+      color: #dc2626;
+      border-radius: 8px;
+      font-size: 0.875rem;
+      margin-bottom: 1rem;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .submit-btn {
+      width: 100%;
+      margin-top: 0.5rem;
+    }
+
+    .submit-btn::part(base) {
+      width: 100%;
+      background: var(--rain-blue);
+      border-color: var(--rain-blue);
+    }
+
+    .submit-btn:hover::part(base) {
+      background: var(--deep-rain);
+      border-color: var(--deep-rain);
+    }
+
+    sl-divider {
+      --spacing: 1.5rem;
+    }
+
+    .google-btn {
+      width: 100%;
+    }
+
+    .google-btn::part(base) {
+      width: 100%;
+    }
+  </style>
+</login>

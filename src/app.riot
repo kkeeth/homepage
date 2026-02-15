@@ -55,7 +55,10 @@
     import Profile from '@/pages/profile.riot'
     import Contact from '@/pages/contact.riot'
     import EpisodeDetail from '@/pages/episode-detail.riot'
+    import Login from '@/pages/login.riot'
+    import Account from '@/pages/account.riot'
     import i18nStore from '@/stores/i18n-store';
+    import authStore from '@/stores/auth-store';
 
     export default {
       components : {
@@ -68,6 +71,8 @@
         Profile,
         Contact,
         EpisodeDetail,
+        Login,
+        Account,
       },
       state: {
         pages,
@@ -88,6 +93,17 @@
         if (!path.pathname) {
           return
         }
+
+        // Route guards
+        if (path.pathname === '/account' && !authStore.isLoggedIn()) {
+          router.push('/login');
+          return;
+        }
+        if (path.pathname === '/login' && authStore.isLoggedIn()) {
+          router.push('/account');
+          return;
+        }
+
         const foundPage = pages.find(p => match(path.pathname, toRegexp(p.path)))
         const activePage = foundPage ? foundPage.componentName : null
 

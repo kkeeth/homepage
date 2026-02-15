@@ -30,4 +30,16 @@ export default [
     label: 'CONTACT',
     componentName: 'contact',
   },
+  {
+    path: '/login',
+    label: 'LOGIN',
+    componentName: 'login',
+    hidden: true,
+  },
+  {
+    path: '/account',
+    label: 'ACCOUNT',
+    componentName: 'account',
+    hidden: true,
+  },
 ];
