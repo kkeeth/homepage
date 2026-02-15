@@ -46,7 +46,7 @@ export const PODCAST_PLATFORMS = [
   {
     name: 'YouTube Music',
     icon: 'youtube',
-    url: 'https://music.youtube.com/playlist?list=PLVncrZRHU7RjSBziqoUGmfsyM41SY_l4u',
+    url: 'https://music.youtube.com/channel/UCvHAm_PHmXM5bCOT4Bv4yBg',
   },
   {
     name: 'RSS Feed',
