@@ -1,11 +1,10 @@
 import observable from '@riotjs/observable';
 import { collection, onSnapshot } from 'firebase/firestore';
-import { httpsCallable } from 'firebase/functions';
-import { getFunctions } from 'firebase/functions';
 import { db } from '@/services/firebase';
-import app from '@/services/firebase';
+import authStore from '@/stores/auth-store';
 
-const functions = getFunctions(app);
+const PAYMENT_LINK_URL = import.meta.env.VITE_STRIPE_PAYMENT_LINK_URL || '';
+const CUSTOMER_PORTAL_URL = import.meta.env.VITE_STRIPE_CUSTOMER_PORTAL_URL || '';
 
 const membershipStore = observable({
   premiumEpisodeIds: new Set(),
@@ -13,32 +12,35 @@ const membershipStore = observable({
 
   init() {
     const colRef = collection(db, 'premiumEpisodes');
-    this._unsub = onSnapshot(colRef, (snapshot) => {
-      this.premiumEpisodeIds = new Set(snapshot.docs.map((doc) => doc.id));
-      this.trigger('premium-episodes-changed');
-    });
+    this._unsub = onSnapshot(
+      colRef,
+      (snapshot) => {
+        this.premiumEpisodeIds = new Set(snapshot.docs.map((d) => d.id));
+        this.trigger('premium-episodes-changed');
+      },
+      (error) => {
+        console.error('Failed to subscribe premiumEpisodes:', error);
+      }
+    );
   },
 
   isEpisodePremium(episodeId) {
     return this.premiumEpisodeIds.has(episodeId);
   },
 
-  async createCheckoutSession() {
-    const createSession = httpsCallable(functions, 'createCheckoutSession');
-    const result = await createSession({ origin: window.location.origin });
-    const { url } = result.data;
-    if (url) {
-      window.location.href = url;
-    }
+  /**
+   * Payment Link URL を返す
+   * client_reference_id に Firebase UID を付与して Webhook で紐付ける
+   */
+  getPaymentLinkUrl() {
+    if (!PAYMENT_LINK_URL) return null;
+    const uid = authStore.user?.uid;
+    if (!uid) return PAYMENT_LINK_URL;
+    return `${PAYMENT_LINK_URL}?client_reference_id=${uid}`;
   },
 
-  async openCustomerPortal() {
-    const createPortal = httpsCallable(functions, 'customerPortalSession');
-    const result = await createPortal({ origin: window.location.origin });
-    const { url } = result.data;
-    if (url) {
-      window.location.href = url;
-    }
+  getCustomerPortalUrl() {
+    return CUSTOMER_PORTAL_URL || null;
   },
 
   destroy() {

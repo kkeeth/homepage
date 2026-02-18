@@ -29,13 +29,13 @@
         </div>
 
         <div if={!state.isPremium} class="upgrade-section">
-          <sl-button variant="primary" class="upgrade-btn" onclick={handleUpgrade}>
+          <sl-button variant="primary" class="upgrade-btn" href={state.paymentLinkUrl} target="_blank">
             {t("membership.upgrade")}
           </sl-button>
         </div>
 
-        <div if={state.isPremium} class="manage-section">
-          <sl-button variant="default" onclick={handleManage}>
+        <div if={state.isPremium && state.portalUrl} class="manage-section">
+          <sl-button variant="default" href={state.portalUrl} target="_blank">
             {t("membership.manage")}
           </sl-button>
         </div>
@@ -61,32 +61,29 @@
       state: {
         user: authStore.user,
         isPremium: authStore.isPremium,
+        paymentLinkUrl: membershipStore.getPaymentLinkUrl(),
+        portalUrl: membershipStore.getCustomerPortalUrl(),
       },
       onMounted() {
         if (!authStore.isLoggedIn()) {
           router.push('/login');
           return;
         }
-        authStore.on('auth-changed', () => {
-          this.update({ user: authStore.user });
-        });
-        authStore.on('membership-changed', () => {
+        this._onAuthChanged = () => {
+          this.update({
+            user: authStore.user,
+            paymentLinkUrl: membershipStore.getPaymentLinkUrl(),
+          });
+        };
+        this._onMembershipChanged = () => {
           this.update({ isPremium: authStore.isPremium });
-        });
+        };
+        authStore.on('auth-changed', this._onAuthChanged);
+        authStore.on('membership-changed', this._onMembershipChanged);
       },
-      async handleUpgrade() {
-        try {
-          await membershipStore.createCheckoutSession();
-        } catch (err) {
-          console.error('Failed to start checkout:', err);
-        }
-      },
-      async handleManage() {
-        try {
-          await membershipStore.openCustomerPortal();
-        } catch (err) {
-          console.error('Failed to open portal:', err);
-        }
+      onBeforeUnmount() {
+        authStore.off('auth-changed', this._onAuthChanged);
+        authStore.off('membership-changed', this._onMembershipChanged);
       },
       async handleLogout() {
         await authStore.logout();

@@ -7,7 +7,7 @@ import {
   GoogleAuthProvider,
   signOut,
 } from 'firebase/auth';
-import { doc, onSnapshot, setDoc, getDoc } from 'firebase/firestore';
+import { doc, onSnapshot } from 'firebase/firestore';
 import { auth, db } from '@/services/firebase';
 
 const googleProvider = new GoogleAuthProvider();
@@ -19,9 +19,15 @@ const authStore = observable({
   membershipPlan: 'free',
   subscriptionStatus: null,
   _unsubUser: null,
+  _readyPromise: null,
+  _resolveReady: null,
 
   init() {
-    onAuthStateChanged(auth, async (firebaseUser) => {
+    this._readyPromise = new Promise((resolve) => {
+      this._resolveReady = resolve;
+    });
+
+    onAuthStateChanged(auth, (firebaseUser) => {
       if (firebaseUser) {
         this.user = {
           uid: firebaseUser.uid,
@@ -29,7 +35,6 @@ const authStore = observable({
           displayName: firebaseUser.displayName,
           photoURL: firebaseUser.photoURL,
         };
-        await this._ensureUserDoc(firebaseUser.uid, firebaseUser.email);
         this._subscribeUserDoc(firebaseUser.uid);
       } else {
         this._cleanup();
@@ -40,37 +45,39 @@ const authStore = observable({
       }
       this.isLoading = false;
       this.trigger('auth-changed');
+      this._resolveReady();
     });
   },
 
-  async _ensureUserDoc(uid, email) {
-    const userRef = doc(db, 'users', uid);
-    const snap = await getDoc(userRef);
-    if (!snap.exists()) {
-      await setDoc(userRef, {
-        email,
-        plan: 'free',
-        stripeCustomerId: null,
-        subscriptionId: null,
-        subscriptionStatus: null,
-        currentPeriodEnd: null,
-        createdAt: new Date().toISOString(),
-      });
-    }
+  /** Auth の初期化完了を待つ */
+  ready() {
+    return this._readyPromise;
   },
 
   _subscribeUserDoc(uid) {
     this._cleanup();
     const userRef = doc(db, 'users', uid);
-    this._unsubUser = onSnapshot(userRef, (snap) => {
-      if (snap.exists()) {
-        const data = snap.data();
-        this.membershipPlan = data.plan || 'free';
-        this.isPremium = data.plan === 'premium' && data.subscriptionStatus === 'active';
-        this.subscriptionStatus = data.subscriptionStatus;
-        this.trigger('membership-changed');
+    this._unsubUser = onSnapshot(
+      userRef,
+      (snap) => {
+        if (snap.exists()) {
+          const data = snap.data();
+          this.membershipPlan = data.plan || 'free';
+          this.isPremium = data.plan === 'premium' && data.subscriptionStatus === 'active';
+          this.subscriptionStatus = data.subscriptionStatus;
+          this.trigger('membership-changed');
+        } else {
+          // ドキュメント未作成（初回ログイン）→ Cloud Functions 側で作成されるまで free
+          this.membershipPlan = 'free';
+          this.isPremium = false;
+          this.subscriptionStatus = null;
+          this.trigger('membership-changed');
+        }
+      },
+      (error) => {
+        console.error('Failed to subscribe user doc:', error);
       }
-    });
+    );
   },
 
   _cleanup() {

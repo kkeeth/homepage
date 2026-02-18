@@ -37,9 +37,13 @@
         user: authStore.user,
       },
       onMounted() {
-        authStore.on('auth-changed', () => {
+        this._onAuthChanged = () => {
           this.update({ user: authStore.user });
-        });
+        };
+        authStore.on('auth-changed', this._onAuthChanged);
+      },
+      onBeforeUnmount() {
+        authStore.off('auth-changed', this._onAuthChanged);
       },
       goToAccount() {
         router.push('/account');

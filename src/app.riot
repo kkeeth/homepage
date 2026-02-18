@@ -89,19 +89,22 @@
           window.scrollTo({ top: 0, behavior: 'instant' })
         })
       },
-      onAnyRoute(path) {
+      async onAnyRoute(path) {
         if (!path.pathname) {
           return
         }
 
-        // Route guards
-        if (path.pathname === '/account' && !authStore.isLoggedIn()) {
-          router.push('/login');
-          return;
-        }
-        if (path.pathname === '/login' && authStore.isLoggedIn()) {
-          router.push('/account');
-          return;
+        // Route guards: auth が必要なルートは初期化完了を待つ
+        if (path.pathname === '/account' || path.pathname === '/login') {
+          await authStore.ready();
+          if (path.pathname === '/account' && !authStore.isLoggedIn()) {
+            router.push('/login');
+            return;
+          }
+          if (path.pathname === '/login' && authStore.isLoggedIn()) {
+            router.push('/account');
+            return;
+          }
         }
 
         const foundPage = pages.find(p => match(path.pathname, toRegexp(p.path)))

@@ -5,7 +5,8 @@
       <h2 class="gate-title">{t("membership.gateTitle")}</h2>
       <p class="gate-description">{t("membership.gateDescription")}</p>
       <div class="gate-actions">
-        <sl-button if={state.isLoggedIn} variant="primary" class="gate-btn" onclick={handleUpgrade}>
+        <sl-button if={state.isLoggedIn && state.paymentLinkUrl} variant="primary" class="gate-btn"
+          href={state.paymentLinkUrl} target="_blank">
           {t("membership.gateButton")}
         </sl-button>
         <div if={!state.isLoggedIn} class="gate-login">
@@ -27,18 +28,19 @@
       t: i18nStore.t.bind(i18nStore),
       state: {
         isLoggedIn: authStore.isLoggedIn(),
+        paymentLinkUrl: membershipStore.getPaymentLinkUrl(),
       },
       onMounted() {
-        authStore.on('auth-changed', () => {
-          this.update({ isLoggedIn: authStore.isLoggedIn() });
-        });
+        this._onAuthChanged = () => {
+          this.update({
+            isLoggedIn: authStore.isLoggedIn(),
+            paymentLinkUrl: membershipStore.getPaymentLinkUrl(),
+          });
+        };
+        authStore.on('auth-changed', this._onAuthChanged);
       },
-      async handleUpgrade() {
-        try {
-          await membershipStore.createCheckoutSession();
-        } catch (err) {
-          console.error('Failed to start checkout:', err);
-        }
+      onBeforeUnmount() {
+        authStore.off('auth-changed', this._onAuthChanged);
       },
     }
   </script>
