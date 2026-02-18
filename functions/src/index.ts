@@ -10,56 +10,23 @@ const stripe = new Stripe(functions.config().stripe.secret_key, {
 });
 
 /**
- * Callable: Stripe Checkout Session を作成
+ * Auth トリガー: ユーザー作成時に Firestore にドキュメントを作成
  */
-export const createCheckoutSession = functions.https.onCall(
-  async (data, context) => {
-    if (!context.auth) {
-      throw new functions.https.HttpsError(
-        "unauthenticated",
-        "ログインが必要です"
-      );
-    }
-
-    const uid = context.auth.uid;
-    const userDoc = await db.collection("users").doc(uid).get();
-    const userData = userDoc.data();
-
-    let customerId = userData?.stripeCustomerId;
-
-    // Stripe Customer がなければ作成
-    if (!customerId) {
-      const customer = await stripe.customers.create({
-        email: context.auth.token.email,
-        metadata: { firebaseUID: uid },
-      });
-      customerId = customer.id;
-      await db.collection("users").doc(uid).update({
-        stripeCustomerId: customerId,
-      });
-    }
-
-    const session = await stripe.checkout.sessions.create({
-      customer: customerId,
-      payment_method_types: ["card"],
-      mode: "subscription",
-      line_items: [
-        {
-          price: functions.config().stripe.price_id,
-          quantity: 1,
-        },
-      ],
-      success_url: `${data.origin}/account?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${data.origin}/account`,
-      metadata: { firebaseUID: uid },
-    });
-
-    return { sessionId: session.id, url: session.url };
-  }
-);
+export const onUserCreated = functions.auth.user().onCreate(async (user) => {
+  await db.collection("users").doc(user.uid).set({
+    email: user.email || null,
+    plan: "free",
+    stripeCustomerId: null,
+    subscriptionId: null,
+    subscriptionStatus: null,
+    currentPeriodEnd: null,
+    createdAt: new Date().toISOString(),
+  });
+});
 
 /**
  * HTTP: Stripe Webhook 受信
+ * Payment Links 経由の決済完了やサブスク変更を Firestore に反映する
  */
 export const stripeWebhook = functions.https.onRequest(async (req, res) => {
   const sig = req.headers["stripe-signature"];
@@ -84,7 +51,7 @@ export const stripeWebhook = functions.https.onRequest(async (req, res) => {
   switch (event.type) {
     case "checkout.session.completed": {
       const session = event.data.object as Stripe.Checkout.Session;
-      const uid = session.metadata?.firebaseUID;
+      const uid = session.client_reference_id;
       if (uid && session.subscription) {
         const subscription = await stripe.subscriptions.retrieve(
           session.subscription as string
@@ -94,6 +61,7 @@ export const stripeWebhook = functions.https.onRequest(async (req, res) => {
           .doc(uid)
           .update({
             plan: "premium",
+            stripeCustomerId: session.customer as string,
             subscriptionId: subscription.id,
             subscriptionStatus: subscription.status,
             currentPeriodEnd: new Date(
@@ -172,35 +140,3 @@ export const stripeWebhook = functions.https.onRequest(async (req, res) => {
 
   res.status(200).json({ received: true });
 });
-
-/**
- * Callable: Stripe Customer Portal Session を作成
- */
-export const customerPortalSession = functions.https.onCall(
-  async (data, context) => {
-    if (!context.auth) {
-      throw new functions.https.HttpsError(
-        "unauthenticated",
-        "ログインが必要です"
-      );
-    }
-
-    const uid = context.auth.uid;
-    const userDoc = await db.collection("users").doc(uid).get();
-    const userData = userDoc.data();
-
-    if (!userData?.stripeCustomerId) {
-      throw new functions.https.HttpsError(
-        "failed-precondition",
-        "Stripe顧客IDが見つかりません"
-      );
-    }
-
-    const session = await stripe.billingPortal.sessions.create({
-      customer: userData.stripeCustomerId,
-      return_url: `${data.origin}/account`,
-    });
-
-    return { url: session.url };
-  }
-);
