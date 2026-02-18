@@ -1,27 +1,30 @@
-import * as functions from "firebase-functions";
-import * as admin from "firebase-admin";
-import Stripe from "stripe";
+import * as functions from 'firebase-functions';
+import * as admin from 'firebase-admin';
+import Stripe from 'stripe';
 
 admin.initializeApp();
 const db = admin.firestore();
 
 const stripe = new Stripe(functions.config().stripe.secret_key, {
-  apiVersion: "2024-04-10",
+  apiVersion: '2023-10-16',
 });
 
 /**
  * Auth トリガー: ユーザー作成時に Firestore にドキュメントを作成
  */
 export const onUserCreated = functions.auth.user().onCreate(async (user) => {
-  await db.collection("users").doc(user.uid).set({
-    email: user.email || null,
-    plan: "free",
-    stripeCustomerId: null,
-    subscriptionId: null,
-    subscriptionStatus: null,
-    currentPeriodEnd: null,
-    createdAt: new Date().toISOString(),
-  });
+  await db
+    .collection('users')
+    .doc(user.uid)
+    .set({
+      email: user.email || null,
+      plan: 'free',
+      stripeCustomerId: null,
+      subscriptionId: null,
+      subscriptionStatus: null,
+      currentPeriodEnd: null,
+      createdAt: new Date().toISOString(),
+    });
 });
 
 /**
@@ -29,9 +32,9 @@ export const onUserCreated = functions.auth.user().onCreate(async (user) => {
  * Payment Links 経由の決済完了やサブスク変更を Firestore に反映する
  */
 export const stripeWebhook = functions.https.onRequest(async (req, res) => {
-  const sig = req.headers["stripe-signature"];
+  const sig = req.headers['stripe-signature'];
   if (!sig) {
-    res.status(400).send("Missing stripe-signature header");
+    res.status(400).send('Missing stripe-signature header');
     return;
   }
 
@@ -40,56 +43,55 @@ export const stripeWebhook = functions.https.onRequest(async (req, res) => {
     event = stripe.webhooks.constructEvent(
       req.rawBody,
       sig,
-      functions.config().stripe.webhook_secret
+      functions.config().stripe.webhook_secret,
     );
   } catch (err) {
-    console.error("Webhook signature verification failed:", err);
-    res.status(400).send("Webhook signature verification failed");
+    console.error('Webhook signature verification failed:', err);
+    res.status(400).send('Webhook signature verification failed');
     return;
   }
 
   switch (event.type) {
-    case "checkout.session.completed": {
+    case 'checkout.session.completed': {
       const session = event.data.object as Stripe.Checkout.Session;
       const uid = session.client_reference_id;
       if (uid && session.subscription) {
         const subscription = await stripe.subscriptions.retrieve(
-          session.subscription as string
+          session.subscription as string,
         );
         await db
-          .collection("users")
+          .collection('users')
           .doc(uid)
           .update({
-            plan: "premium",
+            plan: 'premium',
             stripeCustomerId: session.customer as string,
             subscriptionId: subscription.id,
             subscriptionStatus: subscription.status,
             currentPeriodEnd: new Date(
-              subscription.current_period_end * 1000
+              subscription.current_period_end * 1000,
             ).toISOString(),
           });
       }
       break;
     }
 
-    case "customer.subscription.updated": {
+    case 'customer.subscription.updated': {
       const subscription = event.data.object as Stripe.Subscription;
       const customer = await stripe.customers.retrieve(
-        subscription.customer as string
+        subscription.customer as string,
       );
       if (!customer.deleted) {
         const uid = customer.metadata?.firebaseUID;
         if (uid) {
-          const plan =
-            subscription.status === "active" ? "premium" : "free";
+          const plan = subscription.status === 'active' ? 'premium' : 'free';
           await db
-            .collection("users")
+            .collection('users')
             .doc(uid)
             .update({
               plan,
               subscriptionStatus: subscription.status,
               currentPeriodEnd: new Date(
-                subscription.current_period_end * 1000
+                subscription.current_period_end * 1000,
               ).toISOString(),
             });
         }
@@ -97,17 +99,17 @@ export const stripeWebhook = functions.https.onRequest(async (req, res) => {
       break;
     }
 
-    case "customer.subscription.deleted": {
+    case 'customer.subscription.deleted': {
       const subscription = event.data.object as Stripe.Subscription;
       const customer = await stripe.customers.retrieve(
-        subscription.customer as string
+        subscription.customer as string,
       );
       if (!customer.deleted) {
         const uid = customer.metadata?.firebaseUID;
         if (uid) {
-          await db.collection("users").doc(uid).update({
-            plan: "free",
-            subscriptionStatus: "canceled",
+          await db.collection('users').doc(uid).update({
+            plan: 'free',
+            subscriptionStatus: 'canceled',
             subscriptionId: null,
             currentPeriodEnd: null,
           });
@@ -116,20 +118,20 @@ export const stripeWebhook = functions.https.onRequest(async (req, res) => {
       break;
     }
 
-    case "invoice.payment_failed": {
+    case 'invoice.payment_failed': {
       const invoice = event.data.object as Stripe.Invoice;
       if (invoice.subscription) {
         const subscription = await stripe.subscriptions.retrieve(
-          invoice.subscription as string
+          invoice.subscription as string,
         );
         const customer = await stripe.customers.retrieve(
-          subscription.customer as string
+          subscription.customer as string,
         );
         if (!customer.deleted) {
           const uid = customer.metadata?.firebaseUID;
           if (uid) {
-            await db.collection("users").doc(uid).update({
-              subscriptionStatus: "past_due",
+            await db.collection('users').doc(uid).update({
+              subscriptionStatus: 'past_due',
             });
           }
         }

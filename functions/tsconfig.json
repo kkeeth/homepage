@@ -7,7 +7,8 @@
     "sourceMap": true,
     "strict": true,
     "target": "es2022",
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "skipLibCheck": true
   },
   "compileOnSave": true,
   "include": ["src"]
