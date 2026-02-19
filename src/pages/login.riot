@@ -73,6 +73,7 @@
     import authStore from '@/stores/auth-store';
     import i18nStore from '@/stores/i18n-store';
     import { router } from '@riotjs/route';
+    import { consumeEmailLinkUrl } from '@/utils/email-link';
 
     export default {
       t: i18nStore.t.bind(i18nStore),
@@ -85,10 +86,9 @@
         email: '',
       },
       async onMounted() {
-        // メールリンクコールバック判定（index.js で sessionStorage に退避済み）
-        const emailLinkUrl = sessionStorage.getItem('emailLinkUrl');
+        // メールリンクコールバック判定（index.js でメモリに退避済み）
+        const emailLinkUrl = consumeEmailLinkUrl();
         if (emailLinkUrl) {
-          sessionStorage.removeItem('emailLinkUrl');
           this.update({ verifying: true });
           try {
             await authStore.completeEmailLinkSignIn(emailLinkUrl);

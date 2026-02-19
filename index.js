@@ -10,14 +10,11 @@ import registerGlobalComponents from '@/register-global-components';
 import i18nStore from '@/stores/i18n-store';
 import authStore from '@/stores/auth-store';
 import membershipStore from '@/stores/membership-store';
+import { captureEmailLinkUrl } from '@/utils/email-link';
 
-// Firebase メールリンクコールバック:
 // @riotjs/route はクエリパラメータ付きURLでルートマッチしないため
-// ルーター起動前にURLを退避してパスだけに書き換える
-if (window.location.search.includes('apiKey=') && window.location.search.includes('oobCode=')) {
-  sessionStorage.setItem('emailLinkUrl', window.location.href);
-  window.history.replaceState(null, '', window.location.pathname);
-}
+// ルーター起動前にメールリンクURLをメモリに退避しパスだけに書き換える
+captureEmailLinkUrl();
 
 // register
 registerGlobalComponents();
