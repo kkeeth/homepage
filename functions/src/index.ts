@@ -5,6 +5,8 @@ import Stripe from 'stripe';
 admin.initializeApp();
 const db = admin.firestore();
 
+functions.setGlobalOptions({ region: 'asia-northeast1' });
+
 /**
  * HTTP: Stripe Webhook 受信
  * Payment Links 経由の決済完了やサブスク変更を Firestore に反映する

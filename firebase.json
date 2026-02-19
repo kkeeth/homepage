@@ -14,7 +14,7 @@
   },
   "functions": {
     "source": "functions",
-    "runtime": "nodejs22"
+    "runtime": "nodejs20"
   },
   "emulators": {
     "functions": {
