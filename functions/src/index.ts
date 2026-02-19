@@ -5,33 +5,13 @@ import Stripe from 'stripe';
 admin.initializeApp();
 const db = admin.firestore();
 
-const stripe = new Stripe(functions.config().stripe.secret_key, {
-  apiVersion: '2023-10-16',
-});
-
-/**
- * Auth トリガー: ユーザー作成時に Firestore にドキュメントを作成
- */
-export const onUserCreated = functions.auth.user().onCreate(async (user) => {
-  await db
-    .collection('users')
-    .doc(user.uid)
-    .set({
-      email: user.email || null,
-      plan: 'free',
-      stripeCustomerId: null,
-      subscriptionId: null,
-      subscriptionStatus: null,
-      currentPeriodEnd: null,
-      createdAt: new Date().toISOString(),
-    });
-});
-
 /**
  * HTTP: Stripe Webhook 受信
  * Payment Links 経由の決済完了やサブスク変更を Firestore に反映する
  */
 export const stripeWebhook = functions.https.onRequest(async (req, res) => {
+  const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '');
+
   const sig = req.headers['stripe-signature'];
   if (!sig) {
     res.status(400).send('Missing stripe-signature header');
@@ -43,7 +23,7 @@ export const stripeWebhook = functions.https.onRequest(async (req, res) => {
     event = stripe.webhooks.constructEvent(
       req.rawBody,
       sig,
-      functions.config().stripe.webhook_secret,
+      process.env.STRIPE_WEBHOOK_SECRET || '',
     );
   } catch (err) {
     console.error('Webhook signature verification failed:', err);
@@ -54,24 +34,44 @@ export const stripeWebhook = functions.https.onRequest(async (req, res) => {
   switch (event.type) {
     case 'checkout.session.completed': {
       const session = event.data.object as Stripe.Checkout.Session;
-      const uid = session.client_reference_id;
-      if (uid && session.subscription) {
-        const subscription = await stripe.subscriptions.retrieve(
-          session.subscription as string,
-        );
-        await db
-          .collection('users')
-          .doc(uid)
-          .update({
+      const email = session.customer_details?.email;
+      if (!email || !session.subscription) break;
+
+      // メールアドレスから Firebase Auth ユーザーを特定/作成
+      let uid: string;
+      try {
+        const userRecord = await admin.auth().getUserByEmail(email);
+        uid = userRecord.uid;
+      } catch {
+        const newUser = await admin.auth().createUser({ email });
+        uid = newUser.uid;
+      }
+
+      // Stripe Customer に firebaseUID を保存（以降の Webhook で参照）
+      const customerId = session.customer as string;
+      await stripe.customers.update(customerId, {
+        metadata: { firebaseUID: uid },
+      });
+
+      const subscription = await stripe.subscriptions.retrieve(
+        session.subscription as string,
+      );
+      await db
+        .collection('users')
+        .doc(uid)
+        .set(
+          {
             plan: 'premium',
-            stripeCustomerId: session.customer as string,
+            stripeCustomerId: customerId,
             subscriptionId: subscription.id,
             subscriptionStatus: subscription.status,
             currentPeriodEnd: new Date(
               subscription.current_period_end * 1000,
             ).toISOString(),
-          });
-      }
+            createdAt: new Date().toISOString(),
+          },
+          { merge: true },
+        );
       break;
     }
 

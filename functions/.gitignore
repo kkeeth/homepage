@@ -15,8 +15,12 @@
 .env.test.local
 .env.production.local
 
-npm-debug.log*
 
 # firebase
 .firebase/
 lib/
+
+# Debug files
+npm-debug.log*
+*-debug.log
+*-error.log
