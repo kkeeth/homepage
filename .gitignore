@@ -21,3 +21,8 @@ yarn-error.log*
 
 # firebase
 .firebase/
+
+# Debug files
+npm-debug.log*
+*-debug.log
+*-error.log

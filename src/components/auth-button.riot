@@ -7,7 +7,7 @@
     <sl-dropdown if={state.user} placement="bottom-end">
       <button slot="trigger" class="user-trigger">
         <sl-avatar
-          image={state.user.photoURL || ''}
+          image={state.avatarUrl}
           label={state.user.displayName || state.user.email}
           style="--size: 32px;"
         ></sl-avatar>
@@ -35,10 +35,14 @@
       t: i18nStore.t.bind(i18nStore),
       state: {
         user: authStore.user,
+        avatarUrl: authStore.getAvatarUrl(),
       },
       onMounted() {
         this._onAuthChanged = () => {
-          this.update({ user: authStore.user });
+          this.update({
+            user: authStore.user,
+            avatarUrl: authStore.getAvatarUrl(),
+          });
         };
         authStore.on('auth-changed', this._onAuthChanged);
       },

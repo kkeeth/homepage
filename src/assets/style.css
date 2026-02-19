@@ -202,13 +202,11 @@ sl-button[variant='primary']::part(base) {
   background: var(--warm-amber);
   border: 2px solid var(--white-20);
   color: white;
-  box-shadow: 0 4px 15px rgba(231, 76, 60, 0.2);
 }
 
 sl-button[variant='primary']:hover::part(base) {
   background: var(--cozy-orange);
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(231, 76, 60, 0.3);
 }
 
 sl-button[variant='neutral']::part(base) {
@@ -235,4 +233,9 @@ sl-button[disabled]::part(base) {
 sl-button[disabled]:hover::part(base) {
   background: transparent;
   color: var(--sl-color-neutral-400);
+}
+
+/* Form control styles for login and registration pages */
+sl-input::part(form-control-label)::after {
+  color: #ff4d4f;
 }

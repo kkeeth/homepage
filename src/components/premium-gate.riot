@@ -5,42 +5,23 @@
       <h2 class="gate-title">{t("membership.gateTitle")}</h2>
       <p class="gate-description">{t("membership.gateDescription")}</p>
       <div class="gate-actions">
-        <sl-button if={state.isLoggedIn && state.paymentLinkUrl} variant="primary" class="gate-btn"
+        <sl-button if={state.paymentLinkUrl} variant="primary" class="gate-btn"
           href={state.paymentLinkUrl} target="_blank">
-          {t("membership.gateButton")}
+          {t("membership.becomeMember")}
         </sl-button>
-        <div if={!state.isLoggedIn} class="gate-login">
-          <sl-button variant="primary" href="/login" class="gate-btn">
-            {t("membership.gateButton")}
-          </sl-button>
-          <a href="/login" class="gate-login-link">{t("membership.gateLogin")}</a>
-        </div>
+        <a href="/login" class="gate-login-link">{t("membership.gateLogin")}</a>
       </div>
     </div>
   </div>
 
   <script>
-    import authStore from '@/stores/auth-store';
     import membershipStore from '@/stores/membership-store';
     import i18nStore from '@/stores/i18n-store';
 
     export default {
       t: i18nStore.t.bind(i18nStore),
       state: {
-        isLoggedIn: authStore.isLoggedIn(),
         paymentLinkUrl: membershipStore.getPaymentLinkUrl(),
-      },
-      onMounted() {
-        this._onAuthChanged = () => {
-          this.update({
-            isLoggedIn: authStore.isLoggedIn(),
-            paymentLinkUrl: membershipStore.getPaymentLinkUrl(),
-          });
-        };
-        authStore.on('auth-changed', this._onAuthChanged);
-      },
-      onBeforeUnmount() {
-        authStore.off('auth-changed', this._onAuthChanged);
       },
     }
   </script>

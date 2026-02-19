@@ -6,7 +6,7 @@
       <div class="account-card">
         <div class="user-info">
           <sl-avatar
-            image={state.user?.photoURL || ''}
+            image={state.avatarUrl}
             label={state.user?.displayName || state.user?.email || ''}
             style="--size: 64px;"
           ></sl-avatar>
@@ -61,6 +61,7 @@
       state: {
         user: authStore.user,
         isPremium: authStore.isPremium,
+        avatarUrl: authStore.getAvatarUrl(),
         paymentLinkUrl: membershipStore.getPaymentLinkUrl(),
         portalUrl: membershipStore.getCustomerPortalUrl(),
       },
@@ -72,6 +73,7 @@
         this._onAuthChanged = () => {
           this.update({
             user: authStore.user,
+            avatarUrl: authStore.getAvatarUrl(),
             paymentLinkUrl: membershipStore.getPaymentLinkUrl(),
           });
         };

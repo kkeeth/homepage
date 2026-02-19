@@ -1,16 +1,16 @@
 import observable from '@riotjs/observable';
 import {
   onAuthStateChanged,
-  signInWithEmailAndPassword,
-  createUserWithEmailAndPassword,
-  signInWithPopup,
-  GoogleAuthProvider,
+  sendSignInLinkToEmail,
+  isSignInWithEmailLink,
+  signInWithEmailLink,
   signOut,
 } from 'firebase/auth';
 import { doc, onSnapshot } from 'firebase/firestore';
 import { auth, db } from '@/services/firebase';
+import { getGravatarUrl } from '@/utils/gravatar';
 
-const googleProvider = new GoogleAuthProvider();
+const EMAIL_STORAGE_KEY = 'emailForSignIn';
 
 const authStore = observable({
   user: null,
@@ -18,6 +18,7 @@ const authStore = observable({
   isLoading: true,
   membershipPlan: 'free',
   subscriptionStatus: null,
+  gravatarURL: '',
   _unsubUser: null,
   _readyPromise: null,
   _resolveReady: null,
@@ -27,14 +28,16 @@ const authStore = observable({
       this._resolveReady = resolve;
     });
 
-    onAuthStateChanged(auth, (firebaseUser) => {
+    onAuthStateChanged(auth, async (firebaseUser) => {
       if (firebaseUser) {
         this.user = {
           uid: firebaseUser.uid,
           email: firebaseUser.email,
           displayName: firebaseUser.displayName,
-          photoURL: firebaseUser.photoURL,
         };
+        if (firebaseUser.email) {
+          this.gravatarURL = await getGravatarUrl(firebaseUser.email);
+        }
         this._subscribeUserDoc(firebaseUser.uid);
       } else {
         this._cleanup();
@@ -42,6 +45,7 @@ const authStore = observable({
         this.isPremium = false;
         this.membershipPlan = 'free';
         this.subscriptionStatus = null;
+        this.gravatarURL = '';
       }
       this.isLoading = false;
       this.trigger('auth-changed');
@@ -63,11 +67,11 @@ const authStore = observable({
         if (snap.exists()) {
           const data = snap.data();
           this.membershipPlan = data.plan || 'free';
-          this.isPremium = data.plan === 'premium' && data.subscriptionStatus === 'active';
+          this.isPremium =
+            data.plan === 'premium' && data.subscriptionStatus === 'active';
           this.subscriptionStatus = data.subscriptionStatus;
           this.trigger('membership-changed');
         } else {
-          // ドキュメント未作成（初回ログイン）→ Cloud Functions 側で作成されるまで free
           this.membershipPlan = 'free';
           this.isPremium = false;
           this.subscriptionStatus = null;
@@ -76,7 +80,7 @@ const authStore = observable({
       },
       (error) => {
         console.error('Failed to subscribe user doc:', error);
-      }
+      },
     );
   },
 
@@ -87,16 +91,54 @@ const authStore = observable({
     }
   },
 
-  async loginWithEmail(email, password) {
-    return signInWithEmailAndPassword(auth, email, password);
+  /**
+   * マジックリンクメールを送信
+   * @param {string} email
+   */
+  async sendLoginLink(email) {
+    const actionCodeSettings = {
+      url: window.location.origin + '/login',
+      handleCodeInApp: true,
+    };
+    await sendSignInLinkToEmail(auth, email, actionCodeSettings);
+    localStorage.setItem(EMAIL_STORAGE_KEY, email);
   },
 
-  async signupWithEmail(email, password) {
-    return createUserWithEmailAndPassword(auth, email, password);
+  /**
+   * メールリンクからのサインインを完了する
+   * @param {string} url
+   */
+  async completeEmailLinkSignIn(url) {
+    if (!isSignInWithEmailLink(auth, url)) {
+      throw new Error('Invalid email link');
+    }
+    let email = localStorage.getItem(EMAIL_STORAGE_KEY);
+    if (!email) {
+      email = window.prompt('確認のためメールアドレスを入力してください');
+    }
+    if (!email) {
+      throw new Error('Email is required');
+    }
+    const result = await signInWithEmailLink(auth, email, url);
+    localStorage.removeItem(EMAIL_STORAGE_KEY);
+
+    // onAuthStateChanged の発火を待たずに即座に user をセット
+    // これにより router.push('/account') 後の isLoggedIn() チェックが正しく動作する
+    this.user = {
+      uid: result.user.uid,
+      email: result.user.email,
+      displayName: result.user.displayName,
+    };
+
+    return result;
   },
 
-  async loginWithGoogle() {
-    return signInWithPopup(auth, googleProvider);
+  /**
+   * Gravatar URL を返す
+   * @returns {string}
+   */
+  getAvatarUrl() {
+    return this.gravatarURL || '';
   },
 
   async logout() {

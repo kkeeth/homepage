@@ -1,94 +1,71 @@
 <login>
   <div class="login-page">
     <div class="login-container">
-      <h1 class="login-title">{t("auth.title")}</h1>
-      <p class="login-subtitle">{t("auth.subtitle")}</p>
-
-      <div if={state.error} class="error-message">
-        <sl-icon name="exclamation-triangle"></sl-icon>
-        {state.error}
+      <!-- 認証中（メールリンクコールバック） -->
+      <div if={state.verifying} class="verifying-section">
+        <sl-spinner style="font-size: 2rem;"></sl-spinner>
+        <p class="verifying-text">{t("auth.verifying")}</p>
       </div>
 
-      <sl-tab-group>
-        <sl-tab slot="nav" panel="login">{t("auth.loginTab")}</sl-tab>
-        <sl-tab slot="nav" panel="signup">{t("auth.signupTab")}</sl-tab>
+      <!-- 送信完了 -->
+      <div if={!state.verifying && state.linkSent} class="link-sent-section">
+        <sl-icon name="envelope-check" style="font-size: 2.5rem; color: var(--rain-blue);"></sl-icon>
+        <h2 class="link-sent-title">
+          {state.mode === 'register' ? t("auth.registerLinkSentTitle") : t("auth.linkSentTitle")}
+        </h2>
+        <p class="link-sent-desc">
+          {state.mode === 'register' ? t("auth.registerLinkSentDesc") : t("auth.linkSentDesc")}
+        </p>
+        <sl-button variant="text" onclick={resetForm}>
+          {state.mode === 'register' ? t("auth.backToRegister") : t("auth.backToLogin")}
+        </sl-button>
+      </div>
 
-        <sl-tab-panel name="login">
-          <form onsubmit={handleLogin}>
-            <sl-input
-              type="email"
-              label={t("auth.email")}
-              placeholder={t("auth.emailPlaceholder")}
-              required
-              oninput={(e) => this.update({ loginEmail: e.target.value })}
-            ></sl-input>
-            <sl-input
-              type="password"
-              label={t("auth.password")}
-              placeholder={t("auth.passwordPlaceholder")}
-              required
-              password-toggle
-              oninput={(e) => this.update({ loginPassword: e.target.value })}
-            ></sl-input>
-            <sl-button
-              type="submit"
-              variant="primary"
-              class="submit-btn"
-              loading={state.submitting}
-            >
-              {t("auth.login")}
-            </sl-button>
-          </form>
-        </sl-tab-panel>
+      <!-- 通常フォーム -->
+      <div if={!state.verifying && !state.linkSent}>
+        <h1 class="login-title">
+          {state.mode === 'register' ? t("auth.registerTitle") : t("auth.title")}
+        </h1>
+        <p class="login-subtitle">
+          {state.mode === 'register' ? t("auth.registerSubtitle") : t("auth.subtitle")}
+        </p>
 
-        <sl-tab-panel name="signup">
-          <form onsubmit={handleSignup}>
-            <sl-input
-              type="email"
-              label={t("auth.email")}
-              placeholder={t("auth.emailPlaceholder")}
-              required
-              oninput={(e) => this.update({ signupEmail: e.target.value })}
-            ></sl-input>
-            <sl-input
-              type="password"
-              label={t("auth.password")}
-              placeholder={t("auth.passwordPlaceholder")}
-              required
-              password-toggle
-              oninput={(e) => this.update({ signupPassword: e.target.value })}
-            ></sl-input>
-            <sl-input
-              type="password"
-              label={t("auth.confirmPassword")}
-              placeholder={t("auth.confirmPasswordPlaceholder")}
-              required
-              password-toggle
-              oninput={(e) => this.update({ signupConfirm: e.target.value })}
-            ></sl-input>
-            <sl-button
-              type="submit"
-              variant="primary"
-              class="submit-btn"
-              loading={state.submitting}
-            >
-              {t("auth.signup")}
-            </sl-button>
-          </form>
-        </sl-tab-panel>
-      </sl-tab-group>
+        <div if={state.error} class="error-message">
+          <sl-icon name="exclamation-triangle"></sl-icon>
+          {state.error}
+        </div>
 
-      <sl-divider></sl-divider>
+        <form onsubmit={handleSendLink}>
+          <sl-input
+            type="email"
+            label={t("auth.email")}
+            placeholder={t("auth.emailPlaceholder")}
+            required
+            oninput={(e) => this.update({ email: e.target.value })}
+          ></sl-input>
+          <sl-button
+            type="submit"
+            variant="primary"
+            class="submit-btn"
+            loading={state.submitting || null}
+          >
+            {state.mode === 'register' ? t("auth.registerSendLink") : t("auth.sendLink")}
+          </sl-button>
+        </form>
 
-      <sl-button
-        variant="default"
-        class="google-btn"
-        onclick={handleGoogle}
-        loading={state.submitting}
-      >
-        <sl-icon name="google" slot="prefix"></sl-icon>
-        {t("auth.google")}
-      </sl-button>
+        <sl-divider></sl-divider>
+
+        <div class="mode-toggle">
+          <span if={state.mode === 'register'} class="toggle-text">
+            {t("auth.hasAccount")}
+            <a class="toggle-link" onclick={switchToLogin}>{t("auth.loginHere")}</a>
+          </span>
+          <span if={state.mode === 'login'} class="toggle-text">
+            {t("auth.noAccount")}
+            <a class="toggle-link" onclick={switchToRegister}>{t("auth.registerHere")}</a>
+          </span>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -100,51 +77,55 @@
     export default {
       t: i18nStore.t.bind(i18nStore),
       state: {
+        mode: 'register',
         error: null,
         submitting: false,
-        loginEmail: '',
-        loginPassword: '',
-        signupEmail: '',
-        signupPassword: '',
-        signupConfirm: '',
+        linkSent: false,
+        verifying: false,
+        email: '',
       },
-      onMounted() {
+      async onMounted() {
+        // メールリンクコールバック判定（index.js で sessionStorage に退避済み）
+        const emailLinkUrl = sessionStorage.getItem('emailLinkUrl');
+        if (emailLinkUrl) {
+          sessionStorage.removeItem('emailLinkUrl');
+          this.update({ verifying: true });
+          try {
+            await authStore.completeEmailLinkSignIn(emailLinkUrl);
+            router.push('/account');
+          } catch (err) {
+            this.update({
+              verifying: false,
+              error: i18nStore.t('auth.errors.linkExpired'),
+            });
+          }
+          return;
+        }
         if (authStore.isLoggedIn()) {
           router.push('/account');
         }
       },
-      async handleLogin(e) {
+      async handleSendLink(e) {
         e.preventDefault();
         this.update({ error: null, submitting: true });
         try {
-          await authStore.loginWithEmail(this.state.loginEmail, this.state.loginPassword);
-          router.push('/account');
+          console.log(this.state.email)
+          await authStore.sendLoginLink(this.state.email);
+          this.update({ linkSent: true, submitting: false });
         } catch (err) {
           this.update({ error: this._getErrorMessage(err.code), submitting: false });
         }
       },
-      async handleSignup(e) {
-        e.preventDefault();
-        if (this.state.signupPassword !== this.state.signupConfirm) {
-          this.update({ error: i18nStore.t('auth.errors.passwordMismatch') });
-          return;
-        }
-        this.update({ error: null, submitting: true });
-        try {
-          await authStore.signupWithEmail(this.state.signupEmail, this.state.signupPassword);
-          router.push('/account');
-        } catch (err) {
-          this.update({ error: this._getErrorMessage(err.code), submitting: false });
-        }
+      resetForm() {
+        this.update({ linkSent: false, error: null, email: '' });
       },
-      async handleGoogle() {
-        this.update({ error: null, submitting: true });
-        try {
-          await authStore.loginWithGoogle();
-          router.push('/account');
-        } catch (err) {
-          this.update({ error: this._getErrorMessage(err.code), submitting: false });
-        }
+      switchToLogin(e) {
+        e.preventDefault();
+        this.update({ mode: 'login', error: null, email: '' });
+      },
+      switchToRegister(e) {
+        e.preventDefault();
+        this.update({ mode: 'register', error: null, email: '' });
       },
       _getErrorMessage(code) {
         const key = `auth.errors.${code}`;
@@ -226,12 +207,63 @@
       --spacing: 1.5rem;
     }
 
-    .google-btn {
-      width: 100%;
+    .verifying-section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+      padding: 2rem 0;
     }
 
-    .google-btn::part(base) {
-      width: 100%;
+    .verifying-text {
+      font-size: 0.9375rem;
+      color: var(--text-color);
+    }
+
+    .link-sent-section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 0.75rem;
+      padding: 1rem 0;
+    }
+
+    .link-sent-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--text-dark);
+      margin: 0;
+    }
+
+    .link-sent-desc {
+      font-size: 0.9375rem;
+      color: var(--text-color);
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    .mode-toggle {
+      margin-top: 1rem;
+      text-align: center;
+    }
+
+    .toggle-text {
+      font-size: 0.875rem;
+      color: var(--text-light);
+    }
+
+    .toggle-link {
+      color: var(--rain-blue);
+      text-decoration: none;
+      font-weight: 600;
+      cursor: pointer;
+      margin-left: 0.25rem;
+    }
+
+    .toggle-link:hover {
+      color: var(--deep-rain);
+      text-decoration: underline;
     }
   </style>
 </login>
