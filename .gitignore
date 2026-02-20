@@ -26,4 +26,5 @@ yarn-error.log*
 # Debug files
 npm-debug.log*
 *-debug.log
-*-error.logpackage-lock.json
+*-error.log
+package-lock.json

@@ -96,10 +96,17 @@
         copied: false,
         isPremiumEpisode: false,
         canAccess: false,
+        episodeId: null,
       },
-      async onBeforeMount() {
+      onBeforeMount() {
+        // Bind methods to preserve context when used as event handlers
+        this.updateAccessControl = this.updateAccessControl.bind(this);
+      },
+      async onMounted() {
         const episodeId = this.getEpisodeId();
         if (episodeId) {
+          // Cache episodeId to avoid repeated pathname parsing
+          this.update({ episodeId });
           await this.loadEpisode(episodeId);
           // Subscribe to store changes to reactively update access control
           this.setupStoreSubscriptions();
@@ -122,8 +129,8 @@
         authStore.off('membership-changed', this.updateAccessControl);
       },
       updateAccessControl() {
-        const episodeId = this.getEpisodeId();
-        if (!episodeId || !this.state.episode) return;
+        const { episodeId, episode } = this.state;
+        if (!episodeId || !episode) return;
         
         const isPremiumEpisode = membershipStore.isEpisodePremium(episodeId);
         const canAccess = !isPremiumEpisode || authStore.isPremium;
