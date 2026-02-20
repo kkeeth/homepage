@@ -39,7 +39,7 @@ const membershipStore = observable({
    * トレードオフと制限:
    * - メールアドレス変更時: 初回決済時のメールで Firebase Auth ユーザーを作成/特定するため、
    *   その後ユーザーがメールアドレスを変更しても、Stripe Customer の metadata に保存した
-   *   firebaseUID で継続的に追跡可能
+   *   firebaseUID で継続的に追跡可能（metadata は stripeWebhook で自動設定される）
    * - 異なるメールでの再購入: 新しいメールアドレスで決済した場合、別の Firebase Auth
    *   ユーザーとして扱われる（これは意図的な動作）
    * - メールアドレスの一意性: Firebase Auth のメール認証を前提としているため、同じメール

@@ -24,7 +24,8 @@ const stripeWebhookSecret = defineSecret('STRIPE_WEBHOOK_SECRET');
  *    - invoice.payment_failed
  * 
  * トレードオフ:
- * - 初回決済時のメールでユーザーを特定するため、その後のメール変更には影響されない
+ * - 初回決済時のメールで Firebase Auth ユーザーを特定するため、その後 Firebase Auth 側で
+ *   メールアドレスを変更しても、metadata.firebaseUID による追跡は継続される
  * - 異なるメールで再購入した場合は別ユーザーとして扱われる（意図的な動作）
  */
 export const stripeWebhook = onRequest(
