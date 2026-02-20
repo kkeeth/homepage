@@ -108,20 +108,25 @@ export const stripeWebhook = onRequest(
           subscription.customer as string,
         );
         if (!customer.deleted) {
-          const uid = customer.metadata?.firebaseUID;
-          if (uid) {
-            const plan = subscription.status === 'active' ? 'premium' : 'free';
-            await db
-              .collection('users')
-              .doc(uid)
-              .update({
-                plan,
-                subscriptionStatus: subscription.status,
-                currentPeriodEnd: new Date(
-                  subscription.current_period_end * 1000,
-                ).toISOString(),
-              });
+          if (!customer.metadata || !customer.metadata.firebaseUID) {
+            console.error(
+              `Missing firebaseUID in customer metadata for customer ${subscription.customer}, subscription ${subscription.id}. Skipping update.`,
+            );
+            res.status(200).json({ received: true, skipped: true });
+            return;
           }
+          const uid = customer.metadata.firebaseUID;
+          const plan = subscription.status === 'active' ? 'premium' : 'free';
+          await db
+            .collection('users')
+            .doc(uid)
+            .update({
+              plan,
+              subscriptionStatus: subscription.status,
+              currentPeriodEnd: new Date(
+                subscription.current_period_end * 1000,
+              ).toISOString(),
+            });
         }
         break;
       }
@@ -132,15 +137,20 @@ export const stripeWebhook = onRequest(
           subscription.customer as string,
         );
         if (!customer.deleted) {
-          const uid = customer.metadata?.firebaseUID;
-          if (uid) {
-            await db.collection('users').doc(uid).update({
-              plan: 'free',
-              subscriptionStatus: 'canceled',
-              subscriptionId: null,
-              currentPeriodEnd: null,
-            });
+          if (!customer.metadata || !customer.metadata.firebaseUID) {
+            console.error(
+              `Missing firebaseUID in customer metadata for customer ${subscription.customer}, subscription ${subscription.id}. Skipping update.`,
+            );
+            res.status(200).json({ received: true, skipped: true });
+            return;
           }
+          const uid = customer.metadata.firebaseUID;
+          await db.collection('users').doc(uid).update({
+            plan: 'free',
+            subscriptionStatus: 'canceled',
+            subscriptionId: null,
+            currentPeriodEnd: null,
+          });
         }
         break;
       }
@@ -155,12 +165,17 @@ export const stripeWebhook = onRequest(
             subscription.customer as string,
           );
           if (!customer.deleted) {
-            const uid = customer.metadata?.firebaseUID;
-            if (uid) {
-              await db.collection('users').doc(uid).update({
-                subscriptionStatus: 'past_due',
-              });
+            if (!customer.metadata || !customer.metadata.firebaseUID) {
+              console.error(
+                `Missing firebaseUID in customer metadata for customer ${subscription.customer}, invoice ${invoice.id}. Skipping update.`,
+              );
+              res.status(200).json({ received: true, skipped: true });
+              return;
             }
+            const uid = customer.metadata.firebaseUID;
+            await db.collection('users').doc(uid).update({
+              subscriptionStatus: 'past_due',
+            });
           }
         }
         break;
