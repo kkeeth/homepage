@@ -28,12 +28,20 @@
           </p>
         </div>
 
-        <div if={!state.isPremium} class="upgrade-section">
+        <div if={!state.isPremium && state.paymentLinkUrl} class="upgrade-section">
           <sl-button variant="primary" class="upgrade-btn" href={state.paymentLinkUrl} target="_blank">
             {t("membership.upgrade")}
           </sl-button>
         </div>
 
+        <div if={!state.isPremium && !state.paymentLinkUrl} class="upgrade-section">
+          <sl-button variant="primary" class="upgrade-btn" disabled>
+            {t("membership.upgrade")}
+          </sl-button>
+          <p class="upgrade-unavailable-message">
+            Upgrade is temporarily unavailable. Please try again later.
+          </p>
+        </div>
         <div if={state.isPremium && state.portalUrl} class="manage-section">
           <sl-button variant="default" href={state.portalUrl} target="_blank">
             {t("membership.manage")}
