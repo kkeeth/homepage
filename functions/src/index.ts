@@ -11,6 +11,21 @@ const stripeWebhookSecret = defineSecret('STRIPE_WEBHOOK_SECRET');
 /**
  * HTTP: Stripe Webhook 受信
  * Payment Links 経由の決済完了やサブスク変更を Firestore に反映する
+ * 
+ * ユーザー特定の流れ:
+ * 1. checkout.session.completed: メールアドレスから Firebase Auth ユーザーを特定/作成
+ *    - 既存ユーザーの場合: getUserByEmail() で uid を取得
+ *    - 新規ユーザーの場合: createUser() で新規作成
+ *    - Stripe Customer の metadata に firebaseUID を保存（以降の Webhook で参照）
+ * 
+ * 2. subscription 関連イベント: Stripe Customer の metadata.firebaseUID で特定
+ *    - customer.subscription.updated
+ *    - customer.subscription.deleted
+ *    - invoice.payment_failed
+ * 
+ * トレードオフ:
+ * - 初回決済時のメールでユーザーを特定するため、その後のメール変更には影響されない
+ * - 異なるメールで再購入した場合は別ユーザーとして扱われる（意図的な動作）
  */
 export const stripeWebhook = onRequest(
   {

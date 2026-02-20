@@ -29,7 +29,21 @@ const membershipStore = observable({
 
   /**
    * Payment Link URL を返す
-   * Webhook 側でメールアドレスからユーザーを特定するため client_reference_id は不要
+   * 
+   * 設計方針: client_reference_id を使わず、Webhook 側でメールアドレスからユーザーを特定
+   * 
+   * 理由:
+   * - Stripe Payment Links は client_reference_id をサポートしていない
+   * - メールアドレスは Checkout Session から確実に取得できる
+   * 
+   * トレードオフと制限:
+   * - メールアドレス変更時: 初回決済時のメールで Firebase Auth ユーザーを作成/特定するため、
+   *   その後ユーザーがメールアドレスを変更しても、Stripe Customer の metadata に保存した
+   *   firebaseUID で継続的に追跡可能
+   * - 異なるメールでの再購入: 新しいメールアドレスで決済した場合、別の Firebase Auth
+   *   ユーザーとして扱われる（これは意図的な動作）
+   * - メールアドレスの一意性: Firebase Auth のメール認証を前提としているため、同じメール
+   *   アドレスで複数のユーザーが作成されることはない
    */
   getPaymentLinkUrl() {
     return PAYMENT_LINK_URL || null;
