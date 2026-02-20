@@ -122,13 +122,16 @@ const authStore = observable({
     const result = await signInWithEmailLink(auth, email, url);
     localStorage.removeItem(EMAIL_STORAGE_KEY);
 
-    // onAuthStateChanged の発火を待たずに即座に user をセット
+    // onAuthStateChanged の発火を待たずに即座に user と gravatarURL をセット
     // これにより router.push('/account') 後の isLoggedIn() チェックが正しく動作する
     this.user = {
       uid: result.user.uid,
       email: result.user.email,
       displayName: result.user.displayName,
     };
+    if (result.user.email) {
+      this.gravatarURL = await getGravatarUrl(result.user.email);
+    }
 
     return result;
   },
