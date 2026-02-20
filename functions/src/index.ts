@@ -110,9 +110,10 @@ export const stripeWebhook = onRequest(
         if (!customer.deleted) {
           if (!customer.metadata || !customer.metadata.firebaseUID) {
             console.error(
-              `Missing firebaseUID in customer metadata for customer ${subscription.customer}, subscription ${subscription.id}`,
+              `Missing firebaseUID in customer metadata for customer ${subscription.customer}, subscription ${subscription.id}. Skipping update.`,
             );
-            break;
+            res.status(200).json({ received: true, skipped: true });
+            return;
           }
           const uid = customer.metadata.firebaseUID;
           const plan = subscription.status === 'active' ? 'premium' : 'free';
@@ -138,9 +139,10 @@ export const stripeWebhook = onRequest(
         if (!customer.deleted) {
           if (!customer.metadata || !customer.metadata.firebaseUID) {
             console.error(
-              `Missing firebaseUID in customer metadata for customer ${subscription.customer}, subscription ${subscription.id}`,
+              `Missing firebaseUID in customer metadata for customer ${subscription.customer}, subscription ${subscription.id}. Skipping update.`,
             );
-            break;
+            res.status(200).json({ received: true, skipped: true });
+            return;
           }
           const uid = customer.metadata.firebaseUID;
           await db.collection('users').doc(uid).update({
@@ -165,9 +167,10 @@ export const stripeWebhook = onRequest(
           if (!customer.deleted) {
             if (!customer.metadata || !customer.metadata.firebaseUID) {
               console.error(
-                `Missing firebaseUID in customer metadata for customer ${subscription.customer}, invoice ${invoice.id}`,
+                `Missing firebaseUID in customer metadata for customer ${subscription.customer}, invoice ${invoice.id}. Skipping update.`,
               );
-              break;
+              res.status(200).json({ received: true, skipped: true });
+              return;
             }
             const uid = customer.metadata.firebaseUID;
             await db.collection('users').doc(uid).update({
