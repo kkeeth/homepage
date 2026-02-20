@@ -27,4 +27,3 @@ yarn-error.log*
 npm-debug.log*
 *-debug.log
 *-error.log
-package-lock.json
