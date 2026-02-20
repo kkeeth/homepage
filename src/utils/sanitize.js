@@ -1,6 +1,20 @@
 // HTML sanitization utility
 import DOMPurify from 'dompurify';
 
+// Configure hook once at module initialization to avoid duplicate hooks
+DOMPurify.addHook('afterSanitizeAttributes', (node) => {
+  if (node.tagName === 'A') {
+    if (node.hasAttribute('target')) {
+      node.setAttribute('rel', 'noopener noreferrer');
+    }
+    // Ensure external links always open in new tab safely
+    if (node.hasAttribute('href') && !node.getAttribute('href').startsWith('#')) {
+      node.setAttribute('target', '_blank');
+      node.setAttribute('rel', 'noopener noreferrer');
+    }
+  }
+});
+
 /**
  * Sanitizes HTML content to prevent XSS attacks
  * @param {string} html - The HTML string to sanitize
@@ -22,23 +36,9 @@ export function sanitizeHtml(html) {
     ALLOW_UNKNOWN_PROTOCOLS: false,
     // Use safe templates to prevent attribute-based attacks
     SAFE_FOR_TEMPLATES: true,
-    // Restrict URLs to safe protocols only
-    ALLOWED_URI_REGEXP: /^(?:(?:https?|ftp):\/\/|mailto:|tel:|#)/i,
+    // Restrict URLs to safe protocols only (removed ftp for security)
+    ALLOWED_URI_REGEXP: /^(?:(?:https?):\/\/|mailto:|tel:|#)/i,
   };
-  
-  // Add a hook to ensure all external links have rel="noopener noreferrer"
-  DOMPurify.addHook('afterSanitizeAttributes', (node) => {
-    if (node.tagName === 'A') {
-      if (node.hasAttribute('target')) {
-        node.setAttribute('rel', 'noopener noreferrer');
-      }
-      // Ensure external links always open in new tab safely
-      if (node.hasAttribute('href') && !node.getAttribute('href').startsWith('#')) {
-        node.setAttribute('target', '_blank');
-        node.setAttribute('rel', 'noopener noreferrer');
-      }
-    }
-  });
   
   return DOMPurify.sanitize(html, config);
 }
