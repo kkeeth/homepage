@@ -98,12 +98,10 @@
         if (path.pathname === '/account' || path.pathname === '/login') {
           await authStore.ready();
           if (path.pathname === '/account' && !authStore.isLoggedIn()) {
-            router.push('/login');
-            return;
+            return router.push('/login');
           }
           if (path.pathname === '/login' && authStore.isLoggedIn()) {
-            router.push('/account');
-            return;
+            return router.push('/account');
           }
         }
 
