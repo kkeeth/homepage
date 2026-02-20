@@ -10,6 +10,11 @@ const membershipStore = observable({
   _unsub: null,
 
   init() {
+    // Prevent duplicate subscriptions by destroying existing one first
+    if (this._unsub) {
+      this.destroy();
+    }
+    
     const colRef = collection(db, 'premiumEpisodes');
     this._unsub = onSnapshot(
       colRef,
