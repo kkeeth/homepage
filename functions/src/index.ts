@@ -1,10 +1,12 @@
-import * as functions from 'firebase-functions';
 import { onRequest } from 'firebase-functions/v2/https';
+import { defineSecret } from 'firebase-functions/params';
 import * as admin from 'firebase-admin';
 import Stripe from 'stripe';
 
 admin.initializeApp();
 const db = admin.firestore();
+const stripeSecret = defineSecret('STRIPE_SECRET_KEY');
+const stripeWebhookSecret = defineSecret('STRIPE_WEBHOOK_SECRET');
 
 /**
  * HTTP: Stripe Webhook 受信
@@ -14,7 +16,7 @@ export const stripeWebhook = onRequest(
   {
     region: 'asia-northeast1',
     invoker: 'public',
-    secrets: ['STRIPE_SECRET_KEY', 'STRIPE_WEBHOOK_SECRET'],
+    secrets: [stripeSecret, stripeWebhookSecret],
   },
   async (req, res) => {
     const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '');
@@ -27,14 +29,13 @@ export const stripeWebhook = onRequest(
 
     let event: Stripe.Event;
     try {
-      // process.env.STRIPE_WEBHOOK_SECRET がこれで正しく取得できるようになります
       event = stripe.webhooks.constructEvent(
         req.rawBody,
         sig,
         process.env.STRIPE_WEBHOOK_SECRET || '',
       );
     } catch (err: any) {
-      console.error('Webhook signature verification failed:', err.message);
+      console.error('VERIFICATION_ERROR_DETAIL:', err.message);
       res.status(400).send(`Webhook Error: ${err.message}`);
       return;
     }
