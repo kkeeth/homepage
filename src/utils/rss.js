@@ -1,6 +1,7 @@
 // RSS feed fetching and parsing utilities
 import { formatDate } from '@/utils/formatDate';
 import { truncateText } from '@/utils/truncateText';
+import { sanitizeHtml } from '@/utils/sanitize';
 
 function stripHtmlTags(html) {
   const parser = new DOMParser();
@@ -57,7 +58,7 @@ export function parseRSSFeed(xmlText) {
     episodes.push({
       title,
       description: truncateText(description, 120),
-      fullDescription: rawDescription,
+      fullDescription: sanitizeHtml(rawDescription),
       pubDate: formatDate(pubDate),
       link,
       audioUrl,
