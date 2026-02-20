@@ -19,9 +19,26 @@ export function sanitizeHtml(html) {
     ],
     ALLOWED_ATTR: ['href', 'src', 'alt', 'title', 'target', 'rel'],
     ALLOW_DATA_ATTR: false,
-    // Ensure links open safely
-    ADD_ATTR: ['target'],
+    ALLOW_UNKNOWN_PROTOCOLS: false,
+    // Use safe templates to prevent attribute-based attacks
+    SAFE_FOR_TEMPLATES: true,
+    // Restrict URLs to safe protocols only
+    ALLOWED_URI_REGEXP: /^(?:(?:https?|ftp):\/\/|mailto:|tel:|#)/i,
   };
+  
+  // Add a hook to ensure all external links have rel="noopener noreferrer"
+  DOMPurify.addHook('afterSanitizeAttributes', (node) => {
+    if (node.tagName === 'A') {
+      if (node.hasAttribute('target')) {
+        node.setAttribute('rel', 'noopener noreferrer');
+      }
+      // Ensure external links always open in new tab safely
+      if (node.hasAttribute('href') && !node.getAttribute('href').startsWith('#')) {
+        node.setAttribute('target', '_blank');
+        node.setAttribute('rel', 'noopener noreferrer');
+      }
+    }
+  });
   
   return DOMPurify.sanitize(html, config);
 }
