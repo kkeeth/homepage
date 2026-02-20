@@ -96,14 +96,46 @@
         copied: false,
         isPremiumEpisode: false,
         canAccess: false,
+        episodeId: null,
       },
-      async onBeforeMount() {
+      async onMounted() {
         const episodeId = this.getEpisodeId();
         if (episodeId) {
+          // Cache episodeId to avoid repeated pathname parsing
+          this.update({ episodeId });
           await this.loadEpisode(episodeId);
+          // Subscribe to store changes to reactively update access control
+          this.setupStoreSubscriptions();
         } else {
           this.update({ loading: false });
         }
+      },
+      onUnmounted() {
+        // Clean up store subscriptions
+        this.cleanupStoreSubscriptions();
+      },
+      setupStoreSubscriptions() {
+        // Recompute access when premium episodes list changes
+        membershipStore.on('premium-episodes-changed', this.updateAccessControl);
+        // Recompute access when user's membership status changes
+        authStore.on('membership-changed', this.updateAccessControl);
+      },
+      cleanupStoreSubscriptions() {
+        membershipStore.off('premium-episodes-changed', this.updateAccessControl);
+        authStore.off('membership-changed', this.updateAccessControl);
+      },
+      updateAccessControl() {
+        const { episodeId, episode } = this.state;
+        // Only update if episode has been loaded - access control doesn't apply to non-existent episodes
+        if (!episodeId || !episode) return;
+        
+        const isPremiumEpisode = membershipStore.isEpisodePremium(episodeId);
+        const canAccess = !isPremiumEpisode || authStore.isPremium;
+        
+        this.update({
+          isPremiumEpisode,
+          canAccess,
+        });
       },
       getEpisodeId() {
         const path = window.location.pathname;
