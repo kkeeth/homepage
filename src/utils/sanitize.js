@@ -1,6 +1,9 @@
 // HTML sanitization utility
 import DOMPurify from 'dompurify';
 
+// Remove any existing hooks to prevent duplicates in case of module reloading
+DOMPurify.removeHooks('afterSanitizeAttributes');
+
 // Configure hook once at module initialization to avoid duplicate hooks
 DOMPurify.addHook('afterSanitizeAttributes', (node) => {
   if (node.tagName === 'A' && node.hasAttribute('href')) {
@@ -34,8 +37,9 @@ export function sanitizeHtml(html) {
     ALLOW_UNKNOWN_PROTOCOLS: false,
     // Use safe templates to prevent attribute-based attacks
     SAFE_FOR_TEMPLATES: true,
-    // Restrict URLs to safe protocols, including relative URLs
-    ALLOWED_URI_REGEXP: /^(?:(?:https?):\/\/|mailto:|tel:|[#\/]|\.\/|\.\.\/)/i,
+    // Restrict URLs to safe protocols and anchors only
+    // RSS feeds typically contain absolute URLs, not relative paths
+    ALLOWED_URI_REGEXP: /^(?:(?:https?):\/\/|mailto:|tel:|#)/i,
   };
   
   return DOMPurify.sanitize(html, config);
