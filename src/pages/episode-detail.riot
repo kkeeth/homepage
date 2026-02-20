@@ -98,10 +98,6 @@
         canAccess: false,
         episodeId: null,
       },
-      onBeforeMount() {
-        // Bind methods to preserve context when used as event handlers
-        this.updateAccessControl = this.updateAccessControl.bind(this);
-      },
       async onMounted() {
         const episodeId = this.getEpisodeId();
         if (episodeId) {
@@ -130,6 +126,7 @@
       },
       updateAccessControl() {
         const { episodeId, episode } = this.state;
+        // Only update if episode has been loaded - access control doesn't apply to non-existent episodes
         if (!episodeId || !episode) return;
         
         const isPremiumEpisode = membershipStore.isEpisodePremium(episodeId);
