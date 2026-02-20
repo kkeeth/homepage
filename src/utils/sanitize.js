@@ -3,12 +3,10 @@ import DOMPurify from 'dompurify';
 
 // Configure hook once at module initialization to avoid duplicate hooks
 DOMPurify.addHook('afterSanitizeAttributes', (node) => {
-  if (node.tagName === 'A') {
-    if (node.hasAttribute('target')) {
-      node.setAttribute('rel', 'noopener noreferrer');
-    }
-    // Ensure external links always open in new tab safely
-    if (node.hasAttribute('href') && !node.getAttribute('href').startsWith('#')) {
+  if (node.tagName === 'A' && node.hasAttribute('href')) {
+    const href = node.getAttribute('href');
+    // Only add target="_blank" and rel for external URLs (http/https)
+    if (href && (href.startsWith('http://') || href.startsWith('https://'))) {
       node.setAttribute('target', '_blank');
       node.setAttribute('rel', 'noopener noreferrer');
     }
@@ -36,8 +34,8 @@ export function sanitizeHtml(html) {
     ALLOW_UNKNOWN_PROTOCOLS: false,
     // Use safe templates to prevent attribute-based attacks
     SAFE_FOR_TEMPLATES: true,
-    // Restrict URLs to safe protocols only (removed ftp for security)
-    ALLOWED_URI_REGEXP: /^(?:(?:https?):\/\/|mailto:|tel:|#)/i,
+    // Restrict URLs to safe protocols, including relative URLs
+    ALLOWED_URI_REGEXP: /^(?:(?:https?):\/\/|mailto:|tel:|[#\/]|\.\/|\.\.\/)/i,
   };
   
   return DOMPurify.sanitize(html, config);
