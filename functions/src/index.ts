@@ -35,20 +35,22 @@ export const stripeWebhook = onRequest(
     secrets: [stripeSecret, stripeWebhookSecret],
   },
   async (req, res) => {
-    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '');
+    const stripe = new Stripe(stripeSecret.value());
 
-    const sig = req.headers['stripe-signature'];
-    if (!sig) {
+    const sigHeader = req.headers['stripe-signature'];
+    if (!sigHeader) {
       res.status(400).send('Missing stripe-signature header');
       return;
     }
+    // Coerce header to single string (it can be string | string[])
+    const sig = Array.isArray(sigHeader) ? sigHeader[0] : sigHeader;
 
     let event: Stripe.Event;
     try {
       event = stripe.webhooks.constructEvent(
         req.rawBody,
         sig,
-        process.env.STRIPE_WEBHOOK_SECRET || '',
+        stripeWebhookSecret.value(),
       );
     } catch (err: any) {
       console.error('VERIFICATION_ERROR_DETAIL:', err.message);
