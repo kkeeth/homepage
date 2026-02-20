@@ -107,17 +107,17 @@ const authStore = observable({
   /**
    * メールリンクからのサインインを完了する
    * @param {string} url
+   * @param {string} [providedEmail] - オプションで指定するメールアドレス
    */
-  async completeEmailLinkSignIn(url) {
+  async completeEmailLinkSignIn(url, providedEmail = null) {
     if (!isSignInWithEmailLink(auth, url)) {
       throw new Error('Invalid email link');
     }
-    let email = localStorage.getItem(EMAIL_STORAGE_KEY);
+    let email = providedEmail || localStorage.getItem(EMAIL_STORAGE_KEY);
     if (!email) {
-      email = window.prompt('確認のためメールアドレスを入力してください');
-    }
-    if (!email) {
-      throw new Error('Email is required');
+      const error = new Error('Email is required for verification');
+      error.code = 'auth/email-required';
+      throw error;
     }
     const result = await signInWithEmailLink(auth, email, url);
     localStorage.removeItem(EMAIL_STORAGE_KEY);

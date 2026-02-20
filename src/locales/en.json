@@ -301,11 +301,16 @@
     "logout": "Logout",
     "account": "Account",
     "noName": "No name set",
+    "emailPromptTitle": "Confirm Your Email",
+    "emailPromptMessage": "Please enter your email address to complete the login process.",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
     "errors": {
       "auth/invalid-email": "Invalid email address",
       "auth/user-not-found": "Account not found",
       "auth/too-many-requests": "Too many login attempts. Please wait and try again",
       "linkExpired": "Login link has expired. Please try again",
+      "emailRequired": "Email address is required to continue login",
       "default": "An error occurred. Please try again"
     }
   },
