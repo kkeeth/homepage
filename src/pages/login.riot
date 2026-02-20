@@ -109,7 +109,6 @@
         e.preventDefault();
         this.update({ error: null, submitting: true });
         try {
-          console.log(this.state.email)
           await authStore.sendLoginLink(this.state.email);
           this.update({ linkSent: true, submitting: false });
         } catch (err) {
