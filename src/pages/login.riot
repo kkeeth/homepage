@@ -67,6 +67,30 @@
         </div>
       </div>
     </div>
+
+    <!-- メールアドレス入力ダイアログ -->
+    <sl-dialog label={t("auth.emailPromptTitle")} class="email-prompt-dialog">
+      <p>{t("auth.emailPromptMessage")}</p>
+      <form onsubmit={handleEmailDialogSubmit}>
+        <sl-input
+          ref="emailDialogInput"
+          type="email"
+          label={t("auth.email")}
+          placeholder={t("auth.emailPlaceholder")}
+          required
+          value={state.promptEmail}
+          oninput={handlePromptEmailInput}
+        ></sl-input>
+        <div slot="footer" class="dialog-footer">
+          <sl-button variant="default" onclick={handleEmailDialogCancel}>
+            {t("auth.cancel")}
+          </sl-button>
+          <sl-button type="submit" variant="primary">
+            {t("auth.confirm")}
+          </sl-button>
+        </div>
+      </form>
+    </sl-dialog>
   </div>
 
   <script>
@@ -84,6 +108,8 @@
         linkSent: false,
         verifying: false,
         email: '',
+        promptEmail: '',
+        pendingEmailLinkUrl: null,
       },
       async onMounted() {
         // メールリンクコールバック判定（index.js でメモリに退避済み）
@@ -94,16 +120,70 @@
             await authStore.completeEmailLinkSignIn(emailLinkUrl);
             router.push('/account');
           } catch (err) {
-            this.update({
-              verifying: false,
-              error: i18nStore.t('auth.errors.linkExpired'),
-            });
+            // メールアドレスが必要な場合はダイアログを表示
+            if (err.code === 'auth/email-required') {
+              this.update({
+                verifying: false,
+                pendingEmailLinkUrl: emailLinkUrl,
+              });
+              this.showEmailDialog();
+            } else {
+              this.update({
+                verifying: false,
+                error: i18nStore.t('auth.errors.linkExpired'),
+              });
+            }
           }
           return;
         }
         if (authStore.isLoggedIn()) {
           router.push('/account');
         }
+      },
+      showEmailDialog() {
+        const dialog = this.$('.email-prompt-dialog');
+        if (dialog) {
+          dialog.show();
+          // ダイアログのレンダリング完了を待ってからフォーカスを設定
+          const DIALOG_FOCUS_DELAY = 100;
+          setTimeout(() => {
+            const input = this.$refs.emailDialogInput;
+            if (input) input.focus();
+          }, DIALOG_FOCUS_DELAY);
+        }
+      },
+      async handleEmailDialogSubmit(e) {
+        e.preventDefault();
+        // HTML5 required属性による検証が完了しているため、追加のチェックは不要
+        const dialog = this.$('.email-prompt-dialog');
+        
+        this.update({ verifying: true });
+        if (dialog) dialog.hide();
+        
+        try {
+          await authStore.completeEmailLinkSignIn(
+            this.state.pendingEmailLinkUrl,
+            this.state.promptEmail
+          );
+          router.push('/account');
+        } catch (err) {
+          this.update({
+            verifying: false,
+            error: this._getErrorMessage(err.code),
+          });
+        }
+      },
+      handleEmailDialogCancel() {
+        const dialog = this.$('.email-prompt-dialog');
+        if (dialog) dialog.hide();
+        this.update({
+          error: i18nStore.t('auth.errors.emailRequired'),
+          promptEmail: '',
+          pendingEmailLinkUrl: null,
+        });
+      },
+      handlePromptEmailInput(e) {
+        this.update({ promptEmail: e.target.value });
       },
       async handleSendLink(e) {
         e.preventDefault();
@@ -263,6 +343,29 @@
     .toggle-link:hover {
       color: var(--deep-rain);
       text-decoration: underline;
+    }
+
+    .email-prompt-dialog::part(panel) {
+      max-width: 450px;
+    }
+
+    .email-prompt-dialog p {
+      margin: 0 0 1.5rem;
+      color: var(--text-color);
+      line-height: 1.6;
+    }
+
+    .email-prompt-dialog form {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .dialog-footer {
+      display: flex;
+      gap: 0.75rem;
+      justify-content: flex-end;
+      width: 100%;
     }
   </style>
 </login>

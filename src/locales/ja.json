@@ -302,11 +302,16 @@
     "logout": "ログアウト",
     "account": "アカウント",
     "noName": "名前未設定",
+    "emailPromptTitle": "メールアドレスの確認",
+    "emailPromptMessage": "ログインを完了するために、メールアドレスを入力してください。",
+    "cancel": "キャンセル",
+    "confirm": "確認",
     "errors": {
       "auth/invalid-email": "メールアドレスの形式が正しくありません",
       "auth/user-not-found": "アカウントが見つかりません",
       "auth/too-many-requests": "ログイン試行回数が多すぎます。しばらくお待ちください",
       "linkExpired": "ログインリンクの有効期限が切れています。もう一度お試しください",
+      "emailRequired": "ログインを続けるにはメールアドレスが必要です",
       "default": "エラーが発生しました。もう一度お試しください"
     }
   },
