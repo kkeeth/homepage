@@ -79,7 +79,7 @@
           placeholder={t("auth.emailPlaceholder")}
           required
           value={state.promptEmail}
-          oninput={(e) => this.update({ promptEmail: e.target.value })}
+          oninput={handlePromptEmailInput}
         ></sl-input>
         <div slot="footer" class="dialog-footer">
           <sl-button variant="default" onclick={handleEmailDialogCancel}>
@@ -144,17 +144,18 @@
         const dialog = this.$('.email-prompt-dialog');
         if (dialog) {
           dialog.show();
-          // フォーカスを設定
+          // ダイアログのレンダリング完了を待ってからフォーカスを設定
+          const DIALOG_FOCUS_DELAY = 100;
           setTimeout(() => {
             const input = this.$refs.emailDialogInput;
             if (input) input.focus();
-          }, 100);
+          }, DIALOG_FOCUS_DELAY);
         }
       },
       async handleEmailDialogSubmit(e) {
         e.preventDefault();
+        // HTML5 required属性による検証が完了しているため、追加のチェックは不要
         const dialog = this.$('.email-prompt-dialog');
-        if (!this.state.promptEmail) return;
         
         this.update({ verifying: true });
         if (dialog) dialog.hide();
@@ -180,6 +181,9 @@
           promptEmail: '',
           pendingEmailLinkUrl: null,
         });
+      },
+      handlePromptEmailInput(e) {
+        this.update({ promptEmail: e.target.value });
       },
       async handleSendLink(e) {
         e.preventDefault();
