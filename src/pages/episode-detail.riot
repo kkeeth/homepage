@@ -101,9 +101,37 @@
         const episodeId = this.getEpisodeId();
         if (episodeId) {
           await this.loadEpisode(episodeId);
+          // Subscribe to store changes to reactively update access control
+          this.setupStoreSubscriptions();
         } else {
           this.update({ loading: false });
         }
+      },
+      onUnmounted() {
+        // Clean up store subscriptions
+        this.cleanupStoreSubscriptions();
+      },
+      setupStoreSubscriptions() {
+        // Recompute access when premium episodes list changes
+        membershipStore.on('premium-episodes-changed', this.updateAccessControl);
+        // Recompute access when user's membership status changes
+        authStore.on('membership-changed', this.updateAccessControl);
+      },
+      cleanupStoreSubscriptions() {
+        membershipStore.off('premium-episodes-changed', this.updateAccessControl);
+        authStore.off('membership-changed', this.updateAccessControl);
+      },
+      updateAccessControl() {
+        const episodeId = this.getEpisodeId();
+        if (!episodeId || !this.state.episode) return;
+        
+        const isPremiumEpisode = membershipStore.isEpisodePremium(episodeId);
+        const canAccess = !isPremiumEpisode || authStore.isPremium;
+        
+        this.update({
+          isPremiumEpisode,
+          canAccess,
+        });
       },
       getEpisodeId() {
         const path = window.location.pathname;
