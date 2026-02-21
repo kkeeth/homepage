@@ -83,6 +83,19 @@ export const stripeWebhook = onRequest(
         const subscription = await stripe.subscriptions.retrieve(
           session.subscription as string,
         );
+        
+        // Validate subscription has required properties
+        if (!subscription || subscription.status === undefined || subscription.current_period_end === undefined) {
+          console.error(
+            `Invalid subscription data received for session ${session.id}, subscription ${session.subscription}. Missing required properties.`,
+          );
+          res.status(502).json({
+            received: false,
+            error: 'Invalid subscription data from Stripe; subscription not saved.',
+          });
+          return;
+        }
+        
         await db
           .collection('users')
           .doc(uid)
