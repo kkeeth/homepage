@@ -96,11 +96,11 @@
 
         // Route guards: auth が必要なルートは初期化完了を待つ
         if (path.pathname === '/account' || path.pathname === '/login') {
-          await authStore.ready();
-          if (path.pathname === '/account' && !authStore.isLoggedIn()) {
+          const isLoggedIn = await authStore.ready();
+          if (path.pathname === '/account' && !isLoggedIn) {
             return router.push('/login');
           }
-          if (path.pathname === '/login' && authStore.isLoggedIn()) {
+          if (path.pathname === '/login' && isLoggedIn) {
             return router.push('/account');
           }
         }
