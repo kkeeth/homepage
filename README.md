@@ -36,4 +36,4 @@ STRIPE_SECRET_KEY=your-stripe-secret-key
 STRIPE_WEBHOOK_SECRET=your-stripe-webhook-secret
 ```
 
-**Important:** Never commit actual secrets to version control. The `.env.local` files are ignored by git to prevent accidental exposure of credentials.
+**Important:** Never commit actual secrets to version control. The `.env.local` files are ignored by git to prevent accidental exposure of credentials and are automatically loaded by Vite, so use `.env.local` (not `.env`) for any local secret values.
