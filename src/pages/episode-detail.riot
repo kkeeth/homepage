@@ -132,10 +132,13 @@
         const isPremiumEpisode = membershipStore.isEpisodePremium(episodeId);
         const canAccess = !isPremiumEpisode || authStore.isPremium;
         
-        this.update({
-          isPremiumEpisode,
-          canAccess,
-        });
+        // Only update state if the values have actually changed
+        if (this.state.isPremiumEpisode !== isPremiumEpisode || this.state.canAccess !== canAccess) {
+          this.update({
+            isPremiumEpisode,
+            canAccess,
+          });
+        }
       },
       getEpisodeId() {
         const path = window.location.pathname;
