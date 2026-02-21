@@ -110,9 +110,15 @@ export const stripeWebhook = onRequest(
         if (!customer.deleted) {
           if (!customer.metadata || !customer.metadata.firebaseUID) {
             console.error(
-              `Missing firebaseUID in customer metadata for customer ${subscription.customer}, subscription ${subscription.id}. Skipping update.`,
+              `Missing firebaseUID in customer metadata for customer ${subscription.customer}, subscription ${subscription.id}. Unable to update Firestore subscription state.`,
             );
-            res.status(200).json({ received: true, skipped: true });
+            res
+              .status(500)
+              .json({
+                received: false,
+                error:
+                  'Missing firebaseUID in customer metadata; subscription update not applied.',
+              });
             return;
           }
           const uid = customer.metadata.firebaseUID;
