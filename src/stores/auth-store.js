@@ -53,7 +53,14 @@ const authStore = observable({
     });
   },
 
-  /** Auth の初期化完了を待つ */
+  /**
+   * Auth の初期化完了を待つ。
+   *
+   * `init()` 実行時に作成された単一の Promise インスタンスを返します。
+   * この Promise は、最初の `onAuthStateChanged` コールバック内で一度だけ resolve され、
+   * resolve 済みの後でも何度でも `ready()` を呼んで await することができます。
+   * （JavaScript の Promise は一度 resolve されると、その結果を再利用できるため安全です）
+   */
   ready() {
     return this._readyPromise;
   },
