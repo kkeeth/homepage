@@ -8,24 +8,33 @@ const CUSTOMER_PORTAL_URL =
 
 const membershipStore = observable({
   premiumEpisodeIds: new Set(),
+  _loaded: false,
   _unsub: null,
 
   init() {
+    this._loaded = false;
     this.destroy(); // 念のため既存の購読をクリーンアップ
     const colRef = collection(db, 'premiumEpisodes');
     this._unsub = onSnapshot(
       colRef,
       (snapshot) => {
         this.premiumEpisodeIds = new Set(snapshot.docs.map((d) => d.id));
+        this._loaded = true;
         this.trigger('premium-episodes-changed');
       },
       (error) => {
         console.error('Failed to subscribe premiumEpisodes:', error);
+        // _loaded は false のまま保持 → isEpisodePremium が null を返し fail-closed になる
+        this.trigger('premium-episodes-changed');
       },
     );
   },
 
+  /**
+   * @returns {boolean|null} true=premium, false=非premium, null=判定不能（未ロードまたはエラー）
+   */
   isEpisodePremium(episodeId) {
+    if (!this._loaded) return null;
     return this.premiumEpisodeIds.has(episodeId);
   },
 
@@ -56,6 +65,7 @@ const membershipStore = observable({
   },
 
   destroy() {
+    this._loaded = false;
     if (this._unsub) {
       this._unsub();
       this._unsub = null;
