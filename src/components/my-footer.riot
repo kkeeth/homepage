@@ -75,6 +75,13 @@
 
       <div class="footer-bottom">
         <p>&copy; {currentYear} kkeeth. {t("footer.rights")}</p>
+        <nav class="footer-legal">
+          <a href="/terms">{t("footer.legal.terms")}</a>
+          <span aria-hidden="true">|</span>
+          <a href="/privacy">{t("footer.legal.privacy")}</a>
+          <span aria-hidden="true">|</span>
+          <a href="/tokushoho">{t("footer.legal.tokushoho")}</a>
+        </nav>
       </div>
     </div>
   </footer>
@@ -326,6 +333,31 @@
     .footer-bottom p {
       font-size: 0.8rem;
       color: rgba(255, 255, 255, 0.4);
+    }
+
+    .footer-legal {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 0.4rem;
+    }
+
+    .footer-legal a {
+      color: var(--misty-gray);
+      text-decoration: none;
+      font-size: 0.75rem;
+      transition: color 0.2s;
+    }
+
+    .footer-legal a:hover {
+      color: var(--warm-white);
+    }
+
+    .footer-legal span {
+      color: var(--misty-gray);
+      font-size: 0.75rem;
     }
 
     /* Responsive */

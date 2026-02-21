@@ -342,6 +342,11 @@
     },
     "listen": "配信プラットフォーム",
     "connect": "SNS",
-    "rights": "All rights reserved."
+    "rights": "All rights reserved.",
+    "legal": {
+      "terms": "利用規約",
+      "privacy": "プライバシーポリシー",
+      "tokushoho": "特定商取引法に基づく表記"
+    }
   }
 }
