@@ -83,6 +83,19 @@ export const stripeWebhook = onRequest(
         const subscription = await stripe.subscriptions.retrieve(
           session.subscription as string,
         );
+        
+        // Validate subscription exists and has required properties
+        if (!subscription || !subscription.id || !subscription.status || !subscription.current_period_end) {
+          console.error(
+            `Invalid subscription data received for session ${session.id}, subscription ${session.subscription}. Unable to save subscription details.`,
+          );
+          res.status(500).json({
+            received: false,
+            error: 'Invalid subscription data; subscription not saved.',
+          });
+          return;
+        }
+        
         await db
           .collection('users')
           .doc(uid)
