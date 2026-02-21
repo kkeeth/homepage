@@ -84,14 +84,14 @@ export const stripeWebhook = onRequest(
           session.subscription as string,
         );
         
-        // Validate subscription exists and has required properties
-        if (!subscription || !subscription.id || !subscription.status || !subscription.current_period_end) {
+        // Validate subscription has required properties
+        if (!subscription || subscription.status === undefined || subscription.current_period_end === undefined) {
           console.error(
-            `Invalid subscription data received for session ${session.id}, subscription ${session.subscription}. Unable to save subscription details.`,
+            `Invalid subscription data received for session ${session.id}, subscription ${session.subscription}. Missing required properties.`,
           );
-          res.status(500).json({
+          res.status(502).json({
             received: false,
-            error: 'Invalid subscription data; subscription not saved.',
+            error: 'Invalid subscription data from Stripe; subscription not saved.',
           });
           return;
         }
