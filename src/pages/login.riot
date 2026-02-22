@@ -37,11 +37,11 @@
 
         <form onsubmit={handleSendLink}>
           <sl-input
+            class="email-input"
             type="email"
             label={t("auth.email")}
             placeholder={t("auth.emailPlaceholder")}
             required
-            oninput={(e) => this.update({ email: e.target.value })}
           ></sl-input>
           <sl-button
             type="submit"
@@ -73,13 +73,11 @@
       <p>{t("auth.emailPromptMessage")}</p>
       <form onsubmit={handleEmailDialogSubmit}>
         <sl-input
-          ref="emailDialogInput"
+          class="email-dialog-input"
           type="email"
           label={t("auth.email")}
           placeholder={t("auth.emailPlaceholder")}
           required
-          value={state.promptEmail}
-          oninput={handlePromptEmailInput}
         ></sl-input>
         <div slot="footer" class="dialog-footer">
           <sl-button variant="default" onclick={handleEmailDialogCancel}>
@@ -108,7 +106,6 @@
         linkSent: false,
         verifying: false,
         email: '',
-        promptEmail: '',
         pendingEmailLinkUrl: null,
       },
       async onMounted() {
@@ -148,7 +145,7 @@
           // ダイアログのレンダリング完了を待ってからフォーカスを設定
           const DIALOG_FOCUS_DELAY = 100;
           setTimeout(() => {
-            const input = this.$refs.emailDialogInput;
+            const input = this.$('.email-dialog-input');
             if (input) input.focus();
           }, DIALOG_FOCUS_DELAY);
         }
@@ -157,14 +154,15 @@
         e.preventDefault();
         // HTML5 required属性による検証が完了しているため、追加のチェックは不要
         const dialog = this.$('.email-prompt-dialog');
-        
+
         this.update({ verifying: true });
         if (dialog) dialog.hide();
-        
+
+        const promptEmail = (this.$('.email-dialog-input').value || '').trim();
         try {
           await authStore.completeEmailLinkSignIn(
             this.state.pendingEmailLinkUrl,
-            this.state.promptEmail
+            promptEmail
           );
           sessionStorage.setItem('justLoggedIn', '1');
           router.push('/account');
@@ -180,18 +178,19 @@
         if (dialog) dialog.hide();
         this.update({
           error: i18nStore.t('auth.errors.emailRequired'),
-          promptEmail: '',
           pendingEmailLinkUrl: null,
         });
       },
-      handlePromptEmailInput(e) {
-        this.update({ promptEmail: e.target.value });
-      },
       async handleSendLink(e) {
         e.preventDefault();
+        const email = (this.$('.email-input').value || '').trim();
+        if (!email) {
+          this.update({ error: i18nStore.t('auth.errors.auth/invalid-email') });
+          return;
+        }
         this.update({ error: null, submitting: true });
         try {
-          await authStore.sendLoginLink(this.state.email);
+          await authStore.sendLoginLink(email);
           this.update({ linkSent: true, submitting: false });
         } catch (err) {
           this.update({ error: this._getErrorMessage(err.code), submitting: false });
