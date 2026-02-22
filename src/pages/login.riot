@@ -140,15 +140,13 @@
       },
       showEmailDialog() {
         const dialog = this.$('.email-prompt-dialog');
-        if (dialog) {
-          dialog.show();
-          // ダイアログのレンダリング完了を待ってからフォーカスを設定
-          const DIALOG_FOCUS_DELAY = 100;
-          setTimeout(() => {
-            const input = this.$('.email-dialog-input');
-            if (input) input.focus();
-          }, DIALOG_FOCUS_DELAY);
-        }
+        if (!dialog) return;
+        dialog.addEventListener(
+          'sl-after-show',
+          () => this.$refs.emailDialogInput?.focus(),
+          { once: true },
+        );
+        dialog.show();
       },
       async handleEmailDialogSubmit(e) {
         e.preventDefault();
