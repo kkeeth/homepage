@@ -102,7 +102,8 @@
 
         // Route guards: auth が必要なルートは初期化完了を待つ
         if (path.pathname === '/account' || path.pathname === '/login') {
-          const isLoggedIn = await authStore.ready();
+          await authStore.ready();
+          const isLoggedIn = authStore.isLoggedIn();
           if (path.pathname === '/account' && !isLoggedIn) {
             return router.push('/login');
           }
