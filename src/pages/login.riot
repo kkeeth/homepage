@@ -128,7 +128,7 @@
             } else {
               this.update({
                 verifying: false,
-                error: i18nStore.t('auth.errors.linkExpired'),
+                error: this.getLinkSignInErrorMessage(err),
               });
             }
           }
@@ -167,7 +167,7 @@
         } catch (err) {
           this.update({
             verifying: false,
-            error: this._getErrorMessage(err.code),
+            error: this.getErrorMessage(err.code),
           });
         }
       },
@@ -191,7 +191,7 @@
           await authStore.sendLoginLink(email);
           this.update({ linkSent: true, submitting: false });
         } catch (err) {
-          this.update({ error: this._getErrorMessage(err.code), submitting: false });
+          this.update({ error: this.getErrorMessage(err.code), submitting: false });
         }
       },
       resetForm() {
@@ -205,10 +205,17 @@
         e.preventDefault();
         this.update({ mode: 'register', error: null, email: '' });
       },
-      _getErrorMessage(code) {
+      getErrorMessage(code) {
         const key = `auth.errors.${code}`;
         const msg = i18nStore.t(key);
         return msg === key ? i18nStore.t('auth.errors.default') : msg;
+      },
+      // メールリンク検証エラー専用：未知のコードは linkExpired にフォールバック
+      // （default より「リンクが無効/期限切れ」のほうがこの文脈では的確なため）
+      getLinkSignInErrorMessage(err) {
+        const key = `auth.errors.${err.code}`;
+        const msg = i18nStore.t(key);
+        return msg !== key ? msg : i18nStore.t('auth.errors.linkExpired');
       },
     }
   </script>

@@ -310,7 +310,10 @@
       "auth/invalid-email": "Invalid email address",
       "auth/user-not-found": "Account not found",
       "auth/too-many-requests": "Too many login attempts. Please wait and try again",
-      "linkExpired": "Login link has expired. Please try again",
+      "auth/invalid-action-code": "The login link is invalid. It may have already been used or the URL is incorrect. Please request a new link",
+      "auth/expired-action-code": "The login link has expired. Please request a new link",
+      "auth/network-request-failed": "A network error occurred. Please check your connection and try again",
+      "linkExpired": "The login link is invalid or expired. Please request a new link",
       "emailRequired": "Email address is required to continue login",
       "default": "An error occurred. Please try again"
     }
