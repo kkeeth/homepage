@@ -8,6 +8,7 @@
           <sl-avatar
             image={state.avatarUrl}
             label={state.user?.displayName || state.user?.email || ''}
+            initials={!state.avatarUrl && state.user?.displayName ? state.user.displayName.substring(0, 2) : ''}
             style="--size: 64px;"
           ></sl-avatar>
           <div class="user-details">
@@ -56,7 +57,6 @@
         <div class="profile-field">
           <span class="field-label">{t("account.profile.nickname")}</span>
           <div class="field-row" if={!state.editingNickname}>
-          {state.user?.email}
             <span class="field-value">{state.user?.displayName || t("auth.noName")}</span>
             <sl-button size="small" variant="text" onclick={startEditNickname}>
               <sl-icon name="pencil"></sl-icon>
@@ -171,7 +171,11 @@
         });
       },
       onMembershipChanged() {
-        this.update({ isPremium: authStore.isPremium });
+        this.update({
+          user: authStore.user,
+          avatarUrl: authStore.getAvatarUrl(),
+          isPremium: authStore.isPremium,
+        });
       },
       showWelcomeToast(name) {
         const msg = i18nStore.t('auth.welcome').replace('%s', name);
