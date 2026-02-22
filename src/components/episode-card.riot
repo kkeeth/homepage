@@ -36,6 +36,15 @@
     export default {
       t: i18nStore.t.bind(i18nStore),
       truncateText,
+      onMounted() {
+        membershipStore.on('premium-episodes-changed', this.onPremiumEpisodesChanged);
+      },
+      onBeforeUnmount() {
+        membershipStore.off('premium-episodes-changed', this.onPremiumEpisodesChanged);
+      },
+      onPremiumEpisodesChanged() {
+        this.update();
+      },
       isEpisodePremium(episode) {
         const id = this.getEpisodeId(episode);
         return membershipStore.isEpisodePremium(id);
