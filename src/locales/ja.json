@@ -306,6 +306,7 @@
     "emailPromptMessage": "ログインを完了するために、メールアドレスを入力してください。",
     "cancel": "キャンセル",
     "confirm": "確認",
+    "welcome": "おかえりなさい、%sさん！",
     "errors": {
       "auth/invalid-email": "メールアドレスの形式が正しくありません",
       "auth/user-not-found": "アカウントが見つかりません",
@@ -313,6 +314,26 @@
       "linkExpired": "ログインリンクの有効期限が切れています。もう一度お試しください",
       "emailRequired": "ログインを続けるにはメールアドレスが必要です",
       "default": "エラーが発生しました。もう一度お試しください"
+    }
+  },
+  "account": {
+    "profile": {
+      "title": "プロフィール",
+      "nickname": "ニックネーム",
+      "loginEmail": "ログインメールアドレス",
+      "emailNote": "変更には確認メールが必要です",
+      "changeEmail": "メールアドレスを変更する",
+      "newEmailPlaceholder": "新しいメールアドレス",
+      "sendVerification": "確認メールを送信",
+      "emailChangeSent": "確認メールを送信しました。メールのリンクをクリックして変更を完了してください。",
+      "save": "保存",
+      "cancel": "キャンセル",
+      "nicknameSaved": "ニックネームを更新しました",
+      "nicknameError": "更新に失敗しました。再度お試しください",
+      "emailChangeError": {
+        "requiresRecentLogin": "セキュリティのため、再ログインが必要です。",
+        "default": "エラーが発生しました。再度お試しください"
+      }
     }
   },
   "membership": {

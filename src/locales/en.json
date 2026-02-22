@@ -305,6 +305,7 @@
     "emailPromptMessage": "Please enter your email address to complete the login process.",
     "cancel": "Cancel",
     "confirm": "Confirm",
+    "welcome": "Welcome back, %s!",
     "errors": {
       "auth/invalid-email": "Invalid email address",
       "auth/user-not-found": "Account not found",
@@ -312,6 +313,26 @@
       "linkExpired": "Login link has expired. Please try again",
       "emailRequired": "Email address is required to continue login",
       "default": "An error occurred. Please try again"
+    }
+  },
+  "account": {
+    "profile": {
+      "title": "Profile",
+      "nickname": "Nickname",
+      "loginEmail": "Login Email Address",
+      "emailNote": "A confirmation email is required to change",
+      "changeEmail": "Change email address",
+      "newEmailPlaceholder": "New email address",
+      "sendVerification": "Send confirmation email",
+      "emailChangeSent": "Confirmation email sent. Click the link in your email to complete the change.",
+      "save": "Save",
+      "cancel": "Cancel",
+      "nicknameSaved": "Nickname updated",
+      "nicknameError": "Failed to update. Please try again",
+      "emailChangeError": {
+        "requiresRecentLogin": "For security, please log in again.",
+        "default": "An error occurred. Please try again"
+      }
     }
   },
   "membership": {

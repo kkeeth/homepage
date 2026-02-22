@@ -4,7 +4,7 @@
       <sl-icon name="person-circle"></sl-icon>
     </a>
 
-    <sl-dropdown if={state.user} placement="bottom-end">
+    <sl-dropdown if={state.user} placement="bottom-end" hoist>
       <button slot="trigger" class="user-trigger">
         <sl-avatar
           image={state.avatarUrl}

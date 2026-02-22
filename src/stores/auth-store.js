@@ -5,6 +5,8 @@ import {
   isSignInWithEmailLink,
   signInWithEmailLink,
   signOut,
+  updateProfile,
+  verifyBeforeUpdateEmail,
 } from 'firebase/auth';
 import { doc, onSnapshot } from 'firebase/firestore';
 import { auth, db } from '@/services/firebase';
@@ -158,6 +160,16 @@ const authStore = observable({
 
   isLoggedIn() {
     return !!this.user;
+  },
+
+  async updateDisplayName(displayName) {
+    await updateProfile(auth.currentUser, { displayName });
+    this.user = { ...this.user, displayName };
+    this.trigger('auth-changed');
+  },
+
+  async sendEmailChangeVerification(newEmail) {
+    await verifyBeforeUpdateEmail(auth.currentUser, newEmail);
   },
 });
 

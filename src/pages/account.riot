@@ -49,6 +49,62 @@
         </div>
       </div>
 
+      <div class="account-card profile-card">
+        <h3 class="card-title">{t("account.profile.title")}</h3>
+
+        <!-- ニックネーム -->
+        <div class="profile-field">
+          <span class="field-label">{t("account.profile.nickname")}</span>
+          <div class="field-row" if={!state.editingNickname}>
+          {state.user?.email}
+            <span class="field-value">{state.user?.displayName || t("auth.noName")}</span>
+            <sl-button size="small" variant="text" onclick={startEditNickname}>
+              <sl-icon name="pencil"></sl-icon>
+            </sl-button>
+          </div>
+          <form class="field-edit-row" if={state.editingNickname} onsubmit={saveNickname}>
+            <sl-input size="small" value={state.nicknameInput}
+              oninput={e => this.update({ nicknameInput: e.target.value })}
+              placeholder={t("auth.noName")} autofocus></sl-input>
+            <sl-button size="small" type="submit" variant="primary"
+              loading={state.savingNickname || null}>{t("account.profile.save")}</sl-button>
+            <sl-button size="small" variant="text"
+              onclick={cancelEditNickname}>{t("account.profile.cancel")}</sl-button>
+          </form>
+          <p class="field-feedback success" if={state.nicknameSavedMsg}>
+            <sl-icon name="check-circle-fill"></sl-icon>{t("account.profile.nicknameSaved")}
+          </p>
+          <p class="field-feedback error" if={state.nicknameError}>{state.nicknameError}</p>
+        </div>
+
+        <!-- メールアドレス変更 -->
+        <div class="profile-field">
+          <span class="field-label">{t("account.profile.loginEmail")}</span>
+          <span class="field-value">{state.user?.email}</span>
+          <p class="field-note">{t("account.profile.emailNote")}</p>
+          <sl-button size="small" variant="text" class="toggle-email-btn"
+            onclick={toggleEmailChangeForm}>
+            {t("account.profile.changeEmail")}
+            <sl-icon name={state.showEmailChangeForm ? 'chevron-up' : 'chevron-down'}
+              slot="suffix"></sl-icon>
+          </sl-button>
+          <form class="email-change-form" if={state.showEmailChangeForm} onsubmit={sendEmailChange}>
+            <sl-input type="email" size="small"
+              placeholder={t("account.profile.newEmailPlaceholder")}
+              oninput={e => this.update({ newEmailInput: e.target.value })}
+              required></sl-input>
+            <sl-button type="submit" size="small" variant="primary"
+              loading={state.sendingEmailChange || null}>
+              {t("account.profile.sendVerification")}
+            </sl-button>
+          </form>
+          <p class="field-feedback success" if={state.emailChangeSent}>
+            <sl-icon name="check-circle-fill"></sl-icon>{t("account.profile.emailChangeSent")}
+          </p>
+          <p class="field-feedback error" if={state.emailChangeError}>{state.emailChangeError}</p>
+        </div>
+      </div>
+
       <div class="account-actions">
         <sl-button variant="text" onclick={handleLogout}>
           <sl-icon name="box-arrow-right" slot="prefix"></sl-icon>
@@ -72,32 +128,104 @@
         avatarUrl: authStore.getAvatarUrl(),
         paymentLinkUrl: membershipStore.getPaymentLinkUrl(),
         portalUrl: membershipStore.getCustomerPortalUrl(),
+        editingNickname: false,
+        nicknameInput: '',
+        savingNickname: false,
+        nicknameSavedMsg: false,
+        nicknameError: null,
+        showEmailChangeForm: false,
+        newEmailInput: '',
+        sendingEmailChange: false,
+        emailChangeSent: false,
+        emailChangeError: null,
       },
       onMounted() {
         if (!authStore.isLoggedIn()) {
           router.push('/login');
           return;
         }
-        this._onAuthChanged = () => {
-          this.update({
-            user: authStore.user,
-            avatarUrl: authStore.getAvatarUrl(),
-            paymentLinkUrl: membershipStore.getPaymentLinkUrl(),
-          });
-        };
-        this._onMembershipChanged = () => {
-          this.update({ isPremium: authStore.isPremium });
-        };
-        authStore.on('auth-changed', this._onAuthChanged);
-        authStore.on('membership-changed', this._onMembershipChanged);
+        const justLoggedIn = sessionStorage.getItem('justLoggedIn');
+        if (justLoggedIn) {
+          sessionStorage.removeItem('justLoggedIn');
+          const name = authStore.user?.displayName
+            || authStore.user?.email?.split('@')[0]
+            || '';
+          this.showWelcomeToast(name);
+        }
+        authStore.on('auth-changed', this.onAuthChanged);
+        authStore.on('membership-changed', this.onMembershipChanged);
       },
       onBeforeUnmount() {
-        authStore.off('auth-changed', this._onAuthChanged);
-        authStore.off('membership-changed', this._onMembershipChanged);
+        authStore.off('auth-changed', this.onAuthChanged);
+        authStore.off('membership-changed', this.onMembershipChanged);
       },
       async handleLogout() {
         await authStore.logout();
         router.push('/');
+      },
+      onAuthChanged() {
+        this.update({
+          user: authStore.user,
+          avatarUrl: authStore.getAvatarUrl(),
+          paymentLinkUrl: membershipStore.getPaymentLinkUrl(),
+        });
+      },
+      onMembershipChanged() {
+        this.update({ isPremium: authStore.isPremium });
+      },
+      showWelcomeToast(name) {
+        const msg = i18nStore.t('auth.welcome').replace('%s', name);
+        const alert = Object.assign(document.createElement('sl-alert'), {
+          variant: 'success',
+          closable: true,
+          duration: 4000,
+        });
+        alert.innerHTML = `<sl-icon slot="icon" name="person-check-fill"></sl-icon>${msg}`;
+        document.body.append(alert);
+        alert.toast();
+      },
+      startEditNickname() {
+        this.update({
+          editingNickname: true,
+          nicknameInput: authStore.user?.displayName || '',
+          nicknameError: null,
+          nicknameSavedMsg: false,
+        });
+      },
+      cancelEditNickname() {
+        this.update({ editingNickname: false, nicknameError: null });
+      },
+      async saveNickname(e) {
+        e.preventDefault();
+        this.update({ savingNickname: true, nicknameError: null });
+        try {
+          await authStore.updateDisplayName(this.state.nicknameInput.trim());
+          this.update({ savingNickname: false, editingNickname: false, nicknameSavedMsg: true });
+          setTimeout(() => this.update({ nicknameSavedMsg: false }), 3000);
+        } catch {
+          this.update({ savingNickname: false, nicknameError: i18nStore.t('account.profile.nicknameError') });
+        }
+      },
+      toggleEmailChangeForm() {
+        this.update({
+          showEmailChangeForm: !this.state.showEmailChangeForm,
+          emailChangeSent: false,
+          emailChangeError: null,
+          newEmailInput: '',
+        });
+      },
+      async sendEmailChange(e) {
+        e.preventDefault();
+        this.update({ sendingEmailChange: true, emailChangeError: null, emailChangeSent: false });
+        try {
+          await authStore.sendEmailChangeVerification(this.state.newEmailInput);
+          this.update({ sendingEmailChange: false, emailChangeSent: true });
+        } catch (err) {
+          const key = err.code === 'auth/requires-recent-login'
+            ? 'account.profile.emailChangeError.requiresRecentLogin'
+            : 'account.profile.emailChangeError.default';
+          this.update({ sendingEmailChange: false, emailChangeError: i18nStore.t(key) });
+        }
       },
     }
   </script>
@@ -179,7 +307,7 @@
 
     .plan-badge.premium {
       background: #fef3c7;
-      color: #d97706;
+      color: var(--warm-amber);
     }
 
     .plan-description {
@@ -189,17 +317,74 @@
     }
 
     .upgrade-btn::part(base) {
-      background: var(--rain-blue);
-      border-color: var(--rain-blue);
+      background: var(--warm-amber);
+      border-color: var(--warm-amber);
     }
 
     .upgrade-btn:hover::part(base) {
-      background: var(--deep-rain);
-      border-color: var(--deep-rain);
+      background: var(--cozy-orange);
+      border-color: var(--cozy-orange);
     }
 
     .account-actions {
       margin-top: 1rem;
     }
+
+    /* Profile Card */
+    .profile-card .profile-field {
+      padding: 1rem 0;
+      border-bottom: 1px solid var(--light-gray);
+    }
+    .profile-card .profile-field:last-child { border-bottom: none; }
+
+    .field-label {
+      display: block;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--text-light);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.4rem;
+    }
+    .field-row {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .field-value {
+      font-size: 0.9375rem;
+      color: var(--text-dark);
+    }
+    .field-note {
+      font-size: 0.8rem;
+      color: var(--text-light);
+      margin: 0.25rem 0 0.5rem;
+    }
+    .field-edit-row {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-top: 0.25rem;
+    }
+    .field-edit-row sl-input { flex: 1; min-width: 120px; }
+    .toggle-email-btn { margin-top: 0.25rem; }
+    .email-change-form {
+      display: flex;
+      gap: 0.5rem;
+      align-items: flex-end;
+      flex-wrap: wrap;
+      margin-top: 0.75rem;
+    }
+    .email-change-form sl-input { flex: 1; min-width: 200px; }
+    .field-feedback {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      margin-top: 0.5rem;
+      font-size: 0.85rem;
+    }
+    .field-feedback.success { color: #2e7d32; }
+    .field-feedback.error { color: #c62828; }
   </style>
 </account>

@@ -118,6 +118,7 @@
           this.update({ verifying: true });
           try {
             await authStore.completeEmailLinkSignIn(emailLinkUrl);
+            sessionStorage.setItem('justLoggedIn', '1');
             router.push('/account');
           } catch (err) {
             // メールアドレスが必要な場合はダイアログを表示
@@ -165,6 +166,7 @@
             this.state.pendingEmailLinkUrl,
             this.state.promptEmail
           );
+          sessionStorage.setItem('justLoggedIn', '1');
           router.push('/account');
         } catch (err) {
           this.update({
