@@ -368,9 +368,9 @@
     "connect": "Social",
     "rights": "All rights reserved.",
     "legal": {
-      "terms": "利用規約",
-      "privacy": "プライバシーポリシー",
-      "tokushoho": "特定商取引法に基づく表記"
+    "terms": "Terms of Service",
+    "privacy": "Privacy Policy",
+    "tokushoho": "Commercial Transaction Act Notice"
     }
   }
 }
