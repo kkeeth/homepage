@@ -346,6 +346,7 @@
     "freeDesc": "無料プランをご利用中です",
     "premiumDesc": "プレミアムプランをご利用中です",
     "upgrade": "プレミアムにアップグレード",
+    "upgradeUnavailable": "アップグレードは一時的にご利用いただけません。しばらくしてから再度お試しください。",
     "manage": "サブスクリプション管理",
     "premiumBadge": "PREMIUM",
     "gateTitle": "プレミアム限定コンテンツ",

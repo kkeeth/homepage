@@ -345,6 +345,7 @@
     "freeDesc": "You are on the free plan",
     "premiumDesc": "You are on the premium plan",
     "upgrade": "Upgrade to Premium",
+    "upgradeUnavailable": "Upgrade is temporarily unavailable. Please try again later.",
     "manage": "Manage Subscription",
     "premiumBadge": "PREMIUM",
     "gateTitle": "Premium Content",
