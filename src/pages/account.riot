@@ -184,7 +184,8 @@
           closable: true,
           duration: 4000,
         });
-        alert.innerHTML = `<sl-icon slot="icon" name="person-check-fill"></sl-icon>${msg}`;
+        alert.innerHTML = '<sl-icon slot="icon" name="person-check-fill"></sl-icon>';
+        alert.append(document.createTextNode(msg));
         document.body.append(alert);
         alert.toast();
       },
