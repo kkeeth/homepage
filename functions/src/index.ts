@@ -149,6 +149,10 @@ export const stripeWebhook = onRequest(
                 subscription.current_period_end * 1000,
               ).toISOString(),
             });
+        } else {
+          console.warn(`Customer ${subscription.customer} is deleted; skipping subscription update.`);
+          res.status(200).json({ received: true, skipped: true });
+          return;
         }
         break;
       }
@@ -173,6 +177,10 @@ export const stripeWebhook = onRequest(
             subscriptionId: null,
             currentPeriodEnd: null,
           });
+        } else {
+          console.warn(`Customer ${subscription.customer} is deleted; skipping subscription deletion.`);
+          res.status(200).json({ received: true, skipped: true });
+          return;
         }
         break;
       }
@@ -198,6 +206,10 @@ export const stripeWebhook = onRequest(
             await db.collection('users').doc(uid).update({
               subscriptionStatus: 'past_due',
             });
+          } else {
+            console.warn(`Customer ${subscription.customer} is deleted; skipping payment failure update.`);
+            res.status(200).json({ received: true, skipped: true });
+            return;
           }
         }
         break;
