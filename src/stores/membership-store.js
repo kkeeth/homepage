@@ -12,8 +12,7 @@ const membershipStore = observable({
   _unsub: null,
 
   init() {
-    this._loaded = false;
-    this.destroy(); // 念のため既存の購読をクリーンアップ
+    if (this._unsub) this.destroy(); // 既存の購読がある場合のみクリーンアップ
     const colRef = collection(db, 'premiumEpisodes');
     this._unsub = onSnapshot(
       colRef,
