@@ -110,7 +110,7 @@
           this.update({ loading: false });
         }
       },
-      onUnmounted() {
+      onBeforeUnmount() {
         // Clean up store subscriptions
         this.cleanupStoreSubscriptions();
       },
