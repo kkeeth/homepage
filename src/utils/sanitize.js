@@ -30,9 +30,9 @@ export function sanitizeHtml(html) {
     ALLOWED_TAGS: [
       'p', 'br', 'strong', 'em', 'b', 'i', 'u', 'a', 'ul', 'ol', 'li',
       'blockquote', 'code', 'pre', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
-      'span', 'div', 'img'
+      'span', 'div'
     ],
-    ALLOWED_ATTR: ['href', 'src', 'alt', 'title', 'target', 'rel'],
+    ALLOWED_ATTR: ['href', 'title', 'target', 'rel'],
     ALLOW_DATA_ATTR: false,
     ALLOW_UNKNOWN_PROTOCOLS: false,
     // Use safe templates to prevent attribute-based attacks

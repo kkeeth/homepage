@@ -92,7 +92,7 @@ export const stripeWebhook = onRequest(
           console.error(
             `Invalid subscription data received for session ${session.id}, subscription ${session.subscription}. Missing required properties.`,
           );
-          res.status(502).json({
+          res.status(500).json({
             received: false,
             error: 'Invalid subscription data from Stripe; subscription not saved.',
           });
@@ -126,15 +126,9 @@ export const stripeWebhook = onRequest(
         if (!customer.deleted) {
           if (!customer.metadata || !customer.metadata.firebaseUID) {
             console.error(
-              `Missing firebaseUID in customer metadata for customer ${subscription.customer}, subscription ${subscription.id}. Unable to update Firestore subscription state.`,
+              `Missing firebaseUID in customer metadata for customer ${subscription.customer}, subscription ${subscription.id}. Skipping update.`,
             );
-            res
-              .status(500)
-              .json({
-                received: false,
-                error:
-                  'Missing firebaseUID in customer metadata; subscription update not applied.',
-              });
+            res.status(200).json({ received: true, skipped: true });
             return;
           }
           const uid = customer.metadata.firebaseUID;
