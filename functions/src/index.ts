@@ -62,10 +62,7 @@ export const stripeWebhook = onRequest(
       case 'checkout.session.completed': {
         const session = event.data.object as Stripe.Checkout.Session;
         const email = session.customer_details?.email;
-        if (!email || !session.subscription) {
-          res.status(200).json({ received: true });
-          return;
-        }
+        if (!email || !session.subscription) break;
 
         // メールアドレスから Firebase Auth ユーザーを特定/作成
         let uid: string;
@@ -115,8 +112,7 @@ export const stripeWebhook = onRequest(
             },
             { merge: true },
           );
-        res.status(200).json({ received: true });
-        return;
+        break;
       }
 
       case 'customer.subscription.updated': {
@@ -151,8 +147,7 @@ export const stripeWebhook = onRequest(
               ).toISOString(),
             });
         }
-        res.status(200).json({ received: true });
-        return;
+        break;
       }
 
       case 'customer.subscription.deleted': {
@@ -176,8 +171,7 @@ export const stripeWebhook = onRequest(
             currentPeriodEnd: null,
           });
         }
-        res.status(200).json({ received: true });
-        return;
+        break;
       }
 
       case 'invoice.payment_failed': {
@@ -203,12 +197,10 @@ export const stripeWebhook = onRequest(
             });
           }
         }
-        res.status(200).json({ received: true });
-        return;
+        break;
       }
     }
 
-    // Unrecognized event type — acknowledge receipt so Stripe does not retry
     res.status(200).json({ received: true });
   },
 );
