@@ -70,7 +70,10 @@ export const stripeWebhook = onRequest(
           const userRecord = await admin.auth().getUserByEmail(email);
           uid = userRecord.uid;
         } catch {
-          const newUser = await admin.auth().createUser({ email });
+          const newUser = await admin.auth().createUser({
+            email,
+            emailVerified: false,
+          });
           uid = newUser.uid;
         }
 
