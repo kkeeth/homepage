@@ -38,16 +38,16 @@
         avatarUrl: authStore.getAvatarUrl(),
       },
       onMounted() {
+        this._onAuthChanged = () => {
+          this.update({
+            user: authStore.user,
+            avatarUrl: authStore.getAvatarUrl(),
+          });
+        };
         authStore.on('auth-changed', this._onAuthChanged);
       },
       onBeforeUnmount() {
         authStore.off('auth-changed', this._onAuthChanged);
-      },
-      onAuthChanged() {
-        this.update({
-          user: authStore.user,
-          avatarUrl: authStore.getAvatarUrl(),
-        });
       },
       goToAccount() {
         router.push('/account');

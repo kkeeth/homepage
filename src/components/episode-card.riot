@@ -37,13 +37,13 @@
       t: i18nStore.t.bind(i18nStore),
       truncateText,
       onMounted() {
-        membershipStore.on('premium-episodes-changed', this.onPremiumEpisodesChanged);
+        this._onPremiumEpisodesChanged = () => {
+          this.update();
+        };
+        membershipStore.on('premium-episodes-changed', this._onPremiumEpisodesChanged);
       },
       onBeforeUnmount() {
-        membershipStore.off('premium-episodes-changed', this.onPremiumEpisodesChanged);
-      },
-      onPremiumEpisodesChanged() {
-        this.update();
+        membershipStore.off('premium-episodes-changed', this._onPremiumEpisodesChanged);
       },
       isEpisodePremium(episode) {
         const id = this.getEpisodeId(episode);
