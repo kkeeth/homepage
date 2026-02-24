@@ -183,7 +183,7 @@
         e.preventDefault();
         const email = (this.$('.email-input').value || '').trim();
         if (!email) {
-          this.update({ error: i18nStore.t('auth.errors.auth/invalid-email') });
+          this.update({ error: this.getErrorMessage('auth/invalid-email') });
           return;
         }
         this.update({ error: null, submitting: true });
