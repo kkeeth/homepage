@@ -21,7 +21,7 @@ export const SOCIAL_LINKS = [
   {
     name: 'email',
     icon: 'envelope-fill',
-    url: 'mailto:zensin0082@gmail.com',
+    url: 'mailto:kkeeth.contact@gmail.com',
     label: 'Email',
   },
 ];
