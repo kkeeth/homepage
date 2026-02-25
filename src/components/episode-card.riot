@@ -47,7 +47,7 @@
       },
       isEpisodePremium(episode) {
         const id = this.getEpisodeId(episode);
-        return membershipStore.isEpisodePremium(id);
+        return membershipStore.isEpisodePremium(id) === true;
       },
       getEpisodeId(episode) {
         // Extract episode ID from art19 link
