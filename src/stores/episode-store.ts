@@ -1,17 +1,60 @@
-import observable from '@riotjs/observable';
+import observable, { type ObservableInstance } from '@riotjs/observable';
 import { fetchRSSFeed } from '@/utils/rss';
+
+interface RSSEpisode {
+  title: string;
+  description: string;
+  pubDate: string;
+  link: string;
+  imageUrl?: string;
+  duration: string;
+  season: string;
+  episodeNum: string;
+}
 
 const DEFAULT_PAGE_SIZE = 12;
 
+export interface Episode {
+  id: number;
+  title: string;
+  description: string;
+  pubDate: string;
+  link: string;
+  imageUrl: string;
+  imageClass: string;
+  duration: string;
+  season: string;
+  episodeNum: string;
+}
+
+interface EpisodeStore extends ObservableInstance<unknown> {
+  allEpisodes: Episode[];
+  displayedEpisodes: Episode[];
+  isLoading: boolean;
+  isInitialized: boolean;
+  currentPage: number;
+  pageSize: number;
+  loadAllEpisodes(): Promise<void>;
+  setPage(page: number, pageSize?: number): void;
+  getDisplayedEpisodes(): Episode[];
+  getTotalCount(): number;
+  getCurrentPage(): number;
+  getPageSize(): number;
+  getTotalPages(): number;
+  getDisplayedCount(): number;
+  getIsInitialized(): boolean;
+  reset(): void;
+}
+
 const episodeStore = observable({
-  allEpisodes: [],
-  displayedEpisodes: [],
+  allEpisodes: [] as Episode[],
+  displayedEpisodes: [] as Episode[],
   isLoading: false,
   isInitialized: false,
   currentPage: 1,
   pageSize: DEFAULT_PAGE_SIZE,
 
-  async loadAllEpisodes() {
+  async loadAllEpisodes(this: EpisodeStore): Promise<void> {
     console.log('loadAllEpisodes called, isInitialized:', this.isInitialized);
     if (this.isInitialized) return;
 
@@ -21,7 +64,7 @@ const episodeStore = observable({
       if (!RSS_URL) {
         console.warn('VITE_RSS_URL is not set, using fallback data');
         // Fallback data for testing: 30 items to verify pagination
-        const fallback = Array.from({ length: 30 }, (_, i) => ({
+        const fallback: Episode[] = Array.from({ length: 30 }, (_, i) => ({
           id: i + 1,
           title: `サンプルエピソード ${i + 1}`,
           description: `これはテスト用のサンプルエピソード ${i + 1} です。`,
@@ -40,9 +83,9 @@ const episodeStore = observable({
         })).reverse();
         this.allEpisodes = fallback;
       } else {
-        const episodes = await fetchRSSFeed(RSS_URL);
+        const episodes = await fetchRSSFeed(RSS_URL) as RSSEpisode[];
 
-        this.allEpisodes = episodes.map((episode, index) => ({
+        this.allEpisodes = episodes.map((episode: RSSEpisode, index: number) => ({
           id: index + 1,
           title: episode.title,
           description: episode.description,
@@ -72,7 +115,7 @@ const episodeStore = observable({
     }
   },
 
-  setPage(page, pageSize = this.pageSize) {
+  setPage(this: EpisodeStore, page: number, pageSize: number = this.pageSize): void {
     if (!this.isInitialized) return;
 
     const safePageSize = Math.max(1, Number(pageSize) || DEFAULT_PAGE_SIZE);
@@ -90,36 +133,36 @@ const episodeStore = observable({
     this.trigger('episodes-updated');
   },
 
-  getDisplayedEpisodes() {
+  getDisplayedEpisodes(this: EpisodeStore): Episode[] {
     return this.displayedEpisodes;
   },
 
-  getTotalCount() {
+  getTotalCount(this: EpisodeStore): number {
     return this.allEpisodes.length;
   },
 
-  getCurrentPage() {
+  getCurrentPage(this: EpisodeStore): number {
     return this.currentPage;
   },
 
-  getPageSize() {
+  getPageSize(this: EpisodeStore): number {
     return this.pageSize;
   },
 
-  getTotalPages() {
+  getTotalPages(this: EpisodeStore): number {
     const total = this.getTotalCount();
     return Math.max(1, Math.ceil(total / this.pageSize));
   },
 
-  getDisplayedCount() {
+  getDisplayedCount(this: EpisodeStore): number {
     return this.displayedEpisodes.length;
   },
 
-  getIsInitialized() {
+  getIsInitialized(this: EpisodeStore): boolean {
     return this.isInitialized;
   },
 
-  reset() {
+  reset(this: EpisodeStore): void {
     this.allEpisodes = [];
     this.displayedEpisodes = [];
     this.isLoading = false;
@@ -127,6 +170,6 @@ const episodeStore = observable({
     this.currentPage = 1;
     this.pageSize = DEFAULT_PAGE_SIZE;
   },
-});
+}) as unknown as EpisodeStore;
 
 export default episodeStore;
