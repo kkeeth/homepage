@@ -1,4 +1,9 @@
 <app>
+  <sl-alert class="welcome-toast" variant="success" closable duration="4000">
+    <sl-icon slot="icon" name="person-check-fill"></sl-icon>
+    {state.welcomeMsg}
+  </sl-alert>
+
   <div class={'container page-' + (state.activePage || 'home')}>
     <router>
       <my-header>
@@ -84,6 +89,7 @@
         pages,
         showNotFound: false,
         activePage: null,
+        welcomeMsg: '',
       },
       onBeforeMount() {
         this.anyRouteStream = route('(.*)')
@@ -109,7 +115,7 @@
             return;
           }
           if (path.pathname === '/login' && isLoggedIn) {
-            router.push('/account');
+            router.push('/');
             return;
           }
         }
@@ -126,6 +132,19 @@
         i18nStore.on('locale-changed', () => {
           this.update()
         })
+        const justLoggedIn = sessionStorage.getItem('justLoggedIn');
+        if (justLoggedIn) {
+          sessionStorage.removeItem('justLoggedIn');
+          const name = authStore.user?.displayName
+            || authStore.user?.email?.split('@')[0]
+            || '';
+          this.showWelcomeToast(name);
+        }
+      },
+      showWelcomeToast(name) {
+        const msg = i18nStore.t('auth.welcome').replace('%s', name);
+        this.update({ welcomeMsg: msg });
+        this.$('.welcome-toast').toast();
       },
       onBeforeUnmount() {
         this.anyRouteStream.end()

@@ -144,14 +144,6 @@
           router.push('/login');
           return;
         }
-        const justLoggedIn = sessionStorage.getItem('justLoggedIn');
-        if (justLoggedIn) {
-          sessionStorage.removeItem('justLoggedIn');
-          const name = authStore.user?.displayName
-            || authStore.user?.email?.split('@')[0]
-            || '';
-          this.showWelcomeToast(name);
-        }
         authStore.on('auth-changed', this.onAuthChanged);
         authStore.on('membership-changed', this.onMembershipChanged);
       },
@@ -176,18 +168,6 @@
           avatarUrl: authStore.getAvatarUrl(),
           isPremium: authStore.isPremium,
         });
-      },
-      showWelcomeToast(name) {
-        const msg = i18nStore.t('auth.welcome').replace('%s', name);
-        const alert = Object.assign(document.createElement('sl-alert'), {
-          variant: 'success',
-          closable: true,
-          duration: 4000,
-        });
-        alert.innerHTML = '<sl-icon slot="icon" name="person-check-fill"></sl-icon>';
-        alert.append(document.createTextNode(msg));
-        document.body.append(alert);
-        alert.toast();
       },
       startEditNickname() {
         this.update({

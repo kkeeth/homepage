@@ -116,7 +116,7 @@
           try {
             await authStore.completeEmailLinkSignIn(emailLinkUrl);
             sessionStorage.setItem('justLoggedIn', '1');
-            router.push('/account');
+            router.push('/');
           } catch (err) {
             // メールアドレスが必要な場合はダイアログを表示
             if (err.code === 'auth/email-required') {
@@ -135,7 +135,7 @@
           return;
         }
         if (authStore.isLoggedIn()) {
-          router.push('/account');
+          router.push('/');
         }
       },
       showEmailDialog() {
@@ -163,7 +163,7 @@
             promptEmail
           );
           sessionStorage.setItem('justLoggedIn', '1');
-          router.push('/account');
+          router.push('/');
         } catch (err) {
           this.update({
             verifying: false,
