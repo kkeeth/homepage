@@ -19,14 +19,25 @@ captureEmailLinkUrl();
 // register
 registerGlobalComponents();
 
-// Initialize auth and membership
-authStore.init();
-membershipStore.init();
+try {
+  authStore.init();
+  membershipStore.init();
 
-install((componentAPI) => {
-  componentAPI.t = i18nStore.t.bind(i18nStore);
+  install((componentAPI) => {
+    componentAPI.t = i18nStore.t.bind(i18nStore);
+    return componentAPI;
+  });
 
-  return componentAPI;
-});
-
-component(App)(document.getElementById('root'));
+  component(App)(document.getElementById('root'));
+} catch (err) {
+  console.error('アプリの初期化に失敗しました:', err);
+  const root = document.getElementById('root');
+  if (root) {
+    root.innerHTML = `
+      <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;font-family:sans-serif;color:#2c3e50;gap:1rem;">
+        <p style="margin:0;">アプリの読み込みに失敗しました。しばらく待ってから再度お試しください。</p>
+        <button onclick="location.reload()" style="padding:0.5rem 1.5rem;background:#3498db;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:1rem;">再読み込み</button>
+      </div>
+    `;
+  }
+}
