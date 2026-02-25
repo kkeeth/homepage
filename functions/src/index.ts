@@ -70,6 +70,18 @@ export const stripeWebhook = onRequest(
           const userRecord = await admin.auth().getUserByEmail(email);
           uid = userRecord.uid;
         } catch {
+          // 【設計上の意図】emailVerified: false のまま premium を付与する
+          //
+          // このフローでは Stripe がチェックアウト時にメールアドレスの実在を担保している。
+          // Stripe は決済完了メールをそのアドレスに送付するため、到達不能なメールへの
+          // 決済は事実上不可能であり、Firebase のメール確認と同等の信頼性がある。
+          //
+          // また、マジックリンク（sendSignInLinkToEmail）でサインインした時点で
+          // Firebase Auth は自動的に emailVerified を true に更新するため、
+          // 初回ログイン後にこのフラグは解消される。
+          //
+          // よって、メール確認を premium 付与の前提条件にすることはしない。
+          // 決済完了 = メール実在確認 として扱う。
           const newUser = await admin.auth().createUser({
             email,
             emailVerified: false,
