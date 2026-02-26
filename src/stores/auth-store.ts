@@ -46,7 +46,10 @@ interface AuthStore extends ObservableInstance<unknown> {
   /** マジックリンクメールを送信 */
   sendLoginLink(email: string): Promise<void>;
   /** メールリンクからのサインインを完了する */
-  completeEmailLinkSignIn(url: string, providedEmail?: string | null): Promise<UserCredential>;
+  completeEmailLinkSignIn(
+    url: string,
+    providedEmail?: string | null,
+  ): Promise<UserCredential>;
   /** Gravatar URL を返す */
   getAvatarUrl(): string;
   logout(): Promise<void>;
@@ -67,6 +70,7 @@ const authStore = observable({
   _resolveReady: null as (() => void) | null,
 
   init(this: AuthStore): void {
+    if (this._readyPromise) return;
     this._readyPromise = new Promise((resolve) => {
       this._resolveReady = resolve;
     });
@@ -110,7 +114,8 @@ const authStore = observable({
           const data = snap.data();
           this.membershipPlan = data['plan'] || 'free';
           this.isPremium =
-            data['plan'] === 'premium' && data['subscriptionStatus'] === 'active';
+            data['plan'] === 'premium' &&
+            data['subscriptionStatus'] === 'active';
           this.subscriptionStatus = data['subscriptionStatus'] ?? null;
           this.trigger('membership-changed');
         } else {
@@ -152,9 +157,12 @@ const authStore = observable({
     }
     let email = providedEmail || localStorage.getItem(EMAIL_STORAGE_KEY);
     if (!email) {
-      const error = Object.assign(new Error('Email is required for verification'), {
-        code: 'auth/email-required',
-      });
+      const error = Object.assign(
+        new Error('Email is required for verification'),
+        {
+          code: 'auth/email-required',
+        },
+      );
       throw error;
     }
     const result = await signInWithEmailLink(auth, email, url);
@@ -193,7 +201,10 @@ const authStore = observable({
     this.trigger('auth-changed');
   },
 
-  async sendEmailChangeVerification(this: AuthStore, newEmail: string): Promise<void> {
+  async sendEmailChangeVerification(
+    this: AuthStore,
+    newEmail: string,
+  ): Promise<void> {
     await verifyBeforeUpdateEmail(auth.currentUser!, newEmail);
   },
 }) as unknown as AuthStore;
