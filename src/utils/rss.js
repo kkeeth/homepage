@@ -60,6 +60,7 @@ export function parseRSSFeed(xmlText) {
       description: truncateText(description, 120),
       fullDescription: sanitizeHtml(rawDescription),
       pubDate: formatDate(pubDate),
+      pubDateObj: new Date(pubDate),
       link,
       audioUrl,
       imageUrl,
