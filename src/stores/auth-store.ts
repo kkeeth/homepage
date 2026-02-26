@@ -29,6 +29,7 @@ interface AuthStore extends ObservableInstance<unknown> {
   subscriptionStatus: string | null;
   gravatarURL: string;
   _unsubUser: Unsubscribe | null;
+  _unsubAuth: Unsubscribe | null;
   _readyPromise: Promise<void> | null;
   _resolveReady: (() => void) | null;
   init(): void;
@@ -66,6 +67,7 @@ const authStore = observable({
   subscriptionStatus: null as string | null,
   gravatarURL: '',
   _unsubUser: null as Unsubscribe | null,
+  _unsubAuth: null as Unsubscribe | null,
   _readyPromise: null as Promise<void> | null,
   _resolveReady: null as (() => void) | null,
 
@@ -75,7 +77,7 @@ const authStore = observable({
       this._resolveReady = resolve;
     });
 
-    onAuthStateChanged(auth, async (firebaseUser) => {
+    this._unsubAuth = onAuthStateChanged(auth, async (firebaseUser) => {
       if (firebaseUser) {
         this.user = {
           uid: firebaseUser.uid,
@@ -101,6 +103,8 @@ const authStore = observable({
   },
 
   ready(this: AuthStore): Promise<void> {
+    // init() 後は必ず非 null。init() 前に ready() を呼ぶのはプログラムエラー
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     return this._readyPromise!;
   },
 
@@ -155,7 +159,7 @@ const authStore = observable({
     if (!isSignInWithEmailLink(auth, url)) {
       throw new Error('Invalid email link');
     }
-    let email = providedEmail || localStorage.getItem(EMAIL_STORAGE_KEY);
+    const email = providedEmail || localStorage.getItem(EMAIL_STORAGE_KEY);
     if (!email) {
       const error = Object.assign(
         new Error('Email is required for verification'),
@@ -196,7 +200,10 @@ const authStore = observable({
   },
 
   async updateDisplayName(this: AuthStore, displayName: string): Promise<void> {
+    // auth.currentUser / this.user は isLoggedIn() を確認した呼び出し元が保証する
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     await updateProfile(auth.currentUser!, { displayName });
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     this.user = { ...this.user!, displayName };
     this.trigger('auth-changed');
   },
@@ -205,6 +212,8 @@ const authStore = observable({
     this: AuthStore,
     newEmail: string,
   ): Promise<void> {
+    // auth.currentUser は isLoggedIn() を確認した呼び出し元が保証する
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     await verifyBeforeUpdateEmail(auth.currentUser!, newEmail);
   },
 }) as unknown as AuthStore;

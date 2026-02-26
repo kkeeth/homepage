@@ -28,7 +28,7 @@
  */
 const STORAGE_KEY = 'emailLinkUrl';
 
-export function captureEmailLinkUrl() {
+export function captureEmailLinkUrl(): void {
   if (
     window.location.search.includes('apiKey=') &&
     window.location.search.includes('oobCode=')
@@ -39,7 +39,7 @@ export function captureEmailLinkUrl() {
   }
 }
 
-export function consumeEmailLinkUrl() {
+export function consumeEmailLinkUrl(): string | null {
   const url = sessionStorage.getItem(STORAGE_KEY);
   if (url) {
     sessionStorage.removeItem(STORAGE_KEY);

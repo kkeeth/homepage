@@ -1,11 +1,4 @@
-/**
- * Gravatar URL を生成する
- * Web Crypto API (SHA-256) を使用
- * @param {string} email
- * @param {number} size
- * @returns {Promise<string>}
- */
-export async function getGravatarUrl(email, size = 80) {
+export async function getGravatarUrl(email: string, size = 80): Promise<string> {
   const trimmed = email.trim().toLowerCase();
   const encoder = new TextEncoder();
   const data = encoder.encode(trimmed);

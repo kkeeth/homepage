@@ -3,13 +3,30 @@ import { formatDate } from '@/utils/formatDate';
 import { truncateText } from '@/utils/truncateText';
 import { sanitizeHtml } from '@/utils/sanitize';
 
-function stripHtmlTags(html) {
-  const parser = new DOMParser();
-  const doc = parser.parseFromString(html, 'text/html');
-  return doc.body.textContent || '';
+export interface Episode {
+  title: string;
+  description: string;
+  fullDescription: string;
+  /** 表示用フォーマット済み日付 (例: "2025年2月10日") */
+  pubDate: string;
+  /** ソート用 Date オブジェクト */
+  pubDateObj: Date;
+  link: string;
+  audioUrl: string;
+  imageUrl: string;
+  imageClass: string;
+  duration: string;
+  season: string;
+  episodeNum: string;
 }
 
-export async function fetchRSSFeed(url) {
+function stripHtmlTags(html: string): string {
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(html, 'text/html');
+  return doc.body.textContent ?? '';
+}
+
+export async function fetchRSSFeed(url: string): Promise<Episode[]> {
   try {
     const response = await fetch(url);
     if (!response.ok) {
@@ -23,37 +40,36 @@ export async function fetchRSSFeed(url) {
   }
 }
 
-export function parseRSSFeed(xmlText) {
+export function parseRSSFeed(xmlText: string): Episode[] {
   const parser = new DOMParser();
   const xmlDoc = parser.parseFromString(xmlText, 'text/xml');
 
   const items = xmlDoc.querySelectorAll('item');
-  const episodes = [];
+  const episodes: Episode[] = [];
 
   items.forEach((item) => {
-    const title = item.querySelector('title')?.textContent?.trim() || '';
+    const title = item.querySelector('title')?.textContent?.trim() ?? '';
     const rawDescription =
-      item.querySelector('description')?.textContent?.trim() || '';
+      item.querySelector('description')?.textContent?.trim() ?? '';
     const description = stripHtmlTags(rawDescription);
-    const pubDate = item.querySelector('pubDate')?.textContent?.trim() || '';
-    const link = item.querySelector('link')?.textContent?.trim() || '';
+    const pubDate = item.querySelector('pubDate')?.textContent?.trim() ?? '';
+    const link = item.querySelector('link')?.textContent?.trim() ?? '';
     const enclosure = item.querySelector('enclosure');
-    const audioUrl = enclosure?.getAttribute('url') || '';
+    const audioUrl = enclosure?.getAttribute('url') ?? '';
 
     // Get iTunes image
     const itunesImage = item.querySelector('itunes\\:image, image[href]');
-    const imageUrl = itunesImage?.getAttribute('href') || '';
+    const imageUrl = itunesImage?.getAttribute('href') ?? '';
 
     // Extract duration if available
     const itunesDuration =
-      item.querySelector('itunes\\:duration, duration')?.textContent?.trim() ||
-      '';
+      item.querySelector('itunes\\:duration, duration')?.textContent?.trim() ?? '';
 
     // Extract season and episode number from iTunes tags
     const itunesSeason =
-      item.querySelector('itunes\\:season, season')?.textContent?.trim() || '';
+      item.querySelector('itunes\\:season, season')?.textContent?.trim() ?? '';
     const itunesEpisode =
-      item.querySelector('itunes\\:episode, episode')?.textContent?.trim() || '';
+      item.querySelector('itunes\\:episode, episode')?.textContent?.trim() ?? '';
 
     episodes.push({
       title,
@@ -72,16 +88,16 @@ export function parseRSSFeed(xmlText) {
   });
 
   // Sort by publication date (newest first)
-  episodes.sort((a, b) => b.pubDateObj - a.pubDateObj);
+  episodes.sort((a, b) => b.pubDateObj.getTime() - a.pubDateObj.getTime());
 
   return episodes;
 }
 
-export function getLatestEpisodes(episodes, count = 6) {
+export function getLatestEpisodes(episodes: Episode[], count = 6): Episode[] {
   return episodes.slice(0, count);
 }
 
-export function getRandomEpisodes(episodes, count = 3) {
+export function getRandomEpisodes(episodes: Episode[], count = 3): Episode[] {
   const shuffled = [...episodes].sort(() => Math.random() - 0.5);
   return shuffled.slice(0, count);
 }
