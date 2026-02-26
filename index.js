@@ -13,7 +13,8 @@ import membershipStore from '@/stores/membership-store';
 import { captureEmailLinkUrl } from '@/utils/email-link';
 
 // @riotjs/route はクエリパラメータ付きURLでルートマッチしないため
-// ルーター起動前にメールリンクURLをメモリに退避しパスだけに書き換える
+// ルーター起動前にメールリンクURLを sessionStorage に退避しパスだけに書き換える
+// （sessionStorage はタブを閉じると破棄されるが、同一タブ内のスクリプトから参照可能なため取り扱いに注意する）
 captureEmailLinkUrl();
 
 // register
