@@ -6,7 +6,7 @@
       <p class="gate-description">{t("membership.gateDescription")}</p>
       <div class="gate-actions">
         <sl-button if={state.paymentLinkUrl} variant="primary" class="gate-btn"
-          href={state.paymentLinkUrl} target="_blank">
+          href={state.paymentLinkUrl} target="_blank" rel="noopener noreferrer">
           {t("membership.becomeMember")}
         </sl-button>
         <a href="/login" class="gate-login-link">{t("membership.gateLogin")}</a>
