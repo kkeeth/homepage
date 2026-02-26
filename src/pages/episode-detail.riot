@@ -24,7 +24,7 @@
           </div>
 
           <p class="episode-description" if={!state.isPremiumEpisode || state.canAccess}>
-            <raw html={ state.episode.fullDescription } />
+            <raw html={sanitizeHtml(state.episode.fullDescription)} />
           </p>
         </div>
       </div>
@@ -82,6 +82,7 @@
 
   <script>
     import { fetchRSSFeed } from '@/utils/rss';
+    import { sanitizeHtml } from '@/utils/sanitize';
     import { PODCAST_PLATFORMS } from '@/constants/links';
     import i18nStore from '@/stores/i18n-store';
     import authStore from '@/stores/auth-store';
