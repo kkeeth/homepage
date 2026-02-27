@@ -13,6 +13,11 @@ import { doc, onSnapshot, type Unsubscribe } from 'firebase/firestore';
 import { auth, db } from '@/services/firebase';
 import { getGravatarUrl } from '@/utils/gravatar';
 
+console.log(
+  import.meta.env.VITE_STRIPE_PAYMENT_LINK_MONTHLY_URL,
+  import.meta.env.VITE_STRIPE_PAYMENT_LINK_YEARLY_URL,
+);
+
 const EMAIL_STORAGE_KEY = 'emailForSignIn';
 
 interface AuthUser {
@@ -25,6 +30,7 @@ interface AuthStore extends ObservableInstance<unknown> {
   user: AuthUser | null;
   isPremium: boolean;
   isLoading: boolean;
+  membershipLoaded: boolean;
   membershipPlan: string;
   subscriptionStatus: string | null;
   gravatarURL: string;
@@ -63,6 +69,7 @@ const authStore = observable({
   user: null as AuthUser | null,
   isPremium: false,
   isLoading: true,
+  membershipLoaded: false,
   membershipPlan: 'free',
   subscriptionStatus: null as string | null,
   gravatarURL: '',
@@ -121,16 +128,18 @@ const authStore = observable({
             data['plan'] === 'premium' &&
             data['subscriptionStatus'] === 'active';
           this.subscriptionStatus = data['subscriptionStatus'] ?? null;
-          this.trigger('membership-changed');
         } else {
           this.membershipPlan = 'free';
           this.isPremium = false;
           this.subscriptionStatus = null;
-          this.trigger('membership-changed');
         }
+        this.membershipLoaded = true;
+        this.trigger('membership-changed');
       },
       (error) => {
         console.error('Failed to subscribe user doc:', error);
+        this.membershipLoaded = true;
+        this.trigger('membership-changed');
       },
     );
   },
@@ -140,6 +149,7 @@ const authStore = observable({
       this._unsubUser();
       this._unsubUser = null;
     }
+    this.membershipLoaded = false;
   },
 
   async sendLoginLink(this: AuthStore, email: string): Promise<void> {

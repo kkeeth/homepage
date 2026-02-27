@@ -99,6 +99,15 @@
           await this.onAnyRoute(path)
           // ページ移動時に画面上部へスクロール
           window.scrollTo({ top: 0, behavior: 'instant' })
+          // ログイン直後のウェルカムトースト（router.push 後に発火）
+          const justLoggedIn = sessionStorage.getItem('justLoggedIn');
+          if (justLoggedIn) {
+            sessionStorage.removeItem('justLoggedIn');
+            const name = authStore.user?.displayName
+              || authStore.user?.email?.split('@')[0]
+              || '';
+            this.showWelcomeToast(name);
+          }
         })
       },
       async onAnyRoute(path) {
@@ -132,14 +141,6 @@
         i18nStore.on('locale-changed', () => {
           this.update()
         })
-        const justLoggedIn = sessionStorage.getItem('justLoggedIn');
-        if (justLoggedIn) {
-          sessionStorage.removeItem('justLoggedIn');
-          const name = authStore.user?.displayName
-            || authStore.user?.email?.split('@')[0]
-            || '';
-          this.showWelcomeToast(name);
-        }
       },
       showWelcomeToast(name) {
         const msg = i18nStore.t('auth.welcome').replace('%s', name);

@@ -20,7 +20,14 @@
 
       <div class="account-card">
         <h3 class="card-title">{t("membership.planTitle")}</h3>
-        <div class="plan-info">
+
+        <!-- メンバーシップ読み込み中 -->
+        <div if={!state.membershipLoaded} class="plan-info">
+          <sl-skeleton class="plan-badge-skeleton" effect="pulse"></sl-skeleton>
+          <sl-skeleton class="plan-desc-skeleton" effect="pulse"></sl-skeleton>
+        </div>
+
+        <div if={state.membershipLoaded} class="plan-info">
           <span class="plan-badge {state.isPremium ? 'premium' : 'free'}">
             {state.isPremium ? t("membership.premium") : t("membership.free")}
           </span>
@@ -29,13 +36,41 @@
           </p>
         </div>
 
-        <div if={!state.isPremium && state.paymentLinkUrl} class="upgrade-section">
-          <sl-button variant="primary" class="upgrade-btn" href={state.paymentLinkUrl} target="_blank" rel="noopener noreferrer">
-            {t("membership.upgrade")}
-          </sl-button>
+        <!-- プラン切り替え（URLが1つ以上ある場合） -->
+        <div if={state.membershipLoaded && !state.isPremium && (state.monthlyPaymentLinkUrl || state.yearlyPaymentLinkUrl)} class="upgrade-section">
+          <div class="plan-tab-nav">
+            <button if={state.monthlyPaymentLinkUrl}
+              class={'plan-tab' + (state.activeTab === 'monthly' ? ' active' : '')}
+              onclick={() => update({ activeTab: 'monthly' })}>{t("membership.monthly")}</button>
+            <button if={state.yearlyPaymentLinkUrl}
+              class={'plan-tab' + (state.activeTab === 'yearly' ? ' active' : '')}
+              onclick={() => update({ activeTab: 'yearly' })}>{t("membership.yearly")}</button>
+          </div>
+
+          <div if={state.activeTab === 'monthly'} class="plan-panel">
+            <p class="plan-price">
+              {t("membership.monthlyPrice")}<span class="plan-period">{t("membership.perMonth")}</span>
+            </p>
+            <sl-button variant="primary" class="upgrade-btn"
+              href={state.monthlyPaymentLinkUrl} target="_blank" rel="noopener noreferrer">
+              {t("membership.upgrade")}
+            </sl-button>
+          </div>
+
+          <div if={state.activeTab === 'yearly'} class="plan-panel">
+            <p class="plan-price">
+              {t("membership.yearlyPrice")}<span class="plan-period">{t("membership.perYear")}</span>
+            </p>
+            <p class="plan-savings">{t("membership.yearlySavings")}</p>
+            <sl-button variant="primary" class="upgrade-btn"
+              href={state.yearlyPaymentLinkUrl} target="_blank" rel="noopener noreferrer">
+              {t("membership.upgrade")}
+            </sl-button>
+          </div>
         </div>
 
-        <div if={!state.isPremium && !state.paymentLinkUrl} class="upgrade-section">
+        <!-- プランURL未設定の場合 -->
+        <div if={state.membershipLoaded && !state.isPremium && !state.monthlyPaymentLinkUrl && !state.yearlyPaymentLinkUrl} class="upgrade-section">
           <sl-button variant="primary" class="upgrade-btn" disabled>
             {t("membership.upgrade")}
           </sl-button>
@@ -43,7 +78,7 @@
             {t("membership.upgradeUnavailable")}
           </p>
         </div>
-        <div if={state.isPremium && state.portalUrl} class="manage-section">
+        <div if={state.membershipLoaded && state.isPremium && state.portalUrl} class="manage-section">
           <sl-button variant="default" href={state.portalUrl} target="_blank" rel="noopener noreferrer">
             {t("membership.manage")}
           </sl-button>
@@ -123,11 +158,14 @@
     export default {
       t: i18nStore.t.bind(i18nStore),
       state: {
-        user: authStore.user,
-        isPremium: authStore.isPremium,
-        avatarUrl: authStore.getAvatarUrl(),
-        paymentLinkUrl: membershipStore.getPaymentLinkUrl(),
-        portalUrl: membershipStore.getCustomerPortalUrl(),
+        user: null,
+        isPremium: false,
+        membershipLoaded: false,
+        avatarUrl: '',
+        monthlyPaymentLinkUrl: null,
+        yearlyPaymentLinkUrl: null,
+        portalUrl: null,
+        activeTab: 'monthly',
         editingNickname: false,
         nicknameInput: '',
         savingNickname: false,
@@ -139,6 +177,19 @@
         emailChangeSent: false,
         emailChangeError: null,
       },
+      onBeforeMount() {
+        // state の静的定義はモジュール import 時（authStore.init() 前）に評価されるため
+        // 初回レンダリング前に store の最新値で上書きする
+        Object.assign(this.state, {
+          user: authStore.user,
+          avatarUrl: authStore.getAvatarUrl(),
+          isPremium: authStore.isPremium,
+          membershipLoaded: authStore.membershipLoaded,
+          monthlyPaymentLinkUrl: membershipStore.getMonthlyPaymentLinkUrl(),
+          yearlyPaymentLinkUrl: membershipStore.getYearlyPaymentLinkUrl(),
+          portalUrl: membershipStore.getCustomerPortalUrl(),
+        });
+      },
       onMounted() {
         if (!authStore.isLoggedIn()) {
           router.push('/login');
@@ -146,6 +197,13 @@
         }
         authStore.on('auth-changed', this.onAuthChanged);
         authStore.on('membership-changed', this.onMembershipChanged);
+        // リスナー登録より先に snapshot が届いていた場合のフォールバック
+        if (authStore.membershipLoaded && !this.state.membershipLoaded) {
+          this.update({
+            isPremium: authStore.isPremium,
+            membershipLoaded: true,
+          });
+        }
       },
       onBeforeUnmount() {
         authStore.off('auth-changed', this.onAuthChanged);
@@ -159,7 +217,8 @@
         this.update({
           user: authStore.user,
           avatarUrl: authStore.getAvatarUrl(),
-          paymentLinkUrl: membershipStore.getPaymentLinkUrl(),
+          monthlyPaymentLinkUrl: membershipStore.getMonthlyPaymentLinkUrl(),
+          yearlyPaymentLinkUrl: membershipStore.getYearlyPaymentLinkUrl(),
         });
       },
       onMembershipChanged() {
@@ -167,6 +226,7 @@
           user: authStore.user,
           avatarUrl: authStore.getAvatarUrl(),
           isPremium: authStore.isPremium,
+          membershipLoaded: authStore.membershipLoaded,
         });
       },
       startEditNickname() {
@@ -275,6 +335,19 @@
       margin-bottom: 1rem;
     }
 
+    .plan-badge-skeleton {
+      width: 4.5rem;
+      height: 1.5rem;
+      --border-radius: 50px;
+      flex-shrink: 0;
+    }
+
+    .plan-desc-skeleton {
+      width: 12rem;
+      height: 1rem;
+      --border-radius: 4px;
+    }
+
     .plan-badge {
       display: inline-block;
       padding: 0.25rem 0.75rem;
@@ -298,6 +371,68 @@
     .plan-description {
       font-size: 0.875rem;
       color: var(--text-color);
+      margin: 0;
+    }
+
+    .plan-tab-nav {
+      display: flex;
+      gap: 0;
+      border-bottom: 2px solid #e5e7eb;
+      margin-bottom: 0;
+    }
+
+    .plan-tab {
+      flex: 1;
+      padding: 0.625rem 1rem;
+      background: none;
+      border: none;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -2px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--text-light);
+      cursor: pointer;
+      transition: color 0.2s, border-color 0.2s;
+    }
+
+    .plan-tab:hover {
+      color: var(--text-dark);
+    }
+
+    .plan-tab.active {
+      color: var(--rain-blue);
+      border-bottom-color: var(--rain-blue);
+    }
+
+    .plan-panel {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.75rem;
+      padding: 1rem 0 0.5rem;
+    }
+
+    .plan-price {
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: var(--text-dark);
+      margin: 0;
+    }
+
+    .plan-period {
+      font-size: 0.9rem;
+      font-weight: 400;
+      color: var(--text-light);
+      margin-left: 0.25rem;
+    }
+
+    .plan-savings {
+      font-size: 0.8125rem;
+      font-weight: 600;
+      color: #2e7d32;
+      background: #e8f5e9;
+      padding: 0.2rem 0.6rem;
+      border-radius: 4px;
       margin: 0;
     }
 

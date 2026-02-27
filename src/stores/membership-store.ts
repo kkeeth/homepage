@@ -2,7 +2,8 @@ import observable, { type ObservableInstance } from '@riotjs/observable';
 import { collection, onSnapshot } from 'firebase/firestore';
 import { db } from '@/services/firebase';
 
-const PAYMENT_LINK_URL = import.meta.env.VITE_STRIPE_PAYMENT_LINK_URL || '';
+const MONTHLY_PAYMENT_LINK_URL = import.meta.env.VITE_STRIPE_PAYMENT_LINK_MONTHLY_URL || '';
+const YEARLY_PAYMENT_LINK_URL = import.meta.env.VITE_STRIPE_PAYMENT_LINK_YEARLY_URL || '';
 const CUSTOMER_PORTAL_URL =
   import.meta.env.VITE_STRIPE_CUSTOMER_PORTAL_URL || '';
 
@@ -33,7 +34,8 @@ interface MembershipStore extends ObservableInstance<unknown> {
    * - メールアドレスの一意性: Firebase Auth のメール認証を前提としているため、同じメール
    *   アドレスで複数のユーザーが作成されることはない
    */
-  getPaymentLinkUrl(): string | null;
+  getMonthlyPaymentLinkUrl(): string | null;
+  getYearlyPaymentLinkUrl(): string | null;
   getCustomerPortalUrl(): string | null;
   destroy(): void;
 }
@@ -66,8 +68,12 @@ const membershipStore = observable({
     return this.premiumEpisodeIds.has(episodeId);
   },
 
-  getPaymentLinkUrl(): string | null {
-    return PAYMENT_LINK_URL || null;
+  getMonthlyPaymentLinkUrl(): string | null {
+    return MONTHLY_PAYMENT_LINK_URL || null;
+  },
+
+  getYearlyPaymentLinkUrl(): string | null {
+    return YEARLY_PAYMENT_LINK_URL || null;
   },
 
   getCustomerPortalUrl(): string | null {
