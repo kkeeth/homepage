@@ -148,13 +148,16 @@ export const stripeWebhook = onRequest(
           await db
             .collection('users')
             .doc(uid)
-            .update({
-              plan,
-              subscriptionStatus: subscription.status,
-              currentPeriodEnd: new Date(
-                subscription.current_period_end * 1000,
-              ).toISOString(),
-            });
+            .set(
+              {
+                plan,
+                subscriptionStatus: subscription.status,
+                currentPeriodEnd: new Date(
+                  subscription.current_period_end * 1000,
+                ).toISOString(),
+              },
+              { merge: true },
+            );
         } else {
           console.warn(`Customer ${subscription.customer} is deleted; skipping subscription update.`);
           res.status(200).json({ received: true, skipped: true });
@@ -177,12 +180,15 @@ export const stripeWebhook = onRequest(
             return;
           }
           const uid = customer.metadata.firebaseUID;
-          await db.collection('users').doc(uid).update({
-            plan: 'free',
-            subscriptionStatus: 'canceled',
-            subscriptionId: null,
-            currentPeriodEnd: null,
-          });
+          await db.collection('users').doc(uid).set(
+            {
+              plan: 'free',
+              subscriptionStatus: 'canceled',
+              subscriptionId: null,
+              currentPeriodEnd: null,
+            },
+            { merge: true },
+          );
         } else {
           console.warn(`Customer ${subscription.customer} is deleted; skipping subscription deletion.`);
           res.status(200).json({ received: true, skipped: true });
@@ -209,9 +215,12 @@ export const stripeWebhook = onRequest(
               return;
             }
             const uid = customer.metadata.firebaseUID;
-            await db.collection('users').doc(uid).update({
-              subscriptionStatus: 'past_due',
-            });
+            await db.collection('users').doc(uid).set(
+              {
+                subscriptionStatus: 'past_due',
+              },
+              { merge: true },
+            );
           } else {
             console.warn(`Customer ${subscription.customer} is deleted; skipping payment failure update.`);
             res.status(200).json({ received: true, skipped: true });

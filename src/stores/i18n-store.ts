@@ -15,8 +15,13 @@ interface I18nStore extends ObservableInstance<unknown> {
   getAvailableLocales(): string[];
 }
 
+function getSavedLocale(): Locale {
+  const saved = localStorage.getItem(STORAGE_KEY);
+  return saved && saved in translations ? (saved as Locale) : 'ja';
+}
+
 const i18nStore = observable({
-  currentLocale: (localStorage.getItem(STORAGE_KEY) || 'ja') as Locale,
+  currentLocale: getSavedLocale(),
 
   t(this: I18nStore, key: string): string {
     const keys = key.split('.');

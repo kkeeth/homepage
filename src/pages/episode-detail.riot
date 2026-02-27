@@ -141,9 +141,10 @@
         }
       },
       onBeforeUnmount() {
-        // Clean up store subscriptions
-        membershipStore.off('premium-episodes-changed', this._updateAccessControl);
-        authStore.off('membership-changed', this._updateAccessControl);
+        if (this._updateAccessControl) {
+          membershipStore.off('premium-episodes-changed', this._updateAccessControl);
+          authStore.off('membership-changed', this._updateAccessControl);
+        }
       },
       getEpisodeId() {
         const path = window.location.pathname;
