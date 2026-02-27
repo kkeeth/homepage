@@ -58,11 +58,11 @@
         <div class="mode-toggle">
           <span if={state.mode === 'register'} class="toggle-text">
             {t("auth.hasAccount")}
-            <a class="toggle-link" onclick={switchToLogin}>{t("auth.loginHere")}</a>
+            <button type="button" class="toggle-link" onclick={switchToLogin}>{t("auth.loginHere")}</button>
           </span>
           <span if={state.mode === 'login'} class="toggle-text">
             {t("auth.noAccount")}
-            <a class="toggle-link" onclick={switchToRegister}>{t("auth.registerHere")}</a>
+            <button type="button" class="toggle-link" onclick={switchToRegister}>{t("auth.registerHere")}</button>
           </span>
         </div>
       </div>
@@ -339,6 +339,10 @@
     }
 
     .toggle-link {
+      background: none;
+      border: none;
+      padding: 0;
+      font-size: inherit;
       color: var(--rain-blue);
       text-decoration: none;
       font-weight: 600;
