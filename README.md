@@ -23,7 +23,8 @@ VITE_FIREBASE_MESSAGING_SENDER_ID=your-firebase-sender-id
 VITE_FIREBASE_APP_ID=your-firebase-app-id
 
 # Stripe Payment Links
-VITE_STRIPE_PAYMENT_LINK_URL=https://checkout.stripe.com/pay/your-payment-link-id
+VITE_STRIPE_PAYMENT_LINK_MONTHLY_URL=https://checkout.stripe.com/pay/your-monthly-payment-link-id
+VITE_STRIPE_PAYMENT_LINK_YEARLY_URL=https://checkout.stripe.com/pay/your-yearly-payment-link-id
 VITE_STRIPE_CUSTOMER_PORTAL_URL=https://billing.stripe.com/p/login/your-portal-link-id
 ```
 
