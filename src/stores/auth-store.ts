@@ -13,11 +13,6 @@ import { doc, onSnapshot, type Unsubscribe } from 'firebase/firestore';
 import { auth, db } from '@/services/firebase';
 import { getGravatarUrl } from '@/utils/gravatar';
 
-console.log(
-  import.meta.env.VITE_STRIPE_PAYMENT_LINK_MONTHLY_URL,
-  import.meta.env.VITE_STRIPE_PAYMENT_LINK_YEARLY_URL,
-);
-
 const EMAIL_STORAGE_KEY = 'emailForSignIn';
 
 interface AuthUser {
