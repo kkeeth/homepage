@@ -300,6 +300,7 @@
     "registerHere": "Create an account",
     "logout": "Logout",
     "account": "Account",
+    "accountMenu": "Account menu",
     "noName": "No name set",
     "emailPromptTitle": "Confirm Your Email",
     "emailPromptMessage": "Please enter your email address to complete the login process.",

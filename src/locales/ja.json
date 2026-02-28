@@ -301,6 +301,7 @@
     "registerHere": "新規登録はこちら",
     "logout": "ログアウト",
     "account": "アカウント",
+    "accountMenu": "アカウントメニュー",
     "noName": "名前未設定",
     "emailPromptTitle": "メールアドレスの確認",
     "emailPromptMessage": "ログインを完了するために、メールアドレスを入力してください。",

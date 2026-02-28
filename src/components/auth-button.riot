@@ -5,7 +5,7 @@
     </a>
 
     <sl-dropdown if={state.user} placement="bottom-end" hoist>
-      <button slot="trigger" class="user-trigger">
+      <button slot="trigger" class="user-trigger" aria-label={t("auth.accountMenu")}>
         <sl-avatar
           image={state.avatarUrl}
           label={state.user.displayName || state.user.email}
