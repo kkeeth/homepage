@@ -9,6 +9,33 @@ const stripeSecret = defineSecret('STRIPE_SECRET_KEY');
 const stripeWebhookSecret = defineSecret('STRIPE_WEBHOOK_SECRET');
 
 /**
+ * 削除済み Stripe Customer の premium アクセスを剥奪する。
+ * metadata が参照不能なため stripeCustomerId でFirestore を逆引きする。
+ */
+async function revokeAccessByCustomerId(customerId: string): Promise<void> {
+  const snapshot = await db
+    .collection('users')
+    .where('stripeCustomerId', '==', customerId)
+    .get();
+  const batch = db.batch();
+  snapshot.docs.forEach((doc) => {
+    batch.set(
+      doc.ref,
+      {
+        plan: 'free',
+        subscriptionStatus: 'canceled',
+        subscriptionId: null,
+        currentPeriodEnd: null,
+      },
+      { merge: true },
+    );
+  });
+  if (!snapshot.empty) {
+    await batch.commit();
+  }
+}
+
+/**
  * HTTP: Stripe Webhook 受信
  * Payment Links 経由の決済完了やサブスク変更を Firestore に反映する
  * 
@@ -159,9 +186,8 @@ export const stripeWebhook = onRequest(
               { merge: true },
             );
         } else {
-          console.warn(`Customer ${subscription.customer} is deleted; skipping subscription update.`);
-          res.status(200).json({ received: true, skipped: true });
-          return;
+          console.warn(`Customer ${subscription.customer} is deleted; revoking premium access.`);
+          await revokeAccessByCustomerId(subscription.customer as string);
         }
         break;
       }
@@ -190,9 +216,8 @@ export const stripeWebhook = onRequest(
             { merge: true },
           );
         } else {
-          console.warn(`Customer ${subscription.customer} is deleted; skipping subscription deletion.`);
-          res.status(200).json({ received: true, skipped: true });
-          return;
+          console.warn(`Customer ${subscription.customer} is deleted; revoking premium access.`);
+          await revokeAccessByCustomerId(subscription.customer as string);
         }
         break;
       }
@@ -222,9 +247,8 @@ export const stripeWebhook = onRequest(
               { merge: true },
             );
           } else {
-            console.warn(`Customer ${subscription.customer} is deleted; skipping payment failure update.`);
-            res.status(200).json({ received: true, skipped: true });
-            return;
+            console.warn(`Customer ${subscription.customer} is deleted; revoking premium access.`);
+            await revokeAccessByCustomerId(subscription.customer as string);
           }
         }
         break;
