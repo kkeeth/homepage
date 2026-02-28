@@ -96,7 +96,13 @@ export const stripeWebhook = onRequest(
         try {
           const userRecord = await admin.auth().getUserByEmail(email);
           uid = userRecord.uid;
-        } catch {
+        } catch (err: any) {
+          if (err.code !== 'auth/user-not-found') {
+            // ネットワーク障害・レートリミット等の一時的エラーは 500 を返し Stripe にリトライさせる
+            console.error(`getUserByEmail failed for ${email}:`, err.code, err.message);
+            res.status(500).json({ received: false, error: 'Failed to look up user' });
+            return;
+          }
           // 【設計上の意図】emailVerified: false のまま premium を付与する
           //
           // このフローでは Stripe がチェックアウト時にメールアドレスの実在を担保している。
