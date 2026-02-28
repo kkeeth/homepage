@@ -17,6 +17,9 @@ jobs:
       - run: pnpm i && pnpm build
         env:
           VITE_GAS_URL: ${{ secrets.VITE_GAS_URL }}
+          VITE_STRIPE_PAYMENT_LINK_MONTHLY_URL: ${{ secrets.VITE_STRIPE_PAYMENT_LINK_MONTHLY_URL }}
+          VITE_STRIPE_PAYMENT_LINK_YEARLY_URL: ${{ secrets.VITE_STRIPE_PAYMENT_LINK_YEARLY_URL }}
+          VITE_STRIPE_CUSTOMER_PORTAL_URL: ${{ secrets.VITE_STRIPE_CUSTOMER_PORTAL_URL }}
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
