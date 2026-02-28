@@ -2,7 +2,7 @@ import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 
-const requiredEnvVars = {
+const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
   authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
   projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
@@ -11,15 +11,21 @@ const requiredEnvVars = {
   appId: import.meta.env.VITE_FIREBASE_APP_ID,
 };
 
-const missing = Object.entries(requiredEnvVars)
-  .filter(([, value]) => !value)
-  .map(([key]) => `VITE_FIREBASE_${key.replace(/([A-Z])/g, '_$1').toUpperCase()}`);
+/**
+ * Firebase 環境変数を検証する。
+ * モジュール評価時ではなく実行時に呼ぶことで、index.js の try/catch でキャッチ可能にする。
+ */
+export function validateFirebaseConfig() {
+  const missing = Object.entries(firebaseConfig)
+    .filter(([, value]) => !value)
+    .map(([key]) => `VITE_FIREBASE_${key.replace(/([A-Z])/g, '_$1').toUpperCase()}`);
 
-if (missing.length > 0) {
-  throw new Error(`Missing required Firebase environment variables:\n  ${missing.join('\n  ')}`);
+  if (missing.length > 0) {
+    throw new Error(`Missing required Firebase environment variables:\n  ${missing.join('\n  ')}`);
+  }
 }
 
-const app = initializeApp(requiredEnvVars);
+const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 export const db = getFirestore(app);
 export default app;
