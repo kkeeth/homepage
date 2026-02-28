@@ -104,9 +104,8 @@
           if (justLoggedIn) {
             sessionStorage.removeItem('justLoggedIn');
             const name = authStore.user?.displayName
-              || authStore.user?.email?.split('@')[0]
-              || '';
-            this.showWelcomeToast(name);
+              || authStore.user?.email?.split('@')[0];
+            if (name) this.showWelcomeToast(name);
           }
         })
       },
