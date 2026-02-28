@@ -8,7 +8,7 @@ import '@/assets/style.css';
 import App from '@/app.riot';
 import registerGlobalComponents from '@/register-global-components';
 import i18nStore from '@/stores/i18n-store';
-import { validateFirebaseConfig } from '@/services/firebase';
+import { initFirebase } from '@/services/firebase';
 import authStore from '@/stores/auth-store';
 import membershipStore from '@/stores/membership-store';
 import { captureEmailLinkUrl } from '@/utils/email-link';
@@ -22,7 +22,7 @@ captureEmailLinkUrl();
 registerGlobalComponents();
 
 try {
-  validateFirebaseConfig();
+  initFirebase();
   authStore.init();
   membershipStore.init();
 

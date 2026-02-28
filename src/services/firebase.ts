@@ -1,6 +1,6 @@
-import { initializeApp } from 'firebase/app';
-import { getAuth } from 'firebase/auth';
-import { getFirestore } from 'firebase/firestore';
+import { type FirebaseApp, initializeApp } from 'firebase/app';
+import { type Auth, getAuth } from 'firebase/auth';
+import { type Firestore, getFirestore } from 'firebase/firestore';
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
@@ -11,11 +11,16 @@ const firebaseConfig = {
   appId: import.meta.env.VITE_FIREBASE_APP_ID,
 };
 
+let app: FirebaseApp;
+let auth: Auth;
+let db: Firestore;
+
 /**
- * Firebase 環境変数を検証する。
- * モジュール評価時ではなく実行時に呼ぶことで、index.js の try/catch でキャッチ可能にする。
+ * Firebase を初期化する。
+ * 環境変数を検証してから initializeApp を実行するため、
+ * index.js の try/catch でエラーをキャッチできる。
  */
-export function validateFirebaseConfig() {
+export function initFirebase(): void {
   const missing = Object.entries(firebaseConfig)
     .filter(([, value]) => !value)
     .map(([key]) => `VITE_FIREBASE_${key.replace(/([A-Z])/g, '_$1').toUpperCase()}`);
@@ -23,9 +28,10 @@ export function validateFirebaseConfig() {
   if (missing.length > 0) {
     throw new Error(`Missing required Firebase environment variables:\n  ${missing.join('\n  ')}`);
   }
+
+  app = initializeApp(firebaseConfig);
+  auth = getAuth(app);
+  db = getFirestore(app);
 }
 
-const app = initializeApp(firebaseConfig);
-export const auth = getAuth(app);
-export const db = getFirestore(app);
-export default app;
+export { auth, db };
