@@ -47,7 +47,7 @@
               onclick={() => update({ activeTab: 'yearly' })}>{t("membership.yearly")}</button>
           </div>
 
-          <div if={state.activeTab === 'monthly'} class="plan-panel">
+          <div if={state.activeTab === 'monthly' && state.monthlyPaymentLinkUrl} class="plan-panel">
             <p class="plan-price">
               {t("membership.monthlyPrice")}<span class="plan-period">{t("membership.perMonth")}</span>
             </p>
@@ -57,7 +57,7 @@
             </sl-button>
           </div>
 
-          <div if={state.activeTab === 'yearly'} class="plan-panel">
+          <div if={state.activeTab === 'yearly' && state.yearlyPaymentLinkUrl} class="plan-panel">
             <p class="plan-price">
               {t("membership.yearlyPrice")}<span class="plan-period">{t("membership.perYear")}</span>
             </p>
@@ -165,7 +165,7 @@
         monthlyPaymentLinkUrl: null,
         yearlyPaymentLinkUrl: null,
         portalUrl: null,
-        activeTab: 'monthly',
+        activeTab: null,
         editingNickname: false,
         nicknameInput: '',
         savingNickname: false,
@@ -177,17 +177,23 @@
         emailChangeSent: false,
         emailChangeError: null,
       },
+      defaultActiveTab(monthly, yearly) {
+        return monthly ? 'monthly' : yearly ? 'yearly' : null;
+      },
       onBeforeMount() {
         // state の静的定義はモジュール import 時（authStore.init() 前）に評価されるため
         // 初回レンダリング前に store の最新値で上書きする
+        const monthly = membershipStore.getMonthlyPaymentLinkUrl();
+        const yearly = membershipStore.getYearlyPaymentLinkUrl();
         Object.assign(this.state, {
           user: authStore.user,
           avatarUrl: authStore.getAvatarUrl(),
           isPremium: authStore.isPremium,
           membershipLoaded: authStore.membershipLoaded,
-          monthlyPaymentLinkUrl: membershipStore.getMonthlyPaymentLinkUrl(),
-          yearlyPaymentLinkUrl: membershipStore.getYearlyPaymentLinkUrl(),
+          monthlyPaymentLinkUrl: monthly,
+          yearlyPaymentLinkUrl: yearly,
           portalUrl: membershipStore.getCustomerPortalUrl(),
+          activeTab: this.defaultActiveTab(monthly, yearly),
         });
       },
       onMounted() {
@@ -214,11 +220,14 @@
         router.push('/');
       },
       onAuthChanged() {
+        const monthly = membershipStore.getMonthlyPaymentLinkUrl();
+        const yearly = membershipStore.getYearlyPaymentLinkUrl();
         this.update({
           user: authStore.user,
           avatarUrl: authStore.getAvatarUrl(),
-          monthlyPaymentLinkUrl: membershipStore.getMonthlyPaymentLinkUrl(),
-          yearlyPaymentLinkUrl: membershipStore.getYearlyPaymentLinkUrl(),
+          monthlyPaymentLinkUrl: monthly,
+          yearlyPaymentLinkUrl: yearly,
+          activeTab: this.defaultActiveTab(monthly, yearly),
         });
       },
       onMembershipChanged() {
