@@ -13,6 +13,7 @@
     "ts": "tsc",
     "preview": "vite preview",
     "lint": "eslint src/**/*.ts",
+    "lint:fix": "eslint src/**/*.ts --fix",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
