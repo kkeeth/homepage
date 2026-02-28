@@ -69,6 +69,15 @@
         "experience": "配信歴"
       },
       "skills": "スキル・専門分野",
+      "output": {
+        "sectionTitle": "Output",
+        "blog": { "title": "Blog / Newsletter", "description": "技術記事やポッドキャストの裏話、日々の学びを発信" },
+        "note": { "title": "note", "description": "エッセイ・コラム" },
+        "github": { "title": "GitHub", "description": "OSS・個人プロジェクト" },
+        "slides": { "title": "Slides", "description": "登壇・発表資料" },
+        "zenn": { "title": "Zenn", "description": "技術記事" },
+        "generativeArt": { "title": "Generative Art", "description": "クリエイティブコーディング作品" }
+      },
       "follow": "フォローお願いします",
       "journey": {
         "title": "これまでの歩み",

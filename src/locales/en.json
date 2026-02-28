@@ -68,6 +68,15 @@
         "experience": "Broadcasting"
       },
       "skills": "Skills & Expertise",
+      "output": {
+        "sectionTitle": "Output",
+        "blog": { "title": "Blog / Newsletter", "description": "Sharing tech articles, podcast behind-the-scenes, and daily learnings" },
+        "note": { "title": "note", "description": "Essays & Columns" },
+        "github": { "title": "GitHub", "description": "OSS & Personal Projects" },
+        "slides": { "title": "Slides", "description": "Presentation & Talk Slides" },
+        "zenn": { "title": "Zenn", "description": "Technical Articles" },
+        "generativeArt": { "title": "Generative Art", "description": "Creative Coding Works" }
+      },
       "follow": "Follow Me",
       "journey": {
         "title": "My Journey",

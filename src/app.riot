@@ -145,7 +145,8 @@
       showWelcomeToast(name) {
         const msg = i18nStore.t('auth.welcome').replace('%s', name);
         this.update({ welcomeMsg: msg });
-        this.$('.welcome-toast').toast();
+        const el = this.$('.welcome-toast');
+        if (el?.toast) el.toast();
       },
       onBeforeUnmount() {
         this.anyRouteStream.end()
