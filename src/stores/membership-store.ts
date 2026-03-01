@@ -58,7 +58,9 @@ const membershipStore = observable({
       (error) => {
         console.error('Failed to subscribe premiumEpisodes:', error);
         // fail-closed: 古いデータで判定しないよう未ロード状態に戻す
+        // _unsub をクリアして init() での再購読を可能にする
         this._loaded = false;
+        this._unsub = null;
         this.premiumEpisodeIds = new Set();
         this.trigger('premium-episodes-changed');
       },
