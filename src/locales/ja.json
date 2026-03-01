@@ -16,8 +16,8 @@
     "home": {
       "story": {
         "title": "なぜ「雨宿り」なのか",
-        "description1": "突然の雨に見舞われた時，軒先で雨宿りをする時間は特別です．急がば回れ，という諺のように，立ち止まる時間が新しい発見をもたらしてくれます．",
-        "description2": "このポッドキャストも同じです．日々の開発作業に追われる中で，ちょっと立ち止まって技術の話や日常の気づきを共有する．そんな温かい場所でありたいと思っています．",
+        "description1": "番組タイトルの「雨宿り」には，こんな意味を込めています．<br><br>Web業界は情報が多すぎる。新しい技術やツールが次々と登場して、<br>キャッチアップするだけで疲れてしまうこともあります．",
+        "description2": "この番組では、そんな情報の雨から少し離れて，<br>技術の「歴史」や「裏側」にある小噺を紹介しています．<br><br>立ち止まって，ゆっくり聞ける場所．<br>それが「雨宿りとWEBの小噺」です。",
         "features": {
           "item1": "Web開発の技術トピック",
           "item2": "日常の気づきと学び",
@@ -71,12 +71,18 @@
       "skills": "スキル・専門分野",
       "output": {
         "sectionTitle": "Output",
-        "blog": { "title": "Blog / Newsletter", "description": "技術記事やポッドキャストの裏話、日々の学びを発信" },
+        "blog": {
+          "title": "Blog / Newsletter",
+          "description": "技術記事やポッドキャストの裏話、日々の学びを発信"
+        },
         "note": { "title": "note", "description": "エッセイ・コラム" },
         "github": { "title": "GitHub", "description": "OSS・個人プロジェクト" },
         "slides": { "title": "Slides", "description": "登壇・発表資料" },
         "zenn": { "title": "Zenn", "description": "技術記事" },
-        "generativeArt": { "title": "Generative Art", "description": "クリエイティブコーディング作品" }
+        "generativeArt": {
+          "title": "Generative Art",
+          "description": "クリエイティブコーディング作品"
+        }
       },
       "follow": "フォローお願いします",
       "journey": {

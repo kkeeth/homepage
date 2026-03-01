@@ -11,8 +11,8 @@
           <h2 class="section-title">{t("pages.home.story.title")}</h2>
         </div>
         <div class="about-right">
-          <p class="about-text">{t("pages.home.story.description1")}</p>
-          <p class="about-text">{t("pages.home.story.description2")}</p>
+          <p class="about-text"><raw html={t("pages.home.story.description1")} /></p>
+          <p class="about-text"><raw html={t("pages.home.story.description2")} /></p>
 
           <div class="platform-links">
             <a
@@ -109,6 +109,10 @@
       grid-template-columns: 1fr 1.2fr;
       gap: 4rem;
       align-items: start;
+    }
+
+    .about-right {
+      font-style: italic;
     }
 
     .about-text {
