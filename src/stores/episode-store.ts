@@ -1,5 +1,6 @@
 import observable, { type ObservableInstance } from '@riotjs/observable';
 import { fetchRSSFeed } from '@/utils/rss';
+import { RSS_FEED_URL } from '@/constants/links';
 
 interface RSSEpisode {
   title: string;
@@ -59,10 +60,8 @@ const episodeStore = observable({
     if (this.isInitialized) return;
 
     try {
-      const RSS_URL = import.meta.env.VITE_RSS_URL;
-
-      if (!RSS_URL) {
-        console.warn('VITE_RSS_URL is not set, using fallback data');
+      if (!RSS_FEED_URL) {
+        console.warn('RSS_FEED_URL is not set, using fallback data');
         // Fallback data for testing: 30 items to verify pagination
         const fallback: Episode[] = Array.from({ length: 30 }, (_, i) => ({
           id: i + 1,
@@ -83,25 +82,28 @@ const episodeStore = observable({
         })).reverse();
         this.allEpisodes = fallback;
       } else {
-        const episodes = await fetchRSSFeed(RSS_URL) as RSSEpisode[];
+        const episodes = (await fetchRSSFeed(RSS_FEED_URL)) as RSSEpisode[];
 
-        this.allEpisodes = episodes.map((episode: RSSEpisode, index: number) => ({
-          id: index + 1,
-          title: episode.title,
-          description: episode.description,
-          pubDate: episode.pubDate,
-          link: episode.link,
-          imageUrl: episode.imageUrl || '/placeholder.svg?height=200&width=400',
-          imageClass:
-            index === 0
-              ? 'blue-gradient'
-              : index === 1
-                ? 'dark-theme'
-                : 'warm-gradient',
-          duration: episode.duration,
-          season: episode.season,
-          episodeNum: episode.episodeNum,
-        }));
+        this.allEpisodes = episodes.map(
+          (episode: RSSEpisode, index: number) => ({
+            id: index + 1,
+            title: episode.title,
+            description: episode.description,
+            pubDate: episode.pubDate,
+            link: episode.link,
+            imageUrl:
+              episode.imageUrl || '/placeholder.svg?height=200&width=400',
+            imageClass:
+              index === 0
+                ? 'blue-gradient'
+                : index === 1
+                  ? 'dark-theme'
+                  : 'warm-gradient',
+            duration: episode.duration,
+            season: episode.season,
+            episodeNum: episode.episodeNum,
+          }),
+        );
       }
 
       // 初期表示はページ1でカット（pageSizeは後から画面側で変更可能）
@@ -115,7 +117,11 @@ const episodeStore = observable({
     }
   },
 
-  setPage(this: EpisodeStore, page: number, pageSize: number = this.pageSize): void {
+  setPage(
+    this: EpisodeStore,
+    page: number,
+    pageSize: number = this.pageSize,
+  ): void {
     if (!this.isInitialized) return;
 
     const safePageSize = Math.max(1, Number(pageSize) || DEFAULT_PAGE_SIZE);

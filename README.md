@@ -1,4 +1,5 @@
 # riotjs-with-vite
+
 via https://dev.to/steeve/riotjs-vitejs-tutorial-fpn
 
 ## Local Development Setup
@@ -11,7 +12,6 @@ Create a `.env.local` file in the root directory with the following variables:
 
 ```
 # Feed and API URLs
-VITE_RSS_URL=https://your-rss-feed-url.example.com/feed
 VITE_GAS_URL=https://your-backend-api-url.example.com
 
 # Firebase

@@ -83,7 +83,7 @@
 
   <script>
     import { fetchRSSFeed } from '@/utils/rss';
-    import { PODCAST_PLATFORMS } from '@/constants/links';
+    import { PODCAST_PLATFORMS, RSS_FEED_URL } from '@/constants/links';
     import i18nStore from '@/stores/i18n-store';
     import authStore from '@/stores/auth-store';
     import membershipStore from '@/stores/membership-store';
@@ -150,7 +150,7 @@
       },
       async loadEpisode(episodeId) {
         try {
-          const RSS_URL = import.meta.env.VITE_RSS_URL;
+          const RSS_URL = RSS_FEED_URL;
           const episodes = await fetchRSSFeed(RSS_URL);
 
           const foundEpisode = episodes.find(ep => {

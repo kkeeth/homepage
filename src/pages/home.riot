@@ -64,7 +64,7 @@
   </div>
 
   <script>
-    import { fetchRSSFeed, getLatestEpisodes } from '@/utils/rss';
+    import { fetchRSSFeed, getLatestEpisodes, RSS_FEED_URL } from '@/utils/rss';
     import { PODCAST_PLATFORMS, OTHER_PROGRAMS } from '@/constants/links';
     import i18nStore from '@/stores/i18n-store';
 
@@ -72,7 +72,7 @@
       t: i18nStore.t.bind(i18nStore),
       async onBeforeMount() {
         try {
-          const RSS_URL = import.meta.env.VITE_RSS_URL;
+          const RSS_URL = RSS_FEED_URL;
           const episodes = await fetchRSSFeed(RSS_URL);
           this.update({
             latestEpisodes: getLatestEpisodes(episodes, 3)
