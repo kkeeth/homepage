@@ -68,6 +68,15 @@
         "experience": "Broadcasting"
       },
       "skills": "Skills & Expertise",
+      "output": {
+        "sectionTitle": "Output",
+        "blog": { "title": "Blog / Newsletter", "description": "Sharing tech articles, podcast behind-the-scenes, and daily learnings" },
+        "note": { "title": "note", "description": "Essays & Columns" },
+        "github": { "title": "GitHub", "description": "OSS & Personal Projects" },
+        "slides": { "title": "Slides", "description": "Presentation & Talk Slides" },
+        "zenn": { "title": "Zenn", "description": "Technical Articles" },
+        "generativeArt": { "title": "Generative Art", "description": "Creative Coding Works" }
+      },
       "follow": "Follow Me",
       "journey": {
         "title": "My Journey",
@@ -278,6 +287,91 @@
     "backToList": "Back to Episodes",
     "notFound": "Episode not found"
   },
+  "auth": {
+    "title": "Login",
+    "subtitle": "Receive a login link via email",
+    "registerTitle": "Create Account",
+    "registerSubtitle": "Sign up easily with your email address",
+    "email": "Email",
+    "emailPlaceholder": "Enter your email",
+    "sendLink": "Send Login Link",
+    "registerSendLink": "Send Registration Link",
+    "linkSentTitle": "Email Sent",
+    "linkSentDesc": "Click the link in your email to log in.",
+    "registerLinkSentTitle": "Confirmation Email Sent",
+    "registerLinkSentDesc": "Click the link in your email to complete registration.",
+    "backToLogin": "Back to Login",
+    "backToRegister": "Back to Registration",
+    "verifying": "Verifying...",
+    "hasAccount": "Already have an account?",
+    "loginHere": "Log in",
+    "noAccount": "New here?",
+    "registerHere": "Create an account",
+    "logout": "Logout",
+    "account": "Account",
+    "accountMenu": "Account menu",
+    "noName": "No name set",
+    "emailPromptTitle": "Confirm Your Email",
+    "emailPromptMessage": "Please enter your email address to complete the login process.",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "welcome": "Welcome back, %s!",
+    "errors": {
+      "auth/invalid-email": "Invalid email address",
+      "auth/user-not-found": "Account not found",
+      "auth/too-many-requests": "Too many login attempts. Please wait and try again",
+      "auth/invalid-action-code": "The login link is invalid. It may have already been used or the URL is incorrect. Please request a new link",
+      "auth/expired-action-code": "The login link has expired. Please request a new link",
+      "auth/network-request-failed": "A network error occurred. Please check your connection and try again",
+      "linkExpired": "The login link is invalid or expired. Please request a new link",
+      "emailRequired": "Email address is required to continue login",
+      "default": "An error occurred. Please try again"
+    }
+  },
+  "account": {
+    "profile": {
+      "title": "Profile",
+      "nickname": "Nickname",
+      "loginEmail": "Login Email Address",
+      "emailNote": "A confirmation email is required to change",
+      "changeEmail": "Change email address",
+      "newEmailPlaceholder": "New email address",
+      "sendVerification": "Send confirmation email",
+      "emailChangeSent": "Confirmation email sent. Click the link in your email to complete the change.",
+      "save": "Save",
+      "cancel": "Cancel",
+      "nicknameSaved": "Nickname updated",
+      "nicknameError": "Failed to update. Please try again",
+      "emailChangeError": {
+        "requiresRecentLogin": "For security, please log in again.",
+        "default": "An error occurred. Please try again"
+      }
+    }
+  },
+  "membership": {
+    "planTitle": "Membership Plan",
+    "free": "Free",
+    "premium": "Premium",
+    "freeDesc": "You are on the free plan",
+    "premiumDesc": "You are on the premium plan",
+    "monthly": "Monthly",
+    "yearly": "Yearly",
+    "monthlyPrice": "¥500",
+    "yearlyPrice": "¥5,000",
+    "perMonth": "/ month",
+    "perYear": "/ year",
+    "yearlySavings": "Save 2 months!",
+    "upgrade": "Upgrade to Premium",
+    "upgradeMonthly": "Start Monthly Plan",
+    "upgradeYearly": "Start Yearly Plan",
+    "upgradeUnavailable": "Upgrade is temporarily unavailable. Please try again later.",
+    "manage": "Manage Subscription",
+    "premiumBadge": "PREMIUM",
+    "gateTitle": "Premium Content",
+    "gateDescription": "This episode is for premium members only. Upgrade to enjoy all content.",
+    "becomeMember": "Become a Member",
+    "gateLogin": "Login here"
+  },
   "footer": {
     "logoAlt": "Amayadori to WEB no Kobanashi Logo",
     "title": "Amayadori to WEB no Kobanashi",
@@ -291,6 +385,11 @@
     },
     "listen": "Listen On",
     "connect": "Social",
-    "rights": "All rights reserved."
+    "rights": "All rights reserved.",
+    "legal": {
+    "terms": "Terms of Service",
+    "privacy": "Privacy Policy",
+    "tokushoho": "Commercial Transaction Act Notice"
+    }
   }
 }

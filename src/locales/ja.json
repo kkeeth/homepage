@@ -69,6 +69,15 @@
         "experience": "配信歴"
       },
       "skills": "スキル・専門分野",
+      "output": {
+        "sectionTitle": "Output",
+        "blog": { "title": "Blog / Newsletter", "description": "技術記事やポッドキャストの裏話、日々の学びを発信" },
+        "note": { "title": "note", "description": "エッセイ・コラム" },
+        "github": { "title": "GitHub", "description": "OSS・個人プロジェクト" },
+        "slides": { "title": "Slides", "description": "登壇・発表資料" },
+        "zenn": { "title": "Zenn", "description": "技術記事" },
+        "generativeArt": { "title": "Generative Art", "description": "クリエイティブコーディング作品" }
+      },
       "follow": "フォローお願いします",
       "journey": {
         "title": "これまでの歩み",
@@ -279,6 +288,91 @@
     "backToList": "エピソード一覧に戻る",
     "notFound": "エピソードが見つかりませんでした"
   },
+  "auth": {
+    "title": "ログイン",
+    "subtitle": "メールアドレスでログインリンクを受け取れます",
+    "registerTitle": "新規会員登録",
+    "registerSubtitle": "メールアドレスで簡単に登録できます",
+    "email": "メールアドレス",
+    "emailPlaceholder": "メールアドレスを入力",
+    "sendLink": "ログインリンクを送信",
+    "registerSendLink": "登録リンクを送信",
+    "linkSentTitle": "メールを送信しました",
+    "linkSentDesc": "メールに届いたリンクをクリックしてログインしてください。",
+    "registerLinkSentTitle": "確認メールを送信しました",
+    "registerLinkSentDesc": "メールに届いたリンクをクリックして登録を完了してください。",
+    "backToLogin": "ログイン画面に戻る",
+    "backToRegister": "登録画面に戻る",
+    "verifying": "認証中...",
+    "hasAccount": "アカウントをお持ちの方",
+    "loginHere": "ログインはこちら",
+    "noAccount": "初めての方",
+    "registerHere": "新規登録はこちら",
+    "logout": "ログアウト",
+    "account": "アカウント",
+    "accountMenu": "アカウントメニュー",
+    "noName": "名前未設定",
+    "emailPromptTitle": "メールアドレスの確認",
+    "emailPromptMessage": "ログインを完了するために、メールアドレスを入力してください。",
+    "cancel": "キャンセル",
+    "confirm": "確認",
+    "welcome": "おかえりなさい、%sさん！",
+    "errors": {
+      "auth/invalid-email": "メールアドレスの形式が正しくありません",
+      "auth/user-not-found": "アカウントが見つかりません",
+      "auth/too-many-requests": "ログイン試行回数が多すぎます。しばらくお待ちください",
+      "auth/invalid-action-code": "ログインリンクが無効です。すでに使用済みか、URLが正しくない可能性があります。再度リンクを送信してください",
+      "auth/expired-action-code": "ログインリンクの有効期限が切れています。再度リンクを送信してください",
+      "auth/network-request-failed": "ネットワークエラーが発生しました。接続を確認してから再度お試しください",
+      "linkExpired": "ログインリンクが無効または期限切れです。再度リンクを送信してください",
+      "emailRequired": "ログインを続けるにはメールアドレスが必要です",
+      "default": "エラーが発生しました。もう一度お試しください"
+    }
+  },
+  "account": {
+    "profile": {
+      "title": "プロフィール",
+      "nickname": "ニックネーム",
+      "loginEmail": "ログインメールアドレス",
+      "emailNote": "変更には確認メールが必要です",
+      "changeEmail": "メールアドレスを変更する",
+      "newEmailPlaceholder": "新しいメールアドレス",
+      "sendVerification": "確認メールを送信",
+      "emailChangeSent": "確認メールを送信しました。メールのリンクをクリックして変更を完了してください。",
+      "save": "保存",
+      "cancel": "キャンセル",
+      "nicknameSaved": "ニックネームを更新しました",
+      "nicknameError": "更新に失敗しました。再度お試しください",
+      "emailChangeError": {
+        "requiresRecentLogin": "セキュリティのため、再ログインが必要です。",
+        "default": "エラーが発生しました。再度お試しください"
+      }
+    }
+  },
+  "membership": {
+    "planTitle": "メンバーシッププラン",
+    "free": "Free",
+    "premium": "Premium",
+    "freeDesc": "無料プランをご利用中です",
+    "premiumDesc": "プレミアムプランをご利用中です",
+    "monthly": "月額プラン",
+    "yearly": "年額プラン",
+    "monthlyPrice": "¥500",
+    "yearlyPrice": "¥5,000",
+    "perMonth": "/ 月",
+    "perYear": "/ 年",
+    "yearlySavings": "2ヶ月分お得！",
+    "upgrade": "プレミアムにアップグレード",
+    "upgradeMonthly": "月額プランで始める",
+    "upgradeYearly": "年額プランで始める",
+    "upgradeUnavailable": "アップグレードは一時的にご利用いただけません。しばらくしてから再度お試しください。",
+    "manage": "サブスクリプション管理",
+    "premiumBadge": "PREMIUM",
+    "gateTitle": "プレミアム限定コンテンツ",
+    "gateDescription": "このエピソードはプレミアム会員限定です。アップグレードしてすべてのコンテンツをお楽しみください。",
+    "becomeMember": "メンバーになる",
+    "gateLogin": "ログインはこちら"
+  },
   "footer": {
     "logoAlt": "雨宿りとWEBの小噺のロゴ",
     "title": "雨宿りとWEBの小噺",
@@ -292,6 +386,11 @@
     },
     "listen": "配信プラットフォーム",
     "connect": "SNS",
-    "rights": "All rights reserved."
+    "rights": "All rights reserved.",
+    "legal": {
+      "terms": "利用規約",
+      "privacy": "プライバシーポリシー",
+      "tokushoho": "特定商取引法に基づく表記"
+    }
   }
 }

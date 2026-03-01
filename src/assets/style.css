@@ -74,8 +74,6 @@
   --image-bg: var(--cream);
   --yellow-400: var(--warm-amber);
   --yellow-500: var(--warm-amber);
-  --pink-400: var(--cozy-orange);
-  --pink-500: var(--cozy-orange);
   --coral-400: var(--umbrella-blue);
   --blue-400: var(--rain-blue);
   --blue-500: var(--rain-blue);
@@ -200,39 +198,34 @@ sl-button::part(base) {
 
 sl-button[variant='primary']::part(base) {
   background: var(--warm-amber);
-  border: 2px solid var(--white-20);
+  border: none;
   color: white;
-  box-shadow: 0 4px 15px rgba(231, 76, 60, 0.2);
-}
-
-sl-button[variant='primary']:hover::part(base) {
-  background: var(--cozy-orange);
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(231, 76, 60, 0.3);
 }
 
 sl-button[variant='neutral']::part(base) {
   background: white;
-  border: 2px solid var(--warm-amber);
+  border-color: var(--warm-amber);
   color: var(--warm-amber);
   box-shadow: 0 4px 15px rgba(231, 76, 60, 0.1);
 }
 
 sl-button[variant='neutral']:hover::part(base) {
+  background: var(--warm-amber);
   color: white;
-  background-color: var(--cozy-orange);
-  transform: translateY(-2px);
+  transform: translateY(-4px);
   box-shadow: 0 6px 20px rgba(231, 76, 60, 0.2);
 }
 
 sl-button[disabled]::part(base) {
   background: transparent;
-  border: none;
   color: var(--sl-color-neutral-400);
-  cursor: default;
+  border: 1px solid var(--light-gray);
+  opacity: 0.6;
+  box-shadow: none;
+  cursor: not-allowed;
 }
 
-sl-button[disabled]:hover::part(base) {
-  background: transparent;
-  color: var(--sl-color-neutral-400);
+/* Form control styles for login and registration pages */
+sl-input::part(form-control-label)::after {
+  color: #ff4d4f;
 }

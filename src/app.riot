@@ -1,4 +1,9 @@
 <app>
+  <sl-alert class="welcome-toast" variant="success" closable duration="4000">
+    <sl-icon slot="icon" name="person-check-fill"></sl-icon>
+    {state.welcomeMsg}
+  </sl-alert>
+
   <div class={'container page-' + (state.activePage || 'home')}>
     <router>
       <my-header>
@@ -55,7 +60,13 @@
     import Profile from '@/pages/profile.riot'
     import Contact from '@/pages/contact.riot'
     import EpisodeDetail from '@/pages/episode-detail.riot'
+    import Login from '@/pages/login.riot'
+    import Account from '@/pages/account.riot'
+    import Terms from '@/pages/terms.riot'
+    import Privacy from '@/pages/privacy.riot'
+    import Tokushoho from '@/pages/tokushoho.riot'
     import i18nStore from '@/stores/i18n-store';
+    import authStore from '@/stores/auth-store';
 
     export default {
       components : {
@@ -68,11 +79,17 @@
         Profile,
         Contact,
         EpisodeDetail,
+        Login,
+        Account,
+        Terms,
+        Privacy,
+        Tokushoho,
       },
       state: {
         pages,
         showNotFound: false,
         activePage: null,
+        welcomeMsg: '',
       },
       onBeforeMount() {
         this.anyRouteStream = route('(.*)')
@@ -82,12 +99,35 @@
           await this.onAnyRoute(path)
           // ページ移動時に画面上部へスクロール
           window.scrollTo({ top: 0, behavior: 'instant' })
+          // ログイン直後のウェルカムトースト（router.push 後に発火）
+          const justLoggedIn = sessionStorage.getItem('justLoggedIn');
+          if (justLoggedIn) {
+            sessionStorage.removeItem('justLoggedIn');
+            const name = authStore.user?.displayName
+              || authStore.user?.email?.split('@')[0];
+            if (name) this.showWelcomeToast(name);
+          }
         })
       },
-      onAnyRoute(path) {
+      async onAnyRoute(path) {
         if (!path.pathname) {
           return
         }
+
+        // Route guards: auth が必要なルートは初期化完了を待つ
+        if (path.pathname === '/account' || path.pathname === '/login') {
+          await authStore.ready();
+          const isLoggedIn = authStore.isLoggedIn();
+          if (path.pathname === '/account' && !isLoggedIn) {
+            router.push('/login');
+            return;
+          }
+          if (path.pathname === '/login' && isLoggedIn) {
+            router.push('/');
+            return;
+          }
+        }
+
         const foundPage = pages.find(p => match(path.pathname, toRegexp(p.path)))
         const activePage = foundPage ? foundPage.componentName : null
 
@@ -100,6 +140,12 @@
         i18nStore.on('locale-changed', () => {
           this.update()
         })
+      },
+      showWelcomeToast(name) {
+        const msg = i18nStore.t('auth.welcome').replace('%s', name);
+        this.update({ welcomeMsg: msg });
+        const el = this.$('.welcome-toast');
+        if (el?.toast) el.toast();
       },
       onBeforeUnmount() {
         this.anyRouteStream.end()

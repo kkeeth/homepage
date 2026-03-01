@@ -1,0 +1,94 @@
+<auth-button>
+  <div class="auth-button">
+    <a if={!state.user} href="/login" class="login-link" aria-label={t("auth.loginHere")}>
+      <sl-icon name="person-circle"></sl-icon>
+    </a>
+
+    <sl-dropdown if={state.user} placement="bottom-end" hoist>
+      <button slot="trigger" class="user-trigger" aria-label={t("auth.accountMenu")}>
+        <sl-avatar
+          image={state.avatarUrl}
+          label={state.user.displayName || state.user.email}
+          style="--size: 32px;"
+        ></sl-avatar>
+      </button>
+      <sl-menu>
+        <sl-menu-item onclick={goToAccount}>
+          <sl-icon name="person" slot="prefix"></sl-icon>
+          {t("auth.account")}
+        </sl-menu-item>
+        <sl-divider></sl-divider>
+        <sl-menu-item onclick={handleLogout}>
+          <sl-icon name="box-arrow-right" slot="prefix"></sl-icon>
+          {t("auth.logout")}
+        </sl-menu-item>
+      </sl-menu>
+    </sl-dropdown>
+  </div>
+
+  <script>
+    import authStore from '@/stores/auth-store';
+    import i18nStore from '@/stores/i18n-store';
+    import { router } from '@riotjs/route';
+
+    export default {
+      t: i18nStore.t.bind(i18nStore),
+      state: {
+        user: authStore.user,
+        avatarUrl: authStore.getAvatarUrl(),
+      },
+      onMounted() {
+        this._onAuthChanged = () => {
+          this.update({
+            user: authStore.user,
+            avatarUrl: authStore.getAvatarUrl(),
+          });
+        };
+        authStore.on('auth-changed', this._onAuthChanged);
+      },
+      onBeforeUnmount() {
+        authStore.off('auth-changed', this._onAuthChanged);
+      },
+      goToAccount() {
+        router.push('/account');
+      },
+      async handleLogout() {
+        await authStore.logout();
+        router.push('/');
+      },
+    }
+  </script>
+
+  <style>
+    .auth-button {
+      display: flex;
+      align-items: center;
+    }
+
+    .login-link {
+      display: flex;
+      align-items: center;
+      color: var(--text-color);
+      text-decoration: none;
+      font-size: 1.5rem;
+      transition: color 0.2s ease;
+    }
+
+    .login-link:hover {
+      color: var(--rain-blue);
+    }
+
+    .user-trigger {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      display: flex;
+      align-items: center;
+    }
+
+    sl-icon {
+      margin-right: .5rem;
+    }
+  </style>
+</auth-button>

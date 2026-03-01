@@ -7,21 +7,31 @@
       <div class="episode-header">
         <div class="episode-info">
           <span class="episode-date">{state.episode.pubDate}</span>
-          <h1 class="episode-title">{state.episode.title}</h1>
-          <!-- Embedded Player -->
-          <div class="player-section">
+          <h1 class="episode-title">
+            {state.episode.title}
+            <premium-badge show={state.isPremiumEpisode} />
+          </h1>
+
+          <!-- Premium Gate -->
+          <premium-gate if={state.isPremiumEpisode && !state.canAccess} />
+
+          <!-- Embedded Player (visible for non-premium or premium members) -->
+          <div class="player-section" if={!state.isPremiumEpisode || state.canAccess}>
             <iframe
               src={`${state.episode.link}/embed`}
+              title="Episode player"
               style="width: 100%; height: 200px; border: 0 none;" scrolling="no"
               sandbox="allow-scripts allow-popups allow-popups-to-escape-sandbox"></iframe>
           </div>
 
-          <p class="episode-description"><raw html={ state.episode.fullDescription } /></p>
+          <p class="episode-description" if={!state.isPremiumEpisode || state.canAccess}>
+            <raw html={state.episode.fullDescription} />
+          </p>
         </div>
       </div>
 
-      <!-- Platform Links -->
-      <div class="platforms-section">
+      <!-- Platform Links (only if accessible) -->
+      <div class="platforms-section" if={!state.isPremiumEpisode || state.canAccess}>
         <h3 class="section-label">{t("episode.listenOn")}</h3>
         <div class="platform-icons">
           <a
@@ -38,7 +48,7 @@
       </div>
 
       <!-- Share Buttons -->
-      <div class="share-section">
+      <div class="share-section" if={!state.isPremiumEpisode || state.canAccess}>
         <h3 class="section-label">{t("episode.share")}</h3>
         <div class="share-buttons">
           <button onclick={shareTwitter} class="share-btn share-twitter" title="X (Twitter)">
@@ -73,8 +83,10 @@
 
   <script>
     import { fetchRSSFeed } from '@/utils/rss';
-    import { PODCAST_PLATFORMS } from '@/constants/links';
+    import { PODCAST_PLATFORMS, RSS_FEED_URL } from '@/constants/links';
     import i18nStore from '@/stores/i18n-store';
+    import authStore from '@/stores/auth-store';
+    import membershipStore from '@/stores/membership-store';
 
     export default {
       t: i18nStore.t.bind(i18nStore),
@@ -83,13 +95,41 @@
         episode: null,
         platforms: PODCAST_PLATFORMS,
         copied: false,
+        isPremiumEpisode: false,
+        canAccess: false,
+        episodeId: null,
+        episodeURL: "",
       },
-      async onBeforeMount() {
+      async onMounted() {
         const episodeId = this.getEpisodeId();
-        if (episodeId) {
-          await this.loadEpisode(episodeId);
-        } else {
+        if (!episodeId) {
           this.update({ loading: false });
+          return;
+        }
+
+        await this.loadEpisode(episodeId);
+
+        // loadEpisode 完了後に state.episodeId は正規 ID（canonicalId）に確定済み
+        // この時点でリスナーを登録することで、URL 由来の ID で判定するレースを防ぐ
+        this._updateAccessControl = () => {
+          const { episodeId, episode } = this.state;
+          if (!episodeId || !episode) return;
+
+          const isPremiumCheck = membershipStore.isEpisodePremium(episodeId);
+          const isPremiumEpisode = isPremiumCheck !== false;
+          const canAccess = isPremiumCheck === false || authStore.isPremium;
+
+          if (this.state.isPremiumEpisode !== isPremiumEpisode || this.state.canAccess !== canAccess) {
+            this.update({ isPremiumEpisode, canAccess });
+          }
+        };
+        membershipStore.on('premium-episodes-changed', this._updateAccessControl);
+        authStore.on('membership-changed', this._updateAccessControl);
+      },
+      onBeforeUnmount() {
+        if (this._updateAccessControl) {
+          membershipStore.off('premium-episodes-changed', this._updateAccessControl);
+          authStore.off('membership-changed', this._updateAccessControl);
         }
       },
       getEpisodeId() {
@@ -97,9 +137,21 @@
         const match = path.match(/\/episodes\/(.+)/);
         return match ? decodeURIComponent(match[1]) : null;
       },
+      /**
+       * エピソードリンクから正規の ID を抽出する（最後のパスセグメント）
+       * 例: "https://rss.art19.com/episodes/abc-123" → "abc-123"
+       */
+      extractEpisodeIdFromLink(link) {
+        try {
+          const pathname = new URL(link).pathname;
+          return pathname.split('/').filter(Boolean).pop() || null;
+        } catch {
+          return null;
+        }
+      },
       async loadEpisode(episodeId) {
         try {
-          const RSS_URL = import.meta.env.VITE_RSS_URL;
+          const RSS_URL = RSS_FEED_URL;
           const episodes = await fetchRSSFeed(RSS_URL);
 
           const foundEpisode = episodes.find(ep => {
@@ -109,9 +161,19 @@
           });
 
           if (foundEpisode) {
+            // URL パラメータではなく、エピソードのリンクから正規 ID を抽出して判定に使う
+            this.update({ episodeURL: foundEpisode.link });
+            const canonicalId = this.extractEpisodeIdFromLink(foundEpisode.link) || episodeId;
+            const isPremiumCheck = membershipStore.isEpisodePremium(canonicalId);
+            // null = 判定不能（未ロードまたはエラー）→ premium として扱い fail-closed
+            const isPremiumEpisode = isPremiumCheck !== false;
+            const canAccess = isPremiumCheck === false || authStore.isPremium;
             this.update({
               loading: false,
               episode: foundEpisode,
+              episodeId: canonicalId,
+              isPremiumEpisode,
+              canAccess,
             });
           } else {
             this.update({ loading: false });
@@ -123,15 +185,15 @@
       },
       getShareText() {
         const title = this.state.episode?.title || '';
-        return `${title} #WEB小噺`;
+        return `${title}\n#WEB小噺 \n\n`;
       },
       getShareUrl() {
-        return window.location.href;
+        return this.state.episodeURL;
       },
       shareTwitter() {
         const text = encodeURIComponent(this.getShareText());
         const url = encodeURIComponent(this.getShareUrl());
-        window.open(`https://twitter.com/intent/tweet?text=${text}&url=${url}`, '_blank', 'width=550,height=420');
+        window.open(`https://x.com/intent/tweet?text=${text}&url=${url}`, '_blank', 'width=550,height=420');
       },
       shareFacebook() {
         const url = encodeURIComponent(this.getShareUrl());

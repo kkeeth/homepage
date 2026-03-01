@@ -1,0 +1,17 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // users: 本人のみ読み取り可、書き込みは Cloud Functions のみ
+    match /users/{userId} {
+      allow read: if request.auth != null && request.auth.uid == userId;
+      allow write: if false;
+    }
+
+    // premiumEpisodes: 全員読み取り可、書き込みは Cloud Functions のみ
+    match /premiumEpisodes/{episodeId} {
+      allow read: if true;
+      allow write: if false;
+    }
+  }
+}

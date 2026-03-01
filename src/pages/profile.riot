@@ -34,51 +34,16 @@
     <section class="output-section">
       <div class="output-content">
         <span class="section-label">// OUTPUT</span>
-        <h2 class="section-title">Output</h2>
+        <h2 class="section-title">{t("pages.profile.output.sectionTitle")}</h2>
         <div class="output-grid">
-          <a href="https://kkeeth.substack.com" target="_blank" class="output-card">
-            <sl-icon name="pencil-square"></sl-icon>
+          <a each={output in state.outputs} href={output.url} target="_blank" rel="noopener noreferrer" class="output-card">
+            <sl-icon if={output.icon} name={output.icon}></sl-icon>
+            <span if={output.textIcon} class="text-icon">{output.textIcon}</span>
             <div class="output-card-body">
-              <h3>Blog / Newsletter</h3>
-              <p>技術記事やポッドキャストの裏話、日々の学びを発信</p>
+              <h3>{t(`pages.profile.output.${output.name}.title`)}</h3>
+              <p>{t(`pages.profile.output.${output.name}.description`)}</p>
             </div>
-            <span class="output-card-link">Substack →</span>
-          </a>
-
-          <a href="https://note.com/clown0082" target="_blank" class="output-card">
-            <sl-icon name="journal-text"></sl-icon>
-            <div class="output-card-body">
-              <h3>note</h3>
-              <p>エッセイ・コラム</p>
-            </div>
-            <span class="output-card-link">note →</span>
-          </a>
-
-          <a href="https://github.com/kkeeth" target="_blank" class="output-card">
-            <sl-icon name="github"></sl-icon>
-            <div class="output-card-body">
-              <h3>GitHub</h3>
-              <p>OSS・個人プロジェクト</p>
-            </div>
-            <span class="output-card-link">View →</span>
-          </a>
-
-          <a href="https://speakerdeck.com/kkeeth" target="_blank" class="output-card">
-            <sl-icon name="easel"></sl-icon>
-            <div class="output-card-body">
-              <h3>Slides</h3>
-              <p>登壇・発表資料</p>
-            </div>
-            <span class="output-card-link">View →</span>
-          </a>
-
-          <a href="https://zenn.dev/kkeeth" target="_blank" class="output-card">
-            <span class="zenn-logo">Z</span>
-            <div class="output-card-body">
-              <h3>Zenn</h3>
-              <p>技術記事</p>
-            </div>
-            <span class="output-card-link">View →</span>
+            <span class="output-card-link">{output.linkText} →</span>
           </a>
         </div>
       </div>
@@ -86,7 +51,7 @@
   </div>
 
   <script>
-    import { SOCIAL_LINKS, MY_SKILLS } from '@/constants/links';
+    import { SOCIAL_LINKS, MY_SKILLS, OUTPUT_LINKS } from '@/constants/links';
     import i18nStore from '@/stores/i18n-store';
 
     export default {
@@ -94,6 +59,7 @@
       state: {
         socials: SOCIAL_LINKS,
         skills: MY_SKILLS,
+        outputs: OUTPUT_LINKS,
         journeyItems: []
       },
       onBeforeUpdate(_, state) {
@@ -250,7 +216,7 @@
       color: var(--rain-blue);
     }
 
-    .zenn-logo {
+    .text-icon {
       font-size: 1.5rem;
       font-weight: 800;
       color: var(--rain-blue);

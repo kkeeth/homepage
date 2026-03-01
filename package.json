@@ -4,10 +4,16 @@
   "description": "my home page",
   "main": "index.js",
   "type": "module",
+  "engines": {
+    "node": ">=20.19.0"
+  },
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "ts": "tsc",
     "preview": "vite preview",
+    "lint": "eslint src/**/*.ts",
+    "lint:fix": "eslint src/**/*.ts --fix",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -28,15 +34,21 @@
     "@riotjs/observable": "^4.1.1",
     "@riotjs/route": "^8.0.2",
     "@shoelace-style/shoelace": "^2.20.1",
+    "dompurify": "^3.3.1",
+    "firebase": "^12.9.0",
     "googleapis": "^144.0.0",
     "riot": "^9.1.1"
   },
   "devDependencies": {
+    "@eslint/js": "^10.0.1",
     "@riotjs/compiler": "^9.0.6",
     "@riotjs/hot-reload": "^9.0.1",
     "@riotjs/lazy": "^9.0.0",
+    "eslint": "^10.0.2",
     "rollup": "^4.4.1",
     "rollup-plugin-riot": "^9.0.2",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.56.1",
     "vite": "^5.0.0"
   }
 }
