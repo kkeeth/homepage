@@ -39,4 +39,16 @@ jobs:
           projectId: my-homepage-6641d
       # Functions + Firestore rules のデプロイ
       - run: pnpm -C functions install --frozen-lockfile && pnpm -C functions build
-      - run: npx firebase-tools deploy --only functions,firestore --project my-homepage-6641d
+      - run: npm install -g firebase-tools
+      - name: Debug - show service account & IAM bindings
+        run: |
+          cat "$GOOGLE_APPLICATION_CREDENTIALS" | python3 -c "import sys,json; d=json.load(sys.stdin); print('SA:', d.get('client_email','UNKNOWN')); print('Project:', d.get('project_id','UNKNOWN'))"
+          echo "---"
+          echo "GOOGLE_APPLICATION_CREDENTIALS=$GOOGLE_APPLICATION_CREDENTIALS"
+          echo "GCLOUD_PROJECT=${GCLOUD_PROJECT:-not set}"
+          echo "CLOUDSDK_CORE_PROJECT=${CLOUDSDK_CORE_PROJECT:-not set}"
+          echo "---"
+          gcloud auth list 2>/dev/null || echo "gcloud not available"
+          echo "---"
+          firebase projects:list --json 2>/dev/null | head -20 || echo "firebase projects:list failed"
+      - run: firebase deploy --only functions,firestore --project my-homepage-6641d --debug
