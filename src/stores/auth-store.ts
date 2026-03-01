@@ -133,6 +133,10 @@ const authStore = observable({
       },
       (error) => {
         console.error('Failed to subscribe user doc:', error);
+        // fail-closed: 古いデータで premium 判定しないようリセット
+        this.isPremium = false;
+        this.membershipPlan = 'free';
+        this.subscriptionStatus = null;
         this.membershipLoaded = true;
         this.trigger('membership-changed');
       },
