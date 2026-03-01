@@ -14,6 +14,10 @@ jobs:
       - uses: pnpm/action-setup@v4
         with:
           version: 10
+      # GCP 認証（Hosting / Functions / Firestore rules 共通）
+      - uses: google-github-actions/auth@v2
+        with:
+          credentials_json: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_MY_HOMEPAGE_6641D }}'
       # Hosting: フロントエンドのビルドとデプロイ
       - run: pnpm i && pnpm build
         env:
@@ -34,8 +38,5 @@ jobs:
           channelId: live
           projectId: my-homepage-6641d
       # Functions + Firestore rules のデプロイ
-      - uses: google-github-actions/auth@v2
-        with:
-          credentials_json: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_MY_HOMEPAGE_6641D }}'
       - run: pnpm -C functions install --frozen-lockfile && pnpm -C functions build
       - run: npx firebase-tools deploy --only functions,firestore --project my-homepage-6641d
