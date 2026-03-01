@@ -18,8 +18,8 @@ importers:
         specifier: ^7.0.5
         version: 7.0.5(firebase-admin@13.6.1)
       stripe:
-        specifier: ^14.0.0
-        version: 14.25.0
+        specifier: ~14.0.0
+        version: 14.0.0
     devDependencies:
       typescript:
         specifier: ^5.3.0
@@ -1018,8 +1018,8 @@ packages:
     resolution: {integrity: sha512-Y38VPSHcqkFrCpFnQ9vuSXmquuv5oXOKpGeT6aGrr3o3Gc9AlVa6JBfUSOCnbxGGZF+/0ooI7KrPuUSztUdU5A==}
     engines: {node: '>=8'}
 
-  stripe@14.25.0:
-    resolution: {integrity: sha512-wQS3GNMofCXwH8TSje8E1SE8zr6ODiGtHQgPtO95p9Mb4FhKC9jvXR2NUTpZ9ZINlckJcFidCmaTFV4P6vsb9g==}
+  stripe@14.0.0:
+    resolution: {integrity: sha512-F2bTdawnv2WEPBpB+R6YJ9R//68o7uzcs95A2MJQ7CB48MbqT4DN0TwrDMnWgcoOFT4NYUAScbUiisZ04ybBBQ==}
     engines: {node: '>=12.*'}
 
   strnum@2.1.2:
@@ -2420,7 +2420,7 @@ snapshots:
       ansi-regex: 5.0.1
     optional: true
 
-  stripe@14.25.0:
+  stripe@14.0.0:
     dependencies:
       '@types/node': 25.2.3
       qs: 6.15.0
