@@ -37,7 +37,5 @@ jobs:
       - uses: google-github-actions/auth@v2
         with:
           credentials_json: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_MY_HOMEPAGE_6641D }}'
-      - run: cat "$GOOGLE_APPLICATION_CREDENTIALS" | python3 -c "import sys,json; print('SA:', json.load(sys.stdin).get('client_email','UNKNOWN'))"
-        name: Debug - show service account email
       - run: pnpm -C functions install --frozen-lockfile && pnpm -C functions build
-      - run: npx firebase-tools deploy --only functions,firestore --project my-homepage-6641d --debug 2>&1 | head -100
+      - run: npx firebase-tools deploy --only functions,firestore --project my-homepage-6641d
