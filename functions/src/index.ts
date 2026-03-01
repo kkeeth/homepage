@@ -62,7 +62,9 @@ export const stripeWebhook = onRequest(
     secrets: [stripeSecret, stripeWebhookSecret],
   },
   async (req, res) => {
-    const stripe = new Stripe(stripeSecret.value());
+    const stripe = new Stripe(stripeSecret.value(), {
+      apiVersion: '2023-10-16',
+    });
 
     const sigHeader = req.headers['stripe-signature'];
     if (!sigHeader) {
