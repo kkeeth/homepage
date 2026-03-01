@@ -57,7 +57,9 @@ const membershipStore = observable({
       },
       (error) => {
         console.error('Failed to subscribe premiumEpisodes:', error);
-        // _loaded は false のまま保持 → isEpisodePremium が null を返し fail-closed になる
+        // fail-closed: 古いデータで判定しないよう未ロード状態に戻す
+        this._loaded = false;
+        this.premiumEpisodeIds = new Set();
         this.trigger('premium-episodes-changed');
       },
     );
