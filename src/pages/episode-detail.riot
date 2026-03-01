@@ -98,6 +98,7 @@
         isPremiumEpisode: false,
         canAccess: false,
         episodeId: null,
+        episodeURL: "",
       },
       async onMounted() {
         const episodeId = this.getEpisodeId();
@@ -161,6 +162,7 @@
 
           if (foundEpisode) {
             // URL パラメータではなく、エピソードのリンクから正規 ID を抽出して判定に使う
+            this.update({ episodeURL: foundEpisode.link });
             const canonicalId = this.extractEpisodeIdFromLink(foundEpisode.link) || episodeId;
             const isPremiumCheck = membershipStore.isEpisodePremium(canonicalId);
             // null = 判定不能（未ロードまたはエラー）→ premium として扱い fail-closed
@@ -183,15 +185,15 @@
       },
       getShareText() {
         const title = this.state.episode?.title || '';
-        return `${title} #WEB小噺`;
+        return `${title}\n#WEB小噺 \n\n`;
       },
       getShareUrl() {
-        return window.location.href;
+        return this.state.episodeURL;
       },
       shareTwitter() {
         const text = encodeURIComponent(this.getShareText());
         const url = encodeURIComponent(this.getShareUrl());
-        window.open(`https://twitter.com/intent/tweet?text=${text}&url=${url}`, '_blank', 'width=550,height=420');
+        window.open(`https://x.com/intent/tweet?text=${text}&url=${url}`, '_blank', 'width=550,height=420');
       },
       shareFacebook() {
         const url = encodeURIComponent(this.getShareUrl());
