@@ -103,41 +103,27 @@
         const episodeId = this.getEpisodeId();
         if (!episodeId) {
           this.update({ loading: false });
-        } else {
-          // Cache episodeId to avoid repeated pathname parsing
-          this.update({ episodeId });
-          await this.loadEpisode(episodeId);
-          // Subscribe to store changes to reactively update access control
-          this._updateAccessControl = () => {
-            const { episodeId, episode } = this.state;
-            // Only update if episode has been loaded - access control doesn't apply to non-existent episodes
-            if (!episodeId || !episode) return;
-
-            // NOTE: `isEpisodePremium` may return:
-            //   - true  : episode is known to be premium
-            //   - false : episode is known to be non-premium
-            //   - null  : 判定不能（未ロードまたはエラー）→ premium として扱い fail-closed
-            // We intentionally treat `null` as "premium" and *not accessible* unless the user is premium,
-            // so that any uncertainty about the premium list fails closed rather than open.
-            const isPremiumCheck = membershipStore.isEpisodePremium(episodeId);
-            // `isPremiumEpisode` treats both `true` and `null` as premium (intentional fail-closed behavior).
-            const isPremiumEpisode = isPremiumCheck !== false;
-            // `canAccess` only allows non-premium episodes or premium users; `null` stays locked to non-premium users.
-            const canAccess = isPremiumCheck === false || authStore.isPremium;
-
-            // Only update state if the values have actually changed
-            if (this.state.isPremiumEpisode !== isPremiumEpisode || this.state.canAccess !== canAccess) {
-              this.update({
-                isPremiumEpisode,
-                canAccess,
-              });
-            }
-          };
-          // Recompute access when premium episodes list changes
-          membershipStore.on('premium-episodes-changed', this._updateAccessControl);
-          // Recompute access when user's membership status changes
-          authStore.on('membership-changed', this._updateAccessControl);
+          return;
         }
+
+        await this.loadEpisode(episodeId);
+
+        // loadEpisode 完了後に state.episodeId は正規 ID（canonicalId）に確定済み
+        // この時点でリスナーを登録することで、URL 由来の ID で判定するレースを防ぐ
+        this._updateAccessControl = () => {
+          const { episodeId, episode } = this.state;
+          if (!episodeId || !episode) return;
+
+          const isPremiumCheck = membershipStore.isEpisodePremium(episodeId);
+          const isPremiumEpisode = isPremiumCheck !== false;
+          const canAccess = isPremiumCheck === false || authStore.isPremium;
+
+          if (this.state.isPremiumEpisode !== isPremiumEpisode || this.state.canAccess !== canAccess) {
+            this.update({ isPremiumEpisode, canAccess });
+          }
+        };
+        membershipStore.on('premium-episodes-changed', this._updateAccessControl);
+        authStore.on('membership-changed', this._updateAccessControl);
       },
       onBeforeUnmount() {
         if (this._updateAccessControl) {
