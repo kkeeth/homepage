@@ -1,0 +1,381 @@
+<login>
+  <div class="login-page">
+    <div class="login-container">
+      <!-- 認証中（メールリンクコールバック） -->
+      <div if={state.verifying} class="verifying-section">
+        <sl-spinner style="font-size: 2rem;"></sl-spinner>
+        <p class="verifying-text">{t("auth.verifying")}</p>
+      </div>
+
+      <!-- 送信完了 -->
+      <div if={!state.verifying && state.linkSent} class="link-sent-section">
+        <sl-icon name="envelope-check" style="font-size: 2.5rem; color: var(--rain-blue);"></sl-icon>
+        <h2 class="link-sent-title">
+          {state.mode === 'register' ? t("auth.registerLinkSentTitle") : t("auth.linkSentTitle")}
+        </h2>
+        <p class="link-sent-desc">
+          {state.mode === 'register' ? t("auth.registerLinkSentDesc") : t("auth.linkSentDesc")}
+        </p>
+        <sl-button variant="text" onclick={resetForm}>
+          {state.mode === 'register' ? t("auth.backToRegister") : t("auth.backToLogin")}
+        </sl-button>
+      </div>
+
+      <!-- 通常フォーム -->
+      <div if={!state.verifying && !state.linkSent}>
+        <h1 class="login-title">
+          {state.mode === 'register' ? t("auth.registerTitle") : t("auth.title")}
+        </h1>
+        <p class="login-subtitle">
+          {state.mode === 'register' ? t("auth.registerSubtitle") : t("auth.subtitle")}
+        </p>
+
+        <div if={state.error} class="error-message">
+          <sl-icon name="exclamation-triangle"></sl-icon>
+          {state.error}
+        </div>
+
+        <form onsubmit={handleSendLink}>
+          <sl-input
+            class="email-input"
+            type="email"
+            label={t("auth.email")}
+            placeholder={t("auth.emailPlaceholder")}
+            required
+          ></sl-input>
+          <sl-button
+            type="submit"
+            variant="primary"
+            class="submit-btn"
+            loading={state.submitting || null}
+          >
+            {state.mode === 'register' ? t("auth.registerSendLink") : t("auth.sendLink")}
+          </sl-button>
+        </form>
+
+        <sl-divider></sl-divider>
+
+        <div class="mode-toggle">
+          <span if={state.mode === 'register'} class="toggle-text">
+            {t("auth.hasAccount")}
+            <button type="button" class="toggle-link" onclick={switchToLogin}>{t("auth.loginHere")}</button>
+          </span>
+          <span if={state.mode === 'login'} class="toggle-text">
+            {t("auth.noAccount")}
+            <button type="button" class="toggle-link" onclick={switchToRegister}>{t("auth.registerHere")}</button>
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- メールアドレス入力ダイアログ -->
+    <sl-dialog label={t("auth.emailPromptTitle")} class="email-prompt-dialog">
+      <p>{t("auth.emailPromptMessage")}</p>
+      <form onsubmit={handleEmailDialogSubmit}>
+        <sl-input
+          class="email-dialog-input"
+          type="email"
+          label={t("auth.email")}
+          placeholder={t("auth.emailPlaceholder")}
+          required
+        ></sl-input>
+        <div slot="footer" class="dialog-footer">
+          <sl-button variant="default" onclick={handleEmailDialogCancel}>
+            {t("auth.cancel")}
+          </sl-button>
+          <sl-button type="submit" variant="primary">
+            {t("auth.confirm")}
+          </sl-button>
+        </div>
+      </form>
+    </sl-dialog>
+  </div>
+
+  <script>
+    import authStore from '@/stores/auth-store';
+    import i18nStore from '@/stores/i18n-store';
+    import { router } from '@riotjs/route';
+    import { consumeEmailLinkUrl } from '@/utils/email-link';
+
+    export default {
+      t: i18nStore.t.bind(i18nStore),
+      state: {
+        mode: 'register',
+        error: null,
+        submitting: false,
+        linkSent: false,
+        verifying: false,
+        email: '',
+        pendingEmailLinkUrl: null,
+      },
+      async onMounted() {
+        // メールリンクコールバック判定（index.js でメモリに退避済み）
+        const emailLinkUrl = consumeEmailLinkUrl();
+        if (emailLinkUrl) {
+          this.update({ verifying: true });
+          try {
+            await authStore.completeEmailLinkSignIn(emailLinkUrl);
+            sessionStorage.setItem('justLoggedIn', '1');
+            router.push('/');
+          } catch (err) {
+            // メールアドレスが必要な場合はダイアログを表示
+            if (err.code === 'auth/email-required') {
+              this.update({
+                verifying: false,
+                pendingEmailLinkUrl: emailLinkUrl,
+              });
+              this.showEmailDialog();
+            } else {
+              this.update({
+                verifying: false,
+                error: this.getLinkSignInErrorMessage(err),
+              });
+            }
+          }
+          return;
+        }
+        if (authStore.isLoggedIn()) {
+          router.push('/');
+        }
+      },
+      showEmailDialog() {
+        const dialog = this.$('.email-prompt-dialog');
+        if (!dialog) return;
+        dialog.addEventListener(
+          'sl-after-show',
+          () => this.$('.email-dialog-input')?.focus(),
+          { once: true },
+        );
+        dialog.show();
+      },
+      async handleEmailDialogSubmit(e) {
+        e.preventDefault();
+        // HTML5 required属性による検証が完了しているため、追加のチェックは不要
+        const dialog = this.$('.email-prompt-dialog');
+
+        this.update({ verifying: true });
+        if (dialog) dialog.hide();
+
+        const promptEmail = (this.$('.email-dialog-input').value || '').trim();
+        try {
+          await authStore.completeEmailLinkSignIn(
+            this.state.pendingEmailLinkUrl,
+            promptEmail
+          );
+          sessionStorage.setItem('justLoggedIn', '1');
+          router.push('/');
+        } catch (err) {
+          this.update({
+            verifying: false,
+            error: this.getErrorMessage(err.code),
+          });
+        }
+      },
+      handleEmailDialogCancel() {
+        const dialog = this.$('.email-prompt-dialog');
+        if (dialog) dialog.hide();
+        this.update({
+          error: i18nStore.t('auth.errors.emailRequired'),
+          pendingEmailLinkUrl: null,
+        });
+      },
+      async handleSendLink(e) {
+        e.preventDefault();
+        const email = (this.$('.email-input').value || '').trim();
+        if (!email) {
+          this.update({ error: this.getErrorMessage('auth/invalid-email') });
+          return;
+        }
+        this.update({ error: null, submitting: true });
+        try {
+          await authStore.sendLoginLink(email);
+          this.update({ linkSent: true, submitting: false });
+        } catch (err) {
+          this.update({ error: this.getErrorMessage(err.code), submitting: false });
+        }
+      },
+      resetForm() {
+        this.update({ linkSent: false, error: null, email: '' });
+      },
+      switchToLogin(e) {
+        e.preventDefault();
+        this.update({ mode: 'login', error: null, email: '' });
+      },
+      switchToRegister(e) {
+        e.preventDefault();
+        this.update({ mode: 'register', error: null, email: '' });
+      },
+      getErrorMessage(code) {
+        const key = `auth.errors.${code}`;
+        const msg = i18nStore.t(key);
+        return msg === key ? i18nStore.t('auth.errors.default') : msg;
+      },
+      // メールリンク検証エラー専用：未知のコードは linkExpired にフォールバック
+      // （default より「リンクが無効/期限切れ」のほうがこの文脈では的確なため）
+      getLinkSignInErrorMessage(err) {
+        const key = `auth.errors.${err.code}`;
+        const msg = i18nStore.t(key);
+        return msg !== key ? msg : i18nStore.t('auth.errors.linkExpired');
+      },
+    }
+  </script>
+
+  <style>
+    .login-page {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--warm-white);
+      padding: 2rem;
+    }
+
+    .login-container {
+      max-width: 420px;
+      width: 100%;
+      background: #ffffff;
+      border-radius: 12px;
+      padding: 2.5rem;
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+    }
+
+    .login-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--text-dark);
+      margin: 0 0 0.5rem;
+      text-align: center;
+    }
+
+    .login-subtitle {
+      font-size: 0.875rem;
+      color: var(--text-light);
+      text-align: center;
+      margin: 0 0 1.5rem;
+    }
+
+    .error-message {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1rem;
+      background: #fef2f2;
+      color: #dc2626;
+      border-radius: 8px;
+      font-size: 0.875rem;
+      margin-bottom: 1rem;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .submit-btn {
+      width: 100%;
+      margin-top: 0.5rem;
+    }
+
+    .submit-btn::part(base) {
+      width: 100%;
+      background: var(--rain-blue);
+      border-color: var(--rain-blue);
+    }
+
+    .submit-btn:hover::part(base) {
+      background: var(--deep-rain);
+      border-color: var(--deep-rain);
+    }
+
+    sl-divider {
+      --spacing: 1.5rem;
+    }
+
+    .verifying-section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+      padding: 2rem 0;
+    }
+
+    .verifying-text {
+      font-size: 0.9375rem;
+      color: var(--text-color);
+    }
+
+    .link-sent-section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 0.75rem;
+      padding: 1rem 0;
+    }
+
+    .link-sent-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--text-dark);
+      margin: 0;
+    }
+
+    .link-sent-desc {
+      font-size: 0.9375rem;
+      color: var(--text-color);
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    .mode-toggle {
+      margin-top: 1rem;
+      text-align: center;
+    }
+
+    .toggle-text {
+      font-size: 0.875rem;
+      color: var(--text-light);
+    }
+
+    .toggle-link {
+      background: none;
+      border: none;
+      padding: 0;
+      font-size: inherit;
+      color: var(--rain-blue);
+      text-decoration: none;
+      font-weight: 600;
+      cursor: pointer;
+      margin-left: 0.25rem;
+    }
+
+    .toggle-link:hover {
+      color: var(--deep-rain);
+      text-decoration: underline;
+    }
+
+    .email-prompt-dialog::part(panel) {
+      max-width: 450px;
+    }
+
+    .email-prompt-dialog p {
+      margin: 0 0 1.5rem;
+      color: var(--text-color);
+      line-height: 1.6;
+    }
+
+    .email-prompt-dialog form {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .dialog-footer {
+      display: flex;
+      gap: 0.75rem;
+      justify-content: flex-end;
+      width: 100%;
+    }
+  </style>
+</login>

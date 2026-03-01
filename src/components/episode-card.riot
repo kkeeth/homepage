@@ -6,6 +6,7 @@
       </div>
       <div class="episode-content-col">
         <span class="episode-badge" if={parseSeasonLabel(episode.title)}>{parseSeasonLabel(episode.title)}</span>
+        <premium-badge show={isEpisodePremium(episode)} />
         <h3 class="episode-title">
           <a href={"/episodes/" + getEpisodeId(episode)}>{stripSeasonPrefix(episode.title)}</a>
         </h3>
@@ -28,12 +29,26 @@
   </div>
 
   <script>
-    import { truncateText } from '../utils/truncateText.js'
+    import { truncateText } from '../utils/truncateText'
     import i18nStore from '@/stores/i18n-store';
+    import membershipStore from '@/stores/membership-store';
 
     export default {
       t: i18nStore.t.bind(i18nStore),
       truncateText,
+      onMounted() {
+        this._onPremiumEpisodesChanged = () => {
+          this.update();
+        };
+        membershipStore.on('premium-episodes-changed', this._onPremiumEpisodesChanged);
+      },
+      onBeforeUnmount() {
+        membershipStore.off('premium-episodes-changed', this._onPremiumEpisodesChanged);
+      },
+      isEpisodePremium(episode) {
+        const id = this.getEpisodeId(episode);
+        return membershipStore.isEpisodePremium(id) === true;
+      },
       getEpisodeId(episode) {
         // Extract episode ID from art19 link
         if (episode.link) {
@@ -101,7 +116,7 @@
     .episode-date {
       font-size: 0.8125rem;
       font-weight: 500;
-      color: var(----storm-cloud);
+      color: var(--storm-cloud);
       letter-spacing: 0.03em;
     }
 
@@ -160,7 +175,7 @@
       align-items: center;
       gap: 0.5rem;
       padding: 0.625rem 1.25rem;
-      background: var(--storm-cloud);
+      background: var(--rain-blue);
       color: white;
       border-radius: 50px;
       text-decoration: none;
@@ -172,7 +187,7 @@
     .listen-btn:hover {
       background: var(--deep-rain);
       transform: translateY(-1px);
-      box-shadow: 0 4px 12px rgba(43, 108, 176, 0.2);
+      box-shadow: 0 4px 12px rgba(52, 152, 219, 0.2);
     }
 
     .listen-btn sl-icon {
@@ -187,7 +202,7 @@
 
     .view-all-btn::part(base) {
       border: 2px solid var(--warm-amber);
-      color: var(----storm-cloud);
+      color: var(--storm-cloud);
       border-radius: 50px;
       padding: 0.75rem 2rem;
       font-weight: 600;

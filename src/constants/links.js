@@ -1,3 +1,6 @@
+// RSSフィードのURL
+export const RSS_FEED_URL = 'https://rss.art19.com/kkeethengineers';
+
 // ソーシャルメディアリンク
 export const SOCIAL_LINKS = [
   {
@@ -21,7 +24,7 @@ export const SOCIAL_LINKS = [
   {
     name: 'email',
     icon: 'envelope-fill',
-    url: 'mailto:zensin0082@gmail.com',
+    url: 'mailto:kkeeth.contact@gmail.com',
     label: 'Email',
   },
 ];
@@ -65,6 +68,46 @@ export const MY_SKILLS = [
   'Recruiting Support',
   'Personal Coaching',
   'Programming Education',
+];
+
+// Output セクション用リンク
+export const OUTPUT_LINKS = [
+  {
+    name: 'blog',
+    icon: 'pencil-square',
+    url: 'https://kkeeth.substack.com',
+    linkText: 'Substack',
+  },
+  {
+    name: 'note',
+    icon: 'journal-text',
+    url: 'https://note.com/clown0082',
+    linkText: 'note',
+  },
+  {
+    name: 'github',
+    icon: 'github',
+    url: 'https://github.com/kkeeth',
+    linkText: 'View',
+  },
+  {
+    name: 'slides',
+    icon: 'easel',
+    url: 'https://speakerdeck.com/kkeeth',
+    linkText: 'View',
+  },
+  {
+    name: 'zenn',
+    textIcon: 'Z',
+    url: 'https://zenn.dev/kkeeth',
+    linkText: 'View',
+  },
+  {
+    name: 'generativeArt',
+    icon: 'palette',
+    url: 'https://openprocessing.org/user/299354',
+    linkText: 'View',
+  },
 ];
 
 // その他の番組情報

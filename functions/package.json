@@ -1,0 +1,25 @@
+{
+  "name": "functions",
+  "scripts": {
+    "build": "tsc",
+    "serve": "npm run build && firebase emulators:start --only functions",
+    "deploy": "firebase deploy --only functions"
+  },
+  "engines": {
+    "node": "20"
+  },
+  "main": "lib/index.js",
+  "dependencies": {
+    "@google-cloud/functions-framework": "^5.0.1",
+    "firebase-admin": "^13.6.1",
+    "firebase-functions": "^7.0.5",
+    "stripe": "~14.0.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.3.0"
+  },
+  "private": true,
+  "volta": {
+    "node": "20.20.0"
+  }
+}

@@ -17,12 +17,10 @@ package-lock.json
 .env.test.local
 .env.production.local
 
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
 
 # firebase
 .firebase/
+lib/
 
 # Debug files
 npm-debug.log*

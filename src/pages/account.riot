@@ -1,0 +1,519 @@
+<account>
+  <div class="account-page">
+    <div class="account-container">
+      <h1 class="account-title">{t("auth.account")}</h1>
+
+      <div class="account-card">
+        <div class="user-info">
+          <sl-avatar
+            image={state.avatarUrl}
+            label={state.user?.displayName || state.user?.email || ''}
+            initials={!state.avatarUrl && state.user?.displayName ? state.user.displayName.substring(0, 2) : ''}
+            style="--size: 64px;"
+          ></sl-avatar>
+          <div class="user-details">
+            <h2 class="user-name">{state.user?.displayName || t("auth.noName")}</h2>
+            <p class="user-email">{state.user?.email}</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="account-card">
+        <h3 class="card-title">{t("membership.planTitle")}</h3>
+
+        <!-- メンバーシップ読み込み中 -->
+        <div if={!state.membershipLoaded} class="plan-info">
+          <sl-skeleton class="plan-badge-skeleton" effect="pulse"></sl-skeleton>
+          <sl-skeleton class="plan-desc-skeleton" effect="pulse"></sl-skeleton>
+        </div>
+
+        <div if={state.membershipLoaded} class="plan-info">
+          <span class="plan-badge {state.isPremium ? 'premium' : 'free'}">
+            {state.isPremium ? t("membership.premium") : t("membership.free")}
+          </span>
+          <p class="plan-description">
+            {state.isPremium ? t("membership.premiumDesc") : t("membership.freeDesc")}
+          </p>
+        </div>
+
+        <!-- プラン切り替え（URLが1つ以上ある場合） -->
+        <div if={state.membershipLoaded && !state.isPremium && (state.monthlyPaymentLinkUrl || state.yearlyPaymentLinkUrl)} class="upgrade-section">
+          <div class="plan-tab-nav">
+            <button if={state.monthlyPaymentLinkUrl}
+              class={'plan-tab' + (state.activeTab === 'monthly' ? ' active' : '')}
+              onclick={() => update({ activeTab: 'monthly' })}>{t("membership.monthly")}</button>
+            <button if={state.yearlyPaymentLinkUrl}
+              class={'plan-tab' + (state.activeTab === 'yearly' ? ' active' : '')}
+              onclick={() => update({ activeTab: 'yearly' })}>{t("membership.yearly")}</button>
+          </div>
+
+          <div if={state.activeTab === 'monthly' && state.monthlyPaymentLinkUrl} class="plan-panel">
+            <p class="plan-price">
+              {t("membership.monthlyPrice")}<span class="plan-period">{t("membership.perMonth")}</span>
+            </p>
+            <sl-button variant="primary" class="upgrade-btn"
+              href={state.monthlyPaymentLinkUrl} target="_blank" rel="noopener noreferrer">
+              {t("membership.upgrade")}
+            </sl-button>
+          </div>
+
+          <div if={state.activeTab === 'yearly' && state.yearlyPaymentLinkUrl} class="plan-panel">
+            <p class="plan-price">
+              {t("membership.yearlyPrice")}<span class="plan-period">{t("membership.perYear")}</span>
+            </p>
+            <p class="plan-savings">{t("membership.yearlySavings")}</p>
+            <sl-button variant="primary" class="upgrade-btn"
+              href={state.yearlyPaymentLinkUrl} target="_blank" rel="noopener noreferrer">
+              {t("membership.upgrade")}
+            </sl-button>
+          </div>
+        </div>
+
+        <!-- プランURL未設定の場合 -->
+        <div if={state.membershipLoaded && !state.isPremium && !state.monthlyPaymentLinkUrl && !state.yearlyPaymentLinkUrl} class="upgrade-section">
+          <sl-button variant="primary" class="upgrade-btn" disabled>
+            {t("membership.upgrade")}
+          </sl-button>
+          <p class="upgrade-unavailable-message">
+            {t("membership.upgradeUnavailable")}
+          </p>
+        </div>
+        <div if={state.membershipLoaded && state.isPremium && state.portalUrl} class="manage-section">
+          <sl-button variant="default" href={state.portalUrl} target="_blank" rel="noopener noreferrer">
+            {t("membership.manage")}
+          </sl-button>
+        </div>
+      </div>
+
+      <div class="account-card profile-card">
+        <h3 class="card-title">{t("account.profile.title")}</h3>
+
+        <!-- ニックネーム -->
+        <div class="profile-field">
+          <span class="field-label">{t("account.profile.nickname")}</span>
+          <div class="field-row" if={!state.editingNickname}>
+            <span class="field-value">{state.user?.displayName || t("auth.noName")}</span>
+            <sl-button size="small" variant="text" onclick={startEditNickname}>
+              <sl-icon name="pencil"></sl-icon>
+            </sl-button>
+          </div>
+          <form class="field-edit-row" if={state.editingNickname} onsubmit={saveNickname}>
+            <sl-input size="small" value={state.nicknameInput}
+              oninput={e => this.update({ nicknameInput: e.target.value })}
+              placeholder={t("auth.noName")} autofocus></sl-input>
+            <sl-button size="small" type="submit" variant="primary"
+              loading={state.savingNickname || null}>{t("account.profile.save")}</sl-button>
+            <sl-button size="small" variant="text"
+              onclick={cancelEditNickname}>{t("account.profile.cancel")}</sl-button>
+          </form>
+          <p class="field-feedback success" if={state.nicknameSavedMsg}>
+            <sl-icon name="check-circle-fill"></sl-icon>{t("account.profile.nicknameSaved")}
+          </p>
+          <p class="field-feedback error" if={state.nicknameError}>{state.nicknameError}</p>
+        </div>
+
+        <!-- メールアドレス変更 -->
+        <div class="profile-field">
+          <span class="field-label">{t("account.profile.loginEmail")}</span>
+          <span class="field-value">{state.user?.email}</span>
+          <p class="field-note">{t("account.profile.emailNote")}</p>
+          <sl-button size="small" variant="text" class="toggle-email-btn"
+            onclick={toggleEmailChangeForm}>
+            {t("account.profile.changeEmail")}
+            <sl-icon name={state.showEmailChangeForm ? 'chevron-up' : 'chevron-down'}
+              slot="suffix"></sl-icon>
+          </sl-button>
+          <form class="email-change-form" if={state.showEmailChangeForm} onsubmit={sendEmailChange}>
+            <sl-input type="email" size="small"
+              placeholder={t("account.profile.newEmailPlaceholder")}
+              oninput={e => this.update({ newEmailInput: e.target.value })}
+              required></sl-input>
+            <sl-button type="submit" size="small" variant="primary"
+              loading={state.sendingEmailChange || null}>
+              {t("account.profile.sendVerification")}
+            </sl-button>
+          </form>
+          <p class="field-feedback success" if={state.emailChangeSent}>
+            <sl-icon name="check-circle-fill"></sl-icon>{t("account.profile.emailChangeSent")}
+          </p>
+          <p class="field-feedback error" if={state.emailChangeError}>{state.emailChangeError}</p>
+        </div>
+      </div>
+
+      <div class="account-actions">
+        <sl-button variant="text" onclick={handleLogout}>
+          <sl-icon name="box-arrow-right" slot="prefix"></sl-icon>
+          {t("auth.logout")}
+        </sl-button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    import authStore from '@/stores/auth-store';
+    import membershipStore from '@/stores/membership-store';
+    import i18nStore from '@/stores/i18n-store';
+    import { router } from '@riotjs/route';
+
+    export default {
+      t: i18nStore.t.bind(i18nStore),
+      state: {
+        user: null,
+        isPremium: false,
+        membershipLoaded: false,
+        avatarUrl: '',
+        monthlyPaymentLinkUrl: null,
+        yearlyPaymentLinkUrl: null,
+        portalUrl: null,
+        activeTab: null,
+        editingNickname: false,
+        nicknameInput: '',
+        savingNickname: false,
+        nicknameSavedMsg: false,
+        nicknameError: null,
+        showEmailChangeForm: false,
+        newEmailInput: '',
+        sendingEmailChange: false,
+        emailChangeSent: false,
+        emailChangeError: null,
+      },
+      defaultActiveTab(monthly, yearly) {
+        return monthly ? 'monthly' : yearly ? 'yearly' : null;
+      },
+      onBeforeMount() {
+        // state の静的定義はモジュール import 時（authStore.init() 前）に評価されるため
+        // 初回レンダリング前に store の最新値で上書きする
+        const monthly = membershipStore.getMonthlyPaymentLinkUrl();
+        const yearly = membershipStore.getYearlyPaymentLinkUrl();
+        Object.assign(this.state, {
+          user: authStore.user,
+          avatarUrl: authStore.getAvatarUrl(),
+          isPremium: authStore.isPremium,
+          membershipLoaded: authStore.membershipLoaded,
+          monthlyPaymentLinkUrl: monthly,
+          yearlyPaymentLinkUrl: yearly,
+          portalUrl: membershipStore.getCustomerPortalUrl(),
+          activeTab: this.defaultActiveTab(monthly, yearly),
+        });
+      },
+      onMounted() {
+        if (!authStore.isLoggedIn()) {
+          router.push('/login');
+          return;
+        }
+        authStore.on('auth-changed', this.onAuthChanged);
+        authStore.on('membership-changed', this.onMembershipChanged);
+        // リスナー登録より先に snapshot が届いていた場合のフォールバック
+        if (authStore.membershipLoaded && !this.state.membershipLoaded) {
+          this.update({
+            isPremium: authStore.isPremium,
+            membershipLoaded: true,
+          });
+        }
+      },
+      onBeforeUnmount() {
+        authStore.off('auth-changed', this.onAuthChanged);
+        authStore.off('membership-changed', this.onMembershipChanged);
+      },
+      async handleLogout() {
+        await authStore.logout();
+        router.push('/');
+      },
+      onAuthChanged() {
+        const monthly = membershipStore.getMonthlyPaymentLinkUrl();
+        const yearly = membershipStore.getYearlyPaymentLinkUrl();
+        this.update({
+          user: authStore.user,
+          avatarUrl: authStore.getAvatarUrl(),
+          monthlyPaymentLinkUrl: monthly,
+          yearlyPaymentLinkUrl: yearly,
+          activeTab: this.defaultActiveTab(monthly, yearly),
+        });
+      },
+      onMembershipChanged() {
+        this.update({
+          user: authStore.user,
+          avatarUrl: authStore.getAvatarUrl(),
+          isPremium: authStore.isPremium,
+          membershipLoaded: authStore.membershipLoaded,
+        });
+      },
+      startEditNickname() {
+        this.update({
+          editingNickname: true,
+          nicknameInput: authStore.user?.displayName || '',
+          nicknameError: null,
+          nicknameSavedMsg: false,
+        });
+      },
+      cancelEditNickname() {
+        this.update({ editingNickname: false, nicknameError: null });
+      },
+      async saveNickname(e) {
+        e.preventDefault();
+        this.update({ savingNickname: true, nicknameError: null });
+        try {
+          await authStore.updateDisplayName(this.state.nicknameInput.trim());
+          this.update({ savingNickname: false, editingNickname: false, nicknameSavedMsg: true });
+          setTimeout(() => this.update({ nicknameSavedMsg: false }), 3000);
+        } catch {
+          this.update({ savingNickname: false, nicknameError: i18nStore.t('account.profile.nicknameError') });
+        }
+      },
+      toggleEmailChangeForm() {
+        this.update({
+          showEmailChangeForm: !this.state.showEmailChangeForm,
+          emailChangeSent: false,
+          emailChangeError: null,
+          newEmailInput: '',
+        });
+      },
+      async sendEmailChange(e) {
+        e.preventDefault();
+        this.update({ sendingEmailChange: true, emailChangeError: null, emailChangeSent: false });
+        try {
+          await authStore.sendEmailChangeVerification(this.state.newEmailInput);
+          this.update({ sendingEmailChange: false, emailChangeSent: true });
+        } catch (err) {
+          const key = err.code === 'auth/requires-recent-login'
+            ? 'account.profile.emailChangeError.requiresRecentLogin'
+            : 'account.profile.emailChangeError.default';
+          this.update({ sendingEmailChange: false, emailChangeError: i18nStore.t(key) });
+        }
+      },
+    }
+  </script>
+
+  <style>
+    .account-page {
+      min-height: 100vh;
+      background: var(--warm-white);
+      padding: 5rem 2rem;
+    }
+
+    .account-container {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .account-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--text-dark);
+      margin: 0 0 2rem;
+    }
+
+    .account-card {
+      background: #ffffff;
+      border-radius: 12px;
+      padding: 1.5rem;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+      margin-bottom: 1.5rem;
+    }
+
+    .user-info {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .user-name {
+      font-size: 1.125rem;
+      font-weight: 600;
+      color: var(--text-dark);
+      margin: 0;
+    }
+
+    .user-email {
+      font-size: 0.875rem;
+      color: var(--text-light);
+      margin: 0.25rem 0 0;
+    }
+
+    .card-title {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text-dark);
+      margin: 0 0 1rem;
+    }
+
+    .plan-info {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .plan-badge-skeleton {
+      width: 4.5rem;
+      height: 1.5rem;
+      --border-radius: 50px;
+      flex-shrink: 0;
+    }
+
+    .plan-desc-skeleton {
+      width: 12rem;
+      height: 1rem;
+      --border-radius: 4px;
+    }
+
+    .plan-badge {
+      display: inline-block;
+      padding: 0.25rem 0.75rem;
+      border-radius: 50px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .plan-badge.free {
+      background: #f3f4f6;
+      color: #6b7280;
+    }
+
+    .plan-badge.premium {
+      background: #fef3c7;
+      color: var(--warm-amber);
+    }
+
+    .plan-description {
+      font-size: 0.875rem;
+      color: var(--text-color);
+      margin: 0;
+    }
+
+    .plan-tab-nav {
+      display: flex;
+      gap: 0;
+      border-bottom: 2px solid #e5e7eb;
+      margin-bottom: 0;
+    }
+
+    .plan-tab {
+      flex: 1;
+      padding: 0.625rem 1rem;
+      background: none;
+      border: none;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -2px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--text-light);
+      cursor: pointer;
+      transition: color 0.2s, border-color 0.2s;
+    }
+
+    .plan-tab:hover {
+      color: var(--text-dark);
+    }
+
+    .plan-tab.active {
+      color: var(--rain-blue);
+      border-bottom-color: var(--rain-blue);
+    }
+
+    .plan-panel {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.75rem;
+      padding: 1rem 0 0.5rem;
+    }
+
+    .plan-price {
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: var(--text-dark);
+      margin: 0;
+    }
+
+    .plan-period {
+      font-size: 0.9rem;
+      font-weight: 400;
+      color: var(--text-light);
+      margin-left: 0.25rem;
+    }
+
+    .plan-savings {
+      font-size: 0.8125rem;
+      font-weight: 600;
+      color: #2e7d32;
+      background: #e8f5e9;
+      padding: 0.2rem 0.6rem;
+      border-radius: 4px;
+      margin: 0;
+    }
+
+    .upgrade-btn::part(base) {
+      background: var(--warm-amber);
+      border-color: var(--warm-amber);
+    }
+
+    .upgrade-btn:hover::part(base) {
+      background: var(--cozy-orange);
+      border-color: var(--cozy-orange);
+    }
+
+    .account-actions {
+      margin-top: 1rem;
+    }
+
+    /* Profile Card */
+    .profile-card .profile-field {
+      padding: 1rem 0;
+      border-bottom: 1px solid var(--light-gray);
+    }
+    .profile-card .profile-field:last-child { border-bottom: none; }
+
+    .field-label {
+      display: block;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--text-light);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.4rem;
+    }
+    .field-row {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .field-value {
+      font-size: 0.9375rem;
+      color: var(--text-dark);
+    }
+    .field-note {
+      font-size: 0.8rem;
+      color: var(--text-light);
+      margin: 0.25rem 0 0.5rem;
+    }
+    .field-edit-row {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-top: 0.25rem;
+    }
+    .field-edit-row sl-input { flex: 1; min-width: 120px; }
+    .toggle-email-btn { margin-top: 0.25rem; }
+    .email-change-form {
+      display: flex;
+      gap: 0.5rem;
+      align-items: flex-end;
+      flex-wrap: wrap;
+      margin-top: 0.75rem;
+    }
+    .email-change-form sl-input { flex: 1; min-width: 200px; }
+    .field-feedback {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      margin-top: 0.5rem;
+      font-size: 0.85rem;
+    }
+    .field-feedback.success { color: #2e7d32; }
+    .field-feedback.error { color: #c62828; }
+  </style>
+</account>
