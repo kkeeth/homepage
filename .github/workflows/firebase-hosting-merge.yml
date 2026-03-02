@@ -39,4 +39,4 @@ jobs:
           projectId: my-homepage-6641d
       # Functions + Firestore rules のデプロイ
       - run: pnpm -C functions install --frozen-lockfile && pnpm -C functions build
-      - run: npx firebase-tools deploy --only functions,firestore --project my-homepage-6641d
+      - run: npx firebase-tools deploy --only functions,firestore --project my-homepage-6641d --force
