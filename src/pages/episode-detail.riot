@@ -17,7 +17,17 @@
 
           <!-- Embedded Player (visible for non-premium or premium members) -->
           <div class="player-section" if={!state.isPremiumEpisode || state.canAccess}>
+            <!-- Premium episodes use HTML5 audio (Art19 embed returns 404 for alternate feed) -->
+            <audio
+              if={state.episode.isPremium && state.episode.audioUrl}
+              controls
+              preload="none"
+              src={state.episode.audioUrl}
+              style="width: 100%;"
+            ></audio>
+            <!-- Non-premium episodes use Art19 iframe embed -->
             <iframe
+              if={!state.episode.isPremium}
               src={`${state.episode.link}/embed`}
               title="Episode player"
               style="width: 100%; height: 200px; border: 0 none;" scrolling="no"
@@ -30,8 +40,8 @@
         </div>
       </div>
 
-      <!-- Platform Links (only if accessible) -->
-      <div class="platforms-section" if={!state.isPremiumEpisode || state.canAccess}>
+      <!-- Platform Links (only for non-premium accessible episodes) -->
+      <div class="platforms-section" if={(!state.isPremiumEpisode || state.canAccess) && !state.episode.isPremium}>
         <h3 class="section-label">{t("episode.listenOn")}</h3>
         <div class="platform-icons">
           <a
@@ -82,7 +92,8 @@
   </div>
 
   <script>
-    import { fetchRSSFeed } from '@/utils/rss';
+    import { fetchMergedFeeds } from '@/utils/rss';
+    import { fetchPremiumEpisodes } from '@/utils/premium-feed';
     import { PODCAST_PLATFORMS, RSS_FEED_URL } from '@/constants/links';
     import i18nStore from '@/stores/i18n-store';
     import authStore from '@/stores/auth-store';
@@ -116,8 +127,8 @@
           if (!episodeId || !episode) return;
 
           const isPremiumCheck = membershipStore.isEpisodePremium(episodeId);
-          const isPremiumEpisode = isPremiumCheck !== false;
-          const canAccess = isPremiumCheck === false || authStore.isPremium;
+          const isPremiumEpisode = episode.isPremium || isPremiumCheck !== false;
+          const canAccess = !isPremiumEpisode || authStore.isPremium;
 
           if (this.state.isPremiumEpisode !== isPremiumEpisode || this.state.canAccess !== canAccess) {
             this.update({ isPremiumEpisode, canAccess });
@@ -151,8 +162,7 @@
       },
       async loadEpisode(episodeId) {
         try {
-          const RSS_URL = RSS_FEED_URL;
-          const episodes = await fetchRSSFeed(RSS_URL);
+          const episodes = await fetchMergedFeeds(RSS_FEED_URL, fetchPremiumEpisodes());
 
           const foundEpisode = episodes.find(ep => {
             const linkMatch = ep.link && ep.link.includes(episodeId);
@@ -161,13 +171,12 @@
           });
 
           if (foundEpisode) {
-            // URL パラメータではなく、エピソードのリンクから正規 ID を抽出して判定に使う
             this.update({ episodeURL: foundEpisode.link });
             const canonicalId = this.extractEpisodeIdFromLink(foundEpisode.link) || episodeId;
+            // isPremium: feed ソースベースの判定 OR Firestore ベースの判定
             const isPremiumCheck = membershipStore.isEpisodePremium(canonicalId);
-            // null = 判定不能（未ロードまたはエラー）→ premium として扱い fail-closed
-            const isPremiumEpisode = isPremiumCheck !== false;
-            const canAccess = isPremiumCheck === false || authStore.isPremium;
+            const isPremiumEpisode = foundEpisode.isPremium || isPremiumCheck !== false;
+            const canAccess = !isPremiumEpisode || authStore.isPremium;
             this.update({
               loading: false,
               episode: foundEpisode,
@@ -188,6 +197,10 @@
         return `${title}\n#WEB小噺 \n`;
       },
       getShareUrl() {
+        // Premium episodes: share the website URL (not Art19 link)
+        if (this.state.episode?.isPremium) {
+          return window.location.href;
+        }
         return this.state.episodeURL;
       },
       shareTwitter() {

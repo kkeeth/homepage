@@ -1,5 +1,6 @@
 import observable, { type ObservableInstance } from '@riotjs/observable';
-import { fetchRSSFeed } from '@/utils/rss';
+import { fetchMergedFeeds } from '@/utils/rss';
+import { fetchPremiumEpisodes } from '@/utils/premium-feed';
 import { RSS_FEED_URL } from '@/constants/links';
 
 interface RSSEpisode {
@@ -11,6 +12,7 @@ interface RSSEpisode {
   duration: string;
   season: string;
   episodeNum: string;
+  isPremium: boolean;
 }
 
 const DEFAULT_PAGE_SIZE = 12;
@@ -26,6 +28,7 @@ export interface Episode {
   duration: string;
   season: string;
   episodeNum: string;
+  isPremium: boolean;
 }
 
 interface EpisodeStore extends ObservableInstance<unknown> {
@@ -82,7 +85,7 @@ const episodeStore = observable({
         })).reverse();
         this.allEpisodes = fallback;
       } else {
-        const episodes = (await fetchRSSFeed(RSS_FEED_URL)) as RSSEpisode[];
+        const episodes = (await fetchMergedFeeds(RSS_FEED_URL, fetchPremiumEpisodes())) as RSSEpisode[];
 
         this.allEpisodes = episodes.map(
           (episode: RSSEpisode, index: number) => ({
@@ -102,6 +105,7 @@ const episodeStore = observable({
             duration: episode.duration,
             season: episode.season,
             episodeNum: episode.episodeNum,
+            isPremium: episode.isPremium,
           }),
         );
       }

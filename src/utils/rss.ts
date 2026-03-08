@@ -18,6 +18,7 @@ export interface Episode {
   duration: string;
   season: string;
   episodeNum: string;
+  isPremium: boolean;
 }
 
 function stripHtmlTags(html: string): string {
@@ -84,6 +85,7 @@ export function parseRSSFeed(xmlText: string): Episode[] {
       duration: itunesDuration,
       season: itunesSeason,
       episodeNum: itunesEpisode,
+      isPremium: false,
     });
   });
 
@@ -100,4 +102,31 @@ export function getLatestEpisodes(episodes: Episode[], count = 6): Episode[] {
 export function getRandomEpisodes(episodes: Episode[], count = 3): Episode[] {
   const shuffled = [...episodes].sort(() => Math.random() - 0.5);
   return shuffled.slice(0, count);
+}
+
+/**
+ * Primary Feed と Premium Feed をマージして時系列でソートする。
+ * premiumEpisodesPromise が未指定または失敗時は Primary のみで継続。
+ */
+export async function fetchMergedFeeds(
+  primaryUrl: string,
+  premiumEpisodesPromise?: Promise<Episode[]>,
+): Promise<Episode[]> {
+  const primaryPromise = fetchRSSFeed(primaryUrl);
+
+  if (!premiumEpisodesPromise) {
+    return primaryPromise;
+  }
+
+  const [primary, premium] = await Promise.allSettled([
+    primaryPromise,
+    premiumEpisodesPromise,
+  ]);
+
+  const primaryEpisodes = primary.status === 'fulfilled' ? primary.value : [];
+  const premiumEpisodes = premium.status === 'fulfilled' ? premium.value : [];
+
+  return [...primaryEpisodes, ...premiumEpisodes].sort(
+    (a, b) => b.pubDateObj.getTime() - a.pubDateObj.getTime(),
+  );
 }

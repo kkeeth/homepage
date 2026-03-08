@@ -46,6 +46,7 @@
         membershipStore.off('premium-episodes-changed', this._onPremiumEpisodesChanged);
       },
       isEpisodePremium(episode) {
+        if (episode.isPremium) return true;
         const id = this.getEpisodeId(episode);
         return membershipStore.isEpisodePremium(id) === true;
       },

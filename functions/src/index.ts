@@ -2,11 +2,44 @@ import { onRequest } from 'firebase-functions/v2/https';
 import { defineSecret } from 'firebase-functions/params';
 import * as admin from 'firebase-admin';
 import Stripe from 'stripe';
+import { randomUUID } from 'crypto';
 
 admin.initializeApp();
 const db = admin.firestore();
 const stripeSecret = defineSecret('STRIPE_SECRET_KEY');
 const stripeWebhookSecret = defineSecret('STRIPE_WEBHOOK_SECRET');
+
+// Cloudflare KV secrets (for premium feed subscription sync)
+const cfAccountId = defineSecret('CLOUDFLARE_ACCOUNT_ID');
+const cfApiToken = defineSecret('CLOUDFLARE_API_TOKEN');
+const cfKvNamespaceId = defineSecret('CLOUDFLARE_KV_NAMESPACE_ID');
+
+// ── Cloudflare KV helpers ────────────────────────────────────────────
+
+async function kvPut(key: string, value: string): Promise<void> {
+  const url = `https://api.cloudflare.com/client/v4/accounts/${cfAccountId.value()}/storage/kv/namespaces/${cfKvNamespaceId.value()}/values/${key}`;
+  const res = await fetch(url, {
+    method: 'PUT',
+    headers: { Authorization: `Bearer ${cfApiToken.value()}` },
+    body: value,
+  });
+  if (!res.ok) {
+    const body = await res.text();
+    console.error(`KV PUT failed for key=${key}: ${res.status} ${body}`);
+  }
+}
+
+async function kvDelete(key: string): Promise<void> {
+  const url = `https://api.cloudflare.com/client/v4/accounts/${cfAccountId.value()}/storage/kv/namespaces/${cfKvNamespaceId.value()}/values/${key}`;
+  const res = await fetch(url, {
+    method: 'DELETE',
+    headers: { Authorization: `Bearer ${cfApiToken.value()}` },
+  });
+  if (!res.ok) {
+    const body = await res.text();
+    console.error(`KV DELETE failed for key=${key}: ${res.status} ${body}`);
+  }
+}
 
 /**
  * 削除済み Stripe Customer の premium アクセスを剥奪する。
@@ -18,7 +51,12 @@ async function revokeAccessByCustomerId(customerId: string): Promise<void> {
     .where('stripeCustomerId', '==', customerId)
     .get();
   const batch = db.batch();
+  const kvDeletes: Promise<void>[] = [];
   snapshot.docs.forEach((doc) => {
+    const token = doc.data()?.premiumFeedToken as string | undefined;
+    if (token) {
+      kvDeletes.push(kvDelete(token));
+    }
     batch.set(
       doc.ref,
       {
@@ -26,12 +64,13 @@ async function revokeAccessByCustomerId(customerId: string): Promise<void> {
         subscriptionStatus: 'canceled',
         subscriptionId: null,
         currentPeriodEnd: null,
+        premiumFeedToken: null,
       },
       { merge: true },
     );
   });
   if (!snapshot.empty) {
-    await batch.commit();
+    await Promise.all([batch.commit(), ...kvDeletes]);
   }
 }
 
@@ -59,7 +98,7 @@ export const stripeWebhook = onRequest(
   {
     region: 'asia-northeast1',
     invoker: 'public',
-    secrets: [stripeSecret, stripeWebhookSecret],
+    secrets: [stripeSecret, stripeWebhookSecret, cfAccountId, cfApiToken, cfKvNamespaceId],
   },
   async (req, res) => {
     const stripe = new Stripe(stripeSecret.value(), {
@@ -146,22 +185,31 @@ export const stripeWebhook = onRequest(
           return;
         }
         
-        await db
-          .collection('users')
-          .doc(uid)
-          .set(
-            {
-              plan: 'premium',
-              stripeCustomerId: customerId,
-              subscriptionId: subscription.id,
-              subscriptionStatus: subscription.status,
-              currentPeriodEnd: new Date(
-                subscription.current_period_end * 1000,
-              ).toISOString(),
-              createdAt: new Date().toISOString(),
-            },
-            { merge: true },
-          );
+        // Generate a unique feed token for the Worker's /feed/:userToken endpoint
+        // Check if user already has a token (e.g. resubscription)
+        const existingDoc = await db.collection('users').doc(uid).get();
+        const premiumFeedToken = existingDoc.data()?.premiumFeedToken || randomUUID();
+
+        await Promise.all([
+          db
+            .collection('users')
+            .doc(uid)
+            .set(
+              {
+                plan: 'premium',
+                stripeCustomerId: customerId,
+                subscriptionId: subscription.id,
+                subscriptionStatus: subscription.status,
+                currentPeriodEnd: new Date(
+                  subscription.current_period_end * 1000,
+                ).toISOString(),
+                premiumFeedToken,
+                createdAt: new Date().toISOString(),
+              },
+              { merge: true },
+            ),
+          kvPut(premiumFeedToken, 'active'),
+        ]);
         break;
       }
 
@@ -180,19 +228,34 @@ export const stripeWebhook = onRequest(
           }
           const uid = customer.metadata.firebaseUID;
           const plan = subscription.status === 'active' ? 'premium' : 'free';
-          await db
-            .collection('users')
-            .doc(uid)
-            .set(
-              {
-                plan,
-                subscriptionStatus: subscription.status,
-                currentPeriodEnd: new Date(
-                  subscription.current_period_end * 1000,
-                ).toISOString(),
-              },
-              { merge: true },
-            );
+          const userDoc = await db.collection('users').doc(uid).get();
+          const feedToken = userDoc.data()?.premiumFeedToken as string | undefined;
+
+          const writes: Promise<unknown>[] = [
+            db
+              .collection('users')
+              .doc(uid)
+              .set(
+                {
+                  plan,
+                  subscriptionStatus: subscription.status,
+                  currentPeriodEnd: new Date(
+                    subscription.current_period_end * 1000,
+                  ).toISOString(),
+                },
+                { merge: true },
+              ),
+          ];
+
+          // Sync KV: activate or deactivate
+          if (feedToken) {
+            if (plan === 'premium') {
+              writes.push(kvPut(feedToken, 'active'));
+            } else {
+              writes.push(kvDelete(feedToken));
+            }
+          }
+          await Promise.all(writes);
         } else {
           console.warn(`Customer ${subscription.customer} is deleted; revoking premium access.`);
           await revokeAccessByCustomerId(subscription.customer as string);
@@ -214,15 +277,25 @@ export const stripeWebhook = onRequest(
             return;
           }
           const uid = customer.metadata.firebaseUID;
-          await db.collection('users').doc(uid).set(
-            {
-              plan: 'free',
-              subscriptionStatus: 'canceled',
-              subscriptionId: null,
-              currentPeriodEnd: null,
-            },
-            { merge: true },
-          );
+          const userDoc = await db.collection('users').doc(uid).get();
+          const feedToken = userDoc.data()?.premiumFeedToken as string | undefined;
+
+          const writes: Promise<unknown>[] = [
+            db.collection('users').doc(uid).set(
+              {
+                plan: 'free',
+                subscriptionStatus: 'canceled',
+                subscriptionId: null,
+                currentPeriodEnd: null,
+                premiumFeedToken: null,
+              },
+              { merge: true },
+            ),
+          ];
+          if (feedToken) {
+            writes.push(kvDelete(feedToken));
+          }
+          await Promise.all(writes);
         } else {
           console.warn(`Customer ${subscription.customer} is deleted; revoking premium access.`);
           await revokeAccessByCustomerId(subscription.customer as string);
@@ -248,12 +321,22 @@ export const stripeWebhook = onRequest(
               return;
             }
             const uid = customer.metadata.firebaseUID;
-            await db.collection('users').doc(uid).set(
-              {
-                subscriptionStatus: 'past_due',
-              },
-              { merge: true },
-            );
+            const userDoc = await db.collection('users').doc(uid).get();
+            const feedToken = userDoc.data()?.premiumFeedToken as string | undefined;
+
+            const writes: Promise<unknown>[] = [
+              db.collection('users').doc(uid).set(
+                {
+                  subscriptionStatus: 'past_due',
+                },
+                { merge: true },
+              ),
+            ];
+            // Revoke feed access on payment failure
+            if (feedToken) {
+              writes.push(kvDelete(feedToken));
+            }
+            await Promise.all(writes);
           } else {
             console.warn(`Customer ${subscription.customer} is deleted; revoking premium access.`);
             await revokeAccessByCustomerId(subscription.customer as string);

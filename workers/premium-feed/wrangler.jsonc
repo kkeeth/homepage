@@ -8,11 +8,16 @@
 	"main": "src/index.ts",
 	"compatibility_date": "2026-03-01",
 	"observability": {
-		"enabled": true
+		"enabled": true,
 	},
-	"compatibility_flags": [
-		"nodejs_compat"
-	]
+	"compatibility_flags": ["nodejs_compat"],
+	"kv_namespaces": [
+		{
+			"binding": "SUBSCRIBERS",
+			"id": "89f56fe5969f41939c54bfe5a143d03a",
+			"preview_id": "b94b071197614fb4af525048d6f7de6e",
+		},
+	],
 	/**
 	 * Smart Placement
 	 * https://developers.cloudflare.com/workers/configuration/smart-placement/#smart-placement
