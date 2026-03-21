@@ -6,6 +6,9 @@ name: Deploy to Firebase on merge
 jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write # Workload Identity Federation に必要
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -14,10 +17,11 @@ jobs:
       - uses: pnpm/action-setup@v4
         with:
           version: 10
-      # GCP 認証（Hosting / Functions / Firestore rules 共通）
+      # GCP 認証（Workload Identity Federation - サービスアカウントキー不要）
       - uses: google-github-actions/auth@v2
         with:
-          credentials_json: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_MY_HOMEPAGE_6641D }}'
+          workload_identity_provider: '${{ secrets.WIF_PROVIDER }}'
+          service_account: '${{ secrets.WIF_SERVICE_ACCOUNT }}'
       - name: 'Set up Cloud SDK'
         uses: 'google-github-actions/setup-gcloud@v2'
         with:
@@ -35,10 +39,10 @@ jobs:
           VITE_STRIPE_PAYMENT_LINK_MONTHLY_URL: ${{ secrets.VITE_STRIPE_PAYMENT_LINK_MONTHLY_URL }}
           VITE_STRIPE_PAYMENT_LINK_YEARLY_URL: ${{ secrets.VITE_STRIPE_PAYMENT_LINK_YEARLY_URL }}
           VITE_STRIPE_CUSTOMER_PORTAL_URL: ${{ secrets.VITE_STRIPE_CUSTOMER_PORTAL_URL }}
+      # firebaseServiceAccount を省略 → google-github-actions/auth の認証を引き継ぐ
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
-          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_MY_HOMEPAGE_6641D }}'
           channelId: live
           projectId: my-homepage-6641d
       # Functions + Firestore rules のデプロイ
