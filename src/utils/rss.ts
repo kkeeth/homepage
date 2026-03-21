@@ -55,7 +55,8 @@ export function parseRSSFeed(xmlText: string): Episode[] {
     const description = stripHtmlTags(rawDescription);
     const pubDate = item.querySelector('pubDate')?.textContent?.trim() ?? '';
     const linkEl = item.querySelector('link');
-    const link = linkEl?.textContent?.trim() || linkEl?.getAttribute('href')?.trim() || '';
+    const link =
+      linkEl?.textContent?.trim() || linkEl?.getAttribute('href')?.trim() || '';
     const enclosure = item.querySelector('enclosure');
     const audioUrl = enclosure?.getAttribute('url') ?? '';
 
@@ -65,13 +66,15 @@ export function parseRSSFeed(xmlText: string): Episode[] {
 
     // Extract duration if available
     const itunesDuration =
-      item.querySelector('itunes\\:duration, duration')?.textContent?.trim() ?? '';
+      item.querySelector('itunes\\:duration, duration')?.textContent?.trim() ??
+      '';
 
     // Extract season and episode number from iTunes tags
     const itunesSeason =
       item.querySelector('itunes\\:season, season')?.textContent?.trim() ?? '';
     const itunesEpisode =
-      item.querySelector('itunes\\:episode, episode')?.textContent?.trim() ?? '';
+      item.querySelector('itunes\\:episode, episode')?.textContent?.trim() ??
+      '';
 
     episodes.push({
       title,
@@ -127,7 +130,12 @@ export async function fetchMergedFeeds(
   const primaryEpisodes = primary.status === 'fulfilled' ? primary.value : [];
   const premiumEpisodes = premium.status === 'fulfilled' ? premium.value : [];
 
-  return [...primaryEpisodes, ...premiumEpisodes].sort(
+  if (premium.status === 'rejected') {
+    console.error('[fetchMergedFeeds] premium feed error:', premium.reason);
+  }
+
+  const merged = [...primaryEpisodes, ...premiumEpisodes].sort(
     (a, b) => b.pubDateObj.getTime() - a.pubDateObj.getTime(),
   );
+  return merged;
 }

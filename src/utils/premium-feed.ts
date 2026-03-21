@@ -6,22 +6,35 @@
 import { doc, getDoc } from 'firebase/firestore';
 import { db, auth } from '@/services/firebase';
 import { parseRSSFeed, type Episode } from '@/utils/rss';
+import authStore from '@/stores/auth-store';
 
 const WORKER_BASE_URL = import.meta.env.VITE_WORKER_BASE_URL || '';
 
 export async function fetchPremiumEpisodes(): Promise<Episode[]> {
   if (!WORKER_BASE_URL) return [];
 
+  // onAuthStateChanged の初回発火を待ってから currentUser を参照する
+  await authStore.ready();
+
   const user = auth.currentUser;
-  if (!user) return [];
 
-  // Get userToken from Firestore
-  const userDoc = await getDoc(doc(db, 'users', user.uid));
-  const userToken = userDoc.data()?.premiumFeedToken;
-  if (!userToken) return [];
+  let feedUrl: string;
+  if (user) {
+    // ログイン済み: 認証付きフィード（音声URL付き）
+    const userDoc = await getDoc(doc(db, 'users', user.uid));
+    const userToken = userDoc.data()?.premiumFeedToken;
+    if (!userToken) {
+      // トークン未発行でもメタデータは表示する
+      feedUrl = `${WORKER_BASE_URL}/feed/public`;
+    } else {
+      feedUrl = `${WORKER_BASE_URL}/feed/${userToken}`;
+    }
+  } else {
+    // 未ログイン: パブリックフィード（メタデータのみ、音声URLなし）
+    feedUrl = `${WORKER_BASE_URL}/feed/public`;
+  }
 
-  // Fetch premium feed from Worker (RSS XML with signed audio URLs)
-  const response = await fetch(`${WORKER_BASE_URL}/feed/${userToken}`);
+  const response = await fetch(feedUrl);
   if (!response.ok) return [];
 
   const xml = await response.text();
