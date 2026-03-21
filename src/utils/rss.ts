@@ -54,7 +54,8 @@ export function parseRSSFeed(xmlText: string): Episode[] {
       item.querySelector('description')?.textContent?.trim() ?? '';
     const description = stripHtmlTags(rawDescription);
     const pubDate = item.querySelector('pubDate')?.textContent?.trim() ?? '';
-    const link = item.querySelector('link')?.textContent?.trim() ?? '';
+    const linkEl = item.querySelector('link');
+    const link = linkEl?.textContent?.trim() || linkEl?.getAttribute('href')?.trim() || '';
     const enclosure = item.querySelector('enclosure');
     const audioUrl = enclosure?.getAttribute('url') ?? '';
 

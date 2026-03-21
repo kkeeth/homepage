@@ -19,7 +19,7 @@
           <div class="player-section" if={!state.isPremiumEpisode || state.canAccess}>
             <!-- Premium episodes use HTML5 audio (Art19 embed returns 404 for alternate feed) -->
             <audio
-              if={state.episode.isPremium && state.episode.audioUrl}
+              if={(state.episode.isPremium || !state.episode.link) && state.episode.audioUrl}
               controls
               preload="none"
               src={state.episode.audioUrl}
@@ -27,7 +27,7 @@
             ></audio>
             <!-- Non-premium episodes use Art19 iframe embed -->
             <iframe
-              if={!state.episode.isPremium}
+              if={!state.episode.isPremium && state.episode.link}
               src={`${state.episode.link}/embed`}
               title="Episode player"
               style="width: 100%; height: 200px; border: 0 none;" scrolling="no"
@@ -166,7 +166,7 @@
 
           const foundEpisode = episodes.find(ep => {
             const linkMatch = ep.link && ep.link.includes(episodeId);
-            const titleMatch = encodeURIComponent(ep.title) === episodeId;
+            const titleMatch = ep.title === episodeId;
             return linkMatch || titleMatch;
           });
 
