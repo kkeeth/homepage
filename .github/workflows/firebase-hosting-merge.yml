@@ -18,6 +18,12 @@ jobs:
       - uses: google-github-actions/auth@v2
         with:
           credentials_json: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_MY_HOMEPAGE_6641D }}'
+      - name: Who am I?
+        run: |
+          echo "Active Account:"
+          gcloud auth list
+          echo "Project ID:"
+          gcloud config get-value project
       # Hosting: フロントエンドのビルドとデプロイ
       - run: pnpm i && pnpm build
         env:
