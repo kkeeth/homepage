@@ -49,7 +49,7 @@
 
           <div if={state.activeTab === 'monthly' && state.monthlyPaymentLinkUrl} class="plan-panel">
             <p class="plan-price">
-              {state.monthlyPrice || t("membership.monthlyPrice")}<span class="plan-period">{t("membership.perMonth")}</span>
+              {state.monthlyPrice}<span class="plan-period">{t("membership.perMonth")}</span>
             </p>
             <sl-button variant="primary" class="upgrade-btn"
               href={state.monthlyPaymentLinkUrl} target="_blank" rel="noopener noreferrer">
@@ -59,7 +59,7 @@
 
           <div if={state.activeTab === 'yearly' && state.yearlyPaymentLinkUrl} class="plan-panel">
             <p class="plan-price">
-              {state.yearlyPrice || t("membership.yearlyPrice")}<span class="plan-period">{t("membership.perYear")}</span>
+              {state.yearlyPrice}<span class="plan-period">{t("membership.perYear")}</span>
             </p>
             <p class="plan-savings">{t("membership.yearlySavings")}</p>
             <sl-button variant="primary" class="upgrade-btn"

@@ -17,7 +17,7 @@
 
         <div if={state.activeTab === 'monthly' && state.monthlyPaymentLinkUrl} class="plan-panel">
           <p class="plan-price">
-            {state.monthlyPrice || t("membership.monthlyPrice")}<span class="plan-period">{t("membership.perMonth")}</span>
+            {state.monthlyPrice}<span class="plan-period">{t("membership.perMonth")}</span>
           </p>
           <sl-button variant="primary" class="gate-btn"
             href={state.monthlyPaymentLinkUrl} target="_blank" rel="noopener noreferrer">
@@ -27,7 +27,7 @@
 
         <div if={state.activeTab === 'yearly' && state.yearlyPaymentLinkUrl} class="plan-panel">
           <p class="plan-price">
-            {state.yearlyPrice || t("membership.yearlyPrice")}<span class="plan-period">{t("membership.perYear")}</span>
+            {state.yearlyPrice}<span class="plan-period">{t("membership.perYear")}</span>
           </p>
           <p class="plan-savings">{t("membership.yearlySavings")}</p>
           <sl-button variant="primary" class="gate-btn"
@@ -60,12 +60,15 @@
       },
       onMounted() {
         this._handlePricingChanged = () => {
+          console.log("-------")
           this.update({
             monthlyPrice: membershipStore.getFormattedMonthlyPrice(),
             yearlyPrice: membershipStore.getFormattedYearlyPrice(),
           });
         };
         membershipStore.on('pricing-changed', this._handlePricingChanged);
+        // 既にデータがロード済みの場合に反映
+        this._handlePricingChanged();
       },
       onBeforeUnmount() {
         if (this._handlePricingChanged) {

@@ -13,5 +13,11 @@ service cloud.firestore {
       allow read: if true;
       allow write: if false;
     }
+
+    // config: 全員読み取り可、書き込みは Cloud Functions のみ
+    match /config/{docId} {
+      allow read: if true;
+      allow write: if false;
+    }
   }
 }

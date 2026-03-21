@@ -3,11 +3,15 @@ import { collection, doc, onSnapshot } from 'firebase/firestore';
 import { db } from '@/services/firebase';
 
 function formatPrice(amount: number, currency: string): string {
-  return new Intl.NumberFormat('ja-JP', { style: 'currency', currency }).format(amount);
+  return new Intl.NumberFormat('ja-JP', { style: 'currency', currency }).format(
+    amount,
+  );
 }
 
-const MONTHLY_PAYMENT_LINK_URL = import.meta.env.VITE_STRIPE_PAYMENT_LINK_MONTHLY_URL || '';
-const YEARLY_PAYMENT_LINK_URL = import.meta.env.VITE_STRIPE_PAYMENT_LINK_YEARLY_URL || '';
+const MONTHLY_PAYMENT_LINK_URL =
+  import.meta.env.VITE_STRIPE_PAYMENT_LINK_MONTHLY_URL || '';
+const YEARLY_PAYMENT_LINK_URL =
+  import.meta.env.VITE_STRIPE_PAYMENT_LINK_YEARLY_URL || '';
 const CUSTOMER_PORTAL_URL =
   import.meta.env.VITE_STRIPE_CUSTOMER_PORTAL_URL || '';
 
@@ -118,7 +122,10 @@ const membershipStore = observable({
 
   getFormattedMonthlyPrice(this: MembershipStore): string | null {
     if (!this.monthlyPricing) return null;
-    return formatPrice(this.monthlyPricing.amount, this.monthlyPricing.currency);
+    return formatPrice(
+      this.monthlyPricing.amount,
+      this.monthlyPricing.currency,
+    );
   },
 
   getFormattedYearlyPrice(this: MembershipStore): string | null {
