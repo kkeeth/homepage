@@ -8,6 +8,7 @@ admin.initializeApp();
 const db = admin.firestore();
 const stripeSecret = defineSecret('STRIPE_SECRET_KEY');
 const stripeWebhookSecret = defineSecret('STRIPE_WEBHOOK_SECRET');
+const stripeWebhookSecretTest = defineSecret('STRIPE_WEBHOOK_SECRET_TEST');
 
 // Cloudflare KV secrets (for premium feed subscription sync)
 const cfAccountId = defineSecret('CLOUDFLARE_ACCOUNT_ID');
@@ -39,6 +40,28 @@ async function kvDelete(key: string): Promise<void> {
     const body = await res.text();
     console.error(`KV DELETE failed for key=${key}: ${res.status} ${body}`);
   }
+}
+
+/**
+ * Stripe Price を Firestore config/pricing に同期する。
+ * recurring な active price のみ対象。interval (month/year) をキーに保存。
+ */
+async function syncPrice(price: Stripe.Price): Promise<void> {
+  if (!price.recurring || !price.active) return;
+
+  const key = price.recurring.interval === 'month' ? 'monthly' : 'yearly';
+  await db.collection('config').doc('pricing').set(
+    {
+      [key]: {
+        amount: price.unit_amount,
+        currency: price.currency,
+        priceId: price.id,
+        productId: typeof price.product === 'string' ? price.product : price.product.id,
+      },
+      updatedAt: new Date().toISOString(),
+    },
+    { merge: true },
+  );
 }
 
 /**
@@ -98,7 +121,7 @@ export const stripeWebhook = onRequest(
   {
     region: 'asia-northeast1',
     invoker: 'public',
-    secrets: [stripeSecret, stripeWebhookSecret, cfAccountId, cfApiToken, cfKvNamespaceId],
+    secrets: [stripeSecret, stripeWebhookSecret, stripeWebhookSecretTest, cfAccountId, cfApiToken, cfKvNamespaceId],
   },
   async (req, res) => {
     const stripe = new Stripe(stripeSecret.value(), {
@@ -113,20 +136,44 @@ export const stripeWebhook = onRequest(
     // Coerce header to single string (it can be string | string[])
     const sig = Array.isArray(sigHeader) ? sigHeader[0] : sigHeader;
 
-    let event: Stripe.Event;
-    try {
-      event = stripe.webhooks.constructEvent(
-        req.rawBody,
-        sig,
-        stripeWebhookSecret.value(),
-      );
-    } catch (err: any) {
-      console.error('VERIFICATION_ERROR_DETAIL:', err.message);
-      res.status(400).send(`Webhook Error: ${err.message}`);
+    // 本番 secret → テスト secret の順で検証を試みる
+    const secrets = [stripeWebhookSecret.value(), stripeWebhookSecretTest.value()].filter(Boolean);
+    let event: Stripe.Event | null = null;
+    for (const secret of secrets) {
+      try {
+        event = stripe.webhooks.constructEvent(req.rawBody, sig, secret);
+        break;
+      } catch {
+        // 次の secret を試す
+      }
+    }
+    if (!event) {
+      console.error('VERIFICATION_ERROR: No matching webhook secret');
+      res.status(400).send('Webhook Error: signature verification failed');
       return;
     }
 
     switch (event.type) {
+      // ── 価格同期 ──
+      case 'price.created':
+      case 'price.updated': {
+        const price = event.data.object as Stripe.Price;
+        await syncPrice(price);
+        break;
+      }
+
+      case 'price.deleted': {
+        const price = event.data.object as Stripe.Price;
+        if (price.recurring?.interval) {
+          const key = price.recurring.interval === 'month' ? 'monthly' : 'yearly';
+          await db.collection('config').doc('pricing').set(
+            { [key]: admin.firestore.FieldValue.delete(), updatedAt: new Date().toISOString() },
+            { merge: true },
+          );
+        }
+        break;
+      }
+
       case 'checkout.session.completed': {
         const session = event.data.object as Stripe.Checkout.Session;
         const email = session.customer_details?.email;
