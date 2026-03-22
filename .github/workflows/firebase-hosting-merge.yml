@@ -43,6 +43,7 @@ jobs:
           VITE_STRIPE_PAYMENT_LINK_MONTHLY_URL: ${{ secrets.VITE_STRIPE_PAYMENT_LINK_MONTHLY_URL }}
           VITE_STRIPE_PAYMENT_LINK_YEARLY_URL: ${{ secrets.VITE_STRIPE_PAYMENT_LINK_YEARLY_URL }}
           VITE_STRIPE_CUSTOMER_PORTAL_URL: ${{ secrets.VITE_STRIPE_CUSTOMER_PORTAL_URL }}
+          VITE_WORKER_BASE_URL: ${{ secrets.VITE_WORKER_BASE_URL }}
 
       # 4. Functions のビルド
       - name: Build Functions
