@@ -6,24 +6,32 @@ name: Deploy to Firebase on merge
 jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write # WIF 認証に必須
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '20.19.0'
+
+      # 1. セットアップ
       - uses: pnpm/action-setup@v4
         with:
           version: 10
-      # GCP 認証（Hosting / Functions / Firestore rules 共通）
-      - uses: google-github-actions/auth@v2
+      - uses: actions/setup-node@v4
         with:
-          credentials_json: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_MY_HOMEPAGE_6641D }}'
-      - name: 'Set up Cloud SDK'
-        uses: 'google-github-actions/setup-gcloud@v2'
+          node-version: '20.19.0'
+          cache: 'pnpm'
+
+      # 2. Google Cloud 認証 (WIF)
+      - id: 'auth'
+        name: 'Authenticate to Google Cloud'
+        uses: google-github-actions/auth@v2
         with:
-          version: '>= 363.0.0'
-      # Hosting: フロントエンドのビルドとデプロイ
-      - run: pnpm i && pnpm build
+          workload_identity_provider: '${{ secrets.WIF_PROVIDER }}'
+          service_account: '${{ secrets.WIF_SERVICE_ACCOUNT }}'
+
+      # 3. 依存関係のインストールとフロントエンドのビルド
+      - name: Install and Build Frontend
+        run: pnpm i && pnpm build
         env:
           VITE_GAS_URL: ${{ secrets.VITE_GAS_URL }}
           VITE_FIREBASE_API_KEY: ${{ secrets.VITE_FIREBASE_API_KEY }}
@@ -35,12 +43,14 @@ jobs:
           VITE_STRIPE_PAYMENT_LINK_MONTHLY_URL: ${{ secrets.VITE_STRIPE_PAYMENT_LINK_MONTHLY_URL }}
           VITE_STRIPE_PAYMENT_LINK_YEARLY_URL: ${{ secrets.VITE_STRIPE_PAYMENT_LINK_YEARLY_URL }}
           VITE_STRIPE_CUSTOMER_PORTAL_URL: ${{ secrets.VITE_STRIPE_CUSTOMER_PORTAL_URL }}
-      - uses: FirebaseExtended/action-hosting-deploy@v0
-        with:
-          repoToken: '${{ secrets.GITHUB_TOKEN }}'
-          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_MY_HOMEPAGE_6641D }}'
-          channelId: live
-          projectId: my-homepage-6641d
-      # Functions + Firestore rules のデプロイ
-      - run: pnpm -C functions install --frozen-lockfile && pnpm -C functions build
-      - run: npx firebase-tools deploy --only functions,firestore --project my-homepage-6641d --force
+
+      # 4. Functions のビルド
+      - name: Build Functions
+        run: pnpm -C functions install --frozen-lockfile && pnpm -C functions build
+
+      # 5. Firebase 一括デプロイ (Hosting, Functions, Firestore)
+      - name: Deploy to Firebase
+        run: npx firebase-tools deploy --only hosting,functions,firestore --project my-homepage-6641d --force
+        env:
+          # auth ステップで生成された ADC (Application Default Credentials) を使用
+          GOOGLE_APPLICATION_CREDENTIALS: ${{ steps.auth.outputs.credentials_file_path }}
