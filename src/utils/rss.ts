@@ -42,8 +42,10 @@ export async function fetchRSSFeed(url: string): Promise<Episode[]> {
 }
 
 export function parseRSSFeed(xmlText: string): Episode[] {
+  // Art19 フィードの <enclosure ...//>  のような不正な自己閉じタグを修正
+  const sanitizedXml = xmlText.replace(/\/\/>/g, '/>');
   const parser = new DOMParser();
-  const xmlDoc = parser.parseFromString(xmlText, 'text/xml');
+  const xmlDoc = parser.parseFromString(sanitizedXml, 'text/xml');
 
   const items = xmlDoc.querySelectorAll('item');
   const episodes: Episode[] = [];
@@ -134,7 +136,24 @@ export async function fetchMergedFeeds(
     console.error('[fetchMergedFeeds] premium feed error:', premium.reason);
   }
 
-  const merged = [...primaryEpisodes, ...premiumEpisodes].sort(
+  // Premium フィードには <link> がないため、同じタイトルのエピソードが
+  // 両方のフィードに存在する場合、primary の link を保持しつつ
+  // premium の audioUrl と isPremium フラグをマージして重複を除去する
+  const premiumByTitle = new Map<string, Episode>();
+  for (const ep of premiumEpisodes) {
+    premiumByTitle.set(ep.title, ep);
+  }
+
+  const mergedPrimary = primaryEpisodes.map((ep) => {
+    const premiumEp = premiumByTitle.get(ep.title);
+    if (premiumEp) {
+      premiumByTitle.delete(ep.title);
+      return { ...ep, isPremium: true, audioUrl: premiumEp.audioUrl || ep.audioUrl };
+    }
+    return ep;
+  });
+
+  const merged = [...mergedPrimary, ...premiumByTitle.values()].sort(
     (a, b) => b.pubDateObj.getTime() - a.pubDateObj.getTime(),
   );
   return merged;

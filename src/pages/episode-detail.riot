@@ -136,6 +136,8 @@
         };
         membershipStore.on('premium-episodes-changed', this._updateAccessControl);
         authStore.on('membership-changed', this._updateAccessControl);
+        // loadEpisode 中に発火済みのイベントを取りこぼす場合があるため即時再評価
+        this._updateAccessControl();
       },
       onBeforeUnmount() {
         if (this._updateAccessControl) {
