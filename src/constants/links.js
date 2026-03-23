@@ -16,10 +16,10 @@ export const SOCIAL_LINKS = [
     label: 'GitHub',
   },
   {
-    name: 'linkedin',
-    icon: 'linkedin',
-    url: 'https://www.linkedin.com/in/kkeeth/',
-    label: 'LinkedIn',
+    name: 'discord',
+    icon: 'discord',
+    url: 'https://discord.gg/u4cyUpNJ',
+    label: 'Discord',
   },
   {
     name: 'email',
