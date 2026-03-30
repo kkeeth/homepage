@@ -1,0 +1,30 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "FILE=$(echo \"$TOOL_INPUT\" | jq -r '.file_path // .file_path // empty' 2>/dev/null); CONTENT=$(echo \"$TOOL_INPUT\" | jq -r '.new_string // .content // empty' 2>/dev/null); if echo \"$CONTENT\" | grep -qi 'gradient'; then echo 'BLOCKED: グラデーション厳禁 — ソリッドカラーを使ってください。' >&2; exit 2; fi"
+          },
+          {
+            "type": "command",
+            "command": "FILE=$(echo \"$TOOL_INPUT\" | jq -r '.file_path // empty' 2>/dev/null); if echo \"$FILE\" | grep -qE '\\.env'; then echo 'BLOCKED: .env ファイルへの書き込みは禁止されています。' >&2; exit 2; fi"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "FILE=$(echo \"$TOOL_INPUT\" | jq -r '.file_path // empty' 2>/dev/null); if [ -n \"$FILE\" ] && echo \"$FILE\" | grep -qE '\\.ts$'; then cd /Users/kiyohito.kuwahara/src/github.com/kkeeth/homepage && pnpm lint 2>&1 | tail -20; fi"
+          }
+        ]
+      }
+    ]
+  }
+}
