@@ -85,7 +85,10 @@ const episodeStore = observable({
         })).reverse();
         this.allEpisodes = fallback;
       } else {
-        const episodes = (await fetchMergedFeeds(RSS_FEED_URL, fetchPremiumEpisodes())) as RSSEpisode[];
+        const episodes = (await fetchMergedFeeds(
+          RSS_FEED_URL,
+          fetchPremiumEpisodes(),
+        )) as RSSEpisode[];
 
         this.allEpisodes = episodes.map(
           (episode: RSSEpisode, index: number) => ({

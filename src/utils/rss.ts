@@ -148,7 +148,11 @@ export async function fetchMergedFeeds(
     const premiumEp = premiumByTitle.get(ep.title);
     if (premiumEp) {
       premiumByTitle.delete(ep.title);
-      return { ...ep, isPremium: true, audioUrl: premiumEp.audioUrl || ep.audioUrl };
+      return {
+        ...ep,
+        isPremium: true,
+        audioUrl: premiumEp.audioUrl || ep.audioUrl,
+      };
     }
     return ep;
   });

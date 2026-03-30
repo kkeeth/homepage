@@ -23,10 +23,15 @@ let db: Firestore;
 export function initFirebase(): void {
   const missing = Object.entries(firebaseConfig)
     .filter(([, value]) => !value)
-    .map(([key]) => `VITE_FIREBASE_${key.replace(/([A-Z])/g, '_$1').toUpperCase()}`);
+    .map(
+      ([key]) =>
+        `VITE_FIREBASE_${key.replace(/([A-Z])/g, '_$1').toUpperCase()}`,
+    );
 
   if (missing.length > 0) {
-    throw new Error(`Missing required Firebase environment variables:\n  ${missing.join('\n  ')}`);
+    throw new Error(
+      `Missing required Firebase environment variables:\n  ${missing.join('\n  ')}`,
+    );
   }
 
   app = initializeApp(firebaseConfig);
