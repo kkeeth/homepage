@@ -18,7 +18,7 @@ export const SOCIAL_LINKS = [
   {
     name: 'discord',
     icon: 'discord',
-    url: 'https://discord.gg/u4cyUpNJ',
+    url: 'https://discord.gg/baGp9vJCVU',
     label: 'Discord',
   },
   {
