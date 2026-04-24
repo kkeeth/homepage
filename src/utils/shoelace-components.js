@@ -19,6 +19,4 @@ import '@shoelace-style/shoelace/dist/components/tab/tab.js';
 import '@shoelace-style/shoelace/dist/components/tab-panel/tab-panel.js';
 
 import { setBasePath } from '@shoelace-style/shoelace/dist/utilities/base-path';
-setBasePath(
-  'https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.20.1/cdn/',
-);
+setBasePath('/shoelace/');
