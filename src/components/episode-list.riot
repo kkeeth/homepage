@@ -1,4 +1,4 @@
-<episode-card>
+<episode-list>
   <div class="episode-list">
     <div class="episode-item" each={episode in props.programEpisodes} key={episode.id}>
       <div class="episode-date-col">
@@ -46,6 +46,7 @@
         membershipStore.off('premium-episodes-changed', this._onPremiumEpisodesChanged);
       },
       isEpisodePremium(episode) {
+        if (episode.isPremium) return true;
         const id = this.getEpisodeId(episode);
         return membershipStore.isEpisodePremium(id) === true;
       },
@@ -259,4 +260,4 @@
       }
     }
   </style>
-</episode-card>
+</episode-list>

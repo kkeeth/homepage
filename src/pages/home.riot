@@ -36,7 +36,7 @@
         <span class="section-label">// LATEST EPISODES</span>
         <h2 class="section-title">{t("pages.home.episodes.latest.title")}</h2>
 
-        <episode-card program-episodes={state.latestEpisodes} show-more={true} />
+        <episode-list program-episodes={state.latestEpisodes} show-more={true} />
       </div>
     </section>
 
@@ -64,7 +64,8 @@
   </div>
 
   <script>
-    import { fetchRSSFeed, getLatestEpisodes } from '@/utils/rss';
+    import { fetchMergedFeeds, getLatestEpisodes } from '@/utils/rss';
+    import { fetchPremiumEpisodes } from '@/utils/premium-feed';
     import { PODCAST_PLATFORMS, OTHER_PROGRAMS, RSS_FEED_URL } from '@/constants/links';
     import i18nStore from '@/stores/i18n-store';
 
@@ -72,8 +73,7 @@
       t: i18nStore.t.bind(i18nStore),
       async onBeforeMount() {
         try {
-          const RSS_URL = RSS_FEED_URL;
-          const episodes = await fetchRSSFeed(RSS_URL);
+          const episodes = await fetchMergedFeeds(RSS_FEED_URL, fetchPremiumEpisodes());
           this.update({
             latestEpisodes: getLatestEpisodes(episodes, 3)
           });
