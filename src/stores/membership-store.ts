@@ -33,29 +33,24 @@ interface MembershipStore extends ObservableInstance<unknown> {
    */
   isEpisodePremium(episodeId: string): boolean | null;
   /**
-   * Payment Link URL を返す
-   *
-   * 設計方針: client_reference_id を使わず、Webhook 側でメールアドレスからユーザーを特定
-   *
-   * 理由:
-   * - Stripe Payment Links は client_reference_id をサポートしていない
-   * - メールアドレスは Checkout Session から確実に取得できる
-   *
-   * トレードオフと制限:
-   * - メールアドレス変更時: 初回決済時のメールで Firebase Auth ユーザーを作成/特定するため、
-   *   その後ユーザーがメールアドレスを変更しても、Stripe Customer の metadata に保存した
-   *   firebaseUID で継続的に追跡可能（metadata は stripeWebhook で自動設定される）
-   * - 異なるメールでの再購入: 新しいメールアドレスで決済した場合、別の Firebase Auth
-   *   ユーザーとして扱われる（これは意図的な動作）
-   * - メールアドレスの一意性: Firebase Auth のメール認証を前提としているため、同じメール
-   *   アドレスで複数のユーザーが作成されることはない
+   * Payment Link URL を返す。uid を渡すと ?client_reference_id=<uid> を付与し、
+   * Webhook 側でメール検索を経由せず直接 Firebase UID でユーザーを特定できる。
+   * 未ログインの場合は uid なしでそのまま返す（Webhook 側でメール検索フォールバック）。
    */
-  getMonthlyPaymentLinkUrl(): string | null;
-  getYearlyPaymentLinkUrl(): string | null;
+  getMonthlyPaymentLinkUrl(uid?: string | null): string | null;
+  getYearlyPaymentLinkUrl(uid?: string | null): string | null;
   getCustomerPortalUrl(): string | null;
   getFormattedMonthlyPrice(): string | null;
   getFormattedYearlyPrice(): string | null;
   destroy(): void;
+}
+
+function buildPaymentUrl(baseUrl: string, uid?: string | null): string | null {
+  if (!baseUrl) return null;
+  if (!uid) return baseUrl;
+  const url = new URL(baseUrl);
+  url.searchParams.set('client_reference_id', uid);
+  return url.toString();
 }
 
 const membershipStore = observable({
@@ -108,12 +103,12 @@ const membershipStore = observable({
     return this.premiumEpisodeIds.has(episodeId);
   },
 
-  getMonthlyPaymentLinkUrl(): string | null {
-    return MONTHLY_PAYMENT_LINK_URL || null;
+  getMonthlyPaymentLinkUrl(uid?: string | null): string | null {
+    return buildPaymentUrl(MONTHLY_PAYMENT_LINK_URL, uid);
   },
 
-  getYearlyPaymentLinkUrl(): string | null {
-    return YEARLY_PAYMENT_LINK_URL || null;
+  getYearlyPaymentLinkUrl(uid?: string | null): string | null {
+    return buildPaymentUrl(YEARLY_PAYMENT_LINK_URL, uid);
   },
 
   getCustomerPortalUrl(): string | null {

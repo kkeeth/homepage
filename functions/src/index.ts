@@ -176,42 +176,54 @@ export const stripeWebhook = onRequest(
 
       case 'checkout.session.completed': {
         const session = event.data.object as Stripe.Checkout.Session;
-        const email = session.customer_details?.email;
-        if (!email || !session.subscription) break;
+        if (!session.subscription) break;
 
-        // メールアドレスから Firebase Auth ユーザーを特定/作成
+        const customerId = session.customer as string;
         let uid: string;
-        try {
-          const userRecord = await admin.auth().getUserByEmail(email);
-          uid = userRecord.uid;
-        } catch (err: any) {
-          if (err.code !== 'auth/user-not-found') {
-            // ネットワーク障害・レートリミット等の一時的エラーは 500 を返し Stripe にリトライさせる
-            console.error(`getUserByEmail failed for ${email}:`, err.code, err.message);
-            res.status(500).json({ received: false, error: 'Failed to look up user' });
+
+        if (session.client_reference_id) {
+          // ログイン済みユーザーが Payment Link に ?client_reference_id=<uid> を付けて決済した場合。
+          // メール所有権の確認不要（Firebase Auth で認証済みの uid を直接使う）。
+          try {
+            await admin.auth().getUser(session.client_reference_id);
+            uid = session.client_reference_id;
+          } catch (err: any) {
+            console.error(`Invalid client_reference_id: ${session.client_reference_id}`, err.code);
+            res.status(400).json({ received: false, error: 'Invalid client_reference_id' });
             return;
           }
-          // 【設計上の意図】emailVerified: false のまま premium を付与する
-          //
-          // このフローでは Stripe がチェックアウト時にメールアドレスの実在を担保している。
-          // Stripe は決済完了メールをそのアドレスに送付するため、到達不能なメールへの
-          // 決済は事実上不可能であり、Firebase のメール確認と同等の信頼性がある。
-          //
-          // また、マジックリンク（sendSignInLinkToEmail）でサインインした時点で
-          // Firebase Auth は自動的に emailVerified を true に更新するため、
-          // 初回ログイン後にこのフラグは解消される。
-          //
-          // よって、メール確認を premium 付与の前提条件にすることはしない。
-          // 決済完了 = メール実在確認 として扱う。
-          const newUser = await admin.auth().createUser({
-            email,
-            emailVerified: false,
-          });
-          uid = newUser.uid;
+        } else {
+          // フォールバック: 未ログインユーザーや client_reference_id なしの決済はメールで特定する。
+          const email = session.customer_details?.email;
+          if (!email) break;
+
+          try {
+            const userRecord = await admin.auth().getUserByEmail(email);
+            uid = userRecord.uid;
+
+            // 既存ユーザーが別の Stripe Customer にすでに紐づいている場合、
+            // 攻撃者が被害者メールを使って決済した可能性があるため上書きを拒否する。
+            const existingDoc = await db.collection('users').doc(uid).get();
+            const existingCustomerId = existingDoc.data()?.stripeCustomerId as string | undefined;
+            if (existingCustomerId && existingCustomerId !== customerId) {
+              console.warn(
+                `checkout.session.completed: uid=${uid} already linked to ${existingCustomerId}, rejecting ${customerId}. Possible account takeover attempt.`,
+              );
+              res.status(200).json({ received: true, skipped: true });
+              return;
+            }
+          } catch (err: any) {
+            if (err.code !== 'auth/user-not-found') {
+              console.error(`getUserByEmail failed for ${email}:`, err.code, err.message);
+              res.status(500).json({ received: false, error: 'Failed to look up user' });
+              return;
+            }
+            const newUser = await admin.auth().createUser({ email, emailVerified: false });
+            uid = newUser.uid;
+          }
         }
 
         // Stripe Customer に firebaseUID を保存（以降の Webhook で参照）
-        const customerId = session.customer as string;
         await stripe.customers.update(customerId, {
           metadata: { firebaseUID: uid },
         });

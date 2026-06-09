@@ -45,13 +45,14 @@
 
   <script>
     import membershipStore from '@/stores/membership-store';
+    import authStore from '@/stores/auth-store';
     import i18nStore from '@/stores/i18n-store';
 
     export default {
       t: i18nStore.t.bind(i18nStore),
       state: {
-        monthlyPaymentLinkUrl: membershipStore.getMonthlyPaymentLinkUrl(),
-        yearlyPaymentLinkUrl: membershipStore.getYearlyPaymentLinkUrl(),
+        monthlyPaymentLinkUrl: membershipStore.getMonthlyPaymentLinkUrl(authStore.user?.uid),
+        yearlyPaymentLinkUrl: membershipStore.getYearlyPaymentLinkUrl(authStore.user?.uid),
         monthlyPrice: membershipStore.getFormattedMonthlyPrice(),
         yearlyPrice: membershipStore.getFormattedYearlyPrice(),
         activeTab: membershipStore.getMonthlyPaymentLinkUrl() ? 'monthly'
@@ -60,19 +61,27 @@
       },
       onMounted() {
         this._handlePricingChanged = () => {
-          console.log("-------")
           this.update({
             monthlyPrice: membershipStore.getFormattedMonthlyPrice(),
             yearlyPrice: membershipStore.getFormattedYearlyPrice(),
           });
         };
+        this._handleAuthChanged = () => {
+          this.update({
+            monthlyPaymentLinkUrl: membershipStore.getMonthlyPaymentLinkUrl(authStore.user?.uid),
+            yearlyPaymentLinkUrl: membershipStore.getYearlyPaymentLinkUrl(authStore.user?.uid),
+          });
+        };
         membershipStore.on('pricing-changed', this._handlePricingChanged);
-        // 既にデータがロード済みの場合に反映
+        authStore.on('auth-changed', this._handleAuthChanged);
         this._handlePricingChanged();
       },
       onBeforeUnmount() {
         if (this._handlePricingChanged) {
           membershipStore.off('pricing-changed', this._handlePricingChanged);
+        }
+        if (this._handleAuthChanged) {
+          authStore.off('auth-changed', this._handleAuthChanged);
         }
       },
     }
