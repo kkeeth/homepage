@@ -1,0 +1,28 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "webhook",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-03-01",
+  "compatibility_flags": ["nodejs_compat"],
+  "observability": {
+    "enabled": true,
+  },
+  // premium-feed Worker と同一の KV Namespace を共有
+  "kv_namespaces": [
+    {
+      "binding": "SUBSCRIBERS",
+      "id": "89f56fe5969f41939c54bfe5a143d03a",
+      "preview_id": "b94b071197614fb4af525048d6f7de6e",
+    },
+  ],
+  "vars": {
+    // 機密でない設定値（Firestore プロジェクト ID）
+    "FIREBASE_PROJECT_ID": "my-homepage-6641d",
+  },
+  // 以下のシークレットは `wrangler secret put` で設定する:
+  //   STRIPE_WEBHOOK_SECRET
+  //   STRIPE_WEBHOOK_SECRET_TEST
+  //   STRIPE_SECRET_KEY
+  //   GCP_CLIENT_EMAIL       (サービスアカウントのメールアドレス)
+  //   GCP_PRIVATE_KEY        (サービスアカウントの秘密鍵 PEM)
+}
