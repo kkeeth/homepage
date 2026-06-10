@@ -183,8 +183,8 @@
       onBeforeMount() {
         // state の静的定義はモジュール import 時（authStore.init() 前）に評価されるため
         // 初回レンダリング前に store の最新値で上書きする
-        const monthly = membershipStore.getMonthlyPaymentLinkUrl();
-        const yearly = membershipStore.getYearlyPaymentLinkUrl();
+        const monthly = membershipStore.getMonthlyPaymentLinkUrl(authStore.user?.uid);
+        const yearly = membershipStore.getYearlyPaymentLinkUrl(authStore.user?.uid);
         Object.assign(this.state, {
           user: authStore.user,
           avatarUrl: authStore.getAvatarUrl(),
@@ -232,8 +232,8 @@
         router.push('/');
       },
       onAuthChanged() {
-        const monthly = membershipStore.getMonthlyPaymentLinkUrl();
-        const yearly = membershipStore.getYearlyPaymentLinkUrl();
+        const monthly = membershipStore.getMonthlyPaymentLinkUrl(authStore.user?.uid);
+        const yearly = membershipStore.getYearlyPaymentLinkUrl(authStore.user?.uid);
         this.update({
           user: authStore.user,
           avatarUrl: authStore.getAvatarUrl(),
