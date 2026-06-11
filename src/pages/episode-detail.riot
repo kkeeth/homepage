@@ -128,7 +128,7 @@
 
           const isPremiumCheck = membershipStore.isEpisodePremium(episodeId);
           const isPremiumEpisode = episode.isPremium || isPremiumCheck !== false;
-          const canAccess = !isPremiumEpisode || authStore.isPremium;
+          const canAccess = !isPremiumEpisode || authStore.isPremium || import.meta.env.DEV;
 
           if (this.state.isPremiumEpisode !== isPremiumEpisode || this.state.canAccess !== canAccess) {
             this.update({ isPremiumEpisode, canAccess });
@@ -178,7 +178,7 @@
             // isPremium: feed ソースベースの判定 OR Firestore ベースの判定
             const isPremiumCheck = membershipStore.isEpisodePremium(canonicalId);
             const isPremiumEpisode = foundEpisode.isPremium || isPremiumCheck !== false;
-            const canAccess = !isPremiumEpisode || authStore.isPremium;
+            const canAccess = !isPremiumEpisode || authStore.isPremium || import.meta.env.DEV;
             this.update({
               loading: false,
               episode: foundEpisode,
