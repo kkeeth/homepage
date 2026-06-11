@@ -16,6 +16,7 @@ interface Env {
   SIGNING_KEY: string;
   ART19_PREMIUM_FEED_URL: string;
   FIREBASE_PROJECT_ID: string;
+  DEV_MODE?: string;
 }
 
 // ── HMAC helpers ─────────────────────────────────────────────────────────────
@@ -198,7 +199,7 @@ export default {
     // localhost (wrangler dev) の場合は認証スキップ
     // 本番は Firebase ID トークン認証 → isPremium 確認
     if (path === '/episodes') {
-      const isLocal = url.hostname === 'localhost' || url.hostname === '127.0.0.1';
+      const isLocal = env.DEV_MODE === 'true';
 
       if (!isLocal) {
         const authHeader = request.headers.get('Authorization');
