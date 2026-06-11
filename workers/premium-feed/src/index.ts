@@ -195,18 +195,23 @@ export default {
     }
 
     // ── GET /episodes ─────────────────────────────────────────────────────
-    // Firebase ID トークン認証 → isPremium 確認 → 署名付き音声 URL 付きフィード
+    // localhost (wrangler dev) の場合は認証スキップ
+    // 本番は Firebase ID トークン認証 → isPremium 確認
     if (path === '/episodes') {
-      const authHeader = request.headers.get('Authorization');
-      if (!authHeader?.startsWith('Bearer ')) {
-        return corsResponse('Unauthorized', 401);
-      }
-      const idToken = authHeader.slice(7);
-      const uid = getUidFromJwt(idToken);
-      if (!uid) return corsResponse('Unauthorized', 401);
+      const isLocal = url.hostname === 'localhost' || url.hostname === '127.0.0.1';
 
-      const isPremium = await getIsPremium(uid, idToken, env.FIREBASE_PROJECT_ID);
-      if (!isPremium) return corsResponse('Forbidden', 403);
+      if (!isLocal) {
+        const authHeader = request.headers.get('Authorization');
+        if (!authHeader?.startsWith('Bearer ')) {
+          return corsResponse('Unauthorized', 401);
+        }
+        const idToken = authHeader.slice(7);
+        const uid = getUidFromJwt(idToken);
+        if (!uid) return corsResponse('Unauthorized', 401);
+
+        const isPremium = await getIsPremium(uid, idToken, env.FIREBASE_PROJECT_ID);
+        if (!isPremium) return corsResponse('Forbidden', 403);
+      }
 
       const feedXml = await fetchArt19Feed(env);
       if (!feedXml) return corsResponse('Feed unavailable', 502);
