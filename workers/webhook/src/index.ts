@@ -455,8 +455,12 @@ async function handleCheckoutCompleted(
     `subscriptions/${session.subscription as string}`,
     env.STRIPE_SECRET_KEY,
   );
-  if (!subscription?.status) {
-    console.error(`Invalid subscription for session ${session.id}`);
+  const subStatus = subscription?.status;
+  const periodEnd = subscription?.current_period_end;
+  if (typeof subStatus !== 'string' || typeof periodEnd !== 'number' || !Number.isFinite(periodEnd)) {
+    console.error(
+      `Invalid subscription for session ${session.id}: status=${String(subStatus)} current_period_end=${String(periodEnd)}`,
+    );
     return err(500, 'Invalid subscription data');
   }
 
@@ -467,10 +471,8 @@ async function handleCheckoutCompleted(
       plan: 'premium',
       stripeCustomerId: customerId,
       subscriptionId: subscription.id,
-      subscriptionStatus: subscription.status,
-      currentPeriodEnd: new Date(
-        (subscription.current_period_end as number) * 1000,
-      ).toISOString(),
+      subscriptionStatus: subStatus,
+      currentPeriodEnd: new Date(periodEnd * 1000).toISOString(),
       createdAt: new Date().toISOString(),
     },
     token,
@@ -499,16 +501,23 @@ async function handleSubscriptionUpdated(
     return ok({ received: true, skipped: true });
   }
 
-  const plan = subscription.status === 'active' ? 'premium' : 'free';
+  const subStatus = subscription.status;
+  const periodEnd = subscription.current_period_end;
+  if (typeof subStatus !== 'string' || typeof periodEnd !== 'number' || !Number.isFinite(periodEnd)) {
+    console.error(
+      `Invalid subscription data for ${subscription.id}: status=${String(subStatus)} current_period_end=${String(periodEnd)}`,
+    );
+    return err(500, 'Invalid subscription data');
+  }
+
+  const plan = subStatus === 'active' ? 'premium' : 'free';
   await fsSet(
     env.FIREBASE_PROJECT_ID,
     `users/${uid}`,
     {
       plan,
-      subscriptionStatus: subscription.status,
-      currentPeriodEnd: new Date(
-        (subscription.current_period_end as number) * 1000,
-      ).toISOString(),
+      subscriptionStatus: subStatus,
+      currentPeriodEnd: new Date(periodEnd * 1000).toISOString(),
     },
     token,
   );
