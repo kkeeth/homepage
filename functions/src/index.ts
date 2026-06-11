@@ -2,45 +2,12 @@ import { onRequest } from 'firebase-functions/v2/https';
 import { defineSecret } from 'firebase-functions/params';
 import * as admin from 'firebase-admin';
 import Stripe from 'stripe';
-import { randomUUID } from 'crypto';
 
 admin.initializeApp();
 const db = admin.firestore();
 const stripeSecret = defineSecret('STRIPE_SECRET_KEY');
 const stripeWebhookSecret = defineSecret('STRIPE_WEBHOOK_SECRET');
 const stripeWebhookSecretTest = defineSecret('STRIPE_WEBHOOK_SECRET_TEST');
-
-// Cloudflare KV secrets (for premium feed subscription sync)
-const cfAccountId = defineSecret('CLOUDFLARE_ACCOUNT_ID');
-const cfApiToken = defineSecret('CLOUDFLARE_API_TOKEN');
-const cfKvNamespaceId = defineSecret('CLOUDFLARE_KV_NAMESPACE_ID');
-
-// ── Cloudflare KV helpers ────────────────────────────────────────────
-
-async function kvPut(key: string, value: string): Promise<void> {
-  const url = `https://api.cloudflare.com/client/v4/accounts/${cfAccountId.value()}/storage/kv/namespaces/${cfKvNamespaceId.value()}/values/${key}`;
-  const res = await fetch(url, {
-    method: 'PUT',
-    headers: { Authorization: `Bearer ${cfApiToken.value()}` },
-    body: value,
-  });
-  if (!res.ok) {
-    const body = await res.text();
-    console.error(`KV PUT failed for key=${key}: ${res.status} ${body}`);
-  }
-}
-
-async function kvDelete(key: string): Promise<void> {
-  const url = `https://api.cloudflare.com/client/v4/accounts/${cfAccountId.value()}/storage/kv/namespaces/${cfKvNamespaceId.value()}/values/${key}`;
-  const res = await fetch(url, {
-    method: 'DELETE',
-    headers: { Authorization: `Bearer ${cfApiToken.value()}` },
-  });
-  if (!res.ok) {
-    const body = await res.text();
-    console.error(`KV DELETE failed for key=${key}: ${res.status} ${body}`);
-  }
-}
 
 /**
  * Stripe Price を Firestore config/pricing に同期する。
@@ -74,12 +41,7 @@ async function revokeAccessByCustomerId(customerId: string): Promise<void> {
     .where('stripeCustomerId', '==', customerId)
     .get();
   const batch = db.batch();
-  const kvDeletes: Promise<void>[] = [];
   snapshot.docs.forEach((doc) => {
-    const token = doc.data()?.premiumFeedToken as string | undefined;
-    if (token) {
-      kvDeletes.push(kvDelete(token));
-    }
     batch.set(
       doc.ref,
       {
@@ -87,41 +49,34 @@ async function revokeAccessByCustomerId(customerId: string): Promise<void> {
         subscriptionStatus: 'canceled',
         subscriptionId: null,
         currentPeriodEnd: null,
-        premiumFeedToken: null,
       },
       { merge: true },
     );
   });
   if (!snapshot.empty) {
-    await Promise.all([batch.commit(), ...kvDeletes]);
+    await batch.commit();
   }
 }
 
 /**
  * HTTP: Stripe Webhook 受信
  * Payment Links 経由の決済完了やサブスク変更を Firestore に反映する
- * 
+ *
  * ユーザー特定の流れ:
- * 1. checkout.session.completed: メールアドレスから Firebase Auth ユーザーを特定/作成
- *    - 既存ユーザーの場合: getUserByEmail() で uid を取得
- *    - 新規ユーザーの場合: createUser() で新規作成
+ * 1. checkout.session.completed: client_reference_id (Firebase UID) で特定
+ *    - フォールバック: メールアドレスから Firebase Auth ユーザーを特定/作成
  *    - Stripe Customer の metadata に firebaseUID を保存（以降の Webhook で参照）
- * 
+ *
  * 2. subscription 関連イベント: Stripe Customer の metadata.firebaseUID で特定
  *    - customer.subscription.updated
  *    - customer.subscription.deleted
  *    - invoice.payment_failed
- * 
- * トレードオフ:
- * - 初回決済時のメールで Firebase Auth ユーザーを特定するため、その後 Firebase Auth 側で
- *   メールアドレスを変更しても、metadata.firebaseUID による追跡は継続される
- * - 異なるメールで再購入した場合は別ユーザーとして扱われる（意図的な動作）
  */
 export const stripeWebhook = onRequest(
   {
     region: 'asia-northeast1',
     invoker: 'public',
-    secrets: [stripeSecret, stripeWebhookSecret, stripeWebhookSecretTest, cfAccountId, cfApiToken, cfKvNamespaceId],
+    secrets: [stripeSecret, stripeWebhookSecret, stripeWebhookSecretTest],
   },
   async (req, res) => {
     const stripe = new Stripe(stripeSecret.value(), {
@@ -133,10 +88,8 @@ export const stripeWebhook = onRequest(
       res.status(400).send('Missing stripe-signature header');
       return;
     }
-    // Coerce header to single string (it can be string | string[])
     const sig = Array.isArray(sigHeader) ? sigHeader[0] : sigHeader;
 
-    // 本番 secret → テスト secret の順で検証を試みる
     const secrets = [stripeWebhookSecret.value(), stripeWebhookSecretTest.value()].filter(Boolean);
     let event: Stripe.Event | null = null;
     for (const secret of secrets) {
@@ -144,7 +97,7 @@ export const stripeWebhook = onRequest(
         event = stripe.webhooks.constructEvent(req.rawBody, sig, secret);
         break;
       } catch {
-        // 次の secret を試す
+        // try next secret
       }
     }
     if (!event) {
@@ -154,7 +107,6 @@ export const stripeWebhook = onRequest(
     }
 
     switch (event.type) {
-      // ── 価格同期 ──
       case 'price.created':
       case 'price.updated': {
         const price = event.data.object as Stripe.Price;
@@ -182,8 +134,6 @@ export const stripeWebhook = onRequest(
         let uid: string;
 
         if (session.client_reference_id) {
-          // ログイン済みユーザーが Payment Link に ?client_reference_id=<uid> を付けて決済した場合。
-          // メール所有権の確認不要（Firebase Auth で認証済みの uid を直接使う）。
           try {
             await admin.auth().getUser(session.client_reference_id);
             uid = session.client_reference_id;
@@ -193,7 +143,6 @@ export const stripeWebhook = onRequest(
             return;
           }
         } else {
-          // フォールバック: 未ログインユーザーや client_reference_id なしの決済はメールで特定する。
           const email = session.customer_details?.email;
           if (!email) break;
 
@@ -201,8 +150,6 @@ export const stripeWebhook = onRequest(
             const userRecord = await admin.auth().getUserByEmail(email);
             uid = userRecord.uid;
 
-            // 既存ユーザーが別の Stripe Customer にすでに紐づいている場合、
-            // 攻撃者が被害者メールを使って決済した可能性があるため上書きを拒否する。
             const existingDoc = await db.collection('users').doc(uid).get();
             const existingCustomerId = existingDoc.data()?.stripeCustomerId as string | undefined;
             if (existingCustomerId && existingCustomerId !== customerId) {
@@ -223,98 +170,50 @@ export const stripeWebhook = onRequest(
           }
         }
 
-        // Stripe Customer に firebaseUID を保存（以降の Webhook で参照）
-        await stripe.customers.update(customerId, {
-          metadata: { firebaseUID: uid },
-        });
+        await stripe.customers.update(customerId, { metadata: { firebaseUID: uid } });
 
-        const subscription = await stripe.subscriptions.retrieve(
-          session.subscription as string,
-        );
-        
-        // Validate subscription has required properties
+        const subscription = await stripe.subscriptions.retrieve(session.subscription as string);
         if (!subscription || subscription.status === undefined || subscription.current_period_end === undefined) {
-          console.error(
-            `Invalid subscription data received for session ${session.id}, subscription ${session.subscription}. Missing required properties.`,
-          );
-          res.status(500).json({
-            received: false,
-            error: 'Invalid subscription data from Stripe; subscription not saved.',
-          });
+          console.error(`Invalid subscription data for session ${session.id}`);
+          res.status(500).json({ received: false, error: 'Invalid subscription data from Stripe' });
           return;
         }
-        
-        // Generate a unique feed token for the Worker's /feed/:userToken endpoint
-        // Check if user already has a token (e.g. resubscription)
-        const existingDoc = await db.collection('users').doc(uid).get();
-        const premiumFeedToken = existingDoc.data()?.premiumFeedToken || randomUUID();
 
-        await Promise.all([
-          db
-            .collection('users')
-            .doc(uid)
-            .set(
-              {
-                plan: 'premium',
-                stripeCustomerId: customerId,
-                subscriptionId: subscription.id,
-                subscriptionStatus: subscription.status,
-                currentPeriodEnd: new Date(
-                  subscription.current_period_end * 1000,
-                ).toISOString(),
-                premiumFeedToken,
-                createdAt: new Date().toISOString(),
-              },
-              { merge: true },
-            ),
-          kvPut(premiumFeedToken, 'active'),
-        ]);
+        await db.collection('users').doc(uid).set(
+          {
+            plan: 'premium',
+            stripeCustomerId: customerId,
+            subscriptionId: subscription.id,
+            subscriptionStatus: subscription.status,
+            currentPeriodEnd: new Date(subscription.current_period_end * 1000).toISOString(),
+            createdAt: new Date().toISOString(),
+          },
+          { merge: true },
+        );
         break;
       }
 
       case 'customer.subscription.updated': {
         const subscription = event.data.object as Stripe.Subscription;
-        const customer = await stripe.customers.retrieve(
-          subscription.customer as string,
-        );
+        const customer = await stripe.customers.retrieve(subscription.customer as string);
         if (!customer.deleted) {
-          if (!customer.metadata || !customer.metadata.firebaseUID) {
+          if (!customer.metadata?.firebaseUID) {
             console.error(
-              `Missing firebaseUID in customer metadata for customer ${subscription.customer}, subscription ${subscription.id}. Skipping update.`,
+              `Missing firebaseUID in customer metadata for customer ${subscription.customer}`,
             );
             res.status(200).json({ received: true, skipped: true });
             return;
           }
           const uid = customer.metadata.firebaseUID;
           const plan = subscription.status === 'active' ? 'premium' : 'free';
-          const userDoc = await db.collection('users').doc(uid).get();
-          const feedToken = userDoc.data()?.premiumFeedToken as string | undefined;
-
-          const writes: Promise<unknown>[] = [
-            db
-              .collection('users')
-              .doc(uid)
-              .set(
-                {
-                  plan,
-                  subscriptionStatus: subscription.status,
-                  currentPeriodEnd: new Date(
-                    subscription.current_period_end * 1000,
-                  ).toISOString(),
-                },
-                { merge: true },
-              ),
-          ];
-
-          // Sync KV: activate or deactivate
-          if (feedToken) {
-            if (plan === 'premium') {
-              writes.push(kvPut(feedToken, 'active'));
-            } else {
-              writes.push(kvDelete(feedToken));
-            }
-          }
-          await Promise.all(writes);
+          await db.collection('users').doc(uid).set(
+            {
+              plan,
+              subscriptionStatus: subscription.status,
+              currentPeriodEnd: new Date(subscription.current_period_end * 1000).toISOString(),
+            },
+            { merge: true },
+          );
         } else {
           console.warn(`Customer ${subscription.customer} is deleted; revoking premium access.`);
           await revokeAccessByCustomerId(subscription.customer as string);
@@ -324,37 +223,25 @@ export const stripeWebhook = onRequest(
 
       case 'customer.subscription.deleted': {
         const subscription = event.data.object as Stripe.Subscription;
-        const customer = await stripe.customers.retrieve(
-          subscription.customer as string,
-        );
+        const customer = await stripe.customers.retrieve(subscription.customer as string);
         if (!customer.deleted) {
-          if (!customer.metadata || !customer.metadata.firebaseUID) {
+          if (!customer.metadata?.firebaseUID) {
             console.error(
-              `Missing firebaseUID in customer metadata for customer ${subscription.customer}, subscription ${subscription.id}. Skipping update.`,
+              `Missing firebaseUID in customer metadata for customer ${subscription.customer}`,
             );
             res.status(200).json({ received: true, skipped: true });
             return;
           }
           const uid = customer.metadata.firebaseUID;
-          const userDoc = await db.collection('users').doc(uid).get();
-          const feedToken = userDoc.data()?.premiumFeedToken as string | undefined;
-
-          const writes: Promise<unknown>[] = [
-            db.collection('users').doc(uid).set(
-              {
-                plan: 'free',
-                subscriptionStatus: 'canceled',
-                subscriptionId: null,
-                currentPeriodEnd: null,
-                premiumFeedToken: null,
-              },
-              { merge: true },
-            ),
-          ];
-          if (feedToken) {
-            writes.push(kvDelete(feedToken));
-          }
-          await Promise.all(writes);
+          await db.collection('users').doc(uid).set(
+            {
+              plan: 'free',
+              subscriptionStatus: 'canceled',
+              subscriptionId: null,
+              currentPeriodEnd: null,
+            },
+            { merge: true },
+          );
         } else {
           console.warn(`Customer ${subscription.customer} is deleted; revoking premium access.`);
           await revokeAccessByCustomerId(subscription.customer as string);
@@ -365,37 +252,21 @@ export const stripeWebhook = onRequest(
       case 'invoice.payment_failed': {
         const invoice = event.data.object as Stripe.Invoice;
         if (invoice.subscription) {
-          const subscription = await stripe.subscriptions.retrieve(
-            invoice.subscription as string,
-          );
-          const customer = await stripe.customers.retrieve(
-            subscription.customer as string,
-          );
+          const subscription = await stripe.subscriptions.retrieve(invoice.subscription as string);
+          const customer = await stripe.customers.retrieve(subscription.customer as string);
           if (!customer.deleted) {
-            if (!customer.metadata || !customer.metadata.firebaseUID) {
+            if (!customer.metadata?.firebaseUID) {
               console.error(
-                `Missing firebaseUID in customer metadata for customer ${subscription.customer}, invoice ${invoice.id}. Skipping update.`,
+                `Missing firebaseUID in customer metadata for customer ${subscription.customer}`,
               );
               res.status(200).json({ received: true, skipped: true });
               return;
             }
             const uid = customer.metadata.firebaseUID;
-            const userDoc = await db.collection('users').doc(uid).get();
-            const feedToken = userDoc.data()?.premiumFeedToken as string | undefined;
-
-            const writes: Promise<unknown>[] = [
-              db.collection('users').doc(uid).set(
-                {
-                  subscriptionStatus: 'past_due',
-                },
-                { merge: true },
-              ),
-            ];
-            // Revoke feed access on payment failure
-            if (feedToken) {
-              writes.push(kvDelete(feedToken));
-            }
-            await Promise.all(writes);
+            await db.collection('users').doc(uid).set(
+              { subscriptionStatus: 'past_due' },
+              { merge: true },
+            );
           } else {
             console.warn(`Customer ${subscription.customer} is deleted; revoking premium access.`);
             await revokeAccessByCustomerId(subscription.customer as string);

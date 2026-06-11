@@ -5,13 +5,12 @@ declare namespace Cloudflare {
 	interface GlobalProps {
 		mainModule: typeof import("./src/index");
 	}
-	interface Env {
-		SUBSCRIBERS: KVNamespace;
-	}
+	interface Env {}
 }
 interface Env extends Cloudflare.Env {
 	SIGNING_KEY: string;
 	ART19_PREMIUM_FEED_URL: string;
+	FIREBASE_PROJECT_ID: string;
 }
 
 // Begin runtime types

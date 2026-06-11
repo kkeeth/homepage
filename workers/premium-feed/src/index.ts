@@ -1,83 +1,96 @@
 /**
- * Premium Feed Worker
+ * Premium Audio Proxy Worker
  *
- * - /feed/:userToken  — per-user RSS feed (rewrite audio URLs to signed Worker URLs)
- * - /audio/:episodeId — proxy audio from Art19 with signed token + KV auth
+ * RSS フィードのマージは廃止。プレミアム再生はウェブのみ。
+ * per-user RSS トークン・KV 認可は削除し、Firebase Auth ID トークンで認証する。
+ *
+ * Endpoints:
+ *   GET /episodes         - Firebase ID トークン認証 → Firestore で isPremium 確認
+ *                           → ART19 プレミアムフィードを署名付き音声 URL に書き換えて返却
+ *   GET /feed/public      - 認証不要 → ART19 プレミアムフィードのメタデータのみ
+ *                           （音声 URL なし、エピソード一覧の "鍵アイコン" 表示用）
+ *   GET /audio/:episodeId - HMAC 署名検証 → ART19 音声プロキシ (Range 対応)
  */
 
-// ── helpers ──────────────────────────────────────────────────────────
+interface Env {
+  SIGNING_KEY: string;
+  ART19_PREMIUM_FEED_URL: string;
+  FIREBASE_PROJECT_ID: string;
+}
+
+// ── HMAC helpers ─────────────────────────────────────────────────────────────
 
 async function hmacSign(key: string, data: string): Promise<string> {
-  const encoder = new TextEncoder();
-  const cryptoKey = await crypto.subtle.importKey('raw', encoder.encode(key), { name: 'HMAC', hash: 'SHA-256' }, false, ['sign']);
-  const sig = await crypto.subtle.sign('HMAC', cryptoKey, encoder.encode(data));
+  const cryptoKey = await crypto.subtle.importKey(
+    'raw',
+    new TextEncoder().encode(key),
+    { name: 'HMAC', hash: 'SHA-256' },
+    false,
+    ['sign'],
+  );
+  const sig = await crypto.subtle.sign('HMAC', cryptoKey, new TextEncoder().encode(data));
   return [...new Uint8Array(sig)].map((b) => b.toString(16).padStart(2, '0')).join('');
 }
 
 async function hmacVerify(key: string, data: string, signature: string): Promise<boolean> {
   const expected = await hmacSign(key, data);
-  // Constant-time comparison
   if (expected.length !== signature.length) return false;
-  let result = 0;
+  let diff = 0;
   for (let i = 0; i < expected.length; i++) {
-    result |= expected.charCodeAt(i) ^ signature.charCodeAt(i);
+    diff |= expected.charCodeAt(i) ^ signature.charCodeAt(i);
   }
-  return result === 0;
+  return diff === 0;
 }
 
-function generateSignedUrl(baseUrl: string, episodeId: string, userToken: string, signature: string, expires: number): string {
-  return `${baseUrl}/audio/${episodeId}?userToken=${userToken}&expires=${expires}&sig=${signature}`;
+// ── Firebase Auth helpers ─────────────────────────────────────────────────────
+
+// JWT payload を署名検証なしで展開して uid を取得する。
+// 実際の署名検証は Firestore REST API が行うため、ここでは uid 取得のみ。
+function getUidFromJwt(token: string): string | null {
+  try {
+    const padded = token.split('.')[1].replace(/-/g, '+').replace(/_/g, '/');
+    const payload = JSON.parse(atob(padded)) as Record<string, unknown>;
+    const uid = payload['sub'] ?? payload['user_id'];
+    return typeof uid === 'string' ? uid : null;
+  } catch {
+    return null;
+  }
 }
 
-// ── RSS rewriting ────────────────────────────────────────────────────
-
-/**
- * Fetch Art19 premium feed, extract enclosure URLs, and rewrite them
- * to signed Worker audio proxy URLs.
- */
-async function buildPersonalFeed(feedXml: string, workerBaseUrl: string, userToken: string, signingKey: string): Promise<string> {
-  const expires = Math.floor(Date.now() / 1000) + 24 * 60 * 60; // 24h
-
-  // Rewrite enclosure url attributes
-  const rewritten = await replaceAsync(
-    feedXml,
-    /<enclosure([^>]*)\surl="([^"]+)"([^>]*)\/?\s*>/gi,
-    async (_match, before, audioUrl, after) => {
-      const episodeId = extractEpisodeId(audioUrl);
-      if (!episodeId) {
-        return `<enclosure${before} url="${audioUrl}"${after}/>`;
-      }
-      const data = `${episodeId}:${userToken}:${expires}`;
-      const sig = await hmacSign(signingKey, data);
-      const signedUrl = generateSignedUrl(workerBaseUrl, episodeId, userToken, sig, expires);
-      return `<enclosure${before} url="${signedUrl}"${after}/>`;
-    },
-  );
-
-  return rewritten;
+// Firestore REST API にユーザーの ID トークンで直接アクセスする。
+// Firestore のセキュリティルール（users/{uid}: 本人のみ読み取り可）が
+// トークンの署名を検証し、uid とドキュメントパスの一致を強制する。
+async function getIsPremium(uid: string, idToken: string, projectId: string): Promise<boolean> {
+  const url = `https://firestore.googleapis.com/v1/projects/${projectId}/databases/(default)/documents/users/${uid}`;
+  const res = await fetch(url, { headers: { Authorization: `Bearer ${idToken}` } });
+  if (!res.ok) return false;
+  const doc = (await res.json()) as { fields?: Record<string, { stringValue?: string }> };
+  return doc.fields?.plan?.stringValue === 'premium';
 }
 
-/**
- * Extract episode ID from Art19 audio URL.
- * e.g. https://rss.art19.com/episodes/EPISODE-UUID.mp3 → EPISODE-UUID
- */
+// ── ART19 helpers ─────────────────────────────────────────────────────────────
+
+function art19AudioUrl(episodeId: string): string {
+  return `https://rss.art19.com/episodes/${episodeId}.mp3`;
+}
+
 function extractEpisodeId(url: string): string | null {
-  const m = url.match(/episodes\/([a-f0-9-]+)/i);
-  return m?.[1] ?? null;
+  return url.match(/episodes\/([a-f0-9-]+)/i)?.[1] ?? null;
 }
 
-/**
- * String.prototype.replace doesn't support async replacers.
- * This helper processes regex matches sequentially with async callbacks.
- */
-async function replaceAsync(str: string, regex: RegExp, asyncFn: (...args: string[]) => Promise<string>): Promise<string> {
+// ── RSS rewrite ───────────────────────────────────────────────────────────────
+
+async function replaceAsync(
+  str: string,
+  regex: RegExp,
+  asyncFn: (...args: string[]) => Promise<string>,
+): Promise<string> {
   const matches: { match: string; index: number; groups: string[] }[] = [];
-  let m: RegExpExecArray | null;
   const re = new RegExp(regex.source, regex.flags);
+  let m: RegExpExecArray | null;
   while ((m = re.exec(str)) !== null) {
     matches.push({ match: m[0], index: m.index, groups: [...m] });
   }
-
   let result = '';
   let lastIndex = 0;
   for (const entry of matches) {
@@ -89,230 +102,152 @@ async function replaceAsync(str: string, regex: RegExp, asyncFn: (...args: strin
   return result;
 }
 
-// ── audio proxy (Art19 → client with Range support) ──────────────────
-
-/**
- * Build the Art19 audio URL from episode ID.
- * Art19 audio URL pattern: https://rss.art19.com/episodes/{episodeId}.mp3
- */
-function art19AudioUrl(episodeId: string): string {
-  return `https://rss.art19.com/episodes/${episodeId}.mp3`;
+// enclosure url を HMAC 署名付き Worker URL に書き換える
+async function rewriteAudioUrls(
+  feedXml: string,
+  workerBase: string,
+  signingKey: string,
+): Promise<string> {
+  const expires = Math.floor(Date.now() / 1000) + 24 * 60 * 60;
+  return replaceAsync(
+    feedXml,
+    /<enclosure([^>]*)\surl="([^"]+)"([^>]*)\/?\s*>/gi,
+    async (_match, before, audioUrl, after) => {
+      const episodeId = extractEpisodeId(audioUrl);
+      if (!episodeId) return `<enclosure${before} url="${audioUrl}"${after}/>`;
+      const sig = await hmacSign(signingKey, `${episodeId}:${expires}`);
+      const signed = `${workerBase}/audio/${episodeId}?expires=${expires}&sig=${sig}`;
+      return `<enclosure${before} url="${signed}"${after}/>`;
+    },
+  );
 }
 
+// ── Audio proxy ───────────────────────────────────────────────────────────────
+
 async function proxyAudio(request: Request, episodeId: string): Promise<Response> {
-  const upstreamUrl = art19AudioUrl(episodeId);
+  const headers = new Headers({ 'User-Agent': 'PremiumFeedProxy/1.0' });
+  const range = request.headers.get('Range');
+  if (range) headers.set('Range', range);
 
-  // Forward Range header for seeking / partial downloads
-  const headers = new Headers();
-  const rangeHeader = request.headers.get('Range');
-  if (rangeHeader) {
-    headers.set('Range', rangeHeader);
-  }
-  headers.set('User-Agent', 'PremiumFeedProxy/1.0');
+  const upstream = await fetch(art19AudioUrl(episodeId), { headers });
 
-  const upstream = await fetch(upstreamUrl, { headers });
-
-  // Build response headers (pass through content-related headers)
   const responseHeaders = new Headers();
-  const passthroughHeaders = ['Content-Type', 'Content-Length', 'Content-Range', 'Accept-Ranges', 'ETag', 'Last-Modified', 'Cache-Control'];
-  for (const h of passthroughHeaders) {
+  for (const h of [
+    'Content-Type', 'Content-Length', 'Content-Range',
+    'Accept-Ranges', 'ETag', 'Last-Modified', 'Cache-Control',
+  ]) {
     const v = upstream.headers.get(h);
     if (v) responseHeaders.set(h, v);
   }
-
-  // CORS for web player
   responseHeaders.set('Access-Control-Allow-Origin', '*');
   responseHeaders.set('Access-Control-Allow-Methods', 'GET, HEAD, OPTIONS');
   responseHeaders.set('Access-Control-Allow-Headers', 'Range');
   responseHeaders.set('Access-Control-Expose-Headers', 'Content-Range, Content-Length, Accept-Ranges');
 
-  return new Response(upstream.body, {
-    status: upstream.status, // 200 or 206
-    headers: responseHeaders,
-  });
+  return new Response(upstream.body, { status: upstream.status, headers: responseHeaders });
 }
 
-// ── main router ──────────────────────────────────────────────────────
+// ── ART19 フィード取得 ────────────────────────────────────────────────────────
+
+async function fetchArt19Feed(env: Env): Promise<string | null> {
+  try {
+    const res = await fetch(env.ART19_PREMIUM_FEED_URL, {
+      headers: { 'User-Agent': 'PremiumFeedProxy/1.0' },
+    });
+    return res.ok ? res.text() : null;
+  } catch {
+    return null;
+  }
+}
+
+// ── CORS ──────────────────────────────────────────────────────────────────────
+
+const CORS_HEADERS = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Methods': 'GET, HEAD, OPTIONS',
+  'Access-Control-Allow-Headers': 'Authorization, Range',
+  'Access-Control-Expose-Headers': 'Content-Range, Content-Length, Accept-Ranges',
+  'Access-Control-Max-Age': '86400',
+};
+
+function withCors(res: Response): Response {
+  const headers = new Headers(res.headers);
+  for (const [k, v] of Object.entries(CORS_HEADERS)) headers.set(k, v);
+  return new Response(res.body, { status: res.status, headers });
+}
+
+function corsResponse(body: string | null, status: number, extra?: Record<string, string>): Response {
+  return new Response(body, { status, headers: { ...CORS_HEADERS, ...extra } });
+}
+
+// ── Router ────────────────────────────────────────────────────────────────────
 
 export default {
-  async fetch(request, env, ctx): Promise<Response> {
+  async fetch(request: Request, env: Env): Promise<Response> {
     const url = new URL(request.url);
     const path = url.pathname;
 
-    // CORS preflight
     if (request.method === 'OPTIONS') {
-      return new Response(null, {
-        headers: {
-          'Access-Control-Allow-Origin': '*',
-          'Access-Control-Allow-Methods': 'GET, HEAD, OPTIONS',
-          'Access-Control-Allow-Headers': 'Range',
-          'Access-Control-Expose-Headers': 'Content-Range, Content-Length, Accept-Ranges',
-          'Access-Control-Max-Age': '86400',
-        },
+      return corsResponse(null, 204);
+    }
+
+    // ── GET /episodes ─────────────────────────────────────────────────────
+    // Firebase ID トークン認証 → isPremium 確認 → 署名付き音声 URL 付きフィード
+    if (path === '/episodes') {
+      const authHeader = request.headers.get('Authorization');
+      if (!authHeader?.startsWith('Bearer ')) {
+        return corsResponse('Unauthorized', 401);
+      }
+      const idToken = authHeader.slice(7);
+      const uid = getUidFromJwt(idToken);
+      if (!uid) return corsResponse('Unauthorized', 401);
+
+      const isPremium = await getIsPremium(uid, idToken, env.FIREBASE_PROJECT_ID);
+      if (!isPremium) return corsResponse('Forbidden', 403);
+
+      const feedXml = await fetchArt19Feed(env);
+      if (!feedXml) return corsResponse('Feed unavailable', 502);
+
+      const workerBase = `${url.protocol}//${url.host}`;
+      const rewritten = await rewriteAudioUrls(feedXml, workerBase, env.SIGNING_KEY);
+
+      return corsResponse(rewritten, 200, {
+        'Content-Type': 'application/rss+xml; charset=utf-8',
+        'Cache-Control': 'private, no-store',
       });
     }
 
-    // ── /feed/public (メタデータのみ、音声URLなし) ──
+    // ── GET /feed/public ──────────────────────────────────────────────────
+    // 認証不要、音声 URL なし（エピソード一覧の鍵アイコン表示用）
     if (path === '/feed/public') {
-      return handlePublicFeed(env);
+      const feedXml = await fetchArt19Feed(env);
+      if (!feedXml) return corsResponse('Feed unavailable', 502);
+
+      const publicFeed = feedXml.replace(/<enclosure[^>]*\/?\s*>/gi, '');
+      return corsResponse(publicFeed, 200, {
+        'Content-Type': 'application/rss+xml; charset=utf-8',
+        'Cache-Control': 'public, max-age=600',
+      });
     }
 
-    // ── /feed/:userToken ──
-    const feedMatch = path.match(/^\/feed\/([a-zA-Z0-9_-]+)$/);
-    if (feedMatch) {
-      return handleFeed(request, env, ctx, feedMatch[1]);
-    }
-
-    // ── /audio/:episodeId ──
+    // ── GET /audio/:episodeId ─────────────────────────────────────────────
+    // HMAC 署名検証 → ART19 音声プロキシ
     const audioMatch = path.match(/^\/audio\/([a-f0-9-]+)$/i);
     if (audioMatch) {
-      return handleAudio(request, env, audioMatch[1], url.searchParams);
+      const episodeId = audioMatch[1];
+      const sig = url.searchParams.get('sig');
+      const expires = url.searchParams.get('expires');
+
+      if (!sig || !expires) return corsResponse('Missing parameters', 400);
+      if (Math.floor(Date.now() / 1000) > parseInt(expires, 10)) {
+        return corsResponse('URL expired', 410);
+      }
+      const valid = await hmacVerify(env.SIGNING_KEY, `${episodeId}:${expires}`, sig);
+      if (!valid) return corsResponse('Invalid signature', 403);
+
+      return withCors(await proxyAudio(request, episodeId));
     }
 
-    return new Response('Not Found', {
-      status: 404,
-      headers: { 'Access-Control-Allow-Origin': '*' },
-    });
+    return corsResponse('Not Found', 404);
   },
 } satisfies ExportedHandler<Env>;
-
-// ── /feed/public handler (メタデータのみ、認証不要) ───────────────────
-
-async function handlePublicFeed(env: Env): Promise<Response> {
-  const feedUrl = env.ART19_PREMIUM_FEED_URL;
-  if (!feedUrl) {
-    return new Response('Feed not configured', {
-      status: 500,
-      headers: { 'Access-Control-Allow-Origin': '*' },
-    });
-  }
-
-  let feedXml: string;
-  try {
-    const res = await fetch(feedUrl, {
-      headers: { 'User-Agent': 'PremiumFeedProxy/1.0' },
-    });
-    if (!res.ok) {
-      return new Response(`Upstream feed error: ${res.status}`, {
-        status: 502,
-        headers: { 'Access-Control-Allow-Origin': '*' },
-      });
-    }
-    feedXml = await res.text();
-  } catch {
-    return new Response('Failed to fetch upstream feed', {
-      status: 502,
-      headers: { 'Access-Control-Allow-Origin': '*' },
-    });
-  }
-
-  // 音声URLを除去（enclosure タグを削除）
-  const publicFeed = feedXml.replace(/<enclosure[^>]*\/?\s*>/gi, '');
-
-  return new Response(publicFeed, {
-    headers: {
-      'Content-Type': 'application/rss+xml; charset=utf-8',
-      'Cache-Control': 'public, max-age=600',
-      'Access-Control-Allow-Origin': '*',
-    },
-  });
-}
-
-// ── /feed/:userToken handler ─────────────────────────────────────────
-
-async function handleFeed(request: Request, env: Env, ctx: ExecutionContext, userToken: string): Promise<Response> {
-  // Check subscription in KV
-  const status = await env.SUBSCRIBERS.get(userToken);
-  if (status !== 'active') {
-    return new Response('Unauthorized: invalid or expired subscription', {
-      status: 401,
-      headers: { 'Access-Control-Allow-Origin': '*' },
-    });
-  }
-
-  const feedUrl = env.ART19_PREMIUM_FEED_URL;
-  if (!feedUrl) {
-    return new Response('Feed not configured', {
-      status: 500,
-      headers: { 'Access-Control-Allow-Origin': '*' },
-    });
-  }
-
-  // Fetch Art19 premium feed
-  let feedXml: string;
-  try {
-    const res = await fetch(feedUrl, {
-      headers: { 'User-Agent': 'PremiumFeedProxy/1.0' },
-    });
-    if (!res.ok) {
-      return new Response(`Upstream feed error: ${res.status}`, {
-        status: 502,
-        headers: { 'Access-Control-Allow-Origin': '*' },
-      });
-    }
-    feedXml = await res.text();
-  } catch {
-    return new Response('Failed to fetch upstream feed', {
-      status: 502,
-      headers: { 'Access-Control-Allow-Origin': '*' },
-    });
-  }
-
-  // Rewrite enclosure URLs
-  const workerBaseUrl = new URL(request.url).origin;
-  const personalFeed = await buildPersonalFeed(feedXml, workerBaseUrl, userToken, env.SIGNING_KEY);
-
-  return new Response(personalFeed, {
-    headers: {
-      'Content-Type': 'application/rss+xml; charset=utf-8',
-      'Cache-Control': 'private, max-age=300',
-      'Access-Control-Allow-Origin': '*',
-    },
-  });
-}
-
-// ── /audio/:episodeId handler ────────────────────────────────────────
-
-async function handleAudio(request: Request, env: Env, episodeId: string, params: URLSearchParams): Promise<Response> {
-  const userToken = params.get('userToken');
-  const expires = params.get('expires');
-  const sig = params.get('sig');
-
-  if (!userToken || !expires || !sig) {
-    return new Response('Missing authentication parameters', {
-      status: 400,
-      headers: { 'Access-Control-Allow-Origin': '*' },
-    });
-  }
-
-  // Check expiration
-  const expiresNum = parseInt(expires, 10);
-  if (isNaN(expiresNum) || Math.floor(Date.now() / 1000) > expiresNum) {
-    return new Response('Token expired', {
-      status: 403,
-      headers: { 'Access-Control-Allow-Origin': '*' },
-    });
-  }
-
-  // Verify HMAC signature
-  const data = `${episodeId}:${userToken}:${expires}`;
-  const valid = await hmacVerify(env.SIGNING_KEY, data, sig);
-  if (!valid) {
-    return new Response('Invalid signature', {
-      status: 403,
-      headers: { 'Access-Control-Allow-Origin': '*' },
-    });
-  }
-
-  // Check subscription in KV (real-time revocation)
-  const status = await env.SUBSCRIBERS.get(userToken);
-  if (status !== 'active') {
-    return new Response('Subscription inactive', {
-      status: 403,
-      headers: { 'Access-Control-Allow-Origin': '*' },
-    });
-  }
-
-  // Proxy audio from Art19
-  return proxyAudio(request, episodeId);
-}

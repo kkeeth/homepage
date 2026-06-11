@@ -2,7 +2,6 @@
 // After running `wrangler types`, replace this file with the generated output.
 
 interface Env {
-  SUBSCRIBERS: KVNamespace;
   FIREBASE_PROJECT_ID: string;
   STRIPE_WEBHOOK_SECRET: string;
   STRIPE_WEBHOOK_SECRET_TEST: string;

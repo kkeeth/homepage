@@ -5,7 +5,6 @@
  *   - Stripe Webhook 署名検証 (Web Crypto API / HMAC-SHA256)
  *   - Firestore REST API 経由のデータ書き込み (サービスアカウント JWT / RS256)
  *   - Firebase Auth REST API 経由のユーザー操作
- *   - Cloudflare KV への premium フィードトークン管理
  *
  * 必要な Secrets (wrangler secret put で設定):
  *   STRIPE_WEBHOOK_SECRET, STRIPE_WEBHOOK_SECRET_TEST
@@ -371,31 +370,21 @@ async function authCreateUser(
   return data.localId;
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// KV ヘルパー
-// ─────────────────────────────────────────────────────────────────────────────
-
 async function revokeAccessByCustomerId(
   customerId: string,
   projectId: string,
-  kv: KVNamespace,
   token: string,
 ): Promise<void> {
   const docs = await fsQueryByCustomerId(projectId, customerId, token);
   await Promise.all(
-    docs.map(async ({ uid, data }) => {
-      const feedToken = data.premiumFeedToken as string | undefined;
-      await Promise.all([
-        fsSet(projectId, `users/${uid}`, {
-          plan: 'free',
-          subscriptionStatus: 'canceled',
-          subscriptionId: null,
-          currentPeriodEnd: null,
-          premiumFeedToken: null,
-        }, token),
-        ...(feedToken ? [kv.delete(feedToken)] : []),
-      ]);
-    }),
+    docs.map(({ uid }) =>
+      fsSet(projectId, `users/${uid}`, {
+        plan: 'free',
+        subscriptionStatus: 'canceled',
+        subscriptionId: null,
+        currentPeriodEnd: null,
+      }, token),
+    ),
   );
 }
 
@@ -471,29 +460,21 @@ async function handleCheckoutCompleted(
     return err(500, 'Invalid subscription data');
   }
 
-  const existingDoc = await fsGet(env.FIREBASE_PROJECT_ID, `users/${uid}`, token);
-  const premiumFeedToken =
-    (existingDoc?.premiumFeedToken as string | undefined) ?? crypto.randomUUID();
-
-  await Promise.all([
-    fsSet(
-      env.FIREBASE_PROJECT_ID,
-      `users/${uid}`,
-      {
-        plan: 'premium',
-        stripeCustomerId: customerId,
-        subscriptionId: subscription.id,
-        subscriptionStatus: subscription.status,
-        currentPeriodEnd: new Date(
-          (subscription.current_period_end as number) * 1000,
-        ).toISOString(),
-        premiumFeedToken,
-        createdAt: new Date().toISOString(),
-      },
-      token,
-    ),
-    env.SUBSCRIBERS.put(premiumFeedToken, 'active'),
-  ]);
+  await fsSet(
+    env.FIREBASE_PROJECT_ID,
+    `users/${uid}`,
+    {
+      plan: 'premium',
+      stripeCustomerId: customerId,
+      subscriptionId: subscription.id,
+      subscriptionStatus: subscription.status,
+      currentPeriodEnd: new Date(
+        (subscription.current_period_end as number) * 1000,
+      ).toISOString(),
+      createdAt: new Date().toISOString(),
+    },
+    token,
+  );
 
   return ok();
 }
@@ -508,12 +489,7 @@ async function handleSubscriptionUpdated(
     env.STRIPE_SECRET_KEY,
   );
   if (customer.deleted) {
-    await revokeAccessByCustomerId(
-      subscription.customer as string,
-      env.FIREBASE_PROJECT_ID,
-      env.SUBSCRIBERS,
-      token,
-    );
+    await revokeAccessByCustomerId(subscription.customer as string, env.FIREBASE_PROJECT_ID, token);
     return ok();
   }
 
@@ -524,26 +500,18 @@ async function handleSubscriptionUpdated(
   }
 
   const plan = subscription.status === 'active' ? 'premium' : 'free';
-  const userDoc = await fsGet(env.FIREBASE_PROJECT_ID, `users/${uid}`, token);
-  const feedToken = userDoc?.premiumFeedToken as string | undefined;
-
-  await Promise.all([
-    fsSet(
-      env.FIREBASE_PROJECT_ID,
-      `users/${uid}`,
-      {
-        plan,
-        subscriptionStatus: subscription.status,
-        currentPeriodEnd: new Date(
-          (subscription.current_period_end as number) * 1000,
-        ).toISOString(),
-      },
-      token,
-    ),
-    ...(feedToken
-      ? [plan === 'premium' ? env.SUBSCRIBERS.put(feedToken, 'active') : env.SUBSCRIBERS.delete(feedToken)]
-      : []),
-  ]);
+  await fsSet(
+    env.FIREBASE_PROJECT_ID,
+    `users/${uid}`,
+    {
+      plan,
+      subscriptionStatus: subscription.status,
+      currentPeriodEnd: new Date(
+        (subscription.current_period_end as number) * 1000,
+      ).toISOString(),
+    },
+    token,
+  );
   return ok();
 }
 
@@ -557,12 +525,7 @@ async function handleSubscriptionDeleted(
     env.STRIPE_SECRET_KEY,
   );
   if (customer.deleted) {
-    await revokeAccessByCustomerId(
-      subscription.customer as string,
-      env.FIREBASE_PROJECT_ID,
-      env.SUBSCRIBERS,
-      token,
-    );
+    await revokeAccessByCustomerId(subscription.customer as string, env.FIREBASE_PROJECT_ID, token);
     return ok();
   }
 
@@ -572,24 +535,17 @@ async function handleSubscriptionDeleted(
     return ok({ received: true, skipped: true });
   }
 
-  const userDoc = await fsGet(env.FIREBASE_PROJECT_ID, `users/${uid}`, token);
-  const feedToken = userDoc?.premiumFeedToken as string | undefined;
-
-  await Promise.all([
-    fsSet(
-      env.FIREBASE_PROJECT_ID,
-      `users/${uid}`,
-      {
-        plan: 'free',
-        subscriptionStatus: 'canceled',
-        subscriptionId: null,
-        currentPeriodEnd: null,
-        premiumFeedToken: null,
-      },
-      token,
-    ),
-    ...(feedToken ? [env.SUBSCRIBERS.delete(feedToken)] : []),
-  ]);
+  await fsSet(
+    env.FIREBASE_PROJECT_ID,
+    `users/${uid}`,
+    {
+      plan: 'free',
+      subscriptionStatus: 'canceled',
+      subscriptionId: null,
+      currentPeriodEnd: null,
+    },
+    token,
+  );
   return ok();
 }
 
@@ -610,12 +566,7 @@ async function handleInvoicePaymentFailed(
   );
 
   if (customer.deleted) {
-    await revokeAccessByCustomerId(
-      subscription.customer as string,
-      env.FIREBASE_PROJECT_ID,
-      env.SUBSCRIBERS,
-      token,
-    );
+    await revokeAccessByCustomerId(subscription.customer as string, env.FIREBASE_PROJECT_ID, token);
     return ok();
   }
 
@@ -625,13 +576,7 @@ async function handleInvoicePaymentFailed(
     return ok({ received: true, skipped: true });
   }
 
-  const userDoc = await fsGet(env.FIREBASE_PROJECT_ID, `users/${uid}`, token);
-  const feedToken = userDoc?.premiumFeedToken as string | undefined;
-
-  await Promise.all([
-    fsSet(env.FIREBASE_PROJECT_ID, `users/${uid}`, { subscriptionStatus: 'past_due' }, token),
-    ...(feedToken ? [env.SUBSCRIBERS.delete(feedToken)] : []),
-  ]);
+  await fsSet(env.FIREBASE_PROJECT_ID, `users/${uid}`, { subscriptionStatus: 'past_due' }, token);
   return ok();
 }
 
