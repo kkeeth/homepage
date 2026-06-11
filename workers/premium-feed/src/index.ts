@@ -200,6 +200,7 @@ export default {
     // 本番は Firebase ID トークン認証 → isPremium 確認
     if (path === '/episodes') {
       const isLocal = env.DEV_MODE === 'true';
+      console.log('[debug] DEV_MODE:', JSON.stringify(env.DEV_MODE), 'isLocal:', isLocal);
 
       if (!isLocal) {
         const authHeader = request.headers.get('Authorization');
