@@ -6,13 +6,23 @@ const WORKER_BASE_URL = import.meta.env.VITE_WORKER_BASE_URL || '';
 const isDev = import.meta.env.DEV;
 
 export async function fetchPremiumEpisodes(): Promise<Episode[]> {
-  if (!WORKER_BASE_URL) return [];
+  if (!WORKER_BASE_URL) {
+    if (isDev) {
+      console.warn(
+        '[premium-feed] VITE_WORKER_BASE_URL が未設定のためプレミアムフィードをスキップ。' +
+          'リポジトリ直下に .env.local を作成して VITE_WORKER_BASE_URL=http://localhost:8787 を設定してください',
+      );
+    }
+    return [];
+  }
 
   // ローカル開発: Worker 側の DEV_MODE=true と対になって認証なしで /episodes を叩く
   if (isDev) {
     const res = await fetch(`${WORKER_BASE_URL}/episodes`);
+    console.log('[premium-feed] GET', `${WORKER_BASE_URL}/episodes`, '->', res.status);
     if (!res.ok) return [];
     const episodes = parseRSSFeed(await res.text());
+    console.log('[premium-feed] parsed episodes:', episodes.length);
     return episodes.map((ep) => ({ ...ep, isPremium: true }));
   }
 
