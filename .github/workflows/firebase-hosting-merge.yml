@@ -31,7 +31,7 @@ jobs:
 
       # 3. 依存関係のインストールとフロントエンドのビルド
       - name: Install and Build Frontend
-        run: pnpm i && pnpm build
+        run: pnpm i --frozen-lockfile && pnpm build
         env:
           VITE_GAS_URL: ${{ secrets.VITE_GAS_URL }}
           VITE_FIREBASE_API_KEY: ${{ secrets.VITE_FIREBASE_API_KEY }}
@@ -45,13 +45,9 @@ jobs:
           VITE_STRIPE_CUSTOMER_PORTAL_URL: ${{ secrets.VITE_STRIPE_CUSTOMER_PORTAL_URL }}
           VITE_WORKER_BASE_URL: ${{ secrets.VITE_WORKER_BASE_URL }}
 
-      # 4. Functions のビルド
-      - name: Build Functions
-        run: pnpm -C functions install --frozen-lockfile && pnpm -C functions build
-
-      # 5. Firebase 一括デプロイ (Hosting, Functions, Firestore)
+      # 4. Firebase デプロイ (Hosting, Firestore のみ。Webhook は Cloudflare Worker が担当)
       - name: Deploy to Firebase
-        run: npx firebase-tools deploy --only hosting,functions,firestore --project my-homepage-6641d --force
+        run: npx firebase-tools deploy --only hosting,firestore --project my-homepage-6641d --force
         env:
           # auth ステップで生成された ADC (Application Default Credentials) を使用
           GOOGLE_APPLICATION_CREDENTIALS: ${{ steps.auth.outputs.credentials_file_path }}
