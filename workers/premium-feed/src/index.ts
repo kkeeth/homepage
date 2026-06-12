@@ -74,12 +74,21 @@ async function getIsPremium(uid: string, idToken: string, projectId: string): Pr
 
 // ── ART19 helpers ─────────────────────────────────────────────────────────────
 
-function art19AudioUrl(episodeId: string): string {
-  return `https://rss.art19.com/episodes/${episodeId}.mp3`;
+// alternate feed の enclosure URL 例:
+//   https://rss.art19.com/episodes/user/{feedToken}/{uuid}.mp3?rss_browser={signed}
+// UUID 部分だけを抽出してエピソード識別子とする
+function extractEpisodeId(url: string): string | null {
+  return url.match(/([a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})/i)?.[1] ?? null;
 }
 
-function extractEpisodeId(url: string): string | null {
-  return url.match(/episodes\/([a-f0-9-]+)/i)?.[1] ?? null;
+function toBase64Url(str: string): string {
+  return btoa(str).replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, '');
+}
+
+function fromBase64Url(str: string): string {
+  const base64 = str.replace(/-/g, '+').replace(/_/g, '/');
+  const padded = base64 + '='.repeat((4 - (base64.length % 4)) % 4);
+  return atob(padded);
 }
 
 // ── RSS rewrite ───────────────────────────────────────────────────────────────
@@ -106,7 +115,9 @@ async function replaceAsync(
   return result;
 }
 
-// enclosure url を HMAC 署名付き Worker URL に書き換える
+// enclosure url を HMAC 署名付き Worker URL に書き換える。
+// ART19 の rss_browser トークン付き URL を base64url でラップし HMAC の署名対象に含める。
+// これにより url パラメータの差し替え攻撃を防ぐ。
 async function rewriteAudioUrls(
   feedXml: string,
   workerBase: string,
@@ -119,8 +130,9 @@ async function rewriteAudioUrls(
     async (_match, before, audioUrl, after) => {
       const episodeId = extractEpisodeId(audioUrl);
       if (!episodeId) return `<enclosure${before} url="${audioUrl}"${after}/>`;
-      const sig = await hmacSign(signingKey, `${episodeId}:${expires}`);
-      const signed = `${workerBase}/audio/${episodeId}?expires=${expires}&sig=${sig}`;
+      const b64Url = toBase64Url(audioUrl);
+      const sig = await hmacSign(signingKey, `${episodeId}:${b64Url}:${expires}`);
+      const signed = `${workerBase}/audio/${episodeId}?u=${b64Url}&expires=${expires}&sig=${sig}`;
       return `<enclosure${before} url="${signed}"${after}/>`;
     },
   );
@@ -128,12 +140,12 @@ async function rewriteAudioUrls(
 
 // ── Audio proxy ───────────────────────────────────────────────────────────────
 
-async function proxyAudio(request: Request, episodeId: string): Promise<Response> {
+async function proxyAudio(request: Request, art19Url: string): Promise<Response> {
   const headers = new Headers({ 'User-Agent': 'PremiumFeedProxy/1.0' });
   const range = request.headers.get('Range');
   if (range) headers.set('Range', range);
 
-  const upstream = await fetch(art19AudioUrl(episodeId), { headers });
+  const upstream = await fetch(art19Url, { headers });
 
   const responseHeaders = new Headers();
   for (const h of [
@@ -242,20 +254,29 @@ export default {
 
     // ── GET /audio/:episodeId ─────────────────────────────────────────────
     // HMAC 署名検証 → ART19 音声プロキシ
+    // ?u=<base64url(art19Url)>&expires=<unix>&sig=<hmac(episodeId:u:expires)>
     const audioMatch = path.match(/^\/audio\/([a-f0-9-]+)$/i);
     if (audioMatch) {
       const episodeId = audioMatch[1];
       const sig = url.searchParams.get('sig');
       const expires = url.searchParams.get('expires');
+      const b64Url = url.searchParams.get('u');
 
-      if (!sig || !expires) return corsResponse('Missing parameters', 400);
+      if (!sig || !expires || !b64Url) return corsResponse('Missing parameters', 400);
       if (Math.floor(Date.now() / 1000) > parseInt(expires, 10)) {
         return corsResponse('URL expired', 410);
       }
-      const valid = await hmacVerify(env.SIGNING_KEY, `${episodeId}:${expires}`, sig);
+      const valid = await hmacVerify(env.SIGNING_KEY, `${episodeId}:${b64Url}:${expires}`, sig);
       if (!valid) return corsResponse('Invalid signature', 403);
 
-      return withCors(await proxyAudio(request, episodeId));
+      let art19Url: string;
+      try {
+        art19Url = fromBase64Url(b64Url);
+      } catch {
+        return corsResponse('Invalid url parameter', 400);
+      }
+
+      return withCors(await proxyAudio(request, art19Url));
     }
 
     return corsResponse('Not Found', 404);
