@@ -82,6 +82,7 @@ const episodeStore = observable({
           duration: String((30 + i * 2) * 60),
           season: String(Math.floor(i / 10) + 1),
           episodeNum: String((i % 10) + 1),
+          isPremium: false,
         })).reverse();
         this.allEpisodes = fallback;
       } else {

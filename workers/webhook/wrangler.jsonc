@@ -1,0 +1,20 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "webhook",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-03-01",
+  "compatibility_flags": ["nodejs_compat"],
+  "observability": {
+    "enabled": true,
+  },
+  "vars": {
+    // 機密でない設定値（Firestore プロジェクト ID）
+    "FIREBASE_PROJECT_ID": "my-homepage-6641d",
+  },
+  // 以下のシークレットは `wrangler secret put` で設定する:
+  //   STRIPE_WEBHOOK_SECRET
+  //   STRIPE_WEBHOOK_SECRET_TEST
+  //   STRIPE_SECRET_KEY
+  //   GCP_CLIENT_EMAIL       (サービスアカウントのメールアドレス)
+  //   GCP_PRIVATE_KEY        (サービスアカウントの秘密鍵 PEM)
+}
