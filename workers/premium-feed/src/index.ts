@@ -128,12 +128,16 @@ async function rewriteAudioUrls(
     feedXml,
     /<enclosure([^>]*)\surl="([^"]+)"([^>]*)\/?\s*>/gi,
     async (_match, before, audioUrl, after) => {
-      const episodeId = extractEpisodeId(audioUrl);
+      // 属性値から取り出した URL は XML エンティティを戻してから扱う
+      const rawUrl = audioUrl.replace(/&amp;/g, '&');
+      const episodeId = extractEpisodeId(rawUrl);
       if (!episodeId) return `<enclosure${before} url="${audioUrl}"${after}/>`;
-      const b64Url = toBase64Url(audioUrl);
+      const b64Url = toBase64Url(rawUrl);
       const sig = await hmacSign(signingKey, `${episodeId}:${b64Url}:${expires}`);
       const signed = `${workerBase}/audio/${episodeId}?u=${b64Url}&expires=${expires}&sig=${sig}`;
-      return `<enclosure${before} url="${signed}"${after}/>`;
+      // XML 属性値内の & は &amp; にエスケープしないと DOMParser がフィード全体を
+      // parsererror にする（text/xml は厳格）
+      return `<enclosure${before} url="${signed.replace(/&/g, '&amp;')}"${after}/>`;
     },
   );
 }
