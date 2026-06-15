@@ -1,6 +1,5 @@
 import observable, { type ObservableInstance } from '@riotjs/observable';
-import { fetchMergedFeeds } from '@/utils/rss';
-import { fetchPremiumEpisodes } from '@/utils/premium-feed';
+import { fetchRSSFeed } from '@/utils/rss';
 import { RSS_FEED_URL } from '@/constants/links';
 
 interface RSSEpisode {
@@ -86,10 +85,7 @@ const episodeStore = observable({
         })).reverse();
         this.allEpisodes = fallback;
       } else {
-        const episodes = (await fetchMergedFeeds(
-          RSS_FEED_URL,
-          fetchPremiumEpisodes(),
-        )) as RSSEpisode[];
+        const episodes = (await fetchRSSFeed(RSS_FEED_URL)) as RSSEpisode[];
 
         this.allEpisodes = episodes.map(
           (episode: RSSEpisode, index: number) => ({

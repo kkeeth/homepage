@@ -295,6 +295,8 @@
   },
   "episode": {
     "listenOn": "Listen on",
+    "listenOnSubstack": "Listen on Substack",
+    "premiumOnly": "This episode is for Substack members only.",
     "share": "Share",
     "backToList": "Back to Episodes",
     "notFound": "Episode not found"

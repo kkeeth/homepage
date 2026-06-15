@@ -1,5 +1,5 @@
 // RSSフィードのURL
-export const RSS_FEED_URL = 'https://rss.art19.com/kkeethengineers';
+export const RSS_FEED_URL = 'https://api.substack.com/feed/podcast/3447681/s/407517.rss';
 
 // ソーシャルメディアリンク
 export const SOCIAL_LINKS = [
@@ -54,7 +54,7 @@ export const PODCAST_PLATFORMS = [
   {
     name: 'RSS Feed',
     icon: 'rss',
-    url: 'https://rss.art19.com/kkeethengineers',
+    url: 'https://api.substack.com/feed/podcast/3447681/s/407517.rss',
   },
 ];
 

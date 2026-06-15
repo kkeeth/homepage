@@ -64,8 +64,7 @@
   </div>
 
   <script>
-    import { fetchMergedFeeds, getLatestEpisodes } from '@/utils/rss';
-    import { fetchPremiumEpisodes } from '@/utils/premium-feed';
+    import { fetchRSSFeed, getLatestEpisodes } from '@/utils/rss';
     import { PODCAST_PLATFORMS, OTHER_PROGRAMS, RSS_FEED_URL } from '@/constants/links';
     import i18nStore from '@/stores/i18n-store';
 
@@ -73,7 +72,7 @@
       t: i18nStore.t.bind(i18nStore),
       async onBeforeMount() {
         try {
-          const episodes = await fetchMergedFeeds(RSS_FEED_URL, fetchPremiumEpisodes());
+          const episodes = await fetchRSSFeed(RSS_FEED_URL);
           this.update({
             latestEpisodes: getLatestEpisodes(episodes, 3)
           });
