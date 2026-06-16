@@ -65,17 +65,22 @@
 
   <script>
     import { fetchRSSFeed, getLatestEpisodes } from '@/utils/rss';
-    import { PODCAST_PLATFORMS, OTHER_PROGRAMS, RSS_FEED_URL } from '@/constants/links';
+    import { PODCAST_PLATFORMS, OTHER_PROGRAMS, RSS_FEED_URL, SUBSTACK_RSS_URL } from '@/constants/links';
     import i18nStore from '@/stores/i18n-store';
 
     export default {
       t: i18nStore.t.bind(i18nStore),
       async onBeforeMount() {
         try {
-          const episodes = await fetchRSSFeed(RSS_FEED_URL);
-          this.update({
-            latestEpisodes: getLatestEpisodes(episodes, 3)
-          });
+          const [art19, substack] = await Promise.allSettled([
+            fetchRSSFeed(RSS_FEED_URL),
+            fetchRSSFeed(SUBSTACK_RSS_URL),
+          ]);
+          const episodes = [
+            ...(art19.status === 'fulfilled' ? art19.value : []),
+            ...(substack.status === 'fulfilled' ? substack.value : []),
+          ].sort((a, b) => b.pubDateObj.getTime() - a.pubDateObj.getTime());
+          this.update({ latestEpisodes: getLatestEpisodes(episodes, 3) });
         } catch (error) {
           console.error('Failed to load RSS feed:', error);
         }

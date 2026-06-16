@@ -94,10 +94,10 @@
       },
       getEpisodeId(episode) {
         if (episode.link) {
-          const match = episode.link.match(/episodes\/([a-f0-9-]+)/i);
-          if (match) {
-            return match[1];
-          }
+          try {
+            const segments = new URL(episode.link).pathname.split('/').filter(Boolean);
+            if (segments.length > 0) return segments[segments.length - 1];
+          } catch {}
         }
         return encodeURIComponent(episode.title);
       },
@@ -115,7 +115,7 @@
             latestEpisode: currentPage === 1 && episodes.length > 0 ? episodes[0] : null,
             restEpisodes: currentPage === 1 ? episodes.slice(1) : episodes,
             displayedCount: episodeStore.getDisplayedCount(),
-            latestEpisodeNumber: this.parseSeasonLabel(episodes[0].title),
+            latestEpisodeNumber: episodes.length > 0 ? this.parseSeasonLabel(episodes[0].title) : 0,
             totalCount: episodeStore.getTotalCount(),
             currentPage: currentPage,
             pageSize: episodeStore.getPageSize()

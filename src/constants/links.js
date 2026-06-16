@@ -1,7 +1,8 @@
 // RSSフィードのURL
-// 本番: VITE_RSS_URL (Cloudflare Worker CORS proxy)
-// dev: /api/rss (Vite proxy が Substack に転送)
-export const RSS_FEED_URL = import.meta.env.VITE_RSS_URL ?? '/api/rss';
+// ART19: メインの公開フィード (CORS 対応済み、直接 fetch 可)
+export const RSS_FEED_URL = 'https://rss.art19.com/kkeethengineers';
+// Substack: 会員向け別番組 (CORS プロキシ経由: dev=Vite proxy, 本番=Worker)
+export const SUBSTACK_RSS_URL = import.meta.env.VITE_RSS_URL ?? '/api/rss';
 
 // ソーシャルメディアリンク
 export const SOCIAL_LINKS = [
