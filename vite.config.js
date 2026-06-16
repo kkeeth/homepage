@@ -41,6 +41,16 @@ function shoelaceAssets() {
 export default defineConfig({
   root: process.cwd(),
   plugins: [riot(), shoelaceAssets()],
+  server: {
+    proxy: {
+      // Substack は CORS ヘッダーを返さないため dev サーバー側でプロキシする
+      '/api/rss': {
+        target: 'https://api.substack.com',
+        changeOrigin: true,
+        rewrite: () => '/feed/podcast/3447681/s/407517.rss',
+      },
+    },
+  },
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),

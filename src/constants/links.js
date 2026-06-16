@@ -1,5 +1,7 @@
 // RSSフィードのURL
-export const RSS_FEED_URL = 'https://api.substack.com/feed/podcast/3447681/s/407517.rss';
+// 本番: VITE_RSS_URL (Cloudflare Worker CORS proxy)
+// dev: /api/rss (Vite proxy が Substack に転送)
+export const RSS_FEED_URL = import.meta.env.VITE_RSS_URL ?? '/api/rss';
 
 // ソーシャルメディアリンク
 export const SOCIAL_LINKS = [
