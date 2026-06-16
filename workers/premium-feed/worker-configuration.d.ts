@@ -8,9 +8,7 @@ declare namespace Cloudflare {
 	interface Env {}
 }
 interface Env extends Cloudflare.Env {
-	SIGNING_KEY: string;
-	ART19_PREMIUM_FEED_URL: string;
-	FIREBASE_PROJECT_ID: string;
+	SUBSTACK_RSS_URL: string;
 }
 
 // Begin runtime types

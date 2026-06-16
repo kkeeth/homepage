@@ -42,10 +42,8 @@ export async function fetchRSSFeed(url: string): Promise<Episode[]> {
 }
 
 export function parseRSSFeed(xmlText: string): Episode[] {
-  // Art19 フィードの <enclosure ...//>  のような不正な自己閉じタグを修正
-  const sanitizedXml = xmlText.replace(/\/\/>/g, '/>');
   const parser = new DOMParser();
-  const xmlDoc = parser.parseFromString(sanitizedXml, 'text/xml');
+  const xmlDoc = parser.parseFromString(xmlText, 'text/xml');
 
   // text/xml は厳格なため、未エスケープの & 等があるとフィード全体が
   // parsererror になり item が 0 件で silent fail する。検知してログを残す。
@@ -99,7 +97,7 @@ export function parseRSSFeed(xmlText: string): Episode[] {
       duration: itunesDuration,
       season: itunesSeason,
       episodeNum: itunesEpisode,
-      isPremium: false,
+      isPremium: !audioUrl,
     });
   });
 
@@ -118,55 +116,3 @@ export function getRandomEpisodes(episodes: Episode[], count = 3): Episode[] {
   return shuffled.slice(0, count);
 }
 
-/**
- * Primary Feed と Premium Feed をマージして時系列でソートする。
- * premiumEpisodesPromise が未指定または失敗時は Primary のみで継続。
- */
-export async function fetchMergedFeeds(
-  primaryUrl: string,
-  premiumEpisodesPromise?: Promise<Episode[]>,
-): Promise<Episode[]> {
-  const primaryPromise = fetchRSSFeed(primaryUrl);
-
-  if (!premiumEpisodesPromise) {
-    return primaryPromise;
-  }
-
-  const [primary, premium] = await Promise.allSettled([
-    primaryPromise,
-    premiumEpisodesPromise,
-  ]);
-
-  const primaryEpisodes = primary.status === 'fulfilled' ? primary.value : [];
-  const premiumEpisodes = premium.status === 'fulfilled' ? premium.value : [];
-
-  if (premium.status === 'rejected') {
-    console.error('[fetchMergedFeeds] premium feed error:', premium.reason);
-  }
-
-  // Premium フィードには <link> がないため、同じタイトルのエピソードが
-  // 両方のフィードに存在する場合、primary の link を保持しつつ
-  // premium の audioUrl と isPremium フラグをマージして重複を除去する
-  const premiumByTitle = new Map<string, Episode>();
-  for (const ep of premiumEpisodes) {
-    premiumByTitle.set(ep.title, ep);
-  }
-
-  const mergedPrimary = primaryEpisodes.map((ep) => {
-    const premiumEp = premiumByTitle.get(ep.title);
-    if (premiumEp) {
-      premiumByTitle.delete(ep.title);
-      return {
-        ...ep,
-        isPremium: true,
-        audioUrl: premiumEp.audioUrl || ep.audioUrl,
-      };
-    }
-    return ep;
-  });
-
-  const merged = [...mergedPrimary, ...premiumByTitle.values()].sort(
-    (a, b) => b.pubDateObj.getTime() - a.pubDateObj.getTime(),
-  );
-  return merged;
-}

@@ -290,6 +290,8 @@
   },
   "episode": {
     "listenOn": "聴く",
+    "listenOnSubstack": "Substackで聴く",
+    "premiumOnly": "このエピソードはSubstackメンバー限定です。",
     "share": "シェアする",
     "backToList": "エピソード一覧に戻る",
     "notFound": "エピソードが見つかりませんでした"

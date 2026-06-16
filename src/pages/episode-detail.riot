@@ -9,39 +9,36 @@
           <span class="episode-date">{state.episode.pubDate}</span>
           <h1 class="episode-title">
             {state.episode.title}
-            <premium-badge show={state.isPremiumEpisode} />
+            <premium-badge show={state.episode.isPremium} />
           </h1>
 
-          <!-- Premium Gate -->
-          <premium-gate if={state.isPremiumEpisode && !state.canAccess} />
-
-          <!-- Embedded Player (visible for non-premium or premium members) -->
-          <div class="player-section" if={!state.isPremiumEpisode || state.canAccess}>
-            <!-- Premium episodes use HTML5 audio (Art19 embed returns 404 for alternate feed) -->
+          <!-- Free episode: HTML5 audio player -->
+          <div class="player-section" if={state.episode.audioUrl}>
             <audio
-              if={(state.episode.isPremium || !state.episode.link) && state.episode.audioUrl}
               controls
               preload="none"
               src={state.episode.audioUrl}
               style="width: 100%;"
             ></audio>
-            <!-- Non-premium episodes use Art19 iframe embed -->
-            <iframe
-              if={!state.episode.isPremium && state.episode.link}
-              src={`${state.episode.link}/embed`}
-              title="Episode player"
-              style="width: 100%; height: 200px; border: 0 none;" scrolling="no"
-              sandbox="allow-scripts allow-popups allow-popups-to-escape-sandbox"></iframe>
           </div>
 
-          <p class="episode-description" if={!state.isPremiumEpisode || state.canAccess}>
+          <!-- Premium episode: Substack CTA -->
+          <div class="premium-cta" if={!state.episode.audioUrl}>
+            <p class="premium-cta-desc">{t("episode.premiumOnly")}</p>
+            <a href={state.episode.link} target="_blank" rel="noopener noreferrer" class="substack-btn">
+              <sl-icon name="headphones"></sl-icon>
+              {t("episode.listenOnSubstack")}
+            </a>
+          </div>
+
+          <p class="episode-description">
             <raw html={state.episode.fullDescription} />
           </p>
         </div>
       </div>
 
-      <!-- Platform Links (only for non-premium accessible episodes) -->
-      <div class="platforms-section" if={(!state.isPremiumEpisode || state.canAccess) && !state.episode.isPremium}>
+      <!-- Platform Links (only for free episodes with audio) -->
+      <div class="platforms-section" if={state.episode.audioUrl}>
         <h3 class="section-label">{t("episode.listenOn")}</h3>
         <div class="platform-icons">
           <a
@@ -58,7 +55,7 @@
       </div>
 
       <!-- Share Buttons -->
-      <div class="share-section" if={!state.isPremiumEpisode || state.canAccess}>
+      <div class="share-section">
         <h3 class="section-label">{t("episode.share")}</h3>
         <div class="share-buttons">
           <button onclick={shareTwitter} class="share-btn share-twitter" title="X (Twitter)">
@@ -92,12 +89,9 @@
   </div>
 
   <script>
-    import { fetchMergedFeeds } from '@/utils/rss';
-    import { fetchPremiumEpisodes } from '@/utils/premium-feed';
-    import { PODCAST_PLATFORMS, RSS_FEED_URL } from '@/constants/links';
+    import { fetchRSSFeed } from '@/utils/rss';
+    import { PODCAST_PLATFORMS, RSS_FEED_URL, SUBSTACK_RSS_URL } from '@/constants/links';
     import i18nStore from '@/stores/i18n-store';
-    import authStore from '@/stores/auth-store';
-    import membershipStore from '@/stores/membership-store';
 
     export default {
       t: i18nStore.t.bind(i18nStore),
@@ -106,9 +100,6 @@
         episode: null,
         platforms: PODCAST_PLATFORMS,
         copied: false,
-        isPremiumEpisode: false,
-        canAccess: false,
-        episodeId: null,
         episodeURL: "",
       },
       async onMounted() {
@@ -117,74 +108,41 @@
           this.update({ loading: false });
           return;
         }
-
         await this.loadEpisode(episodeId);
-
-        // loadEpisode 完了後に state.episodeId は正規 ID（canonicalId）に確定済み
-        // この時点でリスナーを登録することで、URL 由来の ID で判定するレースを防ぐ
-        this._updateAccessControl = () => {
-          const { episodeId, episode } = this.state;
-          if (!episodeId || !episode) return;
-
-          const isPremiumCheck = membershipStore.isEpisodePremium(episodeId);
-          const isPremiumEpisode = episode.isPremium || isPremiumCheck !== false;
-          const canAccess = !isPremiumEpisode || authStore.isPremium || import.meta.env.DEV;
-
-          if (this.state.isPremiumEpisode !== isPremiumEpisode || this.state.canAccess !== canAccess) {
-            this.update({ isPremiumEpisode, canAccess });
-          }
-        };
-        membershipStore.on('premium-episodes-changed', this._updateAccessControl);
-        authStore.on('membership-changed', this._updateAccessControl);
-        // loadEpisode 中に発火済みのイベントを取りこぼす場合があるため即時再評価
-        this._updateAccessControl();
-      },
-      onBeforeUnmount() {
-        if (this._updateAccessControl) {
-          membershipStore.off('premium-episodes-changed', this._updateAccessControl);
-          authStore.off('membership-changed', this._updateAccessControl);
-        }
       },
       getEpisodeId() {
         const path = window.location.pathname;
         const match = path.match(/\/episodes\/(.+)/);
         return match ? decodeURIComponent(match[1]) : null;
       },
-      /**
-       * エピソードリンクから正規の ID を抽出する（最後のパスセグメント）
-       * 例: "https://rss.art19.com/episodes/abc-123" → "abc-123"
-       */
-      extractEpisodeIdFromLink(link) {
+      extractSlugFromLink(link) {
         try {
-          const pathname = new URL(link).pathname;
-          return pathname.split('/').filter(Boolean).pop() || null;
+          return new URL(link).pathname.split('/').filter(Boolean).pop() || null;
         } catch {
           return null;
         }
       },
       async loadEpisode(episodeId) {
         try {
-          const episodes = await fetchMergedFeeds(RSS_FEED_URL, fetchPremiumEpisodes());
+          const [art19, substack] = await Promise.allSettled([
+            fetchRSSFeed(RSS_FEED_URL),
+            fetchRSSFeed(SUBSTACK_RSS_URL),
+          ]);
+          const episodes = [
+            ...(art19.status === 'fulfilled' ? art19.value : []),
+            ...(substack.status === 'fulfilled' ? substack.value : []),
+          ];
 
           const foundEpisode = episodes.find(ep => {
-            const linkMatch = ep.link && ep.link.includes(episodeId);
-            const titleMatch = ep.title === episodeId;
-            return linkMatch || titleMatch;
+            const slug = this.extractSlugFromLink(ep.link);
+            return slug === episodeId || ep.link?.includes(episodeId) || ep.title === decodeURIComponent(episodeId);
           });
 
           if (foundEpisode) {
-            this.update({ episodeURL: foundEpisode.link });
-            const canonicalId = this.extractEpisodeIdFromLink(foundEpisode.link) || episodeId;
-            // isPremium: feed ソースベースの判定 OR Firestore ベースの判定
-            const isPremiumCheck = membershipStore.isEpisodePremium(canonicalId);
-            const isPremiumEpisode = foundEpisode.isPremium || isPremiumCheck !== false;
-            const canAccess = !isPremiumEpisode || authStore.isPremium || import.meta.env.DEV;
             this.update({
               loading: false,
               episode: foundEpisode,
-              episodeId: canonicalId,
-              isPremiumEpisode,
-              canAccess,
+              episodeURL: foundEpisode.link,
             });
           } else {
             this.update({ loading: false });
@@ -199,11 +157,7 @@
         return `${title}\n#WEB小噺 \n`;
       },
       getShareUrl() {
-        // Premium episodes: share the website URL (not Art19 link)
-        if (this.state.episode?.isPremium) {
-          return window.location.href;
-        }
-        return this.state.episodeURL;
+        return window.location.href;
       },
       shareTwitter() {
         const text = encodeURIComponent(this.getShareText());
@@ -282,9 +236,43 @@
       margin-bottom: 2rem;
     }
 
-    .episode-player {
-      border-radius: 12px;
+    /* Premium CTA */
+    .premium-cta {
+      margin-bottom: 2rem;
+      padding: 2rem;
       background: var(--cream);
+      border-radius: 12px;
+      text-align: center;
+    }
+
+    .premium-cta-desc {
+      color: var(--text-color);
+      margin: 0 0 1.25rem;
+      font-size: 0.9375rem;
+    }
+
+    .substack-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1.75rem;
+      background: var(--rain-blue);
+      color: white;
+      border-radius: 50px;
+      text-decoration: none;
+      font-size: 0.9375rem;
+      font-weight: 600;
+      transition: all 0.2s ease;
+    }
+
+    .substack-btn:hover {
+      background: var(--deep-rain);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(52, 152, 219, 0.2);
+    }
+
+    .substack-btn sl-icon {
+      font-size: 1.125rem;
     }
 
     /* Section Label */

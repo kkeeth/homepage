@@ -1,7 +1,6 @@
 import observable, { type ObservableInstance } from '@riotjs/observable';
-import { fetchMergedFeeds } from '@/utils/rss';
-import { fetchPremiumEpisodes } from '@/utils/premium-feed';
-import { RSS_FEED_URL } from '@/constants/links';
+import { fetchRSSFeed } from '@/utils/rss';
+import { RSS_FEED_URL, SUBSTACK_RSS_URL } from '@/constants/links';
 
 interface RSSEpisode {
   title: string;
@@ -86,10 +85,21 @@ const episodeStore = observable({
         })).reverse();
         this.allEpisodes = fallback;
       } else {
-        const episodes = (await fetchMergedFeeds(
-          RSS_FEED_URL,
-          fetchPremiumEpisodes(),
-        )) as RSSEpisode[];
+        const [art19Result, substackResult] = await Promise.allSettled([
+          fetchRSSFeed(RSS_FEED_URL),
+          fetchRSSFeed(SUBSTACK_RSS_URL),
+        ]);
+        if (substackResult.status === 'rejected') {
+          console.warn('[episode-store] Substack feed unavailable:', substackResult.reason);
+        }
+        const episodes = [
+          ...(art19Result.status === 'fulfilled' ? art19Result.value : []),
+          ...(substackResult.status === 'fulfilled' ? substackResult.value : []),
+        ].sort((a, b) => b.pubDateObj.getTime() - a.pubDateObj.getTime()) as RSSEpisode[];
+
+        if (art19Result.status === 'rejected' && substackResult.status === 'rejected') {
+          throw art19Result.reason;
+        }
 
         this.allEpisodes = episodes.map(
           (episode: RSSEpisode, index: number) => ({

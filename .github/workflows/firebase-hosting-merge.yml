@@ -44,6 +44,7 @@ jobs:
           VITE_STRIPE_PAYMENT_LINK_YEARLY_URL: ${{ secrets.VITE_STRIPE_PAYMENT_LINK_YEARLY_URL }}
           VITE_STRIPE_CUSTOMER_PORTAL_URL: ${{ secrets.VITE_STRIPE_CUSTOMER_PORTAL_URL }}
           VITE_WORKER_BASE_URL: ${{ secrets.VITE_WORKER_BASE_URL }}
+          VITE_RSS_URL: https://premium-feed.zensin0082.workers.dev/rss
 
       # 4. Firebase デプロイ (Hosting, Firestore のみ。Webhook は Cloudflare Worker が担当)
       - name: Deploy to Firebase
