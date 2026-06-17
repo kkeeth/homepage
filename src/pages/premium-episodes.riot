@@ -1,0 +1,490 @@
+<premium-episodes>
+  <div class="premium-episodes">
+
+    <!-- Hero -->
+    <section class="hero">
+      <div class="hero-inner">
+        <span class="section-label">// MEMBERSHIP</span>
+        <h1 class="hero-title">{t("pages.premium.title")}</h1>
+        <p class="hero-desc">{t("pages.premium.description")}</p>
+        <a
+          href="https://kkeeth.substack.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="join-btn"
+        >
+          {t("pages.premium.joinCta")}
+          <sl-icon name="box-arrow-up-right" class="join-btn-icon"></sl-icon>
+        </a>
+      </div>
+    </section>
+
+    <!-- Grid -->
+    <section class="grid-section">
+      <!-- Loading -->
+      <div if={state.loading} class="loading-wrap">
+        <loader />
+      </div>
+
+      <!-- Episodes -->
+      <div if={!state.loading && state.episodes.length > 0} class="episodes-grid">
+        <div
+          each={episode in state.episodes}
+          key={episode.link}
+          class={"episode-card" + (episode.isPremium ? " is-locked" : "")}
+        >
+          <!-- Artwork -->
+          <a
+            href={getEpisodeUrl(episode)}
+            target={episode.isPremium ? "_blank" : null}
+            rel={episode.isPremium ? "noopener noreferrer" : null}
+            class="card-artwork-link"
+          >
+            <div class="card-artwork">
+              <img
+                src={episode.imageUrl || "/images/premium-placeholder.png"}
+                alt={episode.title}
+                loading="lazy"
+                onerror="this.src='/images/premium-placeholder.png'"
+              />
+              <div if={episode.isPremium} class="lock-overlay">
+                <sl-icon name="lock-fill" class="lock-icon"></sl-icon>
+              </div>
+            </div>
+          </a>
+
+          <!-- Meta -->
+          <div class="card-meta">
+            <span class="card-date">{episode.pubDate}</span>
+            <span if={episode.duration} class="card-duration">{formatDuration(episode.duration)}</span>
+          </div>
+
+          <!-- Title -->
+          <h3 class="card-title">
+            <a
+              href={getEpisodeUrl(episode)}
+              target={episode.isPremium ? "_blank" : null}
+              rel={episode.isPremium ? "noopener noreferrer" : null}
+            >{episode.title}</a>
+          </h3>
+
+          <!-- Action -->
+          <div class="card-action">
+            <a
+              href={getEpisodeUrl(episode)}
+              target={episode.isPremium ? "_blank" : null}
+              rel={episode.isPremium ? "noopener noreferrer" : null}
+              class={"card-btn" + (episode.isPremium ? " btn-locked" : " btn-play")}
+            >
+              <sl-icon name={episode.isPremium ? "lock-fill" : "play-circle-fill"}></sl-icon>
+              {episode.isPremium ? t("episode.listenOnSubstack") : t("episode.listenOn")}
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Empty: placeholder cards -->
+      <div if={!state.loading && state.episodes.length === 0} class="empty-wrap">
+        <p class="empty-lead">{t("pages.premium.noEpisodes")}</p>
+        <div class="episodes-grid placeholder-grid">
+          <div each={_ in [0,1,2]} class="episode-card placeholder-card">
+            <div class="card-artwork placeholder-artwork">
+              <sl-icon name="mic" class="placeholder-icon"></sl-icon>
+              <span class="coming-soon-badge">{t("pages.premium.comingSoon")}</span>
+            </div>
+            <div class="card-meta">
+              <span class="placeholder-bar short"></span>
+            </div>
+            <div class="placeholder-bar long"></div>
+            <div class="placeholder-bar medium"></div>
+          </div>
+        </div>
+        <div class="empty-cta">
+          <p class="empty-cta-desc">{t("pages.premium.emptyCtaDesc")}</p>
+          <a
+            href="https://kkeeth.substack.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="join-btn-outline"
+          >
+            {t("pages.premium.joinCta")}
+            <sl-icon name="box-arrow-up-right" class="join-btn-icon"></sl-icon>
+          </a>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    import { fetchRSSFeed } from '@/utils/rss';
+    import { SUBSTACK_RSS_URL } from '@/constants/links';
+    import i18nStore from '@/stores/i18n-store';
+
+    export default {
+      t: i18nStore.t.bind(i18nStore),
+      state: {
+        loading: true,
+        episodes: [],
+      },
+      async onBeforeMount() {
+        try {
+          const episodes = await fetchRSSFeed(SUBSTACK_RSS_URL);
+          this.update({ loading: false, episodes });
+        } catch (err) {
+          console.warn('[premium-episodes] feed unavailable:', err);
+          this.update({ loading: false });
+        }
+      },
+      getEpisodeUrl(episode) {
+        if (episode.isPremium) {
+          return episode.link;
+        }
+        try {
+          const slug = new URL(episode.link).pathname.split('/').filter(Boolean).pop();
+          return `/episodes/${slug}`;
+        } catch {
+          return episode.link;
+        }
+      },
+      formatDuration(duration) {
+        if (!duration) return '';
+        if (duration.includes(':')) {
+          const parts = duration.split(':').map(Number);
+          if (parts.length === 3) return `${Math.round(parts[0] * 60 + parts[1] + parts[2] / 60)}m`;
+          if (parts.length === 2) return `${parts[0]}m`;
+        }
+        const sec = parseInt(duration);
+        return isNaN(sec) ? duration : `${Math.round(sec / 60)}m`;
+      },
+    }
+  </script>
+
+  <style>
+    .premium-episodes {
+      background: var(--warm-white);
+    }
+
+    /* ── Hero ─────────────────────────────────── */
+    .hero {
+      background: var(--charcoal);
+      color: white;
+      padding-top: 5rem;
+      padding-bottom: 5rem;
+    }
+
+    .hero-inner {
+      max-width: 720px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      display: block;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      color: var(--warm-amber);
+      font-family: monospace;
+      margin-bottom: 1rem;
+    }
+
+    .hero-title {
+      font-size: 2.5rem;
+      font-weight: 800;
+      line-height: 1.2;
+      margin: 0 0 1rem;
+      color: white;
+    }
+
+    .hero-desc {
+      font-size: 1rem;
+      line-height: 1.7;
+      color: rgba(255, 255, 255, 0.75);
+      margin: 0 0 2rem;
+    }
+
+    .join-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1.75rem;
+      background: var(--warm-amber);
+      color: var(--warm-white);
+      border-radius: 50px;
+      text-decoration: none;
+      font-size: 0.9375rem;
+      font-weight: 700;
+      transition: opacity 0.2s ease;
+    }
+
+    .join-btn:hover {
+      opacity: 0.88;
+    }
+
+    /* ── Grid Section ─────────────────────────── */
+    .grid-section {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 4rem 2rem;
+    }
+
+    .episodes-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+    }
+
+    /* ── Card ─────────────────────────────────── */
+    .episode-card {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    /* Artwork */
+    .card-artwork-link {
+      display: block;
+      text-decoration: none;
+    }
+
+    .card-artwork {
+      position: relative;
+      aspect-ratio: 1 / 1;
+      border-radius: 12px;
+      overflow: hidden;
+      background: var(--cream);
+    }
+
+    .card-artwork img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.3s ease;
+    }
+
+    .card-artwork-link:hover .card-artwork img {
+      transform: scale(1.04);
+    }
+
+    /* Lock overlay */
+    .lock-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(30, 30, 30, 0.55);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .lock-icon {
+      font-size: 2rem;
+      color: white;
+    }
+
+    /* Meta */
+    .card-meta {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .card-date {
+      font-size: 0.8125rem;
+      color: var(--text-light);
+      font-weight: 500;
+    }
+
+    .card-duration {
+      font-size: 0.8125rem;
+      color: var(--text-light);
+    }
+
+    .card-duration::before {
+      content: '·';
+      margin-right: 0.75rem;
+    }
+
+    /* Title */
+    .card-title {
+      font-size: 1rem;
+      font-weight: 700;
+      line-height: 1.4;
+      margin: 0;
+    }
+
+    .card-title a {
+      color: var(--text-dark);
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    .card-title a:hover {
+      color: var(--rain-blue);
+    }
+
+    .is-locked .card-title a:hover {
+      color: var(--warm-amber);
+    }
+
+    /* Action button */
+    .card-action {
+      margin-top: auto;
+    }
+
+    .card-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.5rem 1rem;
+      border-radius: 50px;
+      text-decoration: none;
+      font-size: 0.8125rem;
+      font-weight: 600;
+      transition: all 0.2s ease;
+    }
+
+    .btn-play {
+      background: var(--rain-blue);
+      color: white;
+    }
+
+    .btn-play:hover {
+      background: var(--deep-rain);
+    }
+
+    .btn-locked {
+      background: var(--warm-amber);
+      color: var(--charcoal);
+    }
+
+    .btn-locked:hover {
+      opacity: 0.88;
+    }
+
+    /* Loading */
+    .loading-wrap {
+      display: flex;
+      justify-content: center;
+      padding: 4rem 0;
+    }
+
+    /* Empty / Placeholder */
+    .empty-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 3rem;
+    }
+
+    .empty-lead {
+      font-size: 0.9375rem;
+      color: var(--text-light);
+      margin: 0;
+      text-align: center;
+    }
+
+    .placeholder-grid {
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .placeholder-card {
+      opacity: 0.55;
+    }
+
+    .placeholder-artwork {
+      position: relative;
+      aspect-ratio: 1 / 1;
+      border-radius: 12px;
+      background: var(--cream);
+      border: 2px dashed var(--light-gray);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+    }
+
+    .placeholder-icon {
+      font-size: 2.5rem;
+      color: var(--light-gray);
+    }
+
+    .coming-soon-badge {
+      display: inline-block;
+      padding: 0.2rem 0.75rem;
+      background: var(--light-gray);
+      color: var(--text-light);
+      font-size: 0.6875rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      border-radius: 50px;
+      text-transform: uppercase;
+    }
+
+    .placeholder-bar {
+      height: 0.875rem;
+      border-radius: 4px;
+      background: var(--light-gray);
+    }
+
+    .placeholder-bar.short  { width: 40%; }
+    .placeholder-bar.medium { width: 65%; }
+    .placeholder-bar.long   { width: 90%; }
+
+    .empty-cta {
+      text-align: center;
+    }
+
+    .empty-cta-desc {
+      font-size: 0.9375rem;
+      color: var(--text-light);
+      margin: 0 0 1.25rem;
+    }
+
+    .join-btn-outline {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 2rem;
+      background: var(--warm-white);
+      color: var(--storm-cloud);
+      border: 2px solid var(--warm-amber);
+      border-radius: 50px;
+      text-decoration: none;
+      font-size: 0.9375rem;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+
+    .join-btn-outline:hover {
+      background: var(--warm-amber);
+      color: var(--warm-white);
+    }
+
+    /* ── Responsive ───────────────────────────── */
+    @media (max-width: 900px) {
+      .episodes-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 640px) {
+      .hero {
+        padding: 3rem 1.5rem;
+      }
+
+      .hero-title {
+        font-size: 1.75rem;
+      }
+
+      .grid-section {
+        padding: 2.5rem 2rem;
+      }
+
+      .episodes-grid {
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+      }
+    }
+  </style>
+</premium-episodes>

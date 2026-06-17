@@ -57,6 +57,14 @@
         "思考": "Thoughts"
       }
     },
+    "premium": {
+      "title": "Amayadori to WEB to Yodan no Kobanashi",
+      "description": "A membership program for those who want to enjoy 'Amayadori to WEB no Kobanashi' even more! We offer exclusive episodes and free public episodes on Substack!",
+      "joinCta": "Join on Substack",
+      "noEpisodes": "Episodes are coming soon!",
+      "comingSoon": "Coming Soon",
+      "emptyCtaDesc": "Join to be the first to hear exclusive membership episodes."
+    },
     "profile": {
       "title": "Kuwahara KEETH Kiyohito",
       "role": "Web Developer / Podcaster",
