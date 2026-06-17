@@ -16,6 +16,11 @@ export default [
     hidden: true,
   },
   {
+    path: '/premium',
+    label: 'MEMBERS',
+    componentName: 'premium-episodes',
+  },
+  {
     path: '/info',
     label: 'INFO',
     componentName: 'info',

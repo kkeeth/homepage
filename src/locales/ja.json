@@ -48,6 +48,12 @@
           "title": "その他の番組"
         }
       },
+      "premium": {
+        "title": "会員向け配信",
+        "description": "Substackメンバー限定の会員配信と、無料公開エピソードの一覧です。会員登録するとすべてのエピソードを聴くことができます。",
+        "joinCta": "Substackで会員になる",
+        "noEpisodes": "まだエピソードがありません"
+      },
       "program": {
         "episodesCount": "話",
         "listen": "聴く"

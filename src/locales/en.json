@@ -47,6 +47,12 @@
           "title": "Other Programs"
         }
       },
+      "premium": {
+        "title": "Membership Episodes",
+        "description": "Members-only episodes and free public episodes from Substack. Join to unlock all content.",
+        "joinCta": "Join on Substack",
+        "noEpisodes": "No episodes yet"
+      },
       "program": {
         "episodesCount": " episodes",
         "listen": "Listen"
