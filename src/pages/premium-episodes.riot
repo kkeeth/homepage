@@ -104,7 +104,7 @@
             href="https://kkeeth.substack.com"
             target="_blank"
             rel="noopener noreferrer"
-            class="join-btn"
+            class="join-btn-outline"
           >
             {t("pages.premium.joinCta")}
           </a>
@@ -437,6 +437,26 @@
       font-size: 0.9375rem;
       color: var(--text-light);
       margin: 0 0 1.25rem;
+    }
+
+    .join-btn-outline {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 2rem;
+      background: var(--warm-white);
+      color: var(--storm-cloud);
+      border: 2px solid var(--warm-amber);
+      border-radius: 50px;
+      text-decoration: none;
+      font-size: 0.9375rem;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+
+    .join-btn-outline:hover {
+      background: var(--warm-amber);
+      color: var(--warm-white);
     }
 
     /* ── Responsive ───────────────────────────── */
