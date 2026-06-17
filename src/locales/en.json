@@ -51,7 +51,9 @@
         "title": "Membership Episodes",
         "description": "Members-only episodes and free public episodes from Substack. Join to unlock all content.",
         "joinCta": "Join on Substack",
-        "noEpisodes": "No episodes yet"
+        "noEpisodes": "Episodes are coming soon!",
+        "comingSoon": "Coming Soon",
+        "emptyCtaDesc": "Join to be the first to hear exclusive membership episodes."
       },
       "program": {
         "episodesCount": " episodes",

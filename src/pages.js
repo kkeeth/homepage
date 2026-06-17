@@ -16,8 +16,8 @@ export default [
     hidden: true,
   },
   {
-    path: '/premium',
-    label: 'MEMBERS',
+    path: '/membership',
+    label: 'MEMBERSHIP',
     componentName: 'premium-episodes',
   },
   {

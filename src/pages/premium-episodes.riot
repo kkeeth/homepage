@@ -83,18 +83,34 @@
         </div>
       </div>
 
-      <!-- Empty -->
-      <div if={!state.loading && state.episodes.length === 0} class="empty-state">
-        <sl-icon name="mic" class="empty-icon"></sl-icon>
-        <p>{t("pages.premium.noEpisodes")}</p>
-        <a
-          href="https://kkeeth.substack.com"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="join-btn"
-        >
-          {t("pages.premium.joinCta")}
-        </a>
+      <!-- Empty: placeholder cards -->
+      <div if={!state.loading && state.episodes.length === 0} class="empty-wrap">
+        <p class="empty-lead">{t("pages.premium.noEpisodes")}</p>
+        <div class="episodes-grid placeholder-grid">
+          <div each={_ in [0,1,2]} class="episode-card placeholder-card">
+            <div class="card-artwork placeholder-artwork">
+              <sl-icon name="mic" class="placeholder-icon"></sl-icon>
+              <span class="coming-soon-badge">{t("pages.premium.comingSoon")}</span>
+            </div>
+            <div class="card-meta">
+              <span class="placeholder-bar short"></span>
+            </div>
+            <div class="placeholder-bar long"></div>
+            <div class="placeholder-bar medium"></div>
+          </div>
+        </div>
+        <div class="empty-cta">
+          <p class="empty-cta-desc">{t("pages.premium.emptyCtaDesc")}</p>
+          <a
+            href="https://kkeeth.substack.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="join-btn"
+          >
+            <sl-icon name="star-fill"></sl-icon>
+            {t("pages.premium.joinCta")}
+          </a>
+        </div>
       </div>
     </section>
   </div>
@@ -345,27 +361,84 @@
       opacity: 0.88;
     }
 
-    /* Loading / Empty */
+    /* Loading */
     .loading-wrap {
       display: flex;
       justify-content: center;
       padding: 4rem 0;
     }
 
-    .empty-state {
-      text-align: center;
-      padding: 4rem 0;
+    /* Empty / Placeholder */
+    .empty-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 3rem;
+    }
+
+    .empty-lead {
+      font-size: 0.9375rem;
       color: var(--text-light);
+      margin: 0;
+      text-align: center;
     }
 
-    .empty-icon {
-      font-size: 3rem;
-      display: block;
-      margin-bottom: 1rem;
+    .placeholder-grid {
+      pointer-events: none;
+      user-select: none;
     }
 
-    .empty-state p {
-      margin-bottom: 1.5rem;
+    .placeholder-card {
+      opacity: 0.55;
+    }
+
+    .placeholder-artwork {
+      position: relative;
+      aspect-ratio: 1 / 1;
+      border-radius: 12px;
+      background: var(--cream);
+      border: 2px dashed var(--light-gray);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+    }
+
+    .placeholder-icon {
+      font-size: 2.5rem;
+      color: var(--light-gray);
+    }
+
+    .coming-soon-badge {
+      display: inline-block;
+      padding: 0.2rem 0.75rem;
+      background: var(--light-gray);
+      color: var(--text-light);
+      font-size: 0.6875rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      border-radius: 50px;
+      text-transform: uppercase;
+    }
+
+    .placeholder-bar {
+      height: 0.875rem;
+      border-radius: 4px;
+      background: var(--light-gray);
+    }
+
+    .placeholder-bar.short  { width: 40%; }
+    .placeholder-bar.medium { width: 65%; }
+    .placeholder-bar.long   { width: 90%; }
+
+    .empty-cta {
+      text-align: center;
+    }
+
+    .empty-cta-desc {
+      font-size: 0.9375rem;
+      color: var(--text-light);
+      margin: 0 0 1.25rem;
     }
 
     /* ── Responsive ───────────────────────────── */
