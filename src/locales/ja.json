@@ -59,9 +59,9 @@
       }
     },
     "premium": {
-      "title": "メンバーシップ「雨宿りとWEBと余談の小噺」",
+      "title": "雨宿りとWEBと余談の小噺",
       "description": "雨宿りとWEBの小噺をもっと楽しみたい方のためのメンバーシッププログラム！　　　　　Substackで限定エピソードや無料公開エピソードを配信中！",
-      "joinCta": "Substackで会員になる",
+      "joinCta": "Substackでメンバーになる",
       "noEpisodes": "現在準備中です。近日公開予定！",
       "comingSoon": "公開予定",
       "emptyCtaDesc": "会員になると限定エピソードをいち早く聴くことができます。"
