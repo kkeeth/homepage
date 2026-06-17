@@ -47,14 +47,6 @@
           "title": "Other Programs"
         }
       },
-      "premium": {
-        "title": "Membership Episodes",
-        "description": "Members-only episodes and free public episodes from Substack. Join to unlock all content.",
-        "joinCta": "Join on Substack",
-        "noEpisodes": "Episodes are coming soon!",
-        "comingSoon": "Coming Soon",
-        "emptyCtaDesc": "Join to be the first to hear exclusive membership episodes."
-      },
       "program": {
         "episodesCount": " episodes",
         "listen": "Listen"
@@ -64,6 +56,14 @@
         "ライフ": "Life",
         "思考": "Thoughts"
       }
+    },
+    "premium": {
+      "title": "Membership Episodes",
+      "description": "Members-only episodes and free public episodes from Substack. Join to unlock all content.",
+      "joinCta": "Join on Substack",
+      "noEpisodes": "Episodes are coming soon!",
+      "comingSoon": "Coming Soon",
+      "emptyCtaDesc": "Join to be the first to hear exclusive membership episodes."
     },
     "profile": {
       "title": "Kuwahara KEETH Kiyohito",

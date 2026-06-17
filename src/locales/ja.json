@@ -48,14 +48,6 @@
           "title": "その他の番組"
         }
       },
-      "premium": {
-        "title": "会員向け配信",
-        "description": "Substackメンバー限定の会員配信と、無料公開エピソードの一覧です。会員登録するとすべてのエピソードを聴くことができます。",
-        "joinCta": "Substackで会員になる",
-        "noEpisodes": "現在準備中です。近日公開予定！",
-        "comingSoon": "公開予定",
-        "emptyCtaDesc": "会員になると限定エピソードをいち早く聴くことができます。"
-      },
       "program": {
         "episodesCount": "話",
         "listen": "聴く"
@@ -65,6 +57,14 @@
         "ライフ": "ライフ",
         "思考": "思考"
       }
+    },
+    "premium": {
+      "title": "会員向け配信",
+      "description": "Substackメンバー限定の会員配信と、無料公開エピソードの一覧です。会員登録するとすべてのエピソードを聴くことができます。",
+      "joinCta": "Substackで会員になる",
+      "noEpisodes": "現在準備中です。近日公開予定！",
+      "comingSoon": "公開予定",
+      "emptyCtaDesc": "会員になると限定エピソードをいち早く聴くことができます。"
     },
     "profile": {
       "title": "桑原聖仁",
