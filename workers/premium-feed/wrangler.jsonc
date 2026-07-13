@@ -8,5 +8,6 @@
 	},
 	"vars": {
 		"SUBSTACK_RSS_URL": "https://api.substack.com/feed/podcast/3447681/s/407517.rss",
+		"SUBSTACK_ARCHIVE_URL": "https://kkeeth.substack.com/api/v1/archive?sort=new&limit=50&section_id=407517",
 	},
 }

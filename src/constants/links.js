@@ -3,6 +3,9 @@
 export const RSS_FEED_URL = 'https://rss.art19.com/kkeethengineers';
 // Substack: 会員向け別番組 (CORS プロキシ経由: dev=Vite proxy, 本番=Worker)
 export const SUBSTACK_RSS_URL = import.meta.env.VITE_RSS_URL ?? '/api/rss';
+// Substack archive API: 有料限定回もメタデータを取得できる (一覧表示用)
+export const SUBSTACK_ARCHIVE_URL =
+  import.meta.env.VITE_ARCHIVE_URL ?? '/api/archive';
 
 // ソーシャルメディアリンク
 export const SOCIAL_LINKS = [

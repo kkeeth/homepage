@@ -1,15 +1,18 @@
 /**
  * RSS CORS Proxy Worker
  *
- * Substack の RSS フィードは CORS ヘッダーを返さないため、
+ * Substack の RSS フィード・archive API は CORS ヘッダーを返さないため、
  * このワーカーがブラウザ向けに CORS ヘッダーを付与して転送する。
  *
- * Endpoint:
- *   GET /rss  — Substack RSS を CORS 付きで返す
+ * Endpoints:
+ *   GET /rss      — Substack RSS を CORS 付きで返す
+ *   GET /archive  — Substack archive API (JSON) を CORS 付きで返す。
+ *                   公開 RSS には載らない有料限定エピソードのメタデータも含まれる。
  */
 
 interface Env {
   SUBSTACK_RSS_URL: string;
+  SUBSTACK_ARCHIVE_URL: string;
 }
 
 const CORS = {
@@ -25,12 +28,25 @@ export default {
     }
 
     const path = new URL(request.url).pathname;
-    if (path !== '/rss') {
+
+    const routes: Record<string, { url: string; contentType: string }> = {
+      '/rss': {
+        url: env.SUBSTACK_RSS_URL,
+        contentType: 'application/rss+xml; charset=utf-8',
+      },
+      '/archive': {
+        url: env.SUBSTACK_ARCHIVE_URL,
+        contentType: 'application/json; charset=utf-8',
+      },
+    };
+
+    const route = routes[path];
+    if (!route) {
       return new Response('Not Found', { status: 404, headers: CORS });
     }
 
     try {
-      const upstream = await fetch(env.SUBSTACK_RSS_URL, {
+      const upstream = await fetch(route.url, {
         headers: { 'User-Agent': 'RSSProxy/1.0' },
       });
       if (!upstream.ok) {
@@ -39,7 +55,7 @@ export default {
       return new Response(await upstream.text(), {
         headers: {
           ...CORS,
-          'Content-Type': 'application/rss+xml; charset=utf-8',
+          'Content-Type': route.contentType,
           'Cache-Control': 'public, max-age=600',
         },
       });
