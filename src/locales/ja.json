@@ -283,9 +283,11 @@
     "readMore": "続きを読む"
   },
   "notFound": {
-    "title": "道に迷ってしまいましたね",
-    "message": "雨宿りの軟先から，元の道へお戻りください",
-    "backHome": "雨宿りの場所へ戻る"
+    "label": "Page Not Found",
+    "title": "お探しのページが見つかりませんでした",
+    "message": "ページが移動または削除された可能性があります。\n雨宿りがてら、トップページからお探しください。",
+    "backHome": "トップページへ戻る",
+    "viewEpisodes": "エピソード一覧を見る"
   },
   "components": {
     "scrollTop": {

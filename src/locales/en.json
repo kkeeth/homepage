@@ -288,9 +288,11 @@
     "readMore": "Read More"
   },
   "notFound": {
-    "title": "Looks like you've lost your way",
-    "message": "From the shelter of this eave, please return to the original path",
-    "backHome": "Return to the Shelter"
+    "label": "Page Not Found",
+    "title": "We couldn't find that page",
+    "message": "The page may have been moved or deleted.\nTake shelter from the rain and head back to the top page.",
+    "backHome": "Back to Home",
+    "viewEpisodes": "Browse Episodes"
   },
   "components": {
     "scrollTop": {
