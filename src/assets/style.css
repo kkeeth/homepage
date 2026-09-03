@@ -1,5 +1,12 @@
 /* CSS Custom Properties - Blue × Orange-Red Theme */
 :root {
+  /* Typography */
+  --font-sans:
+    'Josefin Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    'Hiragino Sans', 'Noto Sans JP', sans-serif;
+  /* Shoelace components inherit the same font */
+  --sl-font-sans: var(--font-sans);
+
   /* Base Neutrals */
   --charcoal: #2c3e50;
   --warm-gray: #455a64;
@@ -100,14 +107,7 @@
 }
 
 body {
-  font-family:
-    Josefin-sans,
-    -apple-system,
-    BlinkMacSystemFont,
-    'Segoe UI',
-    Roboto,
-    'Noto Sans JP',
-    sans-serif;
+  font-family: var(--font-sans);
   line-height: 1.6;
   color: var(--navy-700);
 }
@@ -148,7 +148,7 @@ html {
   color: var(--rain-blue);
   letter-spacing: 0.12em;
   margin-bottom: 0.75rem;
-  font-family: monospace;
+  font-family: var(--font-sans);
 }
 
 .page-title {
