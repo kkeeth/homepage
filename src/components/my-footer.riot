@@ -7,8 +7,8 @@
     <div class="container">
       <!-- Bento Grid -->
       <div class="bento-grid">
-        <!-- Large Card: Brand -->
-        <div class="bento-card large brand-card">
+        <!-- Brand: カードにせず地の上に直接置く -->
+        <div class="brand-block">
           <div class="card-content">
             <div class="footer-logo">
               <img src="/images/myself.png" alt={t("footer.logoAlt")} />
@@ -63,7 +63,7 @@
             <a href="https://github.com/kkeeth" target="_blank" aria-label="GitHub">
               <sl-icon name="github"></sl-icon>
             </a>
-            <a href="https://discord.gg/baGp9vJCVU" target="_blank" aria-label="Discord">
+            <a href="https://discord.gg/nkSq9qxar" target="_blank" aria-label="Discord">
               <sl-icon name="discord"></sl-icon>
             </a>
             <a href="mailto:kkeeth.contact@gmail.com" aria-label="Email">
@@ -170,16 +170,17 @@
       border-color: rgba(255, 255, 255, 0.15);
     }
 
-    /* Large Card - Brand */
-    .bento-card.large {
+    /* Brand — bento カードの枠・塗りを持たせず、フッターの地に直接置く。
+       上の padding は隣接カードの内側 padding と揃えて頭を合わせる */
+    .brand-block {
       grid-column: span 2;
       grid-row: span 2;
-      padding: 2rem;
+      padding: 1.5rem 2rem 0 0;
       display: flex;
-      align-items: flex-end;
+      align-items: flex-start;
     }
 
-    .brand-card .card-content {
+    .brand-block .card-content {
       width: 100%;
     }
 
@@ -198,7 +199,7 @@
       object-fit: cover;
     }
 
-    .brand-card h2 {
+    .brand-block h2 {
       font-size: 1.5rem;
       font-weight: 700;
       margin-bottom: 0.5rem;
@@ -251,7 +252,7 @@
 
     .platform-item sl-icon {
       font-size: 1.5rem;
-      color: var(--mint-400);
+      color: var(--rain-blue);
     }
 
     .platform-item span {
@@ -370,9 +371,10 @@
         grid-template-columns: repeat(2, 1fr);
       }
 
-      .bento-card.large {
+      .brand-block {
         grid-column: span 2;
         grid-row: span 1;
+        padding: 0 0 0.5rem;
       }
 
       .bento-card.medium {
@@ -389,7 +391,7 @@
         grid-template-columns: 1fr;
       }
 
-      .bento-card.large,
+      .brand-block,
       .bento-card.medium,
       .bento-card.small {
         grid-column: span 1;

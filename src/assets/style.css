@@ -54,42 +54,6 @@
   --sl-color-neutral-400: var(--misty-gray);
   --sl-color-neutral-1000: var(--storm-cloud);
 
-  /* Legacy aliases updated for rain theme */
-  --mint-50: var(--cream);
-  --mint-100: var(--light-gray);
-  --mint-200: var(--puddle-reflection);
-  --mint-300: var(--soft-teal);
-  --mint-400: var(--soft-teal);
-  --mint-500: var(--rain-blue);
-  --mint-600: var(--deep-rain);
-
-  --navy-50: var(--cream);
-  --navy-500: var(--warm-gray);
-  --navy-600: var(--warm-gray);
-  --navy-700: var(--charcoal);
-  --navy-800: var(--charcoal);
-  --navy-900: var(--storm-cloud);
-
-  /* Rain theme accent colors */
-  --image-bg: var(--cream);
-  --yellow-400: var(--warm-amber);
-  --yellow-500: var(--warm-amber);
-  --coral-400: var(--umbrella-blue);
-  --blue-400: var(--rain-blue);
-  --blue-500: var(--rain-blue);
-  --purple-400: var(--soft-teal);
-  --purple-500: var(--soft-teal);
-
-  /* Surface variant */
-  --mint-gradient: var(--cream);
-
-  /* Geometric shapes for modern decoration */
-  --droplet-large-width: 3rem;
-  --droplet-medium-width: 2rem;
-  --droplet-small-width: 1.5rem;
-  --droplet-large-height: 3.5rem;
-  --droplet-medium-height: 2.5rem;
-  --droplet-small-height: 1.8rem;
 }
 
 /* Reset and base styles */
@@ -100,16 +64,18 @@
 }
 
 body {
+  /* 欧文は Josefin Sans、和文は Noto Sans JP。
+     システムフォントより前に置かないと OS 側のフォールバックが和文を拾ってしまう */
   font-family:
-    Josefin-sans,
+    'Josefin Sans',
+    'Noto Sans JP',
     -apple-system,
     BlinkMacSystemFont,
     'Segoe UI',
     Roboto,
-    'Noto Sans JP',
     sans-serif;
   line-height: 1.6;
-  color: var(--navy-700);
+  color: var(--charcoal);
 }
 
 .container {
@@ -126,7 +92,7 @@ section {
 sl-card::part(base) {
   border-radius: 1rem;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-  border: 1px solid var(--mint-200);
+  border: 1px solid var(--puddle-reflection);
 }
 
 /* Smooth scrolling */
@@ -136,7 +102,7 @@ html {
 
 /* Focus styles for accessibility */
 *:focus-visible {
-  outline: 2px solid var(--mint-500);
+  outline: 2px solid var(--rain-blue);
   outline-offset: 2px;
 }
 
@@ -173,7 +139,7 @@ html {
 }
 
 .episodes-section {
-  color: var(--navy-800);
+  color: var(--charcoal);
   padding: 4.5rem 0;
 }
 
