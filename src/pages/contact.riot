@@ -79,6 +79,7 @@
               <option value="ご質問">{t("pages.contact.form.themeOptions.question")}</option>
               <option value="ご感想・ご意見">{t("pages.contact.form.themeOptions.feedback")}</option>
               <option value="話してほしいテーマ">{t("pages.contact.form.themeOptions.topic")}</option>
+              <option value="出演・登壇・協賛のご依頼">{t("pages.contact.form.themeOptions.request")}</option>
               <option value="__other_option__">{t("pages.contact.form.themeOptions.other")}</option>
             </select>
             <input
@@ -137,6 +138,18 @@
         sending: false,
         success: false,
         error: false,
+      },
+
+      onMounted() {
+        // profile の依頼ボタン経由なら「出演・登壇・協賛のご依頼」を初期選択
+        try {
+          if (sessionStorage.getItem('contactTheme') === 'request') {
+            sessionStorage.removeItem('contactTheme');
+            this.$('#theme').value = '出演・登壇・協賛のご依頼';
+          }
+        } catch (error) {
+          // storage が使えない環境では初期選択なし
+        }
       },
 
       handleThemeChange(e) {

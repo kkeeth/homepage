@@ -67,18 +67,6 @@ export const PODCAST_PLATFORMS = [
   },
 ];
 
-// 自分のスキルセット
-export const MY_SKILLS = [
-  'Riot.js',
-  'React',
-  'Node.js',
-  'TypeScript',
-  'Podcasting',
-  'Recruiting Support',
-  'Personal Coaching',
-  'Programming Education',
-];
-
 // Output セクション用リンク
 export const OUTPUT_LINKS = [
   {
@@ -116,6 +104,46 @@ export const OUTPUT_LINKS = [
     icon: 'palette',
     url: 'https://openprocessing.org/user/299354',
     linkText: 'View',
+  },
+];
+
+// 登壇・出演・協賛・著書 (新しい順)
+export const APPEARANCES = [
+  {
+    id: 'techDebtCon2026',
+    year: '2026',
+    type: 'sponsor',
+    url: 'https://technical-debt-con.findy-tools.io/2026#sponsors',
+  },
+  {
+    id: 'wcpd',
+    year: '2025, 2026',
+    type: 'talk',
+    url: 'https://webcreator-podcast-day.com/',
+  },
+  {
+    id: 'psa2026',
+    year: '2026',
+    type: 'sponsor',
+    url: 'https://podcastar.jp/psa2026',
+  },
+  {
+    id: 'epm2',
+    year: '2025',
+    type: 'talk',
+    url: 'https://connpass.com/event/370351/',
+  },
+  {
+    id: 'psa2025',
+    year: '2025',
+    type: 'sponsor',
+    url: 'https://podcastar.jp/podcaststaraward',
+  },
+  {
+    id: 'riotBook',
+    year: '2020',
+    type: 'book',
+    url: 'https://www.c-r.com/book/detail/1350',
   },
 ];
 

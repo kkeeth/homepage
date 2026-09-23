@@ -56,17 +56,81 @@
       "comingSoon": "公開予定",
       "emptyCtaDesc": "会員になると限定エピソードをいち早く聴くことができます。"
     },
-    "profile": {
-      "title": "桑原聖仁",
-      "role": "Web Developer / Podcast Host",
-      "description1": "Web開発の世界に足を踏み入れてから10年，技術の進歩とともに歩んできました．「雨宿りとWEBの小噺」のホストとして，技術の話をもっと身近に，もっと楽しく伝えたいという想いから番組を始めました．",
-      "description2": "フロントエンドからバックエンドまで幅広く経験し，現在はフルスタック開発者として活動しています．コーヒーを飲みながら友人と語り合うような，そんな温かい雰囲気を大切にしています．",
-      "stats": {
-        "episodes": "エピソード配信",
-        "plays": "再生",
-        "experience": "配信歴"
+    "about": {
+      "fullName": "桑原聖仁",
+      "role": "Engineering HR / Podcaster / Creative Coder",
+      "description1": "こんにちは！Keeth です．<a href=\"https://kaminashi.jp/\" target=\"_blank\" rel=\"noopener noreferrer\">株式会社カミナシ</a>で Engineering HR をしています．<a href=\"https://github.com/riot/riot\" target=\"_blank\" rel=\"noopener noreferrer\">Riot.js</a> のコラボレーターとして OSS にも関わっていて，著書に<a href=\"https://www.c-r.com/book/detail/1350\" target=\"_blank\" rel=\"noopener noreferrer\">『Riot.jsで簡単Webアプリ開発』</a>があります．",
+      "description2": "2020年3月から<a href=\"/podcast\">「雨宿りとWEBの小噺.fm」</a>を配信していて，今は6つの番組を運営しています．エンジニアの採用支援やキャリアのコーチング，p5.js でのジェネラティブアート制作も続けています．",
+      "illustrationAlt": "ヘッドホンをつけたワシのマスコットイラスト",
+      "more": "私について，もう少し",
+      "story": {
+        "sectionTitle": "これまでのこと",
+        "paragraph1": "2013年に株式会社エスキュービズムへ入社し，プログラマとして EC サイトの開発・保守からキャリアを始めました．やがてプロジェクトリーダーやプロジェクトマネージャーとして，上流工程からシステム開発全体に関わるようになります．",
+        "paragraph2": "2015年にレプラホーン株式会社へ移り，EC サイトの保守をプロジェクトマネージャーとして，開発をフロントエンドエンジニアとして担当しました．2017年には株式会社ゆめみに入社し，API や Web アプリケーションの新規開発・保守・追加開発に携わります．",
+        "paragraph3": "2020年はいろいろなことが重なった年でした．3月にゆめみの取締役に就任し，同じ月に「雨宿りとWEBの小噺.fm」の配信を始め，7月には『Riot.jsで簡単Webアプリ開発』を出版しました．2022年からは執行役員を務めました．",
+        "paragraph4": "2024年に株式会社カミナシへ入社．エンジニアリングマネージャーとして「カミナシ従業員」のプロダクト開発チームの評価や生産性向上に取り組み，現在は Engineering HR を担当しています．",
+        "timelineTitle": "略歴",
+        "now": "現在",
+        "items": {
+          "sqbizm": {
+            "title": "株式会社エスキュービズム 入社",
+            "description": "プログラマとして EC サイトの開発・保守に従事．"
+          },
+          "sqbizmTech": {
+            "title": "株式会社エスキュービズム・テクノロジーに社名変更",
+            "description": "プロジェクトリーダー，プロジェクトマネージャーとして上流工程からシステム開発全体に携わる．"
+          },
+          "leprechaun": {
+            "title": "レプラホーン株式会社 入社",
+            "description": "プロジェクトマネージャーとして EC サイトの保守，フロントエンドエンジニアとして EC サイトの開発に従事．"
+          },
+          "yumemi": {
+            "title": "株式会社ゆめみ 入社",
+            "description": "プログラマーとして API や Web アプリケーションの新規開発・保守・追加開発に従事．"
+          },
+          "yumemiDirector": {
+            "title": "株式会社ゆめみ 取締役就任",
+            "description": ""
+          },
+          "podcast": {
+            "title": "「雨宿りとWEBの小噺.fm」配信開始",
+            "description": "Web 技術について気軽に話したいという想いから配信を始める．"
+          },
+          "book": {
+            "title": "『Riot.jsで簡単Webアプリ開発』出版",
+            "description": "シーアンドアール研究所より刊行．"
+          },
+          "yumemiExecutive": {
+            "title": "株式会社ゆめみ 取締役退任，執行役員就任",
+            "description": ""
+          },
+          "kaminashi": {
+            "title": "株式会社カミナシ 入社",
+            "description": "エンジニアリングマネージャーとして「カミナシ従業員」プロダクト開発のエンジニアチームの評価・生産性向上等に務める．"
+          },
+          "engineeringHr": {
+            "title": "Engineering HR",
+            "description": "株式会社カミナシで Engineering HR を担当．"
+          }
+        }
       },
-      "skills": "スキル・専門分野",
+      "values": {
+        "sectionTitle": "大切にしていること",
+        "items": {
+          "approachable": {
+            "title": "技術の話を，身近に楽しく",
+            "description": "難しい技術の話も，コーヒーを片手に友人と話すような温度で伝えたいと思っています．"
+          },
+          "shelter": {
+            "title": "立ち止まれる場所をつくる",
+            "description": "情報の雨が降り続く Web の世界で，ちょっと雨宿りして，技術の歴史や裏側にゆっくり目を向けられる場所をつくっています．"
+          },
+          "voice": {
+            "title": "声で届ける",
+            "description": "話すことそのものに価値があると考えています．だから番組を続け，声日記も続けています．"
+          }
+        }
+      },
       "output": {
         "sectionTitle": "Output",
         "blog": {
@@ -82,33 +146,84 @@
           "description": "クリエイティブコーディング作品"
         }
       },
-      "follow": "フォローお願いします",
-      "journey": {
-        "title": "これまでの歩み",
+      "appearances": {
+        "sectionTitle": "登壇・出演・協賛",
+        "types": {
+          "talk": "出演",
+          "sponsor": "協賛",
+          "book": "著書"
+        },
         "items": {
-          "webdev": {
-            "title": "Web開発の世界へ",
-            "description": "大学でコンピュータサイエンスを学び，初めてHTMLとCSSに触れる．"
+          "techDebtCon2026": "技術的負債に向き合うConference 2026（個人スポンサー）",
+          "wcpd": "WEB CREATOR PODCAST DAY",
+          "psa2026": "Podcast Star Award 2026",
+          "epm2": "エンジニアポッドキャストMeetup #2",
+          "psa2025": "Podcast Star Award",
+          "riotBook": "『Riot.jsで簡単Webアプリ開発』（シーアンドアール研究所）"
+        },
+        "cta": "詳しく見る"
+      },
+      "recognition": {
+        "sectionTitle": "肩書き・実績",
+        "items": {
+          "riotCollaborator": {
+            "title": "Riot.js Collaborator",
+            "description": "UI ライブラリ Riot.js の開発に参加．"
           },
-          "frontend": {
-            "title": "フロントエンド専門へ",
-            "description": "ReactとVue.jsを習得し，モダンなフロントエンド開発に没頭．"
+          "riotJug": {
+            "title": "Riot.js Japan User Group",
+            "description": "オーガナイザー．"
           },
-          "fullstack": {
-            "title": "フルスタック開発者に",
-            "description": "Node.jsとデータベース設計を学び，フルスタック開発者として活動開始．"
+          "author": {
+            "title": "著者",
+            "description": "『Riot.jsで簡単Webアプリ開発』（2020年）．"
           },
-          "podcast": {
-            "title": "ポッドキャスト開始",
-            "description": "「雨宿りとWEBの小噺」を開始．技術の知識を多くの人と共有．"
+          "podcaster": {
+            "title": "ポッドキャスター",
+            "description": "2020年から配信．6番組・900エピソード以上．"
           },
-          "community": {
-            "title": "コミュニティ拡大",
-            "description": "リスナーコミュニティが成長し，様々な番組を展開．"
+          "psaSponsor": {
+            "title": "Podcast Star Award スポンサー",
+            "description": "2025年，2026年と2年連続で協賛．"
           }
         }
       },
-      "philosophy": "私は技術の力で人々の生活を変え，世界をより良い場所にすることを信じています．美しく，機能的でユーザーフレンドリーなデジタル体験を作ることに情熱を持っています．常に学び，進化し，Web開発の瞬く間に変化する世界で先を行くために努力しています．",
+      "funFacts": {
+        "sectionTitle": "ちょっとした話",
+        "items": {
+          "father": {
+            "title": "一児の父",
+            "description": "仕事と配信と子育てを行ったり来たりの毎日です．"
+          },
+          "generativeArt": {
+            "title": "ジェネラティブアートをつくる",
+            "description": "p5.js でコードから絵を描いています．作品は<a href=\"https://openprocessing.org/user/299354\" target=\"_blank\" rel=\"noopener noreferrer\">OpenProcessing</a>で公開中．"
+          },
+          "voiceDiary": {
+            "title": "声で日記をつけている",
+            "description": "「Keethの声日記」として，日々のことを声で残しています．"
+          },
+          "sixShows": {
+            "title": "6つの番組を運営",
+            "description": "技術の話から好きなものの話まで，テーマごとに番組を分けて配信しています．"
+          }
+        }
+      },
+      "bio": {
+        "sectionTitle": "紹介文",
+        "description": "イベントや番組でご紹介いただく際は，こちらをそのままお使いください．",
+        "shortLabel": "短い紹介文",
+        "longLabel": "長い紹介文",
+        "copy": "コピー",
+        "copied": "コピーしました",
+        "short": "桑原聖仁（Keeth）。株式会社カミナシの Engineering HR。Riot.js コラボレーター。2020年からポッドキャスト「雨宿りとWEBの小噺.fm」を配信している。",
+        "long": "桑原聖仁（Keeth）。株式会社カミナシの Engineering HR。Riot.js のコラボレーター。著書に『Riot.jsで簡単Webアプリ開発』（シーアンドアール研究所，2020年）。2020年3月にポッドキャスト「雨宿りとWEBの小噺.fm」を始め，現在は6つの番組を運営している。エンジニアの採用支援やキャリアのコーチング，プログラミング教育にも携わり，p5.js を使ったジェネラティブアートの制作も続けている。"
+      },
+      "request": {
+        "title": "出演・登壇・協賛のご依頼",
+        "description": "ポッドキャストへのゲスト出演，イベントでの登壇，番組への協賛など，お気軽にご相談ください．",
+        "button": "相談する"
+      },
       "support": {
         "sectionTitle": "Support",
         "description": "番組や活動を応援していただける方は，こちらから支援いただけると嬉しいです．",
@@ -141,7 +256,7 @@
         "update": "更新"
       }
     },
-    "info": {
+    "podcast": {
       "hero": {
         "title": "マイクの向こう側。",
         "subtitle": "雨宿りとWEBの小噺.fm のすべて",
@@ -201,7 +316,7 @@
         "title": "パーソナリティ",
         "name": "桑原聖仁 (Keeth)",
         "description": "Web開発者 / ポッドキャスター．フロントエンドからバックエンドまで幅広く経験し，技術の話をもっと身近に，もっと楽しく伝えたいという想いで番組を運営しています．",
-        "profileLink": "プロフィールを見る"
+        "profileLink": "Keeth について"
       },
       "achievements": {
         "title": "番組実績",
@@ -285,6 +400,7 @@
           "question": "ご質問",
           "feedback": "ご感想・ご意見",
           "topic": "話してほしいテーマ",
+          "request": "出演・登壇・協賛のご依頼",
           "other": "その他"
         },
         "otherPlaceholder": "テーマを入力してください",

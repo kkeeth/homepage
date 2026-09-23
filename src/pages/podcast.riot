@@ -1,5 +1,5 @@
-<info>
-  <div class="info-page">
+<podcast>
+  <div class="podcast-page">
     <!-- Hero: Editorial Split (dark photo + white text) -->
     <section class="hero">
       <div class="hero-photo">
@@ -7,12 +7,12 @@
       </div>
       <div class="hero-text">
         <span class="section-label hero-label-light">// ABOUT THE SHOW</span>
-        <h1 class="page-title hero-title-light">{t("pages.info.hero.title")}</h1>
-        <p class="hero-description">{t("pages.info.concept.description1")}</p>
-        <p class="hero-description">{t("pages.info.concept.description2")}</p>
+        <h1 class="page-title hero-title-light">{t("pages.podcast.hero.title")}</h1>
+        <p class="hero-description">{t("pages.podcast.concept.description1")}</p>
+        <p class="hero-description">{t("pages.podcast.concept.description2")}</p>
         <div class="hero-label-row">
           <span class="hero-line"></span>
-          <span class="hero-label-text">{t("pages.info.hero.label")}</span>
+          <span class="hero-label-text">{t("pages.podcast.hero.label")}</span>
         </div>
       </div>
     </section>
@@ -22,11 +22,11 @@
       <div class="story-layout">
         <div class="story-left">
           <span class="section-label">// ABOUT</span>
-          <h2 class="section-title">{t("pages.info.story.title")}</h2>
+          <h2 class="section-title">{t("pages.podcast.story.title")}</h2>
         </div>
         <div class="story-right">
-          <p class="story-text"><raw html={t("pages.info.story.description1")} /></p>
-          <p class="story-text"><raw html={t("pages.info.story.description2")} /></p>
+          <p class="story-text"><raw html={t("pages.podcast.story.description1")} /></p>
+          <p class="story-text"><raw html={t("pages.podcast.story.description2")} /></p>
 
           <div class="platform-links">
             <a
@@ -50,10 +50,10 @@
       <div class="section-inner personality-inner">
         <div class="personality-info">
           <span class="section-label">// HOST</span>
-          <h3 class="personality-name">{t("pages.info.personality.name")}</h3>
-          <p class="personality-role-text">{t("pages.info.personality.title")}</p>
-          <p class="personality-desc">{t("pages.info.personality.description")}</p>
-          <a href="/profile" class="profile-link">{t("pages.info.personality.profileLink")} →</a>
+          <h3 class="personality-name">{t("pages.podcast.personality.name")}</h3>
+          <p class="personality-role-text">{t("pages.podcast.personality.title")}</p>
+          <p class="personality-desc">{t("pages.podcast.personality.description")}</p>
+          <a href="/about" class="profile-link">{t("pages.podcast.personality.profileLink")} →</a>
         </div>
       </div>
     </section>
@@ -61,8 +61,8 @@
     <!-- Topics: Simple Tag List -->
     <section class="themes">
       <div class="section-inner themes-inner">
-        <span class="section-label">// {t("pages.info.concept.title")}</span>
-        <h2 class="section-title">{t("pages.info.topics.title")}</h2>
+        <span class="section-label">// {t("pages.podcast.concept.title")}</span>
+        <h2 class="section-title">{t("pages.podcast.topics.title")}</h2>
         <div class="tag-list">
           <span each={topic in state.topics} class="tag"><sl-icon name={topic.icon}></sl-icon>{"\u00A0" + topic.label}</span>
         </div>
@@ -73,7 +73,7 @@
     <section class="evolution">
       <div class="section-inner">
         <span class="section-label">// TIMELINE</span>
-        <h2 class="section-title">{t("pages.info.timeline.title")}</h2>
+        <h2 class="section-title">{t("pages.podcast.timeline.title")}</h2>
         <div class="timeline">
           <div each={item in state.timelineItems} key={item.id} class="timeline-item">
             <span class="timeline-year">{item.year}</span>
@@ -119,22 +119,22 @@
         const timelineKeys = ['2020', '2021', '2022', '2023', '2024', '2025', '2026'];
         state.timelineItems = timelineKeys.map((key, i) => ({
           id: i + 1,
-          year: this.t(`pages.info.timeline.items.${key}.year`),
-          title: this.t(`pages.info.timeline.items.${key}.title`),
-          description: this.t(`pages.info.timeline.items.${key}.description`),
+          year: this.t(`pages.podcast.timeline.items.${key}.year`),
+          title: this.t(`pages.podcast.timeline.items.${key}.title`),
+          description: this.t(`pages.podcast.timeline.items.${key}.description`),
         }));
 
         const statKeys = ['episodes', 'plays', 'years', 'programs'];
         state.stats = statKeys.map((key, i) => ({
           num: String(i + 1).padStart(2, '0'),
-          value: key === 'years' ? `${this.getBroadcastYears()}+` : this.t(`pages.info.achievements.${key}.value`),
-          label: this.t(`pages.info.achievements.${key}.label`),
+          value: key === 'years' ? `${this.getBroadcastYears()}+` : this.t(`pages.podcast.achievements.${key}.value`),
+          label: this.t(`pages.podcast.achievements.${key}.label`),
         }));
 
         const topicKeys = ['frontend', 'backend', 'libraries', 'career', 'daily', 'creative', 'community', 'genai'];
         state.topics = topicKeys.map((key, i) => ({
-          label: this.t(`pages.info.topics.items.${key}.label`),
-          icon: this.t(`pages.info.topics.items.${key}.icon`),
+          label: this.t(`pages.podcast.topics.items.${key}.label`),
+          icon: this.t(`pages.podcast.topics.items.${key}.icon`),
         }));
       },
       // 初回配信日からの満年数
@@ -147,7 +147,7 @@
   </script>
 
   <style>
-    .info-page {
+    .podcast-page {
       background: var(--warm-white);
       min-height: 100vh;
     }
@@ -591,4 +591,4 @@
       }
     }
   </style>
-</info>
+</podcast>

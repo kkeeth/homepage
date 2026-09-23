@@ -58,8 +58,8 @@
     import Episodes from '@/pages/episodes.riot'
     import EpisodeDetail from '@/pages/episode-detail.riot'
     import PremiumEpisodes from '@/pages/premium-episodes.riot'
-    import Info from '@/pages/info.riot'
-    import Profile from '@/pages/profile.riot'
+    import Podcast from '@/pages/podcast.riot'
+    import About from '@/pages/about.riot'
     import Contact from '@/pages/contact.riot'
     import Login from '@/pages/login.riot'
     import Account from '@/pages/account.riot'
@@ -78,8 +78,8 @@
         Episodes,
         EpisodeDetail,
         PremiumEpisodes,
-        Info,
-        Profile,
+        Podcast,
+        About,
         Contact,
         Login,
         Account,
@@ -114,6 +114,13 @@
       async onAnyRoute(path) {
         if (!path.pathname) {
           return
+        }
+
+        // 旧 URL は新しいパスへ
+        const redirects = { '/profile': '/about', '/info': '/podcast' };
+        if (redirects[path.pathname]) {
+          router.push(redirects[path.pathname]);
+          return;
         }
 
         // Route guards: auth が必要なルートは初期化完了を待つ

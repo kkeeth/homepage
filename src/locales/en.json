@@ -55,17 +55,81 @@
       "comingSoon": "Coming Soon",
       "emptyCtaDesc": "Join to be the first to hear exclusive membership episodes."
     },
-    "profile": {
-      "title": "Kuwahara KEETH Kiyohito",
-      "role": "Web Developer / Podcaster",
-      "description1": "For 10 years since stepping into the world of web development, I have walked alongside technological progress. As the host of 'Amayadori to WEB no Kobanashi,' I started the program with the desire to make technology more accessible and enjoyable to share.",
-      "description2": "With extensive experience from frontend to backend, I currently work as a full-stack developer. I cherish the warm atmosphere of chatting with friends over coffee.",
-      "stats": {
-        "episodes": "Episodes",
-        "plays": "Plays",
-        "experience": "Broadcasting"
+    "about": {
+      "fullName": "Kiyohito Kuwahara",
+      "role": "Engineering HR / Podcaster / Creative Coder",
+      "description1": "Hi! I'm Keeth. I work in Engineering HR at <a href=\"https://kaminashi.jp/\" target=\"_blank\" rel=\"noopener noreferrer\">Kaminashi Inc.</a> I'm also a collaborator on <a href=\"https://github.com/riot/riot\" target=\"_blank\" rel=\"noopener noreferrer\">Riot.js</a> and the author of <a href=\"https://www.c-r.com/book/detail/1350\" target=\"_blank\" rel=\"noopener noreferrer\">\"Riot.jsで簡単Webアプリ開発\"</a> (Easy Web App Development with Riot.js).",
+      "description2": "Since March 2020 I've hosted <a href=\"/podcast\">'Amayadori to WEB no Kobanashi.fm'</a>, and I now run six shows. I also support engineering recruiting, coach people on their careers, and make generative art with p5.js.",
+      "illustrationAlt": "Mascot illustration of an eagle wearing headphones",
+      "more": "Get to know more about me",
+      "story": {
+        "sectionTitle": "My Story",
+        "paragraph1": "I started my career in 2013 at S-cubism Inc., developing and maintaining e-commerce sites as a programmer. Over time I moved into project leader and project manager roles, working across the whole development process from requirements onward.",
+        "paragraph2": "In 2015 I joined Leprechaun Inc., maintaining e-commerce sites as a project manager and building them as a frontend engineer. In 2017 I joined YUMEMI Inc., where I worked on new development, maintenance and enhancement of APIs and web applications.",
+        "paragraph3": "2020 was a big year. In March I became a board director at YUMEMI and, the same month, started the podcast 'Amayadori to WEB no Kobanashi.fm'. In July I published my book, \"Riot.jsで簡単Webアプリ開発\". From 2022 I served as an executive officer.",
+        "paragraph4": "In 2024 I joined Kaminashi Inc. As an engineering manager I worked on evaluation and productivity for the product team behind \"Kaminashi Employee\", and I now work in Engineering HR.",
+        "timelineTitle": "Career",
+        "now": "Now",
+        "items": {
+          "sqbizm": {
+            "title": "Joined S-cubism Inc.",
+            "description": "Developed and maintained e-commerce sites as a programmer."
+          },
+          "sqbizmTech": {
+            "title": "Company renamed to S-cubism Technology Inc.",
+            "description": "Worked across the whole development process as a project leader and project manager."
+          },
+          "leprechaun": {
+            "title": "Joined Leprechaun Inc.",
+            "description": "Maintained e-commerce sites as a project manager and developed them as a frontend engineer."
+          },
+          "yumemi": {
+            "title": "Joined YUMEMI Inc.",
+            "description": "New development, maintenance and enhancement of APIs and web applications as a programmer."
+          },
+          "yumemiDirector": {
+            "title": "Board Director, YUMEMI Inc.",
+            "description": ""
+          },
+          "podcast": {
+            "title": "Launched 'Amayadori to WEB no Kobanashi.fm'",
+            "description": "Started the show to chat casually about web technology."
+          },
+          "book": {
+            "title": "Published \"Riot.jsで簡単Webアプリ開発\"",
+            "description": "Published by C&R Institute."
+          },
+          "yumemiExecutive": {
+            "title": "Stepped down as Board Director, became Executive Officer at YUMEMI Inc.",
+            "description": ""
+          },
+          "kaminashi": {
+            "title": "Joined Kaminashi Inc.",
+            "description": "As an engineering manager, worked on evaluation and productivity for the \"Kaminashi Employee\" product engineering team."
+          },
+          "engineeringHr": {
+            "title": "Engineering HR",
+            "description": "Working in Engineering HR at Kaminashi Inc."
+          }
+        }
       },
-      "skills": "Skills & Expertise",
+      "values": {
+        "sectionTitle": "What I Care About",
+        "items": {
+          "approachable": {
+            "title": "Make tech talk approachable",
+            "description": "I want to talk about even difficult technology the way you would chat with a friend over coffee."
+          },
+          "shelter": {
+            "title": "Make a place to pause",
+            "description": "The web never stops raining information. I want to offer shelter where you can slow down and look at the history and the story behind the tech."
+          },
+          "voice": {
+            "title": "Share it by voice",
+            "description": "I believe speaking has value in itself. That is why I keep the shows going, and keep a voice diary too."
+          }
+        }
+      },
       "output": {
         "sectionTitle": "Output",
         "blog": {
@@ -87,33 +151,84 @@
           "description": "Creative Coding Works"
         }
       },
-      "follow": "Follow Me",
-      "journey": {
-        "title": "My Journey",
+      "appearances": {
+        "sectionTitle": "Talks, Appearances & Sponsorships",
+        "types": {
+          "talk": "Appearance",
+          "sponsor": "Sponsor",
+          "book": "Book"
+        },
         "items": {
-          "webdev": {
-            "title": "Into Web Development",
-            "description": "Studied computer science in university and first touched HTML and CSS."
+          "techDebtCon2026": "Technical Debt Conference 2026 (Individual Sponsor)",
+          "wcpd": "WEB CREATOR PODCAST DAY",
+          "psa2026": "Podcast Star Award 2026",
+          "epm2": "Engineer Podcast Meetup #2",
+          "psa2025": "Podcast Star Award",
+          "riotBook": "\"Riot.jsで簡単Webアプリ開発\" (C&R Institute)"
+        },
+        "cta": "Have a look"
+      },
+      "recognition": {
+        "sectionTitle": "Roles & Recognition",
+        "items": {
+          "riotCollaborator": {
+            "title": "Riot.js Collaborator",
+            "description": "Contributing to the Riot.js UI library."
           },
-          "frontend": {
-            "title": "Frontend Specialization",
-            "description": "Learned React and Vue.js, diving deep into modern frontend development."
+          "riotJug": {
+            "title": "Riot.js Japan User Group",
+            "description": "Organizer."
           },
-          "fullstack": {
-            "title": "Full-Stack Developer",
-            "description": "Learned Node.js and database design, started working as a full-stack developer."
+          "author": {
+            "title": "Author",
+            "description": "\"Riot.jsで簡単Webアプリ開発\" (2020)."
           },
-          "podcast": {
-            "title": "Podcast Launch",
-            "description": "Started 'Amayadori to WEB no Kobanashi.' Sharing technical knowledge with many people."
+          "podcaster": {
+            "title": "Podcaster",
+            "description": "On air since 2020. 6 shows, 900+ episodes."
           },
-          "community": {
-            "title": "Community Growth",
-            "description": "Listener community grew and expanded into various episodes."
+          "psaSponsor": {
+            "title": "Podcast Star Award Sponsor",
+            "description": "Sponsored two years in a row, 2025 and 2026."
           }
         }
       },
-      "philosophy": "I believe in the power of technology to transform lives and make the world a better place. I am passionate about creating digital experiences that are not only beautiful but also functional and user-friendly. I am constantly learning and evolving to stay ahead in the fast-paced world of web development.",
+      "funFacts": {
+        "sectionTitle": "Fun Facts",
+        "items": {
+          "father": {
+            "title": "Father of one",
+            "description": "My days go back and forth between work, podcasting and parenting."
+          },
+          "generativeArt": {
+            "title": "I make generative art",
+            "description": "I draw with code using p5.js. My works are on <a href=\"https://openprocessing.org/user/299354\" target=\"_blank\" rel=\"noopener noreferrer\">OpenProcessing</a>."
+          },
+          "voiceDiary": {
+            "title": "I keep a voice diary",
+            "description": "On \"Keethの声日記\" I record my everyday life by voice."
+          },
+          "sixShows": {
+            "title": "I run six shows",
+            "description": "From tech talk to things I love, each theme gets its own show."
+          }
+        }
+      },
+      "bio": {
+        "sectionTitle": "Bio",
+        "description": "Feel free to use these as-is when introducing me at an event or on a show.",
+        "shortLabel": "Short bio",
+        "longLabel": "Long bio",
+        "copy": "Copy",
+        "copied": "Copied",
+        "short": "Kiyohito \"Keeth\" Kuwahara works in Engineering HR at Kaminashi Inc. and is a Riot.js collaborator. Keeth has hosted the podcast 'Amayadori to WEB no Kobanashi.fm' since 2020.",
+        "long": "Kiyohito \"Keeth\" Kuwahara works in Engineering HR at Kaminashi Inc. and is a Riot.js collaborator and the author of \"Riot.jsで簡単Webアプリ開発\" (C&R Institute, 2020). Keeth started the podcast 'Amayadori to WEB no Kobanashi.fm' in March 2020 and now runs six shows, while also working on engineering recruiting, career coaching and programming education and creating generative art with p5.js."
+      },
+      "request": {
+        "title": "Appearance, Talk & Sponsorship Requests",
+        "description": "Guest appearances on podcasts, talks at events, sponsorships and more — feel free to get in touch.",
+        "button": "Get in touch"
+      },
       "support": {
         "sectionTitle": "Support",
         "description": "If you enjoy the show or my work, your support would mean a lot.",
@@ -146,7 +261,7 @@
         "update": "Updates"
       }
     },
-    "info": {
+    "podcast": {
       "hero": {
         "title": "THE VOICE BEHIND THE MIC.",
         "subtitle": "Everything about Amayadori to WEB no Kobanashi.fm",
@@ -206,7 +321,7 @@
         "title": "Host",
         "name": "Kuwahara Kiyohito (Keeth)",
         "description": "Web Developer / Podcaster. With broad experience from frontend to backend, running the show with the desire to make tech talks more accessible and enjoyable.",
-        "profileLink": "View Profile"
+        "profileLink": "About Keeth"
       },
       "achievements": {
         "title": "Achievements",
@@ -290,6 +405,7 @@
           "question": "Question",
           "feedback": "Feedback / Opinion",
           "topic": "Topic Request",
+          "request": "Appearance / Talk / Sponsorship Request",
           "other": "Other"
         },
         "otherPlaceholder": "Please enter your theme",
