@@ -7,6 +7,9 @@ export const SUBSTACK_RSS_URL = import.meta.env.VITE_RSS_URL ?? '/api/rss';
 export const SUBSTACK_ARCHIVE_URL =
   import.meta.env.VITE_ARCHIVE_URL ?? '/api/archive';
 
+// 初回配信 (2020年3月): 配信歴の年数計算に使用
+export const PODCAST_START_DATE = new Date(2020, 2, 1);
+
 // ソーシャルメディアリンク
 export const SOCIAL_LINKS = [
   {
@@ -113,6 +116,34 @@ export const OUTPUT_LINKS = [
     icon: 'palette',
     url: 'https://openprocessing.org/user/299354',
     linkText: 'View',
+  },
+];
+
+// Support セクション用リンク (支援サイト)
+export const SUPPORT_LINKS = [
+  {
+    name: 'githubSponsors',
+    icon: 'heart-fill',
+    url: 'https://github.com/sponsors/kkeeth',
+    linkText: 'Sponsor',
+  },
+  {
+    name: 'ofuse',
+    icon: 'envelope-heart',
+    url: 'https://ofuse.me/kkeeth',
+    linkText: 'OFUSE',
+  },
+  {
+    name: 'buyMeACoffee',
+    icon: 'cup-hot',
+    url: 'https://buymeacoffee.com/kkeeth',
+    linkText: 'Coffee',
+  },
+  {
+    name: 'substack',
+    icon: 'star-fill',
+    url: 'https://kkeeth.substack.com/subscribe',
+    linkText: 'Subscribe',
   },
 ];
 

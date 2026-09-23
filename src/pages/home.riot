@@ -3,33 +3,6 @@
     <!-- Hero Section -->
     <hero-section if={state.latestEpisodes[0]} link={state.latestEpisodes[0]} />
 
-    <!-- About Section - 2-Column Layout -->
-    <section class="about-section">
-      <div class="about-layout">
-        <div class="about-left">
-          <span class="section-label">// ABOUT</span>
-          <h2 class="section-title">{t("pages.home.story.title")}</h2>
-        </div>
-        <div class="about-right">
-          <p class="about-text"><raw html={t("pages.home.story.description1")} /></p>
-          <p class="about-text"><raw html={t("pages.home.story.description2")} /></p>
-
-          <div class="platform-links">
-            <a
-              each={platform in state.homePlatforms}
-              key={platform.name}
-              href={platform.url}
-              target="_blank"
-              class="platform-link platform-{platform.name.toLowerCase()}"
-            >
-              <sl-icon name={platform.icon}></sl-icon>
-              <span>{platform.name}</span>
-            </a>
-          </div>
-        </div>
-      </div>
-    </section>
-
     <!-- Latest Episodes Section -->
     <section class="episodes-section">
       <div class="section-content">
@@ -65,7 +38,7 @@
 
   <script>
     import { fetchRSSFeed, getLatestEpisodes } from '@/utils/rss';
-    import { PODCAST_PLATFORMS, OTHER_PROGRAMS, RSS_FEED_URL, SUBSTACK_RSS_URL } from '@/constants/links';
+    import { OTHER_PROGRAMS, RSS_FEED_URL, SUBSTACK_RSS_URL } from '@/constants/links';
     import i18nStore from '@/stores/i18n-store';
 
     export default {
@@ -87,7 +60,6 @@
       },
       state: {
         latestEpisodes: [],
-        homePlatforms: PODCAST_PLATFORMS,
         otherPrograms: OTHER_PROGRAMS
       },
     }
@@ -98,68 +70,6 @@
       min-height: 100vh;
       background: var(--warm-white);
       color: var(--charcoal);
-    }
-
-    /* About Section - 2-Column */
-    .about-section {
-      padding: 5rem 4rem;
-      background: var(--cream);
-    }
-
-    .about-layout {
-      max-width: 1200px;
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: 1fr 1.2fr;
-      gap: 4rem;
-      align-items: start;
-    }
-
-    .about-right {
-      font-style: italic;
-    }
-
-    .about-text {
-      font-size: 1rem;
-      line-height: 1.8;
-      color: var(--misty-gray);
-      margin-bottom: 1rem;
-    }
-
-    .platform-links {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.75rem;
-      margin-top: 2rem;
-    }
-
-    .platform-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      padding: 0.25rem 0.5rem;
-      background: var(--warm-white);
-      border-radius: .5rem;
-      text-decoration: none;
-      color: var(--warm-white);
-      font-size: 0.875rem;
-      font-weight: 500;
-      transition: all 0.2s ease;
-    }
-
-    .platform-apple { background-color: #A855F7; border-color: #A855F7;}
-    .platform-spotify { background-color: #1DB954; border-color: #1DB954;}
-    .platform-amazon { background-color: #FF9900; border-color: #FF9900;}
-    .platform-youtube { background-color: #FF0000; border-color: #FF0000;}
-    .platform-rss { background-color: #F97316; border-color: #F97316;}
-
-    .platform-link:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 12px rgba(66, 153, 225, 0.15);
-    }
-
-    .platform-link sl-icon {
-      font-size: 1rem;
     }
 
     /* Other Programs Section */
@@ -263,22 +173,7 @@
       50% { transform: translateY(-5px) rotate(var(--rotation, 0deg)); }
     }
 
-    @media (max-width: 768px) {
-      .about-section {
-        padding: 4rem 2rem;
-      }
-
-      .about-layout {
-        grid-template-columns: 1fr;
-        gap: 2rem;
-      }
-    }
-
     @media (max-width: 480px) {
-      .about-section {
-        padding: 3rem 1.5rem;
-      }
-
       .other-programs-list {
         grid-template-columns: 1fr;
       }

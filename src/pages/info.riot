@@ -17,6 +17,34 @@
       </div>
     </section>
 
+    <!-- Story: Why Amayadori + Platform Links -->
+    <section class="story-section">
+      <div class="story-layout">
+        <div class="story-left">
+          <span class="section-label">// ABOUT</span>
+          <h2 class="section-title">{t("pages.info.story.title")}</h2>
+        </div>
+        <div class="story-right">
+          <p class="story-text"><raw html={t("pages.info.story.description1")} /></p>
+          <p class="story-text"><raw html={t("pages.info.story.description2")} /></p>
+
+          <div class="platform-links">
+            <a
+              each={platform in state.platforms}
+              key={platform.name}
+              href={platform.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="platform-link platform-{platform.name.split(' ')[0].toLowerCase()}"
+            >
+              <sl-icon name={platform.icon}></sl-icon>
+              <span>{platform.name}</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- Personality: Brief Host Section -->
     <section class="personality">
       <div class="section-inner personality-inner">
@@ -76,6 +104,7 @@
   </div>
 
   <script>
+    import { PODCAST_PLATFORMS, PODCAST_START_DATE } from '@/constants/links';
     import i18nStore from '@/stores/i18n-store';
 
     export default {
@@ -84,9 +113,10 @@
         timelineItems: [],
         stats: [],
         topics: [],
+        platforms: PODCAST_PLATFORMS,
       },
       onBeforeUpdate(_, state) {
-        const timelineKeys = ['2020', '2021', '2022', '2023', '2024', '2025'];
+        const timelineKeys = ['2020', '2021', '2022', '2023', '2024', '2025', '2026'];
         state.timelineItems = timelineKeys.map((key, i) => ({
           id: i + 1,
           year: this.t(`pages.info.timeline.items.${key}.year`),
@@ -97,7 +127,7 @@
         const statKeys = ['episodes', 'plays', 'years', 'programs'];
         state.stats = statKeys.map((key, i) => ({
           num: String(i + 1).padStart(2, '0'),
-          value: this.t(`pages.info.achievements.${key}.value`),
+          value: key === 'years' ? `${this.getBroadcastYears()}+` : this.t(`pages.info.achievements.${key}.value`),
           label: this.t(`pages.info.achievements.${key}.label`),
         }));
 
@@ -106,6 +136,12 @@
           label: this.t(`pages.info.topics.items.${key}.label`),
           icon: this.t(`pages.info.topics.items.${key}.icon`),
         }));
+      },
+      // 初回配信日からの満年数
+      getBroadcastYears() {
+        const now = new Date();
+        const years = now.getFullYear() - PODCAST_START_DATE.getFullYear();
+        return now.getMonth() < PODCAST_START_DATE.getMonth() ? years - 1 : years;
       },
     }
   </script>
@@ -190,6 +226,68 @@
       color: var(--misty-gray);
       text-transform: uppercase;
       font-family: var(--font-sans);
+    }
+
+    /* ===== Story: Why Amayadori ===== */
+    .story-section {
+      padding: 5rem 4rem;
+      background: var(--cream);
+    }
+
+    .story-layout {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: 4rem;
+      align-items: start;
+    }
+
+    .story-right {
+      font-style: italic;
+    }
+
+    .story-text {
+      font-size: 1rem;
+      line-height: 1.8;
+      color: var(--misty-gray);
+      margin-bottom: 1rem;
+    }
+
+    .platform-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-top: 2rem;
+    }
+
+    .platform-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.25rem 0.5rem;
+      border-radius: .5rem;
+      text-decoration: none;
+      color: var(--warm-white);
+      font-size: 0.875rem;
+      font-weight: 500;
+      font-style: normal;
+      transition: all 0.2s ease;
+    }
+
+    .platform-apple { background-color: #A855F7; }
+    .platform-spotify { background-color: #1DB954; }
+    .platform-amazon { background-color: #FF9900; }
+    .platform-youtube { background-color: #FF0000; }
+    .platform-rss { background-color: #F97316; }
+
+    .platform-link:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 12px rgba(66, 153, 225, 0.15);
+    }
+
+    .platform-link sl-icon {
+      font-size: 1rem;
     }
 
     /* ===== Timeline: Vertical with line + dots ===== */
@@ -406,6 +504,15 @@
         padding: 2.5rem 1.5rem;
       }
 
+      .story-section {
+        padding: 4rem 2rem;
+      }
+
+      .story-layout {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+
       .evolution {
         padding: 4rem 2rem;
       }
@@ -435,6 +542,10 @@
     @media (max-width: 480px) {
       .hero-text {
         padding: 2rem 1.5rem;
+      }
+
+      .story-section {
+        padding: 3rem 1.5rem;
       }
 
       .evolution {

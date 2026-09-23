@@ -13,16 +13,6 @@
   },
   "pages": {
     "home": {
-      "story": {
-        "title": "Why 'Amayadori' (Taking Shelter from Rain)?",
-        "description1": "The title 'Amayadori' (Taking Shelter from Rain) carries a special meaning. The web industry is flooded with information. New technologies and tools emerge one after another, and it can be exhausting just to keep up.",
-        "description2": "In this show, we take a step back from the rain of information and share small stories about the 'history' and 'behind-the-scenes' of technology. A place where you can pause and listen at your own pace. That's what 'Amayadori to WEB no Kobanashi' is all about.",
-        "features": {
-          "item1": "Web Development Technical Topics",
-          "item2": "Daily awareness and learning",
-          "item3": "Art & Creative"
-        }
-      },
       "platform": {
         "title": "About Broadcasting",
         "content": {
@@ -123,7 +113,27 @@
           }
         }
       },
-      "philosophy": "I believe in the power of technology to transform lives and make the world a better place. I am passionate about creating digital experiences that are not only beautiful but also functional and user-friendly. I am constantly learning and evolving to stay ahead in the fast-paced world of web development."
+      "philosophy": "I believe in the power of technology to transform lives and make the world a better place. I am passionate about creating digital experiences that are not only beautiful but also functional and user-friendly. I am constantly learning and evolving to stay ahead in the fast-paced world of web development.",
+      "support": {
+        "sectionTitle": "Support",
+        "description": "If you enjoy the show or my work, your support would mean a lot.",
+        "githubSponsors": {
+          "title": "GitHub Sponsors",
+          "description": "Support my OSS, generative art and podcast work"
+        },
+        "ofuse": {
+          "title": "OFUSE",
+          "description": "Send a fan letter or a tip"
+        },
+        "buyMeACoffee": {
+          "title": "Buy Me a Coffee",
+          "description": "Buy me a coffee to support my work"
+        },
+        "substack": {
+          "title": "Substack Paid Subscription",
+          "description": "Members-only episodes and posts"
+        }
+      }
     },
     "episode": {
       "hero": {
@@ -146,6 +156,11 @@
         "title": "Concept",
         "description1": "'Amayadori to WEB no Kobanashi.fm' is a podcast where you take a break from the daily rain of information and listen to small web tales under the eaves.",
         "description2": "From frontend-focused web technology topics to daily insights and creative discussions, we deliver content you can enjoy in a relaxed atmosphere."
+      },
+      "story": {
+        "title": "Why 'Amayadori' (Taking Shelter from Rain)?",
+        "description1": "The title 'Amayadori' (Taking Shelter from Rain) carries a special meaning. The web industry is flooded with information. New technologies and tools emerge one after another, and it can be exhausting just to keep up.",
+        "description2": "In this show, we take a step back from the rain of information and share small stories about the 'history' and 'behind-the-scenes' of technology. A place where you can pause and listen at your own pace. That's what 'Amayadori to WEB no Kobanashi' is all about."
       },
       "timeline": {
         "title": "Our Journey",
@@ -177,8 +192,13 @@
           },
           "2025": {
             "year": "2025",
-            "title": "Participating in Events",
-            "description": "<a href=\"https://webcreator-podcast-day.com/\" target=\"_blank\">WEB CREATOR PODCAST DAY</a>, <a href=\"https://connpass.com/event/370351//\" target=\"_blank\">Engineer Podcast Meetup #2</a> appearances"
+            "title": "Events & Sponsorship",
+            "description": "Appeared at <a href=\"https://webcreator-podcast-day.com/\" target=\"_blank\">WEB CREATOR PODCAST DAY</a> and <a href=\"https://connpass.com/event/370351/\" target=\"_blank\">Engineer Podcast Meetup #2</a>. Sponsored the <a href=\"https://podcastar.jp/podcaststaraward\" target=\"_blank\">Podcast Star Award</a>"
+          },
+          "2026": {
+            "year": "2026",
+            "title": "Events & Sponsorship",
+            "description": "Appeared at <a href=\"https://webcreator-podcast-day.com/\" target=\"_blank\">WEB CREATOR PODCAST DAY 2026</a>. Sponsored the <a href=\"https://podcastar.jp/psa2026\" target=\"_blank\">Podcast Star Award 2026</a> for the second year in a row"
           }
         }
       },
@@ -191,7 +211,7 @@
       "achievements": {
         "title": "Achievements",
         "episodes": {
-          "value": "800+",
+          "value": "932",
           "label": "Episodes"
         },
         "plays": {
@@ -199,7 +219,6 @@
           "label": "Plays"
         },
         "years": {
-          "value": "5+",
           "label": "Years"
         },
         "programs": {
@@ -396,7 +415,7 @@
   },
   "footer": {
     "logoAlt": "Amayadori to WEB no Kobanashi Logo",
-    "title": "Amayadori to WEB no Kobanashi",
+    "title": "Amayadori to WEB no Kobanashi.fm",
     "tagline": "Take a break from the daily rain of information. Listen to WEB tales under the eaves.",
     "navigation": {
       "title": "Navigation"

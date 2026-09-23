@@ -14,16 +14,6 @@
   },
   "pages": {
     "home": {
-      "story": {
-        "title": "なぜ「雨宿り」なのか",
-        "description1": "番組タイトルの「雨宿り」には，こんな意味を込めています．<br><br>Web業界は情報が多すぎる。新しい技術やツールが次々と登場して、<br>キャッチアップするだけで疲れてしまうこともあります．",
-        "description2": "この番組では、そんな情報の雨から少し離れて，<br>技術の「歴史」や「裏側」にある小噺を紹介しています．<br><br>立ち止まって，ゆっくり聞ける場所．<br>それが「雨宿りとWEBの小噺」です。",
-        "features": {
-          "item1": "Web開発の技術トピック",
-          "item2": "日常の気づきと学び",
-          "item3": "アートとクリエイティブ"
-        }
-      },
       "platform": {
         "title": "配信について",
         "content": {
@@ -118,7 +108,27 @@
           }
         }
       },
-      "philosophy": "私は技術の力で人々の生活を変え，世界をより良い場所にすることを信じています．美しく，機能的でユーザーフレンドリーなデジタル体験を作ることに情熱を持っています．常に学び，進化し，Web開発の瞬く間に変化する世界で先を行くために努力しています．"
+      "philosophy": "私は技術の力で人々の生活を変え，世界をより良い場所にすることを信じています．美しく，機能的でユーザーフレンドリーなデジタル体験を作ることに情熱を持っています．常に学び，進化し，Web開発の瞬く間に変化する世界で先を行くために努力しています．",
+      "support": {
+        "sectionTitle": "Support",
+        "description": "番組や活動を応援していただける方は，こちらから支援いただけると嬉しいです．",
+        "githubSponsors": {
+          "title": "GitHub Sponsors",
+          "description": "OSS・ジェネラティブアート・ポッドキャスト活動への支援"
+        },
+        "ofuse": {
+          "title": "OFUSE",
+          "description": "ファンレター・投げ銭で気軽に応援"
+        },
+        "buyMeACoffee": {
+          "title": "Buy Me a Coffee",
+          "description": "コーヒー1杯分から気軽に応援"
+        },
+        "substack": {
+          "title": "Substack 有料購読",
+          "description": "有料会員限定エピソード・記事をお届け"
+        }
+      }
     },
     "episode": {
       "hero": {
@@ -141,6 +151,11 @@
         "title": "コンセプト",
         "description1": "「雨宿りとWEBの小噺.fm」は，毎日の情報の雨からちょっと雨宿りして，軒先でWEBの小噺を聞くような，そんなポッドキャスト番組です．",
         "description2": "フロントエンドを中心としたWeb技術の話題から，日常の気づきやクリエイティブな話題まで，肩の力を抜いて楽しめるコンテンツをお届けしています．"
+      },
+      "story": {
+        "title": "なぜ「雨宿り」なのか",
+        "description1": "番組タイトルの「雨宿り」には，こんな意味を込めています．<br><br>Web業界は情報が多すぎる。新しい技術やツールが次々と登場して、<br>キャッチアップするだけで疲れてしまうこともあります．",
+        "description2": "この番組では、そんな情報の雨から少し離れて，<br>技術の「歴史」や「裏側」にある小噺を紹介しています．<br><br>立ち止まって，ゆっくり聞ける場所．<br>それが「雨宿りとWEBの小噺」です。"
       },
       "timeline": {
         "title": "番組の歩み",
@@ -172,8 +187,13 @@
           },
           "2025": {
             "year": "2025",
-            "title": "各イベントに参加",
-            "description": "<a href=\"https://webcreator-podcast-day.com/\" target=\"_blank\">WEB CREATOR PODCAST DAY</a>，<a href=\"https://connpass.com/event/370351//\" target=\"_blank\">エンジニアポッドキャストMeetup #2</a> に出演"
+            "title": "各イベントに参加・協賛",
+            "description": "<a href=\"https://webcreator-podcast-day.com/\" target=\"_blank\">WEB CREATOR PODCAST DAY</a>，<a href=\"https://connpass.com/event/370351/\" target=\"_blank\">エンジニアポッドキャストMeetup #2</a> に出演．<a href=\"https://podcastar.jp/podcaststaraward\" target=\"_blank\">Podcast Star Award</a> にスポンサーとして協賛"
+          },
+          "2026": {
+            "year": "2026",
+            "title": "イベント出演と協賛",
+            "description": "<a href=\"https://webcreator-podcast-day.com/\" target=\"_blank\">WEB CREATOR PODCAST DAY 2026</a> に出演．<a href=\"https://podcastar.jp/psa2026\" target=\"_blank\">Podcast Star Award 2026</a> に昨年に続きスポンサーとして協賛"
           }
         }
       },
@@ -186,7 +206,7 @@
       "achievements": {
         "title": "番組実績",
         "episodes": {
-          "value": "800+",
+          "value": "932",
           "label": "エピソード"
         },
         "plays": {
@@ -194,7 +214,6 @@
           "label": "再生回数"
         },
         "years": {
-          "value": "5+",
           "label": "年の配信歴"
         },
         "programs": {
@@ -391,7 +410,7 @@
   },
   "footer": {
     "logoAlt": "雨宿りとWEBの小噺のロゴ",
-    "title": "雨宿りとWEBの小噺",
+    "title": "雨宿りとWEBの小噺.fm",
     "tagline": "毎日の情報の雨からちょっと雨宿り。軒先で聞くWEBの小噺。",
     "navigation": {
       "title": "ナビゲーション"

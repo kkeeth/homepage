@@ -48,10 +48,29 @@
         </div>
       </div>
     </section>
+
+    <!-- Support Section -->
+    <section class="output-section">
+      <div class="output-content">
+        <span class="section-label">// SUPPORT</span>
+        <h2 class="section-title">{t("pages.profile.support.sectionTitle")}</h2>
+        <p class="support-description">{t("pages.profile.support.description")}</p>
+        <div class="output-grid">
+          <a each={support in state.supports} href={support.url} target="_blank" rel="noopener noreferrer" class="output-card">
+            <sl-icon name={support.icon}></sl-icon>
+            <div class="output-card-body">
+              <h3>{t(`pages.profile.support.${support.name}.title`)}</h3>
+              <p>{t(`pages.profile.support.${support.name}.description`)}</p>
+            </div>
+            <span class="output-card-link">{support.linkText} →</span>
+          </a>
+        </div>
+      </div>
+    </section>
   </div>
 
   <script>
-    import { SOCIAL_LINKS, MY_SKILLS, OUTPUT_LINKS } from '@/constants/links';
+    import { SOCIAL_LINKS, MY_SKILLS, OUTPUT_LINKS, SUPPORT_LINKS } from '@/constants/links';
     import i18nStore from '@/stores/i18n-store';
 
     export default {
@@ -60,6 +79,7 @@
         socials: SOCIAL_LINKS,
         skills: MY_SKILLS,
         outputs: OUTPUT_LINKS,
+        supports: SUPPORT_LINKS,
         journeyItems: []
       },
       onBeforeUpdate(_, state) {
@@ -239,6 +259,13 @@
       font-size: 0.8125rem;
       color: var(--misty-gray);
       line-height: 1.4;
+    }
+
+    .support-description {
+      font-size: 0.9375rem;
+      line-height: 1.8;
+      color: var(--misty-gray);
+      margin-bottom: 1.5rem;
     }
 
     .output-card-link {
