@@ -29,7 +29,7 @@
     .header-container {
       max-width: 1000px;
       margin: 0 auto;
-      padding: 1.5rem 1rem;
+      padding: 1rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -52,8 +52,9 @@
     }
 
     .logo-icon {
-      width: 2.5rem;
-      height: 2.5rem;
+      display: block;
+      width: 3.5rem;
+      height: 3.5rem;
       border-radius: 50%;
       transform: rotate(-5deg);
       overflow: hidden;
@@ -123,6 +124,11 @@
     @media (max-width: 768px) {
       .header-container {
         padding: 0.5rem 1rem;
+      }
+
+      .logo-icon {
+        width: 3rem;
+        height: 3rem;
       }
 
       .desktop-nav {

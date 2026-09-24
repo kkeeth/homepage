@@ -12,9 +12,15 @@
         <ul class="news-list">
           <li each={item in state.news} key={item.id} class="news-item">
             <time class="news-date" datetime={item.date.replaceAll('.', '-')}>{item.date}</time>
-            <a if={item.url} href={item.url} target="_blank" rel="noopener noreferrer" class="news-text news-link">
+            <a
+              if={item.url}
+              href={item.url}
+              target={isExternal(item.url) ? '_blank' : null}
+              rel={isExternal(item.url) ? 'noopener noreferrer' : null}
+              class="news-text news-link"
+            >
               {t(`pages.home.news.items.${item.id}`)}
-              <sl-icon name="arrow-up-right"></sl-icon>
+              <sl-icon name={isExternal(item.url) ? 'arrow-up-right' : 'arrow-right'}></sl-icon>
             </a>
             <span if={!item.url} class="news-text">{t(`pages.home.news.items.${item.id}`)}</span>
           </li>
@@ -63,6 +69,9 @@
 
     export default {
       t: i18nStore.t.bind(i18nStore),
+      isExternal(url) {
+        return /^https?:\/\//.test(url);
+      },
       async onBeforeMount() {
         try {
           const [art19, substack] = await Promise.allSettled([
