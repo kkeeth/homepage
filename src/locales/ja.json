@@ -38,6 +38,12 @@
           "title": "その他の番組"
         }
       },
+      "news": {
+        "title": "お知らせ",
+        "items": {
+          "rsa2026s2": "Radio Star Audition 2026 2nd Season でファイナリストに選出され，第6位となりました．応援してくださった皆さま，ありがとうございました！"
+        }
+      },
       "program": {
         "episodesCount": "話",
         "listen": "聴く"
@@ -69,6 +75,7 @@
         "paragraph2": "2015年にレプラホーン株式会社へ移り，EC サイトの保守をプロジェクトマネージャーとして，開発をフロントエンドエンジニアとして担当しました．2017年には株式会社ゆめみに入社し，API や Web アプリケーションの新規開発・保守・追加開発に携わります．",
         "paragraph3": "2020年はいろいろなことが重なった年でした．3月にゆめみの取締役に就任し，同じ月に「雨宿りとWEBの小噺.fm」の配信を始め，7月には『Riot.jsで簡単Webアプリ開発』を出版しました．2022年からは執行役員を務めました．",
         "paragraph4": "2024年に株式会社カミナシへ入社．エンジニアリングマネージャーとして「カミナシ従業員」のプロダクト開発チームの評価や生産性向上に取り組み，現在は Engineering HR を担当しています．",
+        "paragraph5": "プライベートでは一児の父．仕事と配信と子育てを行ったり来たりしながら，p5.js でコードから絵を描くジェネラティブアートも楽しんでいます（作品は <a href=\"https://openprocessing.org/user/299354\" target=\"_blank\" rel=\"noopener noreferrer\">OpenProcessing</a> で公開中）．",
         "timelineTitle": "略歴",
         "now": "現在",
         "items": {
@@ -89,7 +96,7 @@
             "description": "プログラマーとして API や Web アプリケーションの新規開発・保守・追加開発に従事．"
           },
           "yumemiDirector": {
-            "title": "株式会社ゆめみ 取締役就任",
+            "title": "株式会社ゆめみ 「チャレンジ取締役」制度を利用し，技術担当取締役就任",
             "description": ""
           },
           "podcast": {
@@ -137,75 +144,68 @@
           "title": "Blog / Newsletter",
           "description": "技術記事やポッドキャストの裏話、日々の学びを発信"
         },
-        "note": { "title": "note", "description": "エッセイ・コラム" },
-        "github": { "title": "GitHub", "description": "OSS・個人プロジェクト" },
-        "slides": { "title": "Slides", "description": "登壇・発表資料" },
-        "zenn": { "title": "Zenn", "description": "技術記事" },
+        "note": {
+          "title": "note",
+          "description": "エッセイ・コラム"
+        },
+        "github": {
+          "title": "GitHub",
+          "description": "OSS・個人プロジェクト"
+        },
+        "slides": {
+          "title": "Slides",
+          "description": "登壇・発表資料"
+        },
+        "zenn": {
+          "title": "Zenn",
+          "description": "技術記事"
+        },
         "generativeArt": {
           "title": "Generative Art",
           "description": "クリエイティブコーディング作品"
         }
       },
       "appearances": {
-        "sectionTitle": "登壇・出演・協賛",
+        "sectionTitle": "これまでの活動",
         "types": {
           "talk": "出演",
           "sponsor": "協賛",
-          "book": "著書"
+          "book": "著書",
+          "lecture": "講師",
+          "advisory": "アドバイザリー",
+          "audition": "オーディション"
         },
         "items": {
+          "rsa2026s2": "Radio Star Audition 2026 2nd Season（ファイナリスト・第6位）",
           "techDebtCon2026": "技術的負債に向き合うConference 2026（個人スポンサー）",
           "wcpd": "WEB CREATOR PODCAST DAY",
           "psa2026": "Podcast Star Award 2026",
+          "lectureReact": "KADOKAWAドワンゴ情報工科学院 TypeScript / React 講師",
           "epm2": "エンジニアポッドキャストMeetup #2",
+          "lectureP5": "VANTAN techford academy クリエイティブコーディング（p5.js）講師",
+          "advisory": "複数社の採用・育成アドバイザリー",
           "psa2025": "Podcast Star Award",
           "riotBook": "『Riot.jsで簡単Webアプリ開発』（シーアンドアール研究所）"
-        },
-        "cta": "詳しく見る"
+        }
       },
       "recognition": {
-        "sectionTitle": "肩書き・実績",
+        "sectionTitle": "肩書き",
         "items": {
           "riotCollaborator": {
             "title": "Riot.js Collaborator",
-            "description": "UI ライブラリ Riot.js の開発に参加．"
+            "description": "UI ライブラリ <a href=\"https://riot.js.org/\" target=\"_blank\" rel=\"noopener noreferrer\">Riot.js</a> の <a href=\"https://github.com/orgs/riot/people\" target=\"_blank\" rel=\"noopener noreferrer\">開発に参加</a>．"
           },
           "riotJug": {
             "title": "Riot.js Japan User Group",
-            "description": "オーガナイザー．"
-          },
-          "author": {
-            "title": "著者",
-            "description": "『Riot.jsで簡単Webアプリ開発』（2020年）．"
+            "description": "日本ユーザーグループのオーガナイザー．"
           },
           "podcaster": {
             "title": "ポッドキャスター",
-            "description": "2020年から配信．6番組・900エピソード以上．"
+            "description": "2020年から配信．6番組・900エピソード以上．番組一覧は<a href=\"https://listen.style/u/kkeeth\" target=\"_blank\" rel=\"noopener noreferrer\">こちら</a>．"
           },
-          "psaSponsor": {
-            "title": "Podcast Star Award スポンサー",
-            "description": "2025年，2026年と2年連続で協賛．"
-          }
-        }
-      },
-      "funFacts": {
-        "sectionTitle": "ちょっとした話",
-        "items": {
-          "father": {
-            "title": "一児の父",
-            "description": "仕事と配信と子育てを行ったり来たりの毎日です．"
-          },
-          "generativeArt": {
-            "title": "ジェネラティブアートをつくる",
-            "description": "p5.js でコードから絵を描いています．作品は<a href=\"https://openprocessing.org/user/299354\" target=\"_blank\" rel=\"noopener noreferrer\">OpenProcessing</a>で公開中．"
-          },
-          "voiceDiary": {
-            "title": "声で日記をつけている",
-            "description": "「Keethの声日記」として，日々のことを声で残しています．"
-          },
-          "sixShows": {
-            "title": "6つの番組を運営",
-            "description": "技術の話から好きなものの話まで，テーマごとに番組を分けて配信しています．"
+          "generativeArtist": {
+            "title": "Generative Artist",
+            "description": "p5.js でコードから絵を描く．作品は <a href=\"https://openprocessing.org/user/299354\" target=\"_blank\" rel=\"noopener noreferrer\">OpenProcessing</a> で公開中．"
           }
         }
       },
@@ -260,6 +260,7 @@
       "hero": {
         "title": "マイクの向こう側。",
         "subtitle": "雨宿りとWEBの小噺.fm のすべて",
+        "imageAlt": "収録で使っているマイクとヘッドホン",
         "label": "PODCAST FEATURE"
       },
       "concept": {
@@ -290,11 +291,6 @@
             "title": "番組展開",
             "description": "新たな番組シリーズを立ち上げ，扱うテーマの幅を拡大．"
           },
-          "2023": {
-            "year": "2023",
-            "title": "800エピソード突破",
-            "description": "全番組合わせて800エピソードを達成，多くのリスナーに支えられる．"
-          },
           "2024": {
             "year": "2024",
             "title": "番組を増やす",
@@ -307,8 +303,8 @@
           },
           "2026": {
             "year": "2026",
-            "title": "イベント出演と協賛",
-            "description": "<a href=\"https://webcreator-podcast-day.com/\" target=\"_blank\">WEB CREATOR PODCAST DAY 2026</a> に出演．<a href=\"https://podcastar.jp/psa2026\" target=\"_blank\">Podcast Star Award 2026</a> に昨年に続きスポンサーとして協賛"
+            "title": "イベント出演・協賛・オーディション",
+            "description": "<a href=\"https://webcreator-podcast-day.com/\" target=\"_blank\">WEB CREATOR PODCAST DAY 2026</a> に出演．<a href=\"https://podcastar.jp/psa2026\" target=\"_blank\">Podcast Star Award 2026</a> に昨年に続きスポンサーとして協賛．<a href=\"https://mudia.tv/project/radio_star_audition_2026_02\" target=\"_blank\">Radio Star Audition 2026 2nd Season</a> でファイナリストに選出（第6位）"
           }
         }
       },
@@ -317,24 +313,6 @@
         "name": "桑原聖仁 (Keeth)",
         "description": "Web開発者 / ポッドキャスター．フロントエンドからバックエンドまで幅広く経験し，技術の話をもっと身近に，もっと楽しく伝えたいという想いで番組を運営しています．",
         "profileLink": "Keeth について"
-      },
-      "achievements": {
-        "title": "番組実績",
-        "episodes": {
-          "value": "932",
-          "label": "エピソード"
-        },
-        "plays": {
-          "value": "36K",
-          "label": "再生回数"
-        },
-        "years": {
-          "label": "年の配信歴"
-        },
-        "programs": {
-          "value": "6",
-          "label": "番組"
-        }
       },
       "topics": {
         "title": "扱うテーマ",

@@ -7,8 +7,9 @@ export const SUBSTACK_RSS_URL = import.meta.env.VITE_RSS_URL ?? '/api/rss';
 export const SUBSTACK_ARCHIVE_URL =
   import.meta.env.VITE_ARCHIVE_URL ?? '/api/archive';
 
-// 初回配信 (2020年3月): 配信歴の年数計算に使用
-export const PODCAST_START_DATE = new Date(2020, 2, 1);
+// Podcast ページ Hero 画像
+// TODO: 仮のイラスト。Shure SM7B + ヘッドホンの写真に差し替える (public/images/ に置いてパスを変更)
+export const PODCAST_HERO_IMAGE = '/images/podcast-mic.svg';
 
 // ソーシャルメディアリンク
 export const SOCIAL_LINKS = [
@@ -108,7 +109,14 @@ export const OUTPUT_LINKS = [
 ];
 
 // 登壇・出演・協賛・著書 (新しい順)
+// url が無い項目はリンクなしで表示
 export const APPEARANCES = [
+  {
+    id: 'rsa2026s2',
+    year: '2026',
+    type: 'audition',
+    url: 'https://mudia.tv/project/radio_star_audition_2026_02',
+  },
   {
     id: 'techDebtCon2026',
     year: '2026',
@@ -128,16 +136,27 @@ export const APPEARANCES = [
     url: 'https://podcastar.jp/psa2026',
   },
   {
-    id: 'epm2',
+    id: 'lectureReact',
     year: '2025',
-    type: 'talk',
-    url: 'https://connpass.com/event/370351/',
+    type: 'lecture',
+    url: 'https://vantan-techford-slide.vercel.app/',
   },
   {
     id: 'psa2025',
     year: '2025',
     type: 'sponsor',
     url: 'https://podcastar.jp/podcaststaraward',
+  },
+  {
+    id: 'lectureP5',
+    year: '2023 – 2025',
+    type: 'lecture',
+    url: 'https://vantan-techford-p5js-slide.vercel.app/',
+  },
+  {
+    id: 'advisory',
+    year: '2023 –',
+    type: 'advisory',
   },
   {
     id: 'riotBook',

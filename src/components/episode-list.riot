@@ -1,24 +1,31 @@
 <episode-list>
   <div class="episode-list">
-    <div class="episode-item" each={episode in props.programEpisodes} key={episode.id}>
-      <div class="episode-date-col">
-        <span class="episode-date">{episode.pubDate}</span>
+    <a
+      class="episode-item"
+      each={episode in props.programEpisodes}
+      key={episode.id}
+      href={"/episodes/" + getEpisodeId(episode)}
+    >
+      <div class="episode-thumb">
+        <img
+          src={episode.imageUrl || FALLBACK_ARTWORK}
+          alt=""
+          loading="lazy"
+          onerror={onThumbError}
+        />
+        <span class="episode-thumb-play"><sl-icon name="play-fill"></sl-icon></span>
       </div>
-      <div class="episode-content-col">
-        <span class="episode-badge" if={parseSeasonLabel(episode.title)}>{parseSeasonLabel(episode.title)}</span>
-        <premium-badge show={isEpisodePremium(episode)} />
-        <h3 class="episode-title">
-          <a href={"/episodes/" + getEpisodeId(episode)}>{stripSeasonPrefix(episode.title)}</a>
-        </h3>
+      <div class="episode-body">
+        <p class="episode-meta">
+          <span class="episode-badge" if={parseSeasonLabel(episode.title)}>{parseSeasonLabel(episode.title)}</span>
+          <span>{episode.pubDate}</span>
+          <span if={episode.duration}>{formatDuration(episode.duration)}</span>
+          <premium-badge show={isEpisodePremium(episode)} />
+        </p>
+        <h3 class="episode-title">{stripSeasonPrefix(episode.title)}</h3>
         <p class="episode-description">{truncateText(episode.description, 120)}</p>
-        <div class="episode-actions">
-          <a href={"/episodes/" + getEpisodeId(episode)} class="listen-btn">
-            <sl-icon name="play-circle-fill"></sl-icon>
-            {t("episode.listenOn")}{episode.duration ? ' (' + formatDuration(episode.duration) + ')' : ''}
-          </a>
-        </div>
       </div>
-    </div>
+    </a>
   </div>
 
   <div class="view-all-section" if={props.showMore}>
@@ -32,9 +39,16 @@
     import { truncateText } from '../utils/truncateText'
     import i18nStore from '@/stores/i18n-store';
 
+    // RSS にエピソード画像が無い / 読み込み失敗時は番組アートワークを表示
+    const FALLBACK_ARTWORK = '/images/web_talk.png';
+
     export default {
       t: i18nStore.t.bind(i18nStore),
       truncateText,
+      FALLBACK_ARTWORK,
+      onThumbError(e) {
+        if (!e.target.src.endsWith(FALLBACK_ARTWORK)) e.target.src = FALLBACK_ARTWORK;
+      },
       isEpisodePremium(episode) {
         return episode.isPremium === true;
       },
@@ -84,37 +98,80 @@
 
     .episode-item {
       display: flex;
-      gap: 2rem;
-      padding: 3rem 0;
+      gap: 1.75rem;
+      padding: 2rem 0;
       border-top: 1px solid var(--light-gray);
+      text-decoration: none;
+      color: inherit;
     }
 
     .episode-item:last-child {
       border-bottom: 1px solid var(--light-gray);
     }
 
-    /* Date Column */
-    .episode-date-col {
+    /* Thumbnail */
+    .episode-thumb {
+      position: relative;
       flex-shrink: 0;
-      width: 130px;
-      padding-top: 0.25rem;
+      width: 140px;
+      aspect-ratio: 1 / 1;
+      border-radius: 0.5rem;
+      overflow: hidden;
+      background: var(--cream);
     }
 
-    .episode-date {
-      font-size: 0.8125rem;
-      font-weight: 500;
-      color: var(--storm-cloud);
-      letter-spacing: 0.03em;
+    .episode-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
     }
 
-    /* Content Column */
-    .episode-content-col {
+    .episode-thumb-play {
+      position: absolute;
+      right: 0.5rem;
+      bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 2.25rem;
+      height: 2.25rem;
+      border-radius: 50%;
+      background: var(--rain-blue);
+      color: white;
+      font-size: 1.25rem;
+      opacity: 0;
+      transform: translateY(4px);
+      transition: all 0.2s ease;
+    }
+
+    .episode-item:hover .episode-thumb-play,
+    .episode-item:focus-visible .episode-thumb-play {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Body */
+    .episode-body {
       flex: 1;
       min-width: 0;
+      padding-top: 0.125rem;
+    }
+
+    .episode-meta {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      margin: 0 0 0.5rem;
+      font-size: 0.8125rem;
+      font-weight: 500;
+      color: var(--misty-gray);
+      letter-spacing: 0.03em;
     }
 
     .episode-badge {
       display: inline-block;
+      margin-right: 0.75rem;
       padding: 0.2rem 0.625rem;
       background: var(--deep-rain);
       color: white;
@@ -123,23 +180,23 @@
       letter-spacing: 0.08em;
       border-radius: 4px;
       text-transform: uppercase;
-      margin-bottom: 0.75rem;
+    }
+
+    .episode-meta > span:not(.episode-badge) + span::before {
+      content: '·';
+      margin: 0 0.5rem;
     }
 
     .episode-title {
-      font-size: 1.625rem;
+      font-size: 1.375rem;
       font-weight: 700;
-      line-height: 1.3;
-      margin: 0 0 0.75rem;
-    }
-
-    .episode-title a {
+      line-height: 1.35;
+      margin: 0 0 0.5rem;
       color: var(--text-dark);
-      text-decoration: none;
       transition: color 0.2s ease;
     }
 
-    .episode-title a:hover {
+    .episode-item:hover .episode-title {
       color: var(--rain-blue);
     }
 
@@ -147,38 +204,11 @@
       font-size: 0.9375rem;
       color: var(--text-color);
       line-height: 1.7;
-      margin: 0 0 1.5rem;
-    }
-
-    /* Actions */
-    .episode-actions {
-      display: flex;
-      align-items: center;
-      gap: 1.5rem;
-    }
-
-    .listen-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      padding: 0.625rem 1.25rem;
-      background: var(--rain-blue);
-      color: white;
-      border-radius: 50px;
-      text-decoration: none;
-      font-size: 0.875rem;
-      font-weight: 600;
-      transition: all 0.2s ease;
-    }
-
-    .listen-btn:hover {
-      background: var(--deep-rain);
-      transform: translateY(-1px);
-      box-shadow: 0 4px 12px rgba(52, 152, 219, 0.2);
-    }
-
-    .listen-btn sl-icon {
-      font-size: 1.125rem;
+      margin: 0;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
     }
 
     /* View All */
@@ -205,44 +235,46 @@
     /* Responsive: Tablet */
     @media (max-width: 768px) {
       .episode-item {
-        flex-direction: column;
-        gap: 0.5rem;
-        padding: 2rem 0;
+        gap: 1.25rem;
+        padding: 1.5rem 0;
       }
 
-      .episode-date-col {
-        width: auto;
+      .episode-thumb {
+        width: 104px;
       }
 
       .episode-title {
-        font-size: 1.375rem;
+        font-size: 1.1875rem;
       }
     }
 
     /* Responsive: Mobile */
     @media (max-width: 480px) {
-      .episode-list {
-        margin-left: calc(-1 * var(--section-padding, 1rem));
-        margin-right: calc(-1 * var(--section-padding, 1rem));
-        width: calc(100% + 2 * var(--section-padding, 1rem));
+      .episode-item {
+        gap: 1rem;
+        padding: 1.25rem 0;
       }
 
-      .episode-item {
-        padding: 1.5rem 1rem;
+      .episode-thumb {
+        width: 72px;
+      }
+
+      .episode-thumb-play {
+        display: none;
+      }
+
+      .episode-meta {
+        font-size: 0.75rem;
+        margin-bottom: 0.25rem;
       }
 
       .episode-title {
-        font-size: 1.25rem;
+        font-size: 1rem;
+        margin-bottom: 0;
       }
 
       .episode-description {
-        font-size: 0.875rem;
-        margin-bottom: 1rem;
-      }
-
-      .listen-btn {
-        padding: 0.5rem 1rem;
-        font-size: 0.8125rem;
+        display: none;
       }
     }
   </style>

@@ -37,6 +37,12 @@
           "title": "Other Programs"
         }
       },
+      "news": {
+        "title": "News",
+        "items": {
+          "rsa2026s2": "Named a finalist in Radio Star Audition 2026 2nd Season, finishing 6th. Thank you to everyone who cheered me on!"
+        }
+      },
       "program": {
         "episodesCount": " episodes",
         "listen": "Listen"
@@ -68,6 +74,7 @@
         "paragraph2": "In 2015 I joined Leprechaun Inc., maintaining e-commerce sites as a project manager and building them as a frontend engineer. In 2017 I joined YUMEMI Inc., where I worked on new development, maintenance and enhancement of APIs and web applications.",
         "paragraph3": "2020 was a big year. In March I became a board director at YUMEMI and, the same month, started the podcast 'Amayadori to WEB no Kobanashi.fm'. In July I published my book, \"Riot.jsで簡単Webアプリ開発\". From 2022 I served as an executive officer.",
         "paragraph4": "In 2024 I joined Kaminashi Inc. As an engineering manager I worked on evaluation and productivity for the product team behind \"Kaminashi Employee\", and I now work in Engineering HR.",
+        "paragraph5": "Outside of work, I am a father of one. Between work, podcasting and parenting, I also enjoy drawing generative art with code using p5.js (my works are on <a href=\"https://openprocessing.org/user/299354\" target=\"_blank\" rel=\"noopener noreferrer\">OpenProcessing</a>).",
         "timelineTitle": "Career",
         "now": "Now",
         "items": {
@@ -88,7 +95,7 @@
             "description": "New development, maintenance and enhancement of APIs and web applications as a programmer."
           },
           "yumemiDirector": {
-            "title": "Board Director, YUMEMI Inc.",
+            "title": "Board Director of Technology through the “Challenge Director” Program, YUMEMI Inc.",
             "description": ""
           },
           "podcast": {
@@ -136,7 +143,10 @@
           "title": "Blog / Newsletter",
           "description": "Sharing tech articles, podcast behind-the-scenes, and daily learnings"
         },
-        "note": { "title": "note", "description": "Essays & Columns" },
+        "note": {
+          "title": "note",
+          "description": "Essays & Columns"
+        },
         "github": {
           "title": "GitHub",
           "description": "OSS & Personal Projects"
@@ -145,72 +155,56 @@
           "title": "Slides",
           "description": "Presentation & Talk Slides"
         },
-        "zenn": { "title": "Zenn", "description": "Technical Articles" },
+        "zenn": {
+          "title": "Zenn",
+          "description": "Technical Articles"
+        },
         "generativeArt": {
           "title": "Generative Art",
           "description": "Creative Coding Works"
         }
       },
       "appearances": {
-        "sectionTitle": "Talks, Appearances & Sponsorships",
+        "sectionTitle": "Activities",
         "types": {
           "talk": "Appearance",
           "sponsor": "Sponsor",
-          "book": "Book"
+          "book": "Book",
+          "lecture": "Lecturer",
+          "advisory": "Advisory",
+          "audition": "Audition"
         },
         "items": {
+          "rsa2026s2": "Radio Star Audition 2026 2nd Season (Finalist, 6th place)",
           "techDebtCon2026": "Technical Debt Conference 2026 (Individual Sponsor)",
           "wcpd": "WEB CREATOR PODCAST DAY",
           "psa2026": "Podcast Star Award 2026",
+          "lectureReact": "TypeScript / React lecturer at KADOKAWA Dwango Institute of Information Technology",
           "epm2": "Engineer Podcast Meetup #2",
+          "lectureP5": "Creative coding (p5.js) lecturer at VANTAN techford academy",
+          "advisory": "Hiring & talent development advisory for several companies",
           "psa2025": "Podcast Star Award",
           "riotBook": "\"Riot.jsで簡単Webアプリ開発\" (C&R Institute)"
-        },
-        "cta": "Have a look"
+        }
       },
       "recognition": {
-        "sectionTitle": "Roles & Recognition",
+        "sectionTitle": "Roles",
         "items": {
           "riotCollaborator": {
             "title": "Riot.js Collaborator",
-            "description": "Contributing to the Riot.js UI library."
+            "description": "<a href=\"https://github.com/orgs/riot/people\" target=\"_blank\" rel=\"noopener noreferrer\">Contributing</a> to the <a href=\"https://riot.js.org/\" target=\"_blank\" rel=\"noopener noreferrer\">Riot.js</a> UI library."
           },
           "riotJug": {
             "title": "Riot.js Japan User Group",
             "description": "Organizer."
           },
-          "author": {
-            "title": "Author",
-            "description": "\"Riot.jsで簡単Webアプリ開発\" (2020)."
-          },
           "podcaster": {
             "title": "Podcaster",
             "description": "On air since 2020. 6 shows, 900+ episodes."
           },
-          "psaSponsor": {
-            "title": "Podcast Star Award Sponsor",
-            "description": "Sponsored two years in a row, 2025 and 2026."
-          }
-        }
-      },
-      "funFacts": {
-        "sectionTitle": "Fun Facts",
-        "items": {
-          "father": {
-            "title": "Father of one",
-            "description": "My days go back and forth between work, podcasting and parenting."
-          },
-          "generativeArt": {
-            "title": "I make generative art",
-            "description": "I draw with code using p5.js. My works are on <a href=\"https://openprocessing.org/user/299354\" target=\"_blank\" rel=\"noopener noreferrer\">OpenProcessing</a>."
-          },
-          "voiceDiary": {
-            "title": "I keep a voice diary",
-            "description": "On \"Keethの声日記\" I record my everyday life by voice."
-          },
-          "sixShows": {
-            "title": "I run six shows",
-            "description": "From tech talk to things I love, each theme gets its own show."
+          "generativeArtist": {
+            "title": "Generative Artist",
+            "description": "Drawing with code in p5.js. Works on <a href=\"https://openprocessing.org/user/299354\" target=\"_blank\" rel=\"noopener noreferrer\">OpenProcessing</a>."
           }
         }
       },
@@ -265,6 +259,7 @@
       "hero": {
         "title": "THE VOICE BEHIND THE MIC.",
         "subtitle": "Everything about Amayadori to WEB no Kobanashi.fm",
+        "imageAlt": "The microphone and headphones used for recording",
         "label": "PODCAST FEATURE"
       },
       "concept": {
@@ -295,11 +290,6 @@
             "title": "Show Expansion",
             "description": "Launched new show series and expanded the range of topics covered."
           },
-          "2023": {
-            "year": "2023",
-            "title": "800+ Episodes",
-            "description": "Reached 800 episodes across all shows, supported by many listeners."
-          },
           "2024": {
             "year": "2024",
             "title": "Increasing Shows",
@@ -312,8 +302,8 @@
           },
           "2026": {
             "year": "2026",
-            "title": "Events & Sponsorship",
-            "description": "Appeared at <a href=\"https://webcreator-podcast-day.com/\" target=\"_blank\">WEB CREATOR PODCAST DAY 2026</a>. Sponsored the <a href=\"https://podcastar.jp/psa2026\" target=\"_blank\">Podcast Star Award 2026</a> for the second year in a row"
+            "title": "Events, Sponsorship & Audition",
+            "description": "Appeared at <a href=\"https://webcreator-podcast-day.com/\" target=\"_blank\">WEB CREATOR PODCAST DAY 2026</a>. Sponsored the <a href=\"https://podcastar.jp/psa2026\" target=\"_blank\">Podcast Star Award 2026</a> for the second year in a row. Named a finalist in <a href=\"https://mudia.tv/project/radio_star_audition_2026_02\" target=\"_blank\">Radio Star Audition 2026 2nd Season</a> (6th place)"
           }
         }
       },
@@ -322,24 +312,6 @@
         "name": "Kuwahara Kiyohito (Keeth)",
         "description": "Web Developer / Podcaster. With broad experience from frontend to backend, running the show with the desire to make tech talks more accessible and enjoyable.",
         "profileLink": "About Keeth"
-      },
-      "achievements": {
-        "title": "Achievements",
-        "episodes": {
-          "value": "932",
-          "label": "Episodes"
-        },
-        "plays": {
-          "value": "36K",
-          "label": "Plays"
-        },
-        "years": {
-          "label": "Years"
-        },
-        "programs": {
-          "value": "6",
-          "label": "Shows"
-        }
       },
       "topics": {
         "title": "Topics We Cover",

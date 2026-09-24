@@ -3,6 +3,25 @@
     <!-- Hero Section -->
     <hero-section if={state.latestEpisodes[0]} link={state.latestEpisodes[0]} />
 
+    <!-- News Section -->
+    <section class="news-section" if={state.news.length}>
+      <div class="section-content">
+        <span class="section-label">// NEWS</span>
+        <h2 class="section-title">{t("pages.home.news.title")}</h2>
+
+        <ul class="news-list">
+          <li each={item in state.news} key={item.id} class="news-item">
+            <time class="news-date" datetime={item.date.replaceAll('.', '-')}>{item.date}</time>
+            <a if={item.url} href={item.url} target="_blank" rel="noopener noreferrer" class="news-text news-link">
+              {t(`pages.home.news.items.${item.id}`)}
+              <sl-icon name="arrow-up-right"></sl-icon>
+            </a>
+            <span if={!item.url} class="news-text">{t(`pages.home.news.items.${item.id}`)}</span>
+          </li>
+        </ul>
+      </div>
+    </section>
+
     <!-- Latest Episodes Section -->
     <section class="episodes-section">
       <div class="section-content">
@@ -39,6 +58,7 @@
   <script>
     import { fetchRSSFeed, getLatestEpisodes } from '@/utils/rss';
     import { OTHER_PROGRAMS, RSS_FEED_URL, SUBSTACK_RSS_URL } from '@/constants/links';
+    import { NEWS } from '@/constants/news';
     import i18nStore from '@/stores/i18n-store';
 
     export default {
@@ -60,7 +80,8 @@
       },
       state: {
         latestEpisodes: [],
-        otherPrograms: OTHER_PROGRAMS
+        otherPrograms: OTHER_PROGRAMS,
+        news: NEWS.slice(0, 5),
       },
     }
   </script>
@@ -70,6 +91,61 @@
       min-height: 100vh;
       background: var(--warm-white);
       color: var(--charcoal);
+    }
+
+    /* News Section */
+    .news-section {
+      padding: 4rem 0 1rem;
+      background: var(--warm-white);
+    }
+
+    .news-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .news-item {
+      display: flex;
+      gap: 2rem;
+      align-items: baseline;
+      padding: 1rem 0;
+      border-top: 1px solid var(--light-gray);
+    }
+
+    .news-item:last-child {
+      border-bottom: 1px solid var(--light-gray);
+    }
+
+    .news-date {
+      flex-shrink: 0;
+      width: 6.5rem;
+      font-size: 0.8125rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      color: var(--misty-gray);
+      font-family: var(--font-sans);
+    }
+
+    .news-text {
+      font-size: 0.9375rem;
+      line-height: 1.7;
+      color: var(--charcoal);
+    }
+
+    .news-link {
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    .news-link:hover {
+      color: var(--rain-blue);
+    }
+
+    .news-link sl-icon {
+      font-size: 0.8125rem;
+      vertical-align: -0.1em;
+      margin-left: 0.25rem;
     }
 
     /* Other Programs Section */
@@ -174,6 +250,11 @@
     }
 
     @media (max-width: 480px) {
+      .news-item {
+        flex-direction: column;
+        gap: 0.25rem;
+      }
+
       .other-programs-list {
         grid-template-columns: 1fr;
       }

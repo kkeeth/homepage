@@ -27,7 +27,7 @@
         <h2 class="section-title">{t("pages.about.story.sectionTitle")}</h2>
         <div class="story-layout">
           <div class="story-text">
-            <p each={key in state.storyParagraphs} key={key}>{t(`pages.about.story.${key}`)}</p>
+            <p each={key in state.storyParagraphs} key={key}><raw html={t(`pages.about.story.${key}`)} /></p>
           </div>
           <div class="story-photo">
             <img src="/images/mypicture.jpeg" alt={t("pages.about.fullName")} />
@@ -63,53 +63,39 @@
       </div>
     </section>
 
-    <!-- Appearances: 登壇・出演・協賛 -->
-    <section class="appearances-section">
-      <div class="section-inner">
-        <span class="section-label">// APPEARANCES</span>
-        <h2 class="section-title">{t("pages.about.appearances.sectionTitle")}</h2>
-        <div class="appearance-grid">
-          <a each={item in state.appearances} key={item.id} href={item.url} target="_blank" rel="noopener noreferrer" class="appearance-card">
-            <div class="appearance-meta">
-              <span class="appearance-type type-{item.type}">{t(`pages.about.appearances.types.${item.type}`)}</span>
-              <span class="appearance-year">{item.year}</span>
-            </div>
-            <h3 class="appearance-title">{t(`pages.about.appearances.items.${item.id}`)}</h3>
-            <span class="card-link">{t("pages.about.appearances.cta")} →</span>
-          </a>
-        </div>
-      </div>
-    </section>
-
-    <!-- Recognition: 肩書き・実績 -->
+    <!-- Roles: 今も続けている肩書き (年つきの出来事は Activities へ) -->
     <section class="recognition-section">
       <div class="section-inner">
-        <span class="section-label">// RECOGNITION</span>
+        <span class="section-label">// ROLES</span>
         <h2 class="section-title">{t("pages.about.recognition.sectionTitle")}</h2>
         <div class="recognition-grid">
           <div each={item in state.recognitions} key={item.id} class="recognition-item">
             <span class="recognition-icon"><sl-icon name={item.icon}></sl-icon></span>
             <div>
               <h3>{t(`pages.about.recognition.items.${item.id}.title`)}</h3>
-              <p>{t(`pages.about.recognition.items.${item.id}.description`)}</p>
+              <p><raw html={t(`pages.about.recognition.items.${item.id}.description`)} /></p>
             </div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Fun Facts -->
-    <section class="facts-section">
+    <!-- Activities: 登壇・講師・協賛など -->
+    <section class="appearances-section">
       <div class="section-inner">
-        <span class="section-label">// FUN FACTS</span>
-        <h2 class="section-title">{t("pages.about.funFacts.sectionTitle")}</h2>
-        <div class="facts-grid">
-          <div each={fact in state.funFacts} key={fact.id} class="fact-card">
-            <sl-icon name={fact.icon}></sl-icon>
-            <h3>{t(`pages.about.funFacts.items.${fact.id}.title`)}</h3>
-            <p><raw html={t(`pages.about.funFacts.items.${fact.id}.description`)} /></p>
-          </div>
-        </div>
+        <span class="section-label">// ACTIVITIES</span>
+        <h2 class="section-title">{t("pages.about.appearances.sectionTitle")}</h2>
+        <ul class="appearance-list">
+          <li each={item in state.appearances} key={item.id} class="appearance-item">
+            <span class="appearance-year">{item.year || '—'}</span>
+            <span class="appearance-type">{t(`pages.about.appearances.types.${item.type}`)}</span>
+            <a if={item.url} href={item.url} target="_blank" rel="noopener noreferrer" class="appearance-title appearance-link">
+              {t(`pages.about.appearances.items.${item.id}`)}
+              <sl-icon name="arrow-up-right"></sl-icon>
+            </a>
+            <span if={!item.url} class="appearance-title">{t(`pages.about.appearances.items.${item.id}`)}</span>
+          </li>
+        </ul>
       </div>
     </section>
 
@@ -190,7 +176,7 @@
     export default {
       t: i18nStore.t.bind(i18nStore),
       state: {
-        storyParagraphs: ['paragraph1', 'paragraph2', 'paragraph3', 'paragraph4'],
+        storyParagraphs: ['paragraph1', 'paragraph2', 'paragraph3', 'paragraph4', 'paragraph5'],
         // 略歴 (date なしは「現在」表示)
         career: [
           { id: 'sqbizm', date: '2013.04' },
@@ -212,15 +198,8 @@
         recognitions: [
           { id: 'riotCollaborator', icon: 'github' },
           { id: 'riotJug', icon: 'people' },
-          { id: 'author', icon: 'book' },
           { id: 'podcaster', icon: 'broadcast' },
-          { id: 'psaSponsor', icon: 'award' },
-        ],
-        funFacts: [
-          { id: 'father', icon: 'balloon-heart' },
-          { id: 'generativeArt', icon: 'palette' },
-          { id: 'voiceDiary', icon: 'journal-richtext' },
-          { id: 'sixShows', icon: 'collection-play' },
+          { id: 'generativeArtist', icon: 'palette' },
         ],
         outputs: OUTPUT_LINKS,
         supports: SUPPORT_LINKS,
@@ -282,13 +261,6 @@
       margin: 4rem 0 2rem;
     }
 
-    .card-link {
-      font-size: 0.75rem;
-      font-weight: 600;
-      color: var(--rain-blue);
-      font-family: var(--font-sans);
-    }
-
     /* ===== Hero ===== */
     .hero {
       padding: 5rem 4rem;
@@ -325,13 +297,13 @@
     }
 
     .about-description a,
-    .fact-card a {
+    .story-text a {
       color: var(--rain-blue);
       text-underline-offset: 0.2em;
     }
 
     .about-description a:hover,
-    .fact-card a:hover {
+    .story-text a:hover {
       color: var(--deep-rain);
     }
 
@@ -497,76 +469,70 @@
       background: var(--cream);
     }
 
-    .appearance-grid {
+    .appearance-list {
+      list-style: none;
+      margin: 2rem 0 0;
+      padding: 0;
+    }
+
+    .appearance-item {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1rem;
-      margin-top: 2rem;
+      grid-template-columns: 7rem 8rem 1fr;
+      gap: 1.5rem;
+      align-items: baseline;
+      padding: 1rem 0;
+      border-top: 1px solid var(--light-gray);
     }
 
-    .appearance-card {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-      padding: 1.5rem;
-      background: var(--warm-white);
-      border: 1px solid var(--light-gray);
-      border-radius: 1rem;
-      text-decoration: none;
-      transition: all 0.2s ease;
-    }
-
-    .appearance-card:hover {
-      border-color: var(--rain-blue);
-      transform: translateY(-2px);
-    }
-
-    .appearance-meta {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .appearance-type {
-      padding: 0.125rem 0.75rem;
-      border-radius: 2rem;
-      font-size: 0.75rem;
-      font-weight: 600;
-      color: var(--warm-white);
-      background: var(--rain-blue);
-    }
-
-    .appearance-type.type-sponsor {
-      background: var(--warm-amber);
-    }
-
-    .appearance-type.type-book {
-      background: var(--charcoal);
+    .appearance-item:last-child {
+      border-bottom: 1px solid var(--light-gray);
     }
 
     .appearance-year {
-      font-size: 0.8rem;
+      font-size: 0.8125rem;
       font-weight: 700;
+      letter-spacing: 0.05em;
       color: var(--misty-gray);
       font-family: var(--font-sans);
     }
 
+    .appearance-type {
+      font-size: 0.8125rem;
+      font-weight: 600;
+      color: var(--rain-blue);
+    }
+
     .appearance-title {
-      flex: 1;
-      font-size: 1.0625rem;
-      font-weight: 700;
-      line-height: 1.5;
+      font-size: 1rem;
+      font-weight: 600;
+      line-height: 1.6;
       color: var(--charcoal);
+    }
+
+    .appearance-link {
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    .appearance-link:hover {
+      color: var(--rain-blue);
+    }
+
+    .appearance-link sl-icon {
+      font-size: 0.8125rem;
+      vertical-align: -0.1em;
+      margin-left: 0.25rem;
     }
 
     /* ===== Recognition ===== */
     .recognition-section {
       padding: 5rem 4rem;
+      border-top: 1px solid var(--light-gray);
     }
 
     .recognition-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(4, 1fr);
       gap: 2rem 3rem;
       margin-top: 2rem;
     }
@@ -603,42 +569,9 @@
       color: var(--misty-gray);
     }
 
-    /* ===== Fun Facts ===== */
-    .facts-section {
-      padding: 5rem 4rem;
-      background: var(--cream);
-    }
-
-    .facts-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 1rem;
-      margin-top: 2rem;
-    }
-
-    .fact-card {
-      padding: 2rem;
-      background: var(--warm-white);
-      border-radius: 1rem;
-    }
-
-    .fact-card sl-icon {
-      font-size: 1.75rem;
-      color: var(--warm-amber);
-      margin-bottom: 0.75rem;
-    }
-
-    .fact-card h3 {
-      font-size: 1.125rem;
-      font-weight: 800;
-      color: var(--charcoal);
-      margin-bottom: 0.5rem;
-    }
-
-    .fact-card p {
-      font-size: 0.9375rem;
-      line-height: 1.7;
-      color: var(--misty-gray);
+    .recognition-item a {
+      color: var(--rain-blue);
+      text-underline-offset: 0.2em;
     }
 
     /* ===== Output / Support ===== */
@@ -790,7 +723,6 @@
 
     /* ===== Responsive ===== */
     @media (max-width: 960px) {
-      .appearance-grid,
       .recognition-grid {
         grid-template-columns: repeat(2, 1fr);
       }
@@ -802,7 +734,6 @@
       .values-section,
       .appearances-section,
       .recognition-section,
-      .facts-section,
       .output-section,
       .bio-section,
       .request-section {
@@ -828,7 +759,6 @@
       }
 
       .values-grid,
-      .facts-grid,
       .output-grid,
       .bio-grid {
         grid-template-columns: 1fr;
@@ -850,16 +780,23 @@
       .values-section,
       .appearances-section,
       .recognition-section,
-      .facts-section,
       .output-section,
       .bio-section,
       .request-section {
         padding: 3rem 1.5rem;
       }
 
-      .appearance-grid,
       .recognition-grid {
         grid-template-columns: 1fr;
+      }
+
+      .appearance-item {
+        grid-template-columns: auto 1fr;
+        gap: 0.25rem 1rem;
+      }
+
+      .appearance-title {
+        grid-column: 1 / -1;
       }
 
       .career-item {

@@ -3,7 +3,7 @@
     <!-- Hero: Editorial Split (dark photo + white text) -->
     <section class="hero">
       <div class="hero-photo">
-        <img src="https://picsum.photos/800/600" alt="kkeeth" />
+        <img src={state.heroImage} alt={t("pages.podcast.hero.imageAlt")} />
       </div>
       <div class="hero-text">
         <span class="section-label hero-label-light">// ABOUT THE SHOW</span>
@@ -89,34 +89,22 @@
       </div>
     </section>
 
-    <!-- Stats: Clean Bordered Cards -->
-    <section class="stats-section">
-      <div class="section-inner">
-        <span class="section-label">// STATS</span>
-        <div class="stats-row">
-          <div class="stat-item" each={stat in state.stats} key={stat.num}>
-            <span class="stat-value">{stat.value}</span>
-            <span class="stat-label">{stat.label}</span>
-          </div>
-        </div>
-      </div>
-    </section>
   </div>
 
   <script>
-    import { PODCAST_PLATFORMS, PODCAST_START_DATE } from '@/constants/links';
+    import { PODCAST_HERO_IMAGE, PODCAST_PLATFORMS } from '@/constants/links';
     import i18nStore from '@/stores/i18n-store';
 
     export default {
       t: i18nStore.t.bind(i18nStore),
       state: {
         timelineItems: [],
-        stats: [],
         topics: [],
         platforms: PODCAST_PLATFORMS,
+        heroImage: PODCAST_HERO_IMAGE,
       },
       onBeforeUpdate(_, state) {
-        const timelineKeys = ['2020', '2021', '2022', '2023', '2024', '2025', '2026'];
+        const timelineKeys = ['2020', '2021', '2022', '2024', '2025', '2026'];
         state.timelineItems = timelineKeys.map((key, i) => ({
           id: i + 1,
           year: this.t(`pages.podcast.timeline.items.${key}.year`),
@@ -124,24 +112,11 @@
           description: this.t(`pages.podcast.timeline.items.${key}.description`),
         }));
 
-        const statKeys = ['episodes', 'plays', 'years', 'programs'];
-        state.stats = statKeys.map((key, i) => ({
-          num: String(i + 1).padStart(2, '0'),
-          value: key === 'years' ? `${this.getBroadcastYears()}+` : this.t(`pages.podcast.achievements.${key}.value`),
-          label: this.t(`pages.podcast.achievements.${key}.label`),
-        }));
-
         const topicKeys = ['frontend', 'backend', 'libraries', 'career', 'daily', 'creative', 'community', 'genai'];
         state.topics = topicKeys.map((key, i) => ({
           label: this.t(`pages.podcast.topics.items.${key}.label`),
           icon: this.t(`pages.podcast.topics.items.${key}.icon`),
         }));
-      },
-      // 初回配信日からの満年数
-      getBroadcastYears() {
-        const now = new Date();
-        const years = now.getFullYear() - PODCAST_START_DATE.getFullYear();
-        return now.getMonth() < PODCAST_START_DATE.getMonth() ? years - 1 : years;
       },
     }
   </script>
@@ -368,43 +343,6 @@
       color: var(--misty-gray);
     }
 
-    /* ===== Stats: Clean Bordered Cards ===== */
-    .stats-section {
-      padding: 4rem 4rem;
-    }
-
-    .stats-row {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 1rem;
-      margin-top: 1rem;
-    }
-
-    .stat-item {
-      border: 1px solid var(--light-gray);
-      border-radius: 1rem;
-      padding: 2rem 1.5rem;
-      text-align: center;
-    }
-
-    .stat-value {
-      display: block;
-      font-size: 2rem;
-      font-weight: 800;
-      color: var(--charcoal);
-      margin-bottom: 0.25rem;
-    }
-
-    .stat-label {
-      display: block;
-      font-size: 0.7rem;
-      font-weight: 600;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--misty-gray);
-      font-family: var(--font-sans);
-    }
-
     /* ===== Personality: Brief Host ===== */
     .personality {
       padding: 5rem 4rem;
@@ -522,14 +460,6 @@
         gap: 1rem;
       }
 
-      .stats-section {
-        padding: 3rem 2rem;
-      }
-
-      .stats-row {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
       .personality {
         padding: 3rem 2rem;
       }
@@ -564,22 +494,6 @@
 
       .timeline-year {
         font-size: 0.75rem;
-      }
-
-      .stats-section {
-        padding: 3rem 1.5rem;
-      }
-
-      .stats-row {
-        gap: 0.75rem;
-      }
-
-      .stat-item {
-        padding: 1.5rem 1rem;
-      }
-
-      .stat-value {
-        font-size: 1.5rem;
       }
 
       .personality {
