@@ -252,6 +252,11 @@
       "hero": {
         "title": "All Episodes"
       },
+      "search": {
+        "placeholder": "Search episodes by title or description",
+        "results": "{count} episodes found",
+        "noResults": "No episodes found"
+      },
       "latest": "Latest Episode",
       "stats": {
         "seasons": "Seasons",

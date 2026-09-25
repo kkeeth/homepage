@@ -62,6 +62,24 @@
 
     <section class="episodes-section">
       <div class="section-content">
+        <div class="episode-search">
+          <label class="search-box">
+            <sl-icon name="search"></sl-icon>
+            <input
+              type="search"
+              class="search-input"
+              placeholder={t("pages.episode.search.placeholder")}
+              aria-label={t("pages.episode.search.placeholder")}
+              oninput={onSearchInput}
+            />
+          </label>
+          <p class="search-result" if={state.query} aria-live="polite">
+            {state.totalCount
+              ? t("pages.episode.search.results").replace('{count}', state.totalCount)
+              : t("pages.episode.search.noResults")}
+          </p>
+        </div>
+
         <episode-list program-episodes={state.restEpisodes} show-more={false} />
 
         <pagination
@@ -88,6 +106,7 @@
         displayedCount: 0,
         latestEpisodeNumber: 0,
         currentPage: 1,
+        query: '',
         totalCount: 0,
         pageSize: 10,
         platforms: PODCAST_PLATFORMS,
@@ -105,36 +124,32 @@
         return this.state.latestEpisodeNumber;
       },
       async onBeforeMount() {
+        // 最新回はヒーローに出すので、検索していない 1 ページ目では一覧から外す
+        this.syncFromStore = () => {
+          const episodes = episodeStore.getDisplayedEpisodes();
+          const currentPage = episodeStore.getCurrentPage();
+          const query = episodeStore.getQuery();
+          const latestEpisode = episodeStore.getLatestEpisode();
+          const hideLatestInList = currentPage === 1 && !query;
+
+          this.update({
+            programEpisodes: episodes,
+            latestEpisode: currentPage === 1 ? latestEpisode : null,
+            restEpisodes: hideLatestInList ? episodes.slice(1) : episodes,
+            displayedCount: episodeStore.getDisplayedCount(),
+            latestEpisodeNumber: latestEpisode ? this.parseSeasonLabel(latestEpisode.title) : 0,
+            totalCount: episodeStore.getTotalCount(),
+            currentPage,
+            query,
+            pageSize: episodeStore.getPageSize()
+          });
+        };
+
         this.handleEpisodesLoaded = () => {
           episodeStore.setPage(1, 10);
-          const episodes = episodeStore.getDisplayedEpisodes();
-          const currentPage = episodeStore.getCurrentPage();
-
-          this.update({
-            programEpisodes: episodes,
-            latestEpisode: currentPage === 1 && episodes.length > 0 ? episodes[0] : null,
-            restEpisodes: currentPage === 1 ? episodes.slice(1) : episodes,
-            displayedCount: episodeStore.getDisplayedCount(),
-            latestEpisodeNumber: episodes.length > 0 ? this.parseSeasonLabel(episodes[0].title) : 0,
-            totalCount: episodeStore.getTotalCount(),
-            currentPage: currentPage,
-            pageSize: episodeStore.getPageSize()
-          });
         };
 
-        this.handleEpisodesUpdated = () => {
-          const episodes = episodeStore.getDisplayedEpisodes();
-          const currentPage = episodeStore.getCurrentPage();
-
-          this.update({
-            programEpisodes: episodes,
-            latestEpisode: currentPage === 1 && episodes.length > 0 ? episodes[0] : null,
-            restEpisodes: currentPage === 1 ? episodes.slice(1) : episodes,
-            displayedCount: episodeStore.getDisplayedCount(),
-            currentPage: currentPage,
-            pageSize: episodeStore.getPageSize()
-          });
-        };
+        this.handleEpisodesUpdated = this.syncFromStore;
 
         this.handlePageChange = (page) => {
           episodeStore.setPage(page, 10);
@@ -150,6 +165,12 @@
         }
       },
 
+      onSearchInput(e) {
+        const value = e.target.value;
+        clearTimeout(this.searchTimer);
+        this.searchTimer = setTimeout(() => episodeStore.setQuery(value), 200);
+      },
+
       parseSeasonLabel(title) {
         const match = title.match(/^Season (\d+-\d+)\.\s*/);
         return match ? match[1] : '';
@@ -160,8 +181,11 @@
       },
 
       onBeforeUnmount() {
+        clearTimeout(this.searchTimer);
         episodeStore.off('episodes-loaded', this.handleEpisodesLoaded);
         episodeStore.off('episodes-updated', this.handleEpisodesUpdated);
+        // 別ページから戻ったときに前回の検索が残らないようにする
+        episodeStore.setQuery('');
       }
     }
   </script>
@@ -438,6 +462,49 @@
       max-width: 1000px;
       margin: 0 auto;
       padding: 0 2rem;
+    }
+
+    /* ===== Search ===== */
+    .episode-search {
+      margin-bottom: 2.5rem;
+    }
+
+    .search-box {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.875rem 1.25rem;
+      background: white;
+      border: 1px solid var(--light-gray);
+      border-radius: 0.75rem;
+      color: var(--misty-gray);
+      transition: border-color 0.2s ease;
+    }
+
+    .search-box:focus-within {
+      border-color: var(--rain-blue);
+    }
+
+    .search-box sl-icon {
+      flex-shrink: 0;
+      font-size: 1.125rem;
+    }
+
+    .search-input {
+      flex: 1;
+      min-width: 0;
+      border: none;
+      outline: none;
+      background: transparent;
+      font: inherit;
+      font-size: 1rem;
+      color: var(--charcoal);
+    }
+
+    .search-result {
+      margin: 0.75rem 0 0;
+      font-size: 0.875rem;
+      color: var(--misty-gray);
     }
 
     /* ===== Tablet ===== */

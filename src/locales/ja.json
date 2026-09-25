@@ -253,6 +253,11 @@
       "hero": {
         "title": "エピソードラインナップ"
       },
+      "search": {
+        "placeholder": "タイトル・概要でエピソードを検索",
+        "results": "{count}件のエピソードが見つかりました",
+        "noResults": "該当するエピソードが見つかりませんでした"
+      },
       "latest": "最新エピソード",
       "stats": {
         "seasons": "シーズン",
