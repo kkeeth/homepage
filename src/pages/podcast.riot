@@ -6,7 +6,6 @@
         <img src={state.heroImage} alt={t("pages.podcast.hero.imageAlt")} />
       </div>
       <div class="hero-text">
-        <span class="section-label hero-label-light">// ABOUT THE SHOW</span>
         <h1 class="page-title hero-title-light">{t("pages.podcast.hero.title")}</h1>
         <p class="hero-description">{t("pages.podcast.concept.description1")}</p>
         <p class="hero-description">{t("pages.podcast.concept.description2")}</p>
@@ -21,7 +20,6 @@
     <section class="story-section">
       <div class="story-layout">
         <div class="story-left">
-          <span class="section-label">// ABOUT</span>
           <h2 class="section-title">{t("pages.podcast.story.title")}</h2>
         </div>
         <div class="story-right">
@@ -49,7 +47,6 @@
     <section class="personality">
       <div class="section-inner personality-inner">
         <div class="personality-info">
-          <span class="section-label">// HOST</span>
           <h3 class="personality-name">{t("pages.podcast.personality.name")}</h3>
           <p class="personality-role-text">{t("pages.podcast.personality.title")}</p>
           <p class="personality-desc">{t("pages.podcast.personality.description")}</p>
@@ -61,10 +58,9 @@
     <!-- Topics: Simple Tag List -->
     <section class="themes">
       <div class="section-inner themes-inner">
-        <span class="section-label">// {t("pages.podcast.concept.title")}</span>
         <h2 class="section-title">{t("pages.podcast.topics.title")}</h2>
         <div class="tag-list">
-          <span each={topic in state.topics} class="tag"><sl-icon name={topic.icon}></sl-icon>{"\u00A0" + topic.label}</span>
+          <span each={topic in state.topics} class="tag">{topic.label}</span>
         </div>
       </div>
     </section>
@@ -72,7 +68,6 @@
     <!-- Timeline: Vertical with line + dots -->
     <section class="evolution">
       <div class="section-inner">
-        <span class="section-label">// TIMELINE</span>
         <h2 class="section-title">{t("pages.podcast.timeline.title")}</h2>
         <div class="timeline">
           <div each={item in state.timelineItems} key={item.id} class="timeline-item">
@@ -115,7 +110,6 @@
         const topicKeys = ['frontend', 'backend', 'libraries', 'career', 'daily', 'creative', 'community', 'genai'];
         state.topics = topicKeys.map((key, i) => ({
           label: this.t(`pages.podcast.topics.items.${key}.label`),
-          icon: this.t(`pages.podcast.topics.items.${key}.icon`),
         }));
       },
     }
@@ -128,7 +122,7 @@
     }
 
     .section-inner {
-      max-width: 1200px;
+      max-width: 1000px;
       margin: 0 auto;
     }
 
@@ -210,7 +204,7 @@
     }
 
     .story-layout {
-      max-width: 1200px;
+      max-width: 1000px;
       margin: 0 auto;
       display: grid;
       grid-template-columns: 1fr 1.2fr;
@@ -219,7 +213,6 @@
     }
 
     .story-right {
-      font-style: italic;
     }
 
     .story-text {

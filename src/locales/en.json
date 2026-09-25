@@ -67,16 +67,33 @@
     },
     "about": {
       "fullName": "Kiyohito Kuwahara",
-      "role": "Engineering HR / Podcaster / Creative Coder",
-      "description1": "Hi! I'm Keeth. I work in Engineering HR at <a href=\"https://kaminashi.jp/\" target=\"_blank\" rel=\"noopener noreferrer\">Kaminashi Inc.</a> I'm also a collaborator on <a href=\"https://github.com/riot/riot\" target=\"_blank\" rel=\"noopener noreferrer\">Riot.js</a> and the author of <a href=\"https://www.c-r.com/book/detail/1350\" target=\"_blank\" rel=\"noopener noreferrer\">\"Riot.jsで簡単Webアプリ開発\"</a> (Easy Web App Development with Riot.js).",
-      "description2": "Since March 2020 I've hosted <a href=\"/podcast\">'Amayadori to WEB no Kobanashi.fm'</a>, and I now run six shows. I also support engineering recruiting, coach people on their careers, and make generative art with p5.js.",
+      "nameRoman": "",
+      "description1": "Hi! I'm Keeth. I work in Engineering HR at <a href=\"https://kaminashi.jp/\" target=\"_blank\" rel=\"noopener noreferrer\">Kaminashi Inc.</a>, focusing on tech branding and recruitment marketing. I'm also the author of <a href=\"https://www.c-r.com/book/detail/1350\" target=\"_blank\" rel=\"noopener noreferrer\">\"Riot.jsで簡単Webアプリ開発\"</a> (Easy Web App Development with Riot.js).",
+      "description2": "I started podcasting in March 2020, and since September 2024 the show has been <a href=\"/podcast\">'Amayadori to WEB no Kobanashi.fm'</a>. I also support engineering recruiting and do personal coaching.",
+      "roles": {
+        "engineeringHr": {
+          "title": "Engineering HR",
+          "description": "Tech branding and recruitment marketing at <a href=\"https://kaminashi.jp/\" target=\"_blank\" rel=\"noopener noreferrer\">Kaminashi Inc.</a>"
+        },
+        "riot": {
+          "title": "Riot.js Collaborator",
+          "description": "<a href=\"https://github.com/orgs/riot/people\" target=\"_blank\" rel=\"noopener noreferrer\">Contributing</a> to the <a href=\"https://riot.js.org/\" target=\"_blank\" rel=\"noopener noreferrer\">Riot.js</a> UI library. Organizer of the Japan User Group"
+        },
+        "podcaster": {
+          "title": "Podcaster",
+          "description": "6 shows, 900+ episodes (<a href=\"https://listen.style/u/kkeeth\" target=\"_blank\" rel=\"noopener noreferrer\">see all</a>)"
+        },
+        "generativeArtist": {
+          "title": "Generative Artist",
+          "description": "Drawing with code in p5.js (<a href=\"https://openprocessing.org/user/299354\" target=\"_blank\" rel=\"noopener noreferrer\">OpenProcessing</a>)"
+        }
+      },
       "illustrationAlt": "Mascot illustration of an eagle wearing headphones",
-      "more": "Get to know more about me",
       "story": {
-        "sectionTitle": "My Story",
+        "sectionTitle": "My Journey",
         "paragraph1": "I started my career in 2013 at S-cubism Inc., developing and maintaining e-commerce sites as a programmer. Over time I moved into project leader and project manager roles, working across the whole development process from requirements onward.",
         "paragraph2": "In 2015 I joined Leprechaun Inc., maintaining e-commerce sites as a project manager and building them as a frontend engineer. In 2017 I joined YUMEMI Inc., where I worked on new development, maintenance and enhancement of APIs and web applications.",
-        "paragraph3": "2020 was a big year. In March I became a board director at YUMEMI and, the same month, started the podcast 'Amayadori to WEB no Kobanashi.fm'. In July I published my book, \"Riot.jsで簡単Webアプリ開発\". From 2022 I served as an executive officer.",
+        "paragraph3": "2020 was a big year. In March I became a board director at YUMEMI and, the same month, started podcasting. In July I published my book, \"Riot.jsで簡単Webアプリ開発\". From 2022 I served as an executive officer.",
         "paragraph4": "In 2024 I joined Kaminashi Inc. As an engineering manager I worked on evaluation and productivity for the product team behind \"Kaminashi Employee\", and I now work in Engineering HR.",
         "paragraph5": "Outside of work, I am a father of one. Between work, podcasting and parenting, I also enjoy drawing generative art with code using p5.js (my works are on <a href=\"https://openprocessing.org/user/299354\" target=\"_blank\" rel=\"noopener noreferrer\">OpenProcessing</a>).",
         "timelineTitle": "Career",
@@ -103,8 +120,8 @@
             "description": ""
           },
           "podcast": {
-            "title": "Launched 'Amayadori to WEB no Kobanashi.fm'",
-            "description": "Started the show to chat casually about web technology."
+            "title": "Started podcasting",
+            "description": "Started the show to chat casually about web technology. Renamed it 'Amayadori to WEB no Kobanashi.fm' in September 2024."
           },
           "book": {
             "title": "Published \"Riot.jsで簡単Webアプリ開発\"",
@@ -169,7 +186,7 @@
         }
       },
       "appearances": {
-        "sectionTitle": "Activities",
+        "sectionTitle": "Activity History",
         "types": {
           "talk": "Appearance",
           "sponsor": "Sponsor",
@@ -191,27 +208,6 @@
           "riotBook": "\"Riot.jsで簡単Webアプリ開発\" (C&R Institute)"
         }
       },
-      "recognition": {
-        "sectionTitle": "Roles",
-        "items": {
-          "riotCollaborator": {
-            "title": "Riot.js Collaborator",
-            "description": "<a href=\"https://github.com/orgs/riot/people\" target=\"_blank\" rel=\"noopener noreferrer\">Contributing</a> to the <a href=\"https://riot.js.org/\" target=\"_blank\" rel=\"noopener noreferrer\">Riot.js</a> UI library."
-          },
-          "riotJug": {
-            "title": "Riot.js Japan User Group",
-            "description": "Organizer."
-          },
-          "podcaster": {
-            "title": "Podcaster",
-            "description": "On air since 2020. 6 shows, 900+ episodes."
-          },
-          "generativeArtist": {
-            "title": "Generative Artist",
-            "description": "Drawing with code in p5.js. Works on <a href=\"https://openprocessing.org/user/299354\" target=\"_blank\" rel=\"noopener noreferrer\">OpenProcessing</a>."
-          }
-        }
-      },
       "bio": {
         "sectionTitle": "Bio",
         "description": "Feel free to use these as-is when introducing me at an event or on a show.",
@@ -219,12 +215,12 @@
         "longLabel": "Long bio",
         "copy": "Copy",
         "copied": "Copied",
-        "short": "Kiyohito \"Keeth\" Kuwahara works in Engineering HR at Kaminashi Inc. and is a Riot.js collaborator. Keeth has hosted the podcast 'Amayadori to WEB no Kobanashi.fm' since 2020.",
-        "long": "Kiyohito \"Keeth\" Kuwahara works in Engineering HR at Kaminashi Inc. and is a Riot.js collaborator and the author of \"Riot.jsで簡単Webアプリ開発\" (C&R Institute, 2020). Keeth started the podcast 'Amayadori to WEB no Kobanashi.fm' in March 2020 and now runs six shows, while also working on engineering recruiting, career coaching and programming education and creating generative art with p5.js."
+        "short": "Kiyohito \"Keeth\" Kuwahara works in Engineering HR at Kaminashi Inc. and is a Riot.js collaborator. Keeth has been podcasting since 2020 and now runs six shows, including 'Amayadori to WEB no Kobanashi.fm'.",
+        "long": "Kiyohito \"Keeth\" Kuwahara works in Engineering HR at Kaminashi Inc. and is a Riot.js collaborator and the author of \"Riot.jsで簡単Webアプリ開発\" (C&R Institute, 2020). Keeth started podcasting in March 2020 and now runs six shows, including 'Amayadori to WEB no Kobanashi.fm', while also working on engineering recruiting, personal coaching and programming education and creating generative art with p5.js."
       },
       "request": {
         "title": "Appearance, Talk & Sponsorship Requests",
-        "description": "Guest appearances on podcasts, talks at events, sponsorships and more — feel free to get in touch.",
+        "description": "Guest appearances on podcasts, talks at events, sponsorships and more — feel free to get in touch. I am also happy to be a sounding board for your ideas anytime.",
         "button": "Get in touch"
       },
       "support": {
@@ -286,8 +282,8 @@
         "items": {
           "2020": {
             "year": "2020",
-            "title": "Show Launch",
-            "description": "Started broadcasting with the desire to casually chat about web technology."
+            "title": "Started Podcasting",
+            "description": "Started podcasting with the desire to casually chat about web technology."
           },
           "2021": {
             "year": "2021",
@@ -301,8 +297,8 @@
           },
           "2024": {
             "year": "2024",
-            "title": "Increasing Shows",
-            "description": "Operating 6 shows and continuing to grow with the community."
+            "title": "Renamed to 'Amayadori to WEB no Kobanashi.fm'",
+            "description": "Renamed the show 'Amayadori to WEB no Kobanashi.fm' on September 21, 2024 (the story behind it is <a href=\"https://note.com/clown0082/n/ndfcb1588711c\" target=\"_blank\" rel=\"noopener noreferrer\">on note</a>). Now running 6 shows and continuing to grow with the community."
           },
           "2025": {
             "year": "2025",
@@ -326,35 +322,27 @@
         "title": "Topics We Cover",
         "items": {
           "frontend": {
-            "icon": "code-slash",
             "label": "Frontend"
           },
           "backend": {
-            "icon": "server",
             "label": "Backend"
           },
           "libraries": {
-            "icon": "box-seam",
             "label": "Libraries & FW"
           },
           "career": {
-            "icon": "briefcase",
             "label": "Career"
           },
           "daily": {
-            "icon": "chat-dots",
             "label": "Daily Life"
           },
           "creative": {
-            "icon": "palette",
             "label": "Generative Art"
           },
           "community": {
-            "icon": "people",
             "label": "Community"
           },
           "genai": {
-            "icon": "robot",
             "label": "Generative AI"
           }
         }
@@ -365,7 +353,6 @@
       }
     },
     "contact": {
-      "label": "// SEND FREQUENCY",
       "title": "SIGNAL.",
       "desc1": "Slip your thoughts into the sound of rain and send them our way.",
       "desc2": "From technical questions to show feedback, or just casual chats you'd like someone to hear.",
@@ -374,7 +361,7 @@
         "description": "Real-time discussions and post-show chats happen on our Discord server.",
         "link": "CONNECT TO SERVER"
       },
-      "note": "// Average response time: 1-3 days.",
+      "note": "Average response time: 1–3 days.",
       "form": {
         "handleName": "Handle Name",
         "handleNamePlaceholder": "Input your name",

@@ -18,7 +18,7 @@
               <span class="number-value">#Season</span>
               <span class="number-value">{getEpisodeNumber()}</span>
             </div>
-            <span class="section-label">// LATEST EPISODE</span>
+            <span class="section-label">{t("pages.episode.latest")}</span>
             <h1 class="hero-title">
               <a href={"/episodes/" + getEpisodeId(state.latestEpisode)}>{stripSeasonPrefix(state.latestEpisode.title)}</a>
             </h1>
@@ -54,7 +54,6 @@
     <!-- Mini header for page 2+ -->
     <section class="mini-header" if={state.currentPage > 1}>
       <div class="mini-header-content">
-        <span class="section-label">// EPISODES</span>
         <h1 class="mini-title">{t("pages.episode.hero.title")}</h1>
         <span class="page-indicator">Page {state.currentPage}</span>
       </div>
@@ -333,10 +332,10 @@
       color: white;
       text-decoration: none;
       font-size: 2.75rem;
-      font-weight: 900;
-      font-style: italic;
+      font-weight: var(--heading-weight);
+      font-family: var(--font-heading);
       line-height: 1.15;
-      letter-spacing: -0.02em;
+      letter-spacing: 0.02em;
       transition: color 0.2s ease;
     }
 
@@ -433,16 +432,16 @@
     }
 
     .mini-header-content {
-      max-width: 1200px;
+      max-width: 1000px;
       margin: 0 auto;
     }
 
     .mini-title {
       font-size: 2.5rem;
-      font-weight: 900;
-      font-style: italic;
+      font-weight: var(--heading-weight);
+      font-family: var(--font-heading);
       color: var(--charcoal);
-      letter-spacing: -0.02em;
+      letter-spacing: 0.02em;
       margin-bottom: 0.5rem;
     }
 

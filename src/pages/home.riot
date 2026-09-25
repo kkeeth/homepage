@@ -6,7 +6,6 @@
     <!-- News Section -->
     <section class="news-section" if={state.news.length}>
       <div class="section-content">
-        <span class="section-label">// NEWS</span>
         <h2 class="section-title">{t("pages.home.news.title")}</h2>
 
         <ul class="news-list">
@@ -31,7 +30,6 @@
     <!-- Latest Episodes Section -->
     <section class="episodes-section">
       <div class="section-content">
-        <span class="section-label">// LATEST EPISODES</span>
         <h2 class="section-title">{t("pages.home.episodes.latest.title")}</h2>
 
         <episode-list program-episodes={state.latestEpisodes} show-more={true} />
@@ -41,7 +39,6 @@
     <!-- Other Episodes - Compact List -->
     <section class="other-programs-section">
       <div class="section-content">
-        <span class="section-label">// OTHER PROGRAMS</span>
         <h2 class="section-title">{t("pages.home.episodes.other.title")}</h2>
 
         <div class="other-programs-list">
@@ -152,6 +149,7 @@
     }
 
     .news-link sl-icon {
+      color: var(--rain-blue);
       font-size: 0.8125rem;
       vertical-align: -0.1em;
       margin-left: 0.25rem;

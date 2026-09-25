@@ -68,16 +68,33 @@
     },
     "about": {
       "fullName": "桑原聖仁",
-      "role": "Engineering HR / Podcaster / Creative Coder",
-      "description1": "こんにちは！Keeth です．<a href=\"https://kaminashi.jp/\" target=\"_blank\" rel=\"noopener noreferrer\">株式会社カミナシ</a>で Engineering HR をしています．<a href=\"https://github.com/riot/riot\" target=\"_blank\" rel=\"noopener noreferrer\">Riot.js</a> のコラボレーターとして OSS にも関わっていて，著書に<a href=\"https://www.c-r.com/book/detail/1350\" target=\"_blank\" rel=\"noopener noreferrer\">『Riot.jsで簡単Webアプリ開発』</a>があります．",
-      "description2": "2020年3月から<a href=\"/podcast\">「雨宿りとWEBの小噺.fm」</a>を配信していて，今は6つの番組を運営しています．エンジニアの採用支援やキャリアのコーチング，p5.js でのジェネラティブアート制作も続けています．",
+      "nameRoman": "Kiyohito “Keeth” Kuwahara",
+      "description1": "こんにちは！Keeth です．<a href=\"https://kaminashi.jp/\" target=\"_blank\" rel=\"noopener noreferrer\">株式会社カミナシ</a>で Engineering HR として技術広報・採用広報に従事しています．著書に<a href=\"https://www.c-r.com/book/detail/1350\" target=\"_blank\" rel=\"noopener noreferrer\">『Riot.jsで簡単Webアプリ開発』</a>があります．",
+      "description2": "2020年3月にポッドキャストを始め，2024年9月からは<a href=\"/podcast\">「雨宿りとWEBの小噺.fm」</a>として配信しています．エンジニアの採用支援やパーソナルコーチングにも取り組んでいます．",
+      "roles": {
+        "engineeringHr": {
+          "title": "Engineering HR",
+          "description": "<a href=\"https://kaminashi.jp/\" target=\"_blank\" rel=\"noopener noreferrer\">株式会社カミナシ</a>で技術広報・採用広報"
+        },
+        "riot": {
+          "title": "Riot.js Collaborator",
+          "description": "UI ライブラリ <a href=\"https://riot.js.org/\" target=\"_blank\" rel=\"noopener noreferrer\">Riot.js</a> の<a href=\"https://github.com/orgs/riot/people\" target=\"_blank\" rel=\"noopener noreferrer\">開発に参加</a>．Japan User Group のオーガナイザー"
+        },
+        "podcaster": {
+          "title": "Podcaster",
+          "description": "6番組・900エピソード以上（<a href=\"https://listen.style/u/kkeeth\" target=\"_blank\" rel=\"noopener noreferrer\">番組一覧</a>）"
+        },
+        "generativeArtist": {
+          "title": "Generative Artist",
+          "description": "p5.js でコードから絵を描く（<a href=\"https://openprocessing.org/user/299354\" target=\"_blank\" rel=\"noopener noreferrer\">OpenProcessing</a>）"
+        }
+      },
       "illustrationAlt": "ヘッドホンをつけたワシのマスコットイラスト",
-      "more": "私について，もう少し",
       "story": {
-        "sectionTitle": "これまでのこと",
+        "sectionTitle": "これまでの歩み",
         "paragraph1": "2013年に株式会社エスキュービズムへ入社し，プログラマとして EC サイトの開発・保守からキャリアを始めました．やがてプロジェクトリーダーやプロジェクトマネージャーとして，上流工程からシステム開発全体に関わるようになります．",
         "paragraph2": "2015年にレプラホーン株式会社へ移り，EC サイトの保守をプロジェクトマネージャーとして，開発をフロントエンドエンジニアとして担当しました．2017年には株式会社ゆめみに入社し，API や Web アプリケーションの新規開発・保守・追加開発に携わります．",
-        "paragraph3": "2020年はいろいろなことが重なった年でした．3月にゆめみの取締役に就任し，同じ月に「雨宿りとWEBの小噺.fm」の配信を始め，7月には『Riot.jsで簡単Webアプリ開発』を出版しました．2022年からは執行役員を務めました．",
+        "paragraph3": "2020年はいろいろなことが重なった年でした．3月にゆめみの取締役に就任し，同じ月にポッドキャストを始め，7月には『Riot.jsで簡単Webアプリ開発』を出版しました．2022年からは執行役員を務めました．",
         "paragraph4": "2024年に株式会社カミナシへ入社．エンジニアリングマネージャーとして「カミナシ従業員」のプロダクト開発チームの評価や生産性向上に取り組み，現在は Engineering HR を担当しています．",
         "paragraph5": "プライベートでは一児の父．仕事と配信と子育てを行ったり来たりしながら，p5.js でコードから絵を描くジェネラティブアートも楽しんでいます（作品は <a href=\"https://openprocessing.org/user/299354\" target=\"_blank\" rel=\"noopener noreferrer\">OpenProcessing</a> で公開中）．",
         "timelineTitle": "略歴",
@@ -104,8 +121,8 @@
             "description": ""
           },
           "podcast": {
-            "title": "「雨宿りとWEBの小噺.fm」配信開始",
-            "description": "Web 技術について気軽に話したいという想いから配信を始める．"
+            "title": "ポッドキャスト配信開始",
+            "description": "Web 技術について気軽に話したいという想いから配信を始める．2024年9月に番組名を「雨宿りとWEBの小噺.fm」に変更．"
           },
           "book": {
             "title": "『Riot.jsで簡単Webアプリ開発』出版",
@@ -170,7 +187,7 @@
         }
       },
       "appearances": {
-        "sectionTitle": "これまでの活動",
+        "sectionTitle": "活動履歴",
         "types": {
           "talk": "出演",
           "sponsor": "協賛",
@@ -192,27 +209,6 @@
           "riotBook": "『Riot.jsで簡単Webアプリ開発』（シーアンドアール研究所）"
         }
       },
-      "recognition": {
-        "sectionTitle": "肩書き",
-        "items": {
-          "riotCollaborator": {
-            "title": "Riot.js Collaborator",
-            "description": "UI ライブラリ <a href=\"https://riot.js.org/\" target=\"_blank\" rel=\"noopener noreferrer\">Riot.js</a> の <a href=\"https://github.com/orgs/riot/people\" target=\"_blank\" rel=\"noopener noreferrer\">開発に参加</a>．"
-          },
-          "riotJug": {
-            "title": "Riot.js Japan User Group",
-            "description": "日本ユーザーグループのオーガナイザー．"
-          },
-          "podcaster": {
-            "title": "ポッドキャスター",
-            "description": "2020年から配信．6番組・900エピソード以上．番組一覧は<a href=\"https://listen.style/u/kkeeth\" target=\"_blank\" rel=\"noopener noreferrer\">こちら</a>．"
-          },
-          "generativeArtist": {
-            "title": "Generative Artist",
-            "description": "p5.js でコードから絵を描く．作品は <a href=\"https://openprocessing.org/user/299354\" target=\"_blank\" rel=\"noopener noreferrer\">OpenProcessing</a> で公開中．"
-          }
-        }
-      },
       "bio": {
         "sectionTitle": "紹介文",
         "description": "イベントや番組でご紹介いただく際は，こちらをそのままお使いください．",
@@ -220,12 +216,12 @@
         "longLabel": "長い紹介文",
         "copy": "コピー",
         "copied": "コピーしました",
-        "short": "桑原聖仁（Keeth）。株式会社カミナシの Engineering HR。Riot.js コラボレーター。2020年からポッドキャスト「雨宿りとWEBの小噺.fm」を配信している。",
-        "long": "桑原聖仁（Keeth）。株式会社カミナシの Engineering HR。Riot.js のコラボレーター。著書に『Riot.jsで簡単Webアプリ開発』（シーアンドアール研究所，2020年）。2020年3月にポッドキャスト「雨宿りとWEBの小噺.fm」を始め，現在は6つの番組を運営している。エンジニアの採用支援やキャリアのコーチング，プログラミング教育にも携わり，p5.js を使ったジェネラティブアートの制作も続けている。"
+        "short": "桑原聖仁（Keeth）。株式会社カミナシの Engineering HR。Riot.js コラボレーター。2020年からポッドキャストを配信しており，現在は「雨宿りとWEBの小噺.fm」など6つの番組を運営している。",
+        "long": "桑原聖仁（Keeth）。株式会社カミナシの Engineering HR。Riot.js のコラボレーター。著書に『Riot.jsで簡単Webアプリ開発』（シーアンドアール研究所，2020年）。2020年3月にポッドキャストを始め，現在は「雨宿りとWEBの小噺.fm」など6つの番組を運営している。エンジニアの採用支援やパーソナルコーチング，プログラミング教育にも携わり，p5.js を使ったジェネラティブアートの制作も続けている。"
       },
       "request": {
         "title": "出演・登壇・協賛のご依頼",
-        "description": "ポッドキャストへのゲスト出演，イベントでの登壇，番組への協賛など，お気軽にご相談ください．",
+        "description": "ポッドキャストへのゲスト出演，イベントでの登壇，番組への協賛など，お気軽にご相談ください．ちょっとした壁打ちも随時受け付けています．",
         "button": "相談する"
       },
       "support": {
@@ -287,8 +283,8 @@
         "items": {
           "2020": {
             "year": "2020",
-            "title": "番組スタート",
-            "description": "Web技術について気軽に雑談したいという想いから配信を開始．"
+            "title": "ポッドキャストを始める",
+            "description": "Web技術について気軽に雑談したいという想いからポッドキャストの配信を開始．"
           },
           "2021": {
             "year": "2021",
@@ -302,8 +298,8 @@
           },
           "2024": {
             "year": "2024",
-            "title": "番組を増やす",
-            "description": "6つの番組を運営し，コミュニティとともに成長を続ける．"
+            "title": "「雨宿りとWEBの小噺.fm」へ改名",
+            "description": "2024年9月21日に番組名を「雨宿りとWEBの小噺.fm」に変更（経緯は<a href=\"https://note.com/clown0082/n/ndfcb1588711c\" target=\"_blank\" rel=\"noopener noreferrer\">こちらのnote</a>）．6つの番組を運営し，コミュニティとともに成長を続ける．"
           },
           "2025": {
             "year": "2025",
@@ -327,35 +323,27 @@
         "title": "扱うテーマ",
         "items": {
           "frontend": {
-            "icon": "code-slash",
             "label": "フロントエンド"
           },
           "backend": {
-            "icon": "server",
             "label": "バックエンド"
           },
           "libraries": {
-            "icon": "box-seam",
             "label": "ライブラリ・FW"
           },
           "career": {
-            "icon": "briefcase",
             "label": "キャリア"
           },
           "daily": {
-            "icon": "chat-dots",
             "label": "日常・雑談"
           },
           "creative": {
-            "icon": "palette",
             "label": "ジェネラティブアート"
           },
           "community": {
-            "icon": "people",
             "label": "コミュニティ"
           },
           "genai": {
-            "icon": "robot",
             "label": "生成AI"
           }
         }
@@ -366,7 +354,6 @@
       }
     },
     "contact": {
-      "label": "// SEND FREQUENCY",
       "title": "お問い合わせ",
       "desc1": "雨音に紛れて、あなたの思考を届けてください。",
       "desc2": "技術的な質問、番組へのフィードバック、あるいは誰かに聞いてほしい雑談まで。",
@@ -375,7 +362,7 @@
         "description": "リアルタイムな交流や、放送後の雑談はDiscordサーバーで行われています。",
         "link": "CONNECT TO SERVER"
       },
-      "note": "// 平均返答時間: 1-3 日",
+      "note": "平均返答時間: 1〜3日",
       "form": {
         "handleName": "ハンドルネーム",
         "handleNamePlaceholder": "ハンドルネームを入力",

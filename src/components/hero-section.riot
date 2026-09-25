@@ -39,7 +39,6 @@
     <div class="hero-container">
       <!-- Left: Label + Title + Subtitle -->
       <div class="hero-left">
-        <span class="section-label">// PODCAST</span>
         <h1 class="page-title">{t("hero.podcastTitle1")}<br>{t("hero.podcastTitle2")}</h1>
         <p class="hero-subtitle">
           {t("hero.subtitleLine1")}<br>
@@ -131,11 +130,11 @@
 
     .hero-left .page-title {
       font-size: clamp(2.5rem, 6vw, 4.5rem);
-      font-weight: 900;
-      font-style: italic;
-      line-height: 1.05;
+      font-weight: var(--heading-weight);
+      font-family: var(--font-heading);
+      line-height: 1.25;
       color: white;
-      letter-spacing: -0.02em;
+      letter-spacing: 0.02em;
       margin-bottom: 2rem;
     }
 

@@ -7,13 +7,17 @@
           <img src="/images/myself.png" alt={t("pages.about.illustrationAlt")} />
         </div>
         <div class="hero-text">
-          <span class="section-label">// ABOUT</span>
           <h1 class="page-title">{t("pages.about.fullName")}</h1>
-          <p class="hero-role">{t("pages.about.role")}</p>
+          <p class="name-roman" if={t("pages.about.nameRoman")}>{t("pages.about.nameRoman")}</p>
           <p class="about-description"><raw html={t("pages.about.description1")} /></p>
           <p class="about-description"><raw html={t("pages.about.description2")} /></p>
+          <ul class="hero-roles">
+            <li each={id in state.roles} key={id} class="hero-role">
+              <span class="hero-role-title">{t(`pages.about.roles.${id}.title`)}</span>
+              <span class="hero-role-desc"><raw html={t(`pages.about.roles.${id}.description`)} /></span>
+            </li>
+          </ul>
           <div class="hero-actions">
-            <a href="/about" class="more-button" onclick={scrollToStory}>{t("pages.about.more")} ↓</a>
             <social-links />
           </div>
         </div>
@@ -23,7 +27,6 @@
     <!-- Story: これまでの歩み + 略歴 -->
     <section class="story-section" id="story">
       <div class="section-inner">
-        <span class="section-label">// STORY</span>
         <h2 class="section-title">{t("pages.about.story.sectionTitle")}</h2>
         <div class="story-layout">
           <div class="story-text">
@@ -51,30 +54,11 @@
     <!-- Values: 大切にしていること -->
     <section class="values-section">
       <div class="section-inner">
-        <span class="section-label">// VALUES</span>
         <h2 class="section-title">{t("pages.about.values.sectionTitle")}</h2>
         <div class="values-grid">
           <div each={value in state.values} key={value.id} class="value-item">
-            <sl-icon name={value.icon}></sl-icon>
             <h3>{t(`pages.about.values.items.${value.id}.title`)}</h3>
             <p>{t(`pages.about.values.items.${value.id}.description`)}</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Roles: 今も続けている肩書き (年つきの出来事は Activities へ) -->
-    <section class="recognition-section">
-      <div class="section-inner">
-        <span class="section-label">// ROLES</span>
-        <h2 class="section-title">{t("pages.about.recognition.sectionTitle")}</h2>
-        <div class="recognition-grid">
-          <div each={item in state.recognitions} key={item.id} class="recognition-item">
-            <span class="recognition-icon"><sl-icon name={item.icon}></sl-icon></span>
-            <div>
-              <h3>{t(`pages.about.recognition.items.${item.id}.title`)}</h3>
-              <p><raw html={t(`pages.about.recognition.items.${item.id}.description`)} /></p>
-            </div>
           </div>
         </div>
       </div>
@@ -83,7 +67,6 @@
     <!-- Activities: 登壇・講師・協賛など -->
     <section class="appearances-section">
       <div class="section-inner">
-        <span class="section-label">// ACTIVITIES</span>
         <h2 class="section-title">{t("pages.about.appearances.sectionTitle")}</h2>
         <ul class="appearance-list">
           <li each={item in state.appearances} key={item.id} class="appearance-item">
@@ -99,20 +82,14 @@
       </div>
     </section>
 
-    <!-- Output Section - Simple Card Grid -->
+    <!-- Output Section -->
     <section class="output-section">
       <div class="section-inner">
-        <span class="section-label">// OUTPUT</span>
         <h2 class="section-title">{t("pages.about.output.sectionTitle")}</h2>
-        <div class="output-grid">
-          <a each={output in state.outputs} href={output.url} target="_blank" rel="noopener noreferrer" class="output-card">
-            <sl-icon if={output.icon} name={output.icon}></sl-icon>
-            <span if={output.textIcon} class="text-icon">{output.textIcon}</span>
-            <div class="output-card-body">
-              <h3>{t(`pages.about.output.${output.name}.title`)}</h3>
-              <p>{t(`pages.about.output.${output.name}.description`)}</p>
-            </div>
-            <span class="output-card-link">{output.linkText} →</span>
+        <div class="link-list">
+          <a each={output in state.outputs} href={output.url} target="_blank" rel="noopener noreferrer" class="link-row">
+            <span class="link-name">{t(`pages.about.output.${output.name}.title`)}<span class="link-arrow">↗</span></span>
+            <span class="link-desc">{t(`pages.about.output.${output.name}.description`)}</span>
           </a>
         </div>
       </div>
@@ -121,17 +98,12 @@
     <!-- Support Section -->
     <section class="output-section">
       <div class="section-inner">
-        <span class="section-label">// SUPPORT</span>
         <h2 class="section-title">{t("pages.about.support.sectionTitle")}</h2>
         <p class="section-description">{t("pages.about.support.description")}</p>
-        <div class="output-grid">
-          <a each={support in state.supports} href={support.url} target="_blank" rel="noopener noreferrer" class="output-card">
-            <sl-icon name={support.icon}></sl-icon>
-            <div class="output-card-body">
-              <h3>{t(`pages.about.support.${support.name}.title`)}</h3>
-              <p>{t(`pages.about.support.${support.name}.description`)}</p>
-            </div>
-            <span class="output-card-link">{support.linkText} →</span>
+        <div class="link-list">
+          <a each={support in state.supports} href={support.url} target="_blank" rel="noopener noreferrer" class="link-row">
+            <span class="link-name">{t(`pages.about.support.${support.name}.title`)}<span class="link-arrow">↗</span></span>
+            <span class="link-desc">{t(`pages.about.support.${support.name}.description`)}</span>
           </a>
         </div>
       </div>
@@ -140,7 +112,6 @@
     <!-- Bio Section: 紹介用テキスト (コピー可) -->
     <section class="bio-section">
       <div class="section-inner">
-        <span class="section-label">// BIO</span>
         <h2 class="section-title">{t("pages.about.bio.sectionTitle")}</h2>
         <p class="section-description">{t("pages.about.bio.description")}</p>
         <div class="bio-grid">
@@ -161,7 +132,6 @@
     <!-- Request CTA -->
     <section class="request-section">
       <div class="section-inner">
-        <span class="section-label">// REQUEST</span>
         <h2 class="section-title">{t("pages.about.request.title")}</h2>
         <p class="section-description">{t("pages.about.request.description")}</p>
         <a href="/contact" class="request-button" onclick={presetRequestTheme}>{t("pages.about.request.button")} →</a>
@@ -190,25 +160,17 @@
           { id: 'kaminashi', date: '2024.04' },
           { id: 'engineeringHr', date: null },
         ],
+        // 今も続けている肩書き (年つきの出来事は appearances へ)
+        roles: ['engineeringHr', 'riot', 'podcaster', 'generativeArtist'],
         values: [
           { id: 'approachable', icon: 'chat-heart' },
           { id: 'shelter', icon: 'umbrella' },
           { id: 'voice', icon: 'mic' },
         ],
-        recognitions: [
-          { id: 'riotCollaborator', icon: 'github' },
-          { id: 'riotJug', icon: 'people' },
-          { id: 'podcaster', icon: 'broadcast' },
-          { id: 'generativeArtist', icon: 'palette' },
-        ],
         outputs: OUTPUT_LINKS,
         supports: SUPPORT_LINKS,
         appearances: APPEARANCES,
         copied: null,
-      },
-      scrollToStory(e) {
-        e.preventDefault();
-        this.$('#story').scrollIntoView({ behavior: 'smooth' });
       },
       async copyBio(kind) {
         try {
@@ -241,8 +203,9 @@
       min-height: 100vh;
     }
 
+    /* ヘッダー・トップと同じ幅に揃える */
     .section-inner {
-      max-width: 1200px;
+      max-width: 1000px;
       margin: 0 auto;
     }
 
@@ -255,8 +218,8 @@
 
     .sub-title {
       font-size: 1.5rem;
-      font-weight: 900;
-      font-style: italic;
+      font-weight: var(--heading-weight);
+      font-family: var(--font-heading);
       color: var(--charcoal);
       margin: 4rem 0 2rem;
     }
@@ -267,7 +230,7 @@
     }
 
     .hero-layout {
-      max-width: 1200px;
+      max-width: 1000px;
       margin: 0 auto;
       display: grid;
       grid-template-columns: 1fr 1.3fr;
@@ -282,11 +245,60 @@
       margin: 0 auto;
     }
 
-    .hero-role {
-      font-size: 1.125rem;
-      color: var(--rain-blue);
+    .name-roman {
+      margin: -1.25rem 0 2rem;
+      font-size: 0.9375rem;
       font-weight: 600;
-      margin-bottom: 1.5rem;
+      letter-spacing: 0.12em;
+      color: var(--misty-gray);
+      font-family: var(--font-sans);
+    }
+
+    .hero-roles {
+      list-style: none;
+      margin: 2.5rem 0 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    /* ドットは肩書きの行だけに付け、補足は肩書きの 1 文字目に揃える */
+    .hero-role {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+      padding-left: 1.25rem;
+    }
+
+    .hero-role::before {
+      content: '';
+      position: absolute;
+      left: 0.25rem;
+      top: 0.7em;
+      width: 0.375rem;
+      height: 0.375rem;
+      border-radius: 50%;
+      background: var(--rain-blue);
+    }
+
+    .hero-role-title {
+      font-family: var(--font-heading);
+      font-weight: var(--heading-weight);
+      font-size: 1.0625rem;
+      color: var(--charcoal);
+    }
+
+    .hero-role-desc {
+      font-size: 0.875rem;
+      line-height: 1.7;
+      color: var(--misty-gray);
+    }
+
+    .hero-role-desc a {
+      color: var(--rain-blue);
+      text-underline-offset: 0.2em;
     }
 
     .about-description {
@@ -313,22 +325,6 @@
       align-items: center;
       gap: 1.5rem;
       margin-top: 2rem;
-    }
-
-    .more-button {
-      display: inline-block;
-      padding: 0.75rem 1.75rem;
-      border-radius: 2rem;
-      background: var(--rain-blue);
-      color: var(--warm-white);
-      font-weight: 700;
-      text-decoration: none;
-      transition: all 0.2s ease;
-    }
-
-    .more-button:hover {
-      background: var(--deep-rain);
-      transform: translateY(-2px);
     }
 
     /* ===== Story ===== */
@@ -420,8 +416,9 @@
     }
 
     .career-body h4 {
+      font-family: var(--font-heading);
+      font-weight: var(--heading-weight);
       font-size: 1.0625rem;
-      font-weight: 700;
       color: var(--charcoal);
       margin-bottom: 0.25rem;
     }
@@ -444,15 +441,10 @@
       margin-top: 2rem;
     }
 
-    .value-item sl-icon {
-      font-size: 2rem;
-      color: var(--rain-blue);
-      margin-bottom: 1rem;
-    }
-
     .value-item h3 {
+      font-family: var(--font-heading);
+      font-weight: var(--heading-weight);
       font-size: 1.25rem;
-      font-weight: 800;
       color: var(--charcoal);
       margin-bottom: 0.75rem;
     }
@@ -519,59 +511,10 @@
     }
 
     .appearance-link sl-icon {
+      color: var(--rain-blue);
       font-size: 0.8125rem;
       vertical-align: -0.1em;
       margin-left: 0.25rem;
-    }
-
-    /* ===== Recognition ===== */
-    .recognition-section {
-      padding: 5rem 4rem;
-      border-top: 1px solid var(--light-gray);
-    }
-
-    .recognition-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 2rem 3rem;
-      margin-top: 2rem;
-    }
-
-    .recognition-item {
-      display: flex;
-      gap: 1rem;
-      align-items: flex-start;
-    }
-
-    .recognition-icon {
-      flex-shrink: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 3rem;
-      height: 3rem;
-      border-radius: 50%;
-      background: var(--puddle-reflection);
-      color: var(--rain-blue);
-      font-size: 1.25rem;
-    }
-
-    .recognition-item h3 {
-      font-size: 1rem;
-      font-weight: 700;
-      color: var(--charcoal);
-      margin-bottom: 0.25rem;
-    }
-
-    .recognition-item p {
-      font-size: 0.8125rem;
-      line-height: 1.6;
-      color: var(--misty-gray);
-    }
-
-    .recognition-item a {
-      color: var(--rain-blue);
-      text-underline-offset: 0.2em;
     }
 
     /* ===== Output / Support ===== */
@@ -580,65 +523,44 @@
       border-top: 1px solid var(--light-gray);
     }
 
-    .output-grid {
+    .link-list {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      gap: 1rem;
+      column-gap: 3rem;
+      margin-top: 1rem;
     }
 
-    .output-card {
+    .link-row {
       display: flex;
-      align-items: center;
-      gap: 1rem;
-      padding: 1.5rem;
-      border: 1px solid var(--light-gray);
-      border-radius: 1rem;
+      flex-direction: column;
+      gap: 0.25rem;
+      padding: 1rem 0;
+      border-top: 1px solid var(--light-gray);
       text-decoration: none;
+    }
+
+    .link-name {
+      font-family: var(--font-heading);
+      font-weight: var(--heading-weight);
+      font-size: 1.125rem;
       color: var(--charcoal);
-      transition: all 0.2s ease;
+      transition: color 0.2s ease;
     }
 
-    .output-card:hover {
-      border-color: var(--rain-blue);
-      transform: translateY(-2px);
-    }
-
-    .output-card sl-icon {
-      font-size: 1.5rem;
-      flex-shrink: 0;
+    /* 外部リンクの矢印はサイト共通で青 */
+    .link-arrow {
+      margin-left: 0.375rem;
       color: var(--rain-blue);
     }
 
-    .text-icon {
-      font-size: 1.5rem;
-      font-weight: 800;
+    .link-row:hover .link-name {
       color: var(--rain-blue);
-      flex-shrink: 0;
     }
 
-    .output-card-body {
-      flex: 1;
-      min-width: 0;
-    }
-
-    .output-card-body h3 {
-      font-size: 1rem;
-      font-weight: 700;
-      margin-bottom: 0.25rem;
-    }
-
-    .output-card-body p {
-      font-size: 0.8125rem;
+    .link-desc {
+      font-size: 0.875rem;
+      line-height: 1.6;
       color: var(--misty-gray);
-      line-height: 1.4;
-    }
-
-    .output-card-link {
-      font-size: 0.75rem;
-      font-weight: 600;
-      color: var(--rain-blue);
-      white-space: nowrap;
-      font-family: var(--font-sans);
     }
 
     /* ===== Bio ===== */
@@ -650,14 +572,13 @@
     .bio-grid {
       display: grid;
       grid-template-columns: 1fr 1.6fr;
-      gap: 1rem;
+      gap: 3rem;
       align-items: start;
     }
 
     .bio-card {
-      padding: 1.5rem;
-      border: 1px solid var(--light-gray);
-      border-radius: 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--light-gray);
     }
 
     .bio-card-header {
@@ -722,18 +643,11 @@
     }
 
     /* ===== Responsive ===== */
-    @media (max-width: 960px) {
-      .recognition-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-    }
-
     @media (max-width: 768px) {
       .hero,
       .story-section,
       .values-section,
       .appearances-section,
-      .recognition-section,
       .output-section,
       .bio-section,
       .request-section {
@@ -759,7 +673,7 @@
       }
 
       .values-grid,
-      .output-grid,
+      .link-list,
       .bio-grid {
         grid-template-columns: 1fr;
       }
@@ -779,15 +693,10 @@
       .story-section,
       .values-section,
       .appearances-section,
-      .recognition-section,
       .output-section,
       .bio-section,
       .request-section {
         padding: 3rem 1.5rem;
-      }
-
-      .recognition-grid {
-        grid-template-columns: 1fr;
       }
 
       .appearance-item {
@@ -806,10 +715,6 @@
 
       .career-date {
         font-size: 0.7rem;
-      }
-
-      .output-card {
-        padding: 1.25rem;
       }
     }
   </style>
