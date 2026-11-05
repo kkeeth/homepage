@@ -8,30 +8,27 @@ import '@/assets/style.css';
 import App from '@/app.riot';
 import registerGlobalComponents from '@/register-global-components';
 import i18nStore from '@/stores/i18n-store';
-import { initFirebase } from '@/services/firebase';
-import authStore from '@/stores/auth-store';
-import membershipStore from '@/stores/membership-store';
-import { captureEmailLinkUrl } from '@/utils/email-link';
-
-// @riotjs/route はクエリパラメータ付きURLでルートマッチしないため
-// ルーター起動前にメールリンクURLを sessionStorage に退避しパスだけに書き換える
-// （sessionStorage はタブを閉じると破棄されるが、同一タブ内のスクリプトから参照可能なため取り扱いに注意する）
-captureEmailLinkUrl();
+import ReadingTracker from '@mt-planning/reading-tracker';
 
 // register
 registerGlobalComponents();
 
 try {
-  initFirebase();
-  authStore.init();
-  membershipStore.init();
-
   install((componentAPI) => {
     componentAPI.t = i18nStore.t.bind(i18nStore);
     return componentAPI;
   });
 
   component(App)(document.getElementById('root'));
+
+  // 読字ガイド (右下はスクロールトップボタンがあるため左下に配置)
+  const initReadingTracker = () =>
+    ReadingTracker.init({
+      position: 'bottom-left',
+      lang: i18nStore.currentLocale,
+    });
+  initReadingTracker();
+  i18nStore.on('locale-changed', initReadingTracker);
 } catch (err) {
   console.error('アプリの初期化に失敗しました:', err);
   const root = document.getElementById('root');

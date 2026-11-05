@@ -6,7 +6,6 @@
       </div>
       <div class="episode-content-col">
         <span class="episode-badge" if={parseSeasonLabel(episode.title)}>{parseSeasonLabel(episode.title)}</span>
-        <premium-badge show={isEpisodePremium(episode)} />
         <h3 class="episode-title">
           <a href={"/episodes/" + getEpisodeId(episode)}>{stripSeasonPrefix(episode.title)}</a>
         </h3>
@@ -31,25 +30,10 @@
   <script>
     import { truncateText } from '../utils/truncateText'
     import i18nStore from '@/stores/i18n-store';
-    import membershipStore from '@/stores/membership-store';
 
     export default {
       t: i18nStore.t.bind(i18nStore),
       truncateText,
-      onMounted() {
-        this._onPremiumEpisodesChanged = () => {
-          this.update();
-        };
-        membershipStore.on('premium-episodes-changed', this._onPremiumEpisodesChanged);
-      },
-      onBeforeUnmount() {
-        membershipStore.off('premium-episodes-changed', this._onPremiumEpisodesChanged);
-      },
-      isEpisodePremium(episode) {
-        if (episode.isPremium) return true;
-        const id = this.getEpisodeId(episode);
-        return membershipStore.isEpisodePremium(id) === true;
-      },
       getEpisodeId(episode) {
         // Extract episode ID from art19 link
         if (episode.link) {

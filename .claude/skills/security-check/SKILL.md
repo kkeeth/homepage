@@ -13,8 +13,7 @@ description: セキュリティ修正後の再チェック。修正が正しく�
 2. `grep -rn 'gradient' src/` でグラデーション混入がないか確認（デザインルール）
 3. `.env` ファイルが `.gitignore` に含まれているか確認
 4. `src/utils/sanitize.ts` が存在し、DOMPurify を使用しているか確認
-5. `firestore.rules` でワイルドカード許可 (`allow read, write: if true`) がないか確認
-6. `pnpm audit` で依存パッケージの脆弱性チェック
+5. `pnpm audit` で依存パッケージの脆弱性チェック
 
 ## Output
 

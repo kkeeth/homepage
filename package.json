@@ -31,11 +31,11 @@
   },
   "homepage": "https://github.com/kkeeth/homepage#readme",
   "dependencies": {
+    "@mt-planning/reading-tracker": "0.1.1",
     "@riotjs/observable": "^4.1.1",
     "@riotjs/route": "^8.0.2",
     "@shoelace-style/shoelace": "^2.20.1",
     "dompurify": "^3.3.3",
-    "firebase": "^12.9.0",
     "riot": "^9.1.1"
   },
   "devDependencies": {
