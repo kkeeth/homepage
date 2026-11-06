@@ -117,15 +117,6 @@ export function isMorningEdition(now = new Date()): boolean {
   return now.getHours() < 15;
 }
 
-const KANJI_NUMERALS = ['一', '二', '三', '四', '五', '六', '七', '八', '九', '十'];
-
-/** 面案内の番号（ja: 一・二・三… / en: 1・2・3…） */
-export function sectionNumber(index: number, locale: string): string {
-  return locale === 'ja'
-    ? (KANJI_NUMERALS[index] ?? String(index + 1))
-    : String(index + 1);
-}
-
 /** 本文の打ち切り位置（参考リンク・連絡先・配信サービスの定型文など） */
 const SHOW_NOTES_STOP =
   /^(【参考|【.*コンタクト|【.*お便り|【.*おたより|ではでは|[ー—―-]{3,}|See Privacy Policy)/;

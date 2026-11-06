@@ -94,7 +94,10 @@
         </button>
 
         <div class="now-playing">
-          <p class="np-kicker">{state.nowIndex === 0 ? t("newspaper.player.latest") : label(state.nowPlaying)}</p>
+          <p class="np-kicker">
+            {state.nowIndex === 0 ? t("newspaper.player.latest") : label(state.nowPlaying)}
+            <button class="back-latest" type="button" if={state.nowIndex !== 0} onclick={() => listen(0)}>{t("newspaper.player.backToLatest")}</button>
+          </p>
           <p class="np-title">{title(state.nowPlaying)}</p>
           <p class="np-meta">{meta(state.nowPlaying)}</p>
           <div class="seek-row">
@@ -790,6 +793,23 @@
       color: var(--accent);
       font-weight: 800;
       margin: 0 0 2px;
+    }
+
+    .back-latest {
+      margin-left: 10px;
+      font: inherit;
+      font-size: 10.5px;
+      letter-spacing: 0.08em;
+      padding: 1px 8px;
+      border: 1px solid var(--accent);
+      background: transparent;
+      color: var(--accent);
+      cursor: pointer;
+    }
+
+    .back-latest:hover {
+      background: var(--accent);
+      color: var(--paper);
     }
 
     .np-title {

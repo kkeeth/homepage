@@ -382,6 +382,7 @@
       "back": "Back 15s",
       "forward": "Forward 15s",
       "latest": "Latest",
+      "backToLatest": "▶ Play latest",
       "note": "* Also available on Spotify, Apple Podcasts and more. Use \"Listen to this episode\" below to tune in.",
       "error": "Could not play the audio. Please listen on one of the platforms."
     },
