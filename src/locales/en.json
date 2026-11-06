@@ -316,5 +316,111 @@
     "legal": {
       "privacy": "Privacy Policy"
     }
+  },
+  "newspaper": {
+    "topstrip": {
+      "morning": "MORNING EDITION",
+      "evening": "EVENING EDITION",
+      "issued": "Tokyo",
+      "issue": "Season %season, No. %num"
+    },
+    "masthead": {
+      "yomi": "AMAYADORI TO WEB NO KOBANASHI",
+      "title": "雨宿りとWEBの小噺",
+      "tagline1": "Take shelter from the daily rain of information",
+      "tagline2": "Little web tales, told under the eaves",
+      "sub": "Est. March 2020 / Weekly / Free to subscribe",
+      "weatherTitle": "Today's Weather",
+      "weather": "Rain of info,<br>then shelter",
+      "weatherNote": "Showers of information expected all day. A short break under the eaves is recommended.",
+      "latestTitle": "Latest",
+      "latestOnAir": "Out now",
+      "latestLoading": "Reporting…"
+    },
+    "nav": {
+      "label": "Sections",
+      "home": "Front Page",
+      "episodes": "Back Issues",
+      "info": "About the Show",
+      "profile": "The Editor",
+      "contact": "Letters",
+      "privacy": "Privacy Policy"
+    },
+    "front": {
+      "aboutTitle": "About This Show",
+      "aboutText1": "Shining a light on things you never paid attention to might change how you see the world a little. This show brings you small backstories and tales from the web industry.",
+      "aboutText2": "Started in March 2020, and published as \"Amayadori to WEB no Kobanashi.fm\" since September 2024.",
+      "editorTitle": "The Editor",
+      "editorName": "Kiyohito Kuwahara (Keeth)",
+      "editorText": "A courier of small discoveries who feels most alive while talking. Web engineer and, at times, generative artist.",
+      "editorMore": "Meet the editor →",
+      "platformsTitle": "Where to Listen",
+      "free": "Free",
+      "platformsNote": "Free to subscribe on every platform.",
+      "leadKicker": "TOP STORY",
+      "bylinePrefix": "By ",
+      "bylineName": "Kiyohito Kuwahara",
+      "bylineRole": " (Editor)",
+      "artworkCaption": "The show's artwork, standing in for a masthead illustration: a mic under the eaves, in the rain of information.",
+      "artworkCredit": " (Illustration: show artwork)",
+      "continued": "(Continued in audio — listen in the On Air box below)",
+      "readMore": "Episode details →",
+      "briefsTitle": "From Past Issues",
+      "loading": "Setting the type…",
+      "loadError": "Could not load the feed. Please try again later.",
+      "stamp1": "FREE",
+      "stamp2": "On all platforms"
+    },
+    "player": {
+      "title": "On Air",
+      "sub": "— Today's listening",
+      "onAir": "ON AIR",
+      "stopped": "STOPPED",
+      "play": "Play",
+      "pause": "Pause",
+      "seek": "Playback position",
+      "back": "Back 15s",
+      "forward": "Forward 15s",
+      "latest": "Latest",
+      "note": "* Also available on Spotify, Apple Podcasts and more. Use \"Listen to this episode\" below to tune in.",
+      "error": "Could not play the audio. Please listen on one of the platforms."
+    },
+    "dispatches": {
+      "title": "Latest Episodes",
+      "sub": "Recent dispatches",
+      "page": "Front page, cont.",
+      "listen": "▶ Listen to this episode",
+      "all": "All episodes in Back Issues →"
+    },
+    "classifieds": {
+      "title": "Other Shows",
+      "sub": "From under the same eaves",
+      "page": "Page 2",
+      "note": "Sister shows. All free to subscribe, published irregularly.",
+      "episodes": "%s episodes",
+      "listen": "Listen →",
+      "boardCategory": "Notice",
+      "boardTitle": "Hashtags",
+      "boardText": "Share your thoughts with <b>#web小噺</b> / <b>#webこばなし</b>",
+      "boardLink": "Official X @kuwahara_jsri →"
+    },
+    "displayAd": {
+      "eyebrow": "ADVERTISEMENT",
+      "catch": "Why not stay a little longer under the eaves?",
+      "title": "Letters Wanted",
+      "copy": "Thoughts on the show, topics you'd like covered, questions for the editor — anything goes. Your letter may be read on the show.",
+      "cta": "Send a letter",
+      "fine": "Also accepted via #web小噺 / #webこばなし"
+    },
+    "colophon": {
+      "publisher": "Publisher",
+      "publisherValue": "Kiyohito Kuwahara (Keeth)",
+      "office": "Office",
+      "officeValue": " (Tokyo)",
+      "channels": "Platforms",
+      "social": "Contact",
+      "founded": "Founded",
+      "foundedValue": "March 2020"
+    }
   }
 }

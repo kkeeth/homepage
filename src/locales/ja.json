@@ -311,5 +311,111 @@
     "legal": {
       "privacy": "プライバシーポリシー"
     }
+  },
+  "newspaper": {
+    "topstrip": {
+      "morning": "朝刊",
+      "evening": "夕刊",
+      "issued": "東京発行",
+      "issue": "第%season期　通巻%num号"
+    },
+    "masthead": {
+      "yomi": "あまやどりと　うぇぶのこばなし",
+      "title": "雨宿りとWEBの小噺",
+      "tagline1": "毎日の情報の雨から、ちょっと雨宿り",
+      "tagline2": "軒先で聞く、WEBの小噺",
+      "sub": "2020年3月創刊 ／ 毎週配信 ／ 購読無料",
+      "weatherTitle": "今日の天気",
+      "weather": "情報の雨、<br>のち雨宿り",
+      "weatherNote": "毎日の情報の雨は終日降り続く見込み。軒先での小休止をおすすめします。",
+      "latestTitle": "最新回",
+      "latestOnAir": "配信中",
+      "latestLoading": "取材中…"
+    },
+    "nav": {
+      "label": "紙面案内",
+      "home": "一面",
+      "episodes": "バックナンバー",
+      "info": "番組案内",
+      "profile": "編集長",
+      "contact": "おたより",
+      "privacy": "プライバシーポリシー"
+    },
+    "front": {
+      "aboutTitle": "この番組について",
+      "aboutText1": "気にも留めていなかったものに光を当てて、世界の見え方が少し変わるかもしれない。そんなWeb業界のちょっとした裏話や小噺をお届けする番組です。",
+      "aboutText2": "2020年3月に配信開始。2024年9月からは「雨宿りとWEBの小噺.fm」として発行を続けています。",
+      "editorTitle": "編集長紹介",
+      "editorName": "桑原聖仁（くわはら・きよひと）",
+      "editorText": "喋ることで生きていることを実感している、気づきの配達屋。Webエンジニア、ときどき Generative Artist としても活動中。",
+      "editorMore": "編集長の横顔 →",
+      "platformsTitle": "配信先一覧",
+      "free": "無料",
+      "platformsNote": "いずれの配信先でも購読は無料です。",
+      "leadKicker": "一面トップ記事",
+      "bylinePrefix": "文・",
+      "bylineName": "桑原聖仁",
+      "bylineRole": "（編集長）",
+      "artworkCaption": "本番組の題字代わりの絵。情報の雨の中、軒先でマイクに向かうのが日常である。",
+      "artworkCredit": "（絵＝番組アートワーク）",
+      "continued": "（続きは音声にて。下の放送欄からお聴きいただけます）",
+      "readMore": "この回の詳細 →",
+      "briefsTitle": "既刊より",
+      "loading": "紙面を組んでいます…",
+      "loadError": "配信情報を取得できませんでした。時間をおいて再度お試しください。",
+      "stamp1": "購読無料",
+      "stamp2": "全配信先にて配信中"
+    },
+    "player": {
+      "title": "放送欄",
+      "sub": "― 本日の聞きどころ",
+      "onAir": "放送中",
+      "stopped": "停止中",
+      "play": "再生",
+      "pause": "一時停止",
+      "seek": "再生位置",
+      "back": "15秒戻る",
+      "forward": "15秒進む",
+      "latest": "最新回",
+      "note": "※ Spotify・Apple Podcasts など各配信先でもお聴きいただけます。下の各回の「この回を聴く」で放送欄に合わせられます。",
+      "error": "音声を再生できませんでした。各配信先でお聴きください。"
+    },
+    "dispatches": {
+      "title": "最新の回",
+      "sub": "直近の配信から",
+      "page": "一面つづき",
+      "listen": "▶ この回を聴く",
+      "all": "すべての回はバックナンバー欄にて →"
+    },
+    "classifieds": {
+      "title": "ほかの番組",
+      "sub": "同じ軒先からお届けする番組",
+      "page": "二面",
+      "note": "姉妹番組のご案内。各番組とも購読無料、不定期配信。",
+      "episodes": "全%s回",
+      "listen": "聴く →",
+      "boardCategory": "掲示",
+      "boardTitle": "ハッシュタグ",
+      "boardText": "感想は <b>#web小噺</b>／<b>#webこばなし</b> にて受け付けています",
+      "boardLink": "公式X @kuwahara_jsri →"
+    },
+    "displayAd": {
+      "eyebrow": "広　告",
+      "catch": "軒先で、もう少しゆっくりしていきませんか",
+      "title": "おたより募集中",
+      "copy": "番組への感想、取り上げてほしい話題、編集長への質問など、形式は問いません。いただいたおたよりは番組内で紹介させていただく場合があります。",
+      "cta": "おたよりを送る",
+      "fine": "#web小噺 ／ #webこばなし でも受付中"
+    },
+    "colophon": {
+      "publisher": "発行人",
+      "publisherValue": "桑原聖仁（Keeth）",
+      "office": "発行所",
+      "officeValue": "（東京）",
+      "channels": "配信先",
+      "social": "連絡先",
+      "founded": "創刊",
+      "foundedValue": "2020年3月"
+    }
   }
 }

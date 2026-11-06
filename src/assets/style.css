@@ -1,43 +1,55 @@
-/* CSS Custom Properties - Blue × Orange-Red Theme */
+/* CSS Custom Properties - Newspaper Theme (新聞・和風) */
 :root {
-  /* Base Neutrals */
-  --charcoal: #2c3e50;
-  --warm-gray: #455a64;
-  --light-gray: #e2e8f0;
-  --cream: #f0f2f5;
-  --warm-white: #f8f9fa;
+  /* Newspaper palette */
+  --paper: #f6f1e3;
+  --paper-deep: #ece4cd;
+  --desk: #d9cfb4;
+  --ink: #222015;
+  --ink-soft: #4a4433;
+  --ink-faint: #7d735a;
+  --rule: #2b2618;
+  --accent: #9e2f1c;
+  --accent-soft: rgba(158, 47, 28, 0.1);
+  --box-bg: rgba(34, 32, 21, 0.045);
+  --on-accent: #fff8ea;
 
-  /* Blue × Orange-Red Colors */
-  --rain-blue: #3498db;
-  --deep-rain: #2980b9;
-  --storm-cloud: #2c3e50;
-  --warm-amber: #ff9800;
-  --cozy-orange: #ff7043;
-  --soft-teal: #3498db;
-  --misty-gray: #7f8c8d;
+  --font-body: 'Shippori Mincho B1', 'Hiragino Mincho ProN', 'YuMincho', serif;
+  --font-display: 'Zen Old Mincho', 'Shippori Mincho B1', 'Hiragino Mincho ProN',
+    serif;
 
-  /* Primary Theme Colors */
-  --primary-color: var(--rain-blue);
-  --secondary-color: var(--warm-amber);
-  --hero-bg: var(--storm-cloud);
+  /* Legacy tokens → newspaper palette (既存ページはこの対応表で一括で新聞調になる) */
+  --charcoal: var(--ink);
+  --warm-gray: var(--ink-soft);
+  --light-gray: var(--paper-deep);
+  --cream: var(--paper-deep);
+  --warm-white: var(--paper);
 
-  /* Semantic Colors */
-  --background-color: var(--warm-white);
-  --surface-color: var(--cream);
-  --text-color: var(--warm-gray);
-  --text-light: var(--misty-gray);
-  --text-dark: var(--charcoal);
-  --text-muted: var(--misty-gray);
-  --accent-color: var(--rain-blue);
-  --social-link-color: var(--soft-teal);
+  --rain-blue: var(--accent);
+  --deep-rain: var(--accent);
+  --storm-cloud: var(--ink);
+  --warm-amber: var(--accent);
+  --cozy-orange: var(--accent);
+  --soft-teal: var(--ink-soft);
+  --misty-gray: var(--ink-faint);
 
-  /* Color Variants */
-  --umbrella-blue: #5dade2;
-  --window-light: #f0f2f5;
-  --puddle-reflection: #d6eaf8;
-  --warm-shelter: #fadbd8;
+  --primary-color: var(--accent);
+  --secondary-color: var(--accent);
+  --hero-bg: var(--ink);
 
-  /* White/Black Transparency Variants */
+  --background-color: var(--paper);
+  --surface-color: var(--paper-deep);
+  --text-color: var(--ink-soft);
+  --text-light: var(--ink-faint);
+  --text-dark: var(--ink);
+  --text-muted: var(--ink-faint);
+  --accent-color: var(--accent);
+  --social-link-color: var(--ink);
+
+  --umbrella-blue: var(--ink-soft);
+  --window-light: var(--paper-deep);
+  --puddle-reflection: var(--paper-deep);
+  --warm-shelter: var(--accent-soft);
+
   --white-10: rgba(255, 255, 255, 0.1);
   --white-20: rgba(255, 255, 255, 0.2);
   --white-80: rgba(255, 255, 255, 0.8);
@@ -45,45 +57,45 @@
   --black-10: rgba(0, 0, 0, 0.1);
   --black-20: rgba(0, 0, 0, 0.2);
 
-  /* Shoelace overrides for rain theme */
-  --sl-color-primary-600: var(--deep-rain);
+  /* Shoelace */
+  --sl-color-primary-600: var(--accent);
+  --sl-color-neutral-0: var(--paper);
+  --sl-color-neutral-100: var(--paper-deep);
+  --sl-color-neutral-200: var(--paper-deep);
+  --sl-color-neutral-400: var(--ink-faint);
+  --sl-color-neutral-1000: var(--ink);
+  --sl-font-sans: var(--font-body);
+  --sl-font-serif: var(--font-body);
+  --sl-border-radius-small: 0;
+  --sl-border-radius-medium: 0;
+  --sl-border-radius-large: 0;
 
-  --sl-color-neutral-0: var(--warm-white);
-  --sl-color-neutral-100: var(--light-gray);
-  --sl-color-neutral-200: var(--light-gray);
-  --sl-color-neutral-400: var(--misty-gray);
-  --sl-color-neutral-1000: var(--storm-cloud);
+  --mint-50: var(--paper-deep);
+  --mint-100: var(--paper-deep);
+  --mint-200: var(--paper-deep);
+  --mint-300: var(--ink-soft);
+  --mint-400: var(--ink-soft);
+  --mint-500: var(--accent);
+  --mint-600: var(--accent);
 
-  /* Legacy aliases updated for rain theme */
-  --mint-50: var(--cream);
-  --mint-100: var(--light-gray);
-  --mint-200: var(--puddle-reflection);
-  --mint-300: var(--soft-teal);
-  --mint-400: var(--soft-teal);
-  --mint-500: var(--rain-blue);
-  --mint-600: var(--deep-rain);
+  --navy-50: var(--paper-deep);
+  --navy-500: var(--ink-soft);
+  --navy-600: var(--ink-soft);
+  --navy-700: var(--ink);
+  --navy-800: var(--ink);
+  --navy-900: var(--ink);
 
-  --navy-50: var(--cream);
-  --navy-500: var(--warm-gray);
-  --navy-600: var(--warm-gray);
-  --navy-700: var(--charcoal);
-  --navy-800: var(--charcoal);
-  --navy-900: var(--storm-cloud);
+  --image-bg: var(--paper-deep);
+  --yellow-400: var(--accent);
+  --yellow-500: var(--accent);
+  --coral-400: var(--ink-soft);
+  --blue-400: var(--accent);
+  --blue-500: var(--accent);
+  --purple-400: var(--ink-soft);
+  --purple-500: var(--ink-soft);
 
-  /* Rain theme accent colors */
-  --image-bg: var(--cream);
-  --yellow-400: var(--warm-amber);
-  --yellow-500: var(--warm-amber);
-  --coral-400: var(--umbrella-blue);
-  --blue-400: var(--rain-blue);
-  --blue-500: var(--rain-blue);
-  --purple-400: var(--soft-teal);
-  --purple-500: var(--soft-teal);
+  --mint-gradient: var(--paper-deep);
 
-  /* Surface variant */
-  --mint-gradient: var(--cream);
-
-  /* Geometric shapes for modern decoration */
   --droplet-large-width: 3rem;
   --droplet-medium-width: 2rem;
   --droplet-small-width: 1.5rem;
@@ -99,133 +111,251 @@
   box-sizing: border-box;
 }
 
-body {
-  font-family:
-    Josefin-sans,
-    -apple-system,
-    BlinkMacSystemFont,
-    'Segoe UI',
-    Roboto,
-    'Noto Sans JP',
-    sans-serif;
-  line-height: 1.6;
-  color: var(--navy-700);
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: auto;
 }
 
+body {
+  font-family: var(--font-body);
+  line-height: 1.75;
+  color: var(--ink);
+  background: var(--desk);
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--paper);
+}
+
+/* 机の上に一枚の紙面を置く */
 .container {
   margin: 0 auto;
-  padding: 0;
+  padding: clamp(10px, 3vw, 40px) clamp(8px, 2.5vw, 32px) clamp(24px, 5vw, 56px);
+}
+
+.sheet {
+  max-width: 1220px;
+  margin: 0 auto;
+  background: var(--paper);
+  border: 1px solid var(--rule);
+  box-shadow: 0 18px 50px rgba(30, 20, 5, 0.35);
+  padding: clamp(16px, 3.4vw, 44px) clamp(14px, 3.6vw, 48px) clamp(20px, 3vw, 40px);
+}
+
+/* 紙面の中では「1画面ぶんの高さ」指定を外し、記事が詰めて並ぶようにする */
+.sheet .main-content > div,
+.sheet .main-content section {
+  min-height: 0 !important;
 }
 
 section {
-  padding: 0 4rem;
-  justify-items: center;
-}
-
-/* Shoelace customizations for new design */
-sl-card::part(base) {
-  border-radius: 1rem;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-  border: 1px solid var(--mint-200);
-}
-
-/* Smooth scrolling */
-html {
-  scroll-behavior: auto;
+  padding: 0;
 }
 
 /* Focus styles for accessibility */
 *:focus-visible {
-  outline: 2px solid var(--mint-500);
+  outline: 2px solid var(--accent);
   outline-offset: 2px;
 }
 
-/* Shared utility classes — contact-style design system */
+/* ── 紙面の家具（見出し・罫線） ───────────────── */
+
+.double-rule {
+  border-top: 1px solid var(--rule);
+}
+
+.double-rule::after {
+  content: '';
+  display: block;
+  border-top: 3.5px solid var(--rule);
+  margin-top: 2.5px;
+}
+
+.sec-head {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  border-top: 3px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+  padding: 7px 0 8px;
+  margin: 0 0 14px;
+}
+
+.sec-head h2 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: clamp(20px, 2.7vw, 26px);
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+  color: var(--ink);
+}
+
+.sec-head h2::before {
+  content: '■ ';
+  color: var(--accent);
+  font-size: 0.72em;
+  vertical-align: 0.18em;
+}
+
+.sec-head .sub,
+.sec-head .pg {
+  font-size: 11.5px;
+  letter-spacing: 0.12em;
+  color: var(--ink-faint);
+  white-space: nowrap;
+}
+
+.sec-head .fill {
+  flex: 1;
+  border-top: 1px dotted var(--ink-faint);
+  transform: translateY(-4px);
+}
+
+.byline {
+  font-size: 11.5px;
+  letter-spacing: 0.08em;
+  color: var(--ink-soft);
+}
+
+.byline b {
+  color: var(--ink);
+}
+
+.dropcap::first-letter {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 3.1em;
+  float: left;
+  line-height: 0.92;
+  padding: 4px 8px 0 0;
+}
+
+/* 既存ページの見出しクラスを新聞の見出しに寄せる */
 .section-label {
   display: block;
-  font-size: 0.8rem;
-  font-weight: 600;
-  color: var(--rain-blue);
-  letter-spacing: 0.12em;
-  margin-bottom: 0.75rem;
-  font-family: monospace;
+  font-size: 11.5px;
+  font-weight: 800;
+  color: var(--accent);
+  letter-spacing: 0.3em;
+  margin-bottom: 0.5rem;
+  font-family: var(--font-body);
 }
 
 .page-title {
-  font-size: 4.5rem;
+  font-family: var(--font-display);
+  font-size: clamp(30px, 4.6vw, 47px);
   font-weight: 900;
-  font-style: italic;
-  color: var(--charcoal);
-  line-height: 1;
-  margin-bottom: 2rem;
-  letter-spacing: -0.02em;
+  font-style: normal;
+  color: var(--ink);
+  line-height: 1.3;
+  margin-bottom: 1.5rem;
+  letter-spacing: 0.02em;
 }
 
-/* Section title — large italic */
 .section-title {
-  font-size: 2.5rem;
+  font-family: var(--font-display);
+  font-size: clamp(20px, 2.7vw, 26px);
   font-weight: 900;
-  font-style: italic;
-  color: var(--charcoal);
-  line-height: 1.1;
-  letter-spacing: -0.02em;
+  font-style: normal;
+  color: var(--ink);
+  line-height: 1.4;
+  letter-spacing: 0.06em;
   margin-bottom: 1rem;
+  border-top: 3px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+  padding: 7px 0 8px;
+}
+
+.section-title::before {
+  content: '■ ';
+  color: var(--accent);
+  font-size: 0.72em;
+  vertical-align: 0.18em;
 }
 
 .episodes-section {
-  color: var(--navy-800);
-  padding: 4.5rem 0;
+  color: var(--ink);
+  padding: 2rem 0;
 }
 
 .section-content {
   max-width: 1000px;
-  padding-left: 2rem;
-  padding-right: 2rem;
+  padding-left: 0;
+  padding-right: 0;
 }
 
-@media (max-width: 768px) {
-  .section-content {
-    padding: 0 1.5rem;
-  }
+/* Shoelace */
+sl-card::part(base) {
+  border-radius: 0;
+  box-shadow: none;
+  border: 1px solid var(--rule);
+  background: var(--paper);
 }
 
-/* Rain-themed button styles for site-wide consistency */
 sl-button::part(base) {
-  border-radius: 1rem;
-  font-weight: 600;
-  transition: all 0.3s ease;
+  border-radius: 0;
+  font-family: var(--font-body);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  transition: background 0.15s ease, color 0.15s ease;
 }
 
 sl-button[variant='primary']::part(base) {
-  background: var(--warm-amber);
-  border: none;
-  color: white;
+  background: var(--ink);
+  border: 1.5px solid var(--rule);
+  color: var(--paper);
 }
 
-sl-button[variant='neutral']::part(base) {
-  background: white;
-  border-color: var(--warm-amber);
-  color: var(--warm-amber);
-  box-shadow: 0 4px 15px rgba(231, 76, 60, 0.1);
+sl-button[variant='primary']:hover::part(base) {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--on-accent);
 }
 
-sl-button[variant='neutral']:hover::part(base) {
-  background: var(--warm-amber);
-  color: white;
-  transform: translateY(-4px);
-  box-shadow: 0 6px 20px rgba(231, 76, 60, 0.2);
+sl-button[variant='neutral']::part(base),
+sl-button[variant='default']::part(base) {
+  background: var(--paper);
+  border: 1.5px solid var(--rule);
+  color: var(--ink);
+  box-shadow: none;
+}
+
+sl-button[variant='neutral']:hover::part(base),
+sl-button[variant='default']:hover::part(base) {
+  background: var(--ink);
+  color: var(--paper);
+  transform: none;
+  box-shadow: none;
 }
 
 sl-button[disabled]::part(base) {
   background: transparent;
-  color: var(--sl-color-neutral-400);
-  border: 1px solid var(--light-gray);
+  color: var(--ink-faint);
+  border: 1px solid var(--ink-faint);
   opacity: 0.6;
   box-shadow: none;
   cursor: not-allowed;
 }
 
-/* Form control styles for login and registration pages */
+sl-input::part(base),
+sl-textarea::part(base),
+sl-select::part(combobox) {
+  background: var(--paper);
+  border-color: var(--rule);
+}
+
 sl-input::part(form-control-label)::after {
-  color: #ff4d4f;
+  color: var(--accent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
