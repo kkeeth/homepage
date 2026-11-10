@@ -112,6 +112,12 @@ export const OUTPUT_LINKS = [
 // url が無い項目はリンクなしで表示
 export const APPEARANCES = [
   {
+    id: 'nack5PsaSpecial',
+    year: '2026',
+    type: 'talk',
+    url: 'https://www.nack5.co.jp/information/596/',
+  },
+  {
     id: 'rsa2026s2',
     year: '2026',
     type: 'audition',
