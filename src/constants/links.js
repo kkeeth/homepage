@@ -9,7 +9,7 @@ export const SUBSTACK_ARCHIVE_URL =
 
 // Podcast ページ Hero 画像
 // TODO: 仮のイラスト。Shure SM7B + ヘッドホンの写真に差し替える (public/images/ に置いてパスを変更)
-export const PODCAST_HERO_IMAGE = '/images/podcast-mic.svg';
+export const PODCAST_HERO_IMAGE = '/images/podcast-mic.jpg';
 
 // ソーシャルメディアリンク
 export const SOCIAL_LINKS = [
