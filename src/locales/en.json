@@ -319,14 +319,15 @@
   },
   "newspaper": {
     "topstrip": {
-      "morning": "MORNING EDITION",
-      "evening": "EVENING EDITION",
-      "issued": "Tokyo",
-      "issue": "Season %season, No. %num"
+      "morning": "Late Edition",
+      "evening": "Late Edition",
+      "issued": "Free",
+      "issue": "Vol. %roman . . . No. %num",
+      "dateline": "Tokyo, "
     },
     "masthead": {
-      "yomi": "AMAYADORI TO WEB NO KOBANASHI",
-      "title": "雨宿りとWEBの小噺",
+      "yomi": "雨宿りとWEBの小噺",
+      "title": "Amayadori",
       "tagline1": "Take shelter from the daily rain of information",
       "tagline2": "Little web tales, told under the eaves",
       "sub": "Est. March 2020 / Weekly / Free to subscribe",

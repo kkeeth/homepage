@@ -1,13 +1,5 @@
 <my-header>
   <header class="masthead-wrap">
-    <div class="topstrip">
-      <span><b>{state.edition.date}</b>　{state.edition.weekday}</span>
-      <span class="c">
-        <span class="cho">{state.morning ? t("newspaper.topstrip.morning") : t("newspaper.topstrip.evening")}</span>
-        　{t("newspaper.topstrip.issued")}
-      </span>
-      <span class="r">{issueLabel()}</span>
-    </div>
 
     <div class="masthead">
       <div class="ear">
@@ -37,6 +29,14 @@
       </a>
     </div>
 
+    <div class="topstrip">
+      <span class="l">{issueLabel()}</span>
+      <span class="c"><b>{t("newspaper.topstrip.dateline")}{state.edition.date}</b><template if={state.edition.weekday}>　{state.edition.weekday}</template></span>
+      <span class="r">
+        <span class="cho">{state.morning ? t("newspaper.topstrip.morning") : t("newspaper.topstrip.evening")}</span>
+        　{t("newspaper.topstrip.issued")}
+      </span>
+    </div>
     <div class="double-rule"></div>
 
     <div class="sections-row">
@@ -59,6 +59,7 @@
       episodeId,
       stripSeasonPrefix,
       formatDurationLong,
+      toRoman,
     } from '@/utils/newspaper';
 
     export default {
@@ -88,6 +89,7 @@
         const parsed = this.state.latest && parseSeason(this.state.latest);
         if (!parsed) return '';
         return this.t('newspaper.topstrip.issue')
+          .replace('%roman', toRoman(Number(parsed.season)))
           .replace('%season', parsed.season)
           .replace('%num', parsed.number);
       },
@@ -120,14 +122,16 @@
       font-size: 11.5px;
       letter-spacing: 0.08em;
       color: var(--ink-soft);
-      border-top: 3px solid var(--rule);
-      border-bottom: 1px solid var(--rule);
-      padding: 6px 2px 7px;
+      border-top: 1px solid var(--rule);
+      padding: 6px 2px 6px;
+    }
+
+    .topstrip > span {
+      flex: 1 1 0;
     }
 
     .topstrip .c {
       text-align: center;
-      flex: 1 1 auto;
     }
 
     .topstrip .r {
@@ -151,7 +155,7 @@
       grid-template-columns: 172px 1fr 172px;
       gap: 18px;
       align-items: stretch;
-      padding: 20px 0 14px;
+      padding: 8px 0 14px;
     }
 
     .ear {
@@ -214,10 +218,10 @@
 
     .mast-jp {
       font-family: var(--font-display);
-      font-weight: 900;
-      font-size: clamp(34px, 5.6vw, 62px);
-      line-height: 1.14;
-      letter-spacing: 0.02em;
+      font-weight: 700;
+      font-size: clamp(32px, 5.6vw, 64px);
+      line-height: 1.1;
+      letter-spacing: 0.08em;
       margin: 4px 0 0;
       white-space: nowrap;
     }
@@ -227,10 +231,12 @@
     }
 
     .mast-tag {
-      margin: 10px auto 0;
-      font-size: clamp(13px, 1.8vw, 16px);
-      font-weight: 700;
-      letter-spacing: 0.08em;
+      margin: 8px auto 0;
+      font-size: clamp(12px, 1.5vw, 14px);
+      font-weight: 500;
+      font-style: italic;
+      letter-spacing: 0.06em;
+      color: var(--ink-soft);
     }
 
     .mast-tag .dot {

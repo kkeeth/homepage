@@ -421,11 +421,10 @@
       font-family: var(--font-display);
       font-weight: 900;
       font-size: 15px;
-      letter-spacing: 0.12em;
-      text-align: center;
-      border-top: 2px solid var(--rule);
-      border-bottom: 1px solid var(--rule);
-      padding: 6px 0 7px;
+      letter-spacing: 0.02em;
+      text-align: left;
+      border-top: 4px solid var(--rule);
+      padding: 7px 0 2px;
     }
 
     .rail-box p {
@@ -503,31 +502,33 @@
     }
 
     .lead-kicker {
-      text-align: center;
+      display: inline-block;
       font-size: 11.5px;
-      letter-spacing: 0.3em;
-      text-indent: 0.3em;
-      color: var(--accent);
-      margin: 0 0 7px;
+      letter-spacing: 0.08em;
+      color: var(--paper);
+      background: var(--accent);
+      padding: 2px 8px;
+      margin: 0 0 10px;
       font-weight: 800;
     }
 
     .lead h1 {
       margin: 0;
-      text-align: center;
       font-family: var(--font-display);
       font-weight: 900;
-      font-size: clamp(30px, 4.6vw, 47px);
-      line-height: 1.3;
+      font-size: clamp(32px, 4.8vw, 52px);
+      line-height: 1.12;
+      letter-spacing: -0.02em;
+      word-break: auto-phrase;
+      text-wrap: balance;
     }
 
     .deck {
-      text-align: center;
-      font-size: clamp(13.5px, 1.8vw, 16px);
-      font-weight: 600;
-      line-height: 1.8;
-      margin: 11px auto 0;
-      max-width: 34em;
+      font-size: clamp(15px, 1.9vw, 17px);
+      font-weight: 700;
+      color: var(--ink);
+      line-height: 1.6;
+      margin: 12px 0 0;
     }
 
     .byline-row {
@@ -536,10 +537,11 @@
       align-items: baseline;
       gap: 10px;
       flex-wrap: wrap;
+      padding: 8px 0 0;
+      margin: 12px 0 14px;
       border-top: 1px solid var(--rule);
-      border-bottom: 1px solid var(--rule);
-      padding: 6px 2px 7px;
-      margin: 14px 0;
+      font-size: 11.5px;
+      letter-spacing: 0.06em;
     }
 
     .photo {
@@ -547,8 +549,6 @@
     }
 
     .photo-frame {
-      border: 1px solid var(--rule);
-      padding: 5px;
       background: var(--paper-deep);
     }
 
@@ -556,19 +556,22 @@
       display: block;
       width: 100%;
       height: auto;
-      filter: grayscale(1) sepia(0.38) contrast(1.05) brightness(0.99);
     }
 
     .photo figcaption {
+      display: flex;
+      flex-direction: column;
       font-size: 11.5px;
-      line-height: 1.65;
+      line-height: 1.6;
       color: var(--ink-soft);
-      border-bottom: 1px solid var(--rule);
-      padding: 6px 1px 7px;
+      padding: 6px 0 0;
     }
 
     .credit {
-      font-size: 10.5px;
+      order: -1;
+      align-self: flex-end;
+      font-size: 10px;
+      letter-spacing: 0.06em;
       color: var(--ink-faint);
     }
 
@@ -583,16 +586,6 @@
     .lead-cols p {
       margin: 0 0 0.85em;
       text-align: justify;
-    }
-
-    .lead-cols raw > p:first-child::first-letter,
-    .lead-cols raw > :first-child::first-letter {
-      font-family: var(--font-display);
-      font-weight: 900;
-      font-size: 3.1em;
-      float: left;
-      line-height: 0.92;
-      padding: 4px 8px 0 0;
     }
 
     .lead-cols ul {

@@ -317,7 +317,8 @@
       "morning": "朝刊",
       "evening": "夕刊",
       "issued": "東京発行",
-      "issue": "第%season期　通巻%num号"
+      "issue": "第%season期　通巻%num号",
+      "dateline": ""
     },
     "masthead": {
       "yomi": "あまやどりと　うぇぶのこばなし",

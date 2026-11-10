@@ -1,17 +1,17 @@
-/* CSS Custom Properties - Newspaper Theme (新聞・和風) */
+/* CSS Custom Properties - Newspaper Theme */
 :root {
-  /* Newspaper palette */
-  --paper: #f6f1e3;
-  --paper-deep: #ece4cd;
-  --desk: #d9cfb4;
-  --ink: #222015;
-  --ink-soft: #4a4433;
-  --ink-faint: #7d735a;
-  --rule: #2b2618;
-  --accent: #9e2f1c;
-  --accent-soft: rgba(158, 47, 28, 0.1);
-  --box-bg: rgba(34, 32, 21, 0.045);
-  --on-accent: #fff8ea;
+  /* Newspaper palette (日英共通: 白い紙・黒インク・青のアクセント) */
+  --paper: #fbfaf6;
+  --paper-deep: #efede6;
+  --desk: #d8d6cf;
+  --ink: #121212;
+  --ink-soft: #363636;
+  --ink-faint: #6e6e6e;
+  --rule: #121212;
+  --accent: #326891;
+  --accent-soft: rgba(50, 104, 145, 0.1);
+  --box-bg: rgba(18, 18, 18, 0.035);
+  --on-accent: #ffffff;
 
   --font-body: 'Shippori Mincho B1', 'Hiragino Mincho ProN', 'YuMincho', serif;
   --font-display: 'Zen Old Mincho', 'Shippori Mincho B1', 'Hiragino Mincho ProN',
@@ -104,6 +104,15 @@
   --droplet-small-height: 1.8rem;
 }
 
+/* English edition (英字紙: NYT / The Times 風)
+   <html lang="en"> のときだけ書体を差し替える（配色は日英共通） */
+:root[lang='en'] {
+  --font-body: Georgia, 'Times New Roman', 'Hiragino Mincho ProN', serif;
+  --font-display: 'Old Standard TT', Georgia, 'Times New Roman', serif;
+  --font-masthead: 'UnifrakturMaguntia', 'Old English Text MT', serif;
+  --font-label: 'Libre Franklin', 'Helvetica Neue', Arial, sans-serif;
+}
+
 /* Reset and base styles */
 * {
   margin: 0;
@@ -139,7 +148,7 @@ body {
   margin: 0 auto;
   background: var(--paper);
   border: 1px solid var(--rule);
-  box-shadow: 0 18px 50px rgba(30, 20, 5, 0.35);
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.25);
   padding: clamp(16px, 3.4vw, 44px) clamp(14px, 3.6vw, 48px) clamp(20px, 3vw, 40px);
 }
 
@@ -358,4 +367,277 @@ sl-input::part(form-control-label)::after {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
+}
+
+/* ── English edition: 英字紙らしい組版への上書き ─────────────
+   和文紙面特有の装飾（■ の見出し記号・朱の枠・ハンコ・三行広告の中央揃え）を外し、
+   ブラックレター題字・サンセリフのラベル・左揃えの見出しにする */
+:root[lang='en'] body {
+  line-height: 1.6;
+}
+
+/* Masthead */
+:root[lang='en'] .mast-jp {
+  font-family: var(--font-masthead);
+  font-weight: 400;
+  font-size: clamp(40px, 6.4vw, 80px);
+  letter-spacing: 0;
+  line-height: 1.05;
+}
+
+:root[lang='en'] .mast-jp .fm {
+  font-size: 0.55em;
+}
+
+/* 英語版は "Amayadori.FM" と大文字表記 */
+:root[lang='en'] .mast-jp .fm,
+:root[lang='en'] .colo-title .fm {
+  text-transform: uppercase;
+}
+
+:root[lang='en'] .mast-yomi {
+  letter-spacing: 0.3em;
+  text-indent: 0.3em;
+  font-family: 'Shippori Mincho B1', serif;
+}
+
+:root[lang='en'] .mast-tag {
+  font-family: var(--font-display);
+}
+
+:root[lang='en'] .mast-sub,
+:root[lang='en'] .ear h4,
+:root[lang='en'] .topstrip,
+:root[lang='en'] .sections a,
+:root[lang='en'] .section-label,
+:root[lang='en'] .byline,
+:root[lang='en'] .rail-box h3,
+:root[lang='en'] .lead-kicker,
+:root[lang='en'] .sec-head h2,
+:root[lang='en'] .sec-head .sub,
+:root[lang='en'] .sec-head .pg,
+:root[lang='en'] .wireless-head h2,
+:root[lang='en'] .ad-cat,
+:root[lang='en'] .ad h3,
+:root[lang='en'] .ad-eyebrow,
+:root[lang='en'] .colo-box dt {
+  font-family: var(--font-label);
+}
+
+:root[lang='en'] .mast-sub {
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-size: 10.5px;
+}
+
+:root[lang='en'] .ear {
+  font-style: italic;
+  font-family: var(--font-display);
+}
+
+:root[lang='en'] .ear h4 {
+  font-style: normal;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+:root[lang='en'] .ear .big {
+  font-weight: 700;
+  font-style: normal;
+}
+
+/* Dateline: "VOL. V . . . No. 19 | TOKYO, TUESDAY, NOVEMBER 10, 2026 | LATE EDITION FREE" */
+:root[lang='en'] .topstrip {
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+
+:root[lang='en'] .cho {
+  border: 0;
+  padding: 0;
+  margin-right: 0.6em;
+  font-weight: 800;
+}
+
+/* Section nav */
+:root[lang='en'] .sections a {
+  font-size: 12.5px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  border-right: 0;
+  padding: 2px 12px;
+}
+
+:root[lang='en'] .sections a:hover,
+:root[lang='en'] .sections a.active {
+  color: var(--ink);
+}
+
+/* Section heads: 記号を外し、細い罫＋大文字サンセリフに */
+:root[lang='en'] .sec-head h2::before,
+:root[lang='en'] .section-title::before,
+:root[lang='en'] .wireless-head h2::before {
+  content: none;
+}
+
+:root[lang='en'] .sec-head {
+  border-top: 2px solid var(--rule);
+}
+
+:root[lang='en'] .sec-head h2,
+:root[lang='en'] .wireless-head h2 {
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+:root[lang='en'] .sec-head .fill {
+  border-top: 0;
+}
+
+:root[lang='en'] .section-title {
+  border-top-width: 2px;
+  letter-spacing: 0;
+}
+
+:root[lang='en'] .section-label {
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+:root[lang='en'] .page-title {
+  letter-spacing: -0.01em;
+  line-height: 1.15;
+}
+
+/* Bylines: "BY KIYOHITO KUWAHARA" */
+:root[lang='en'] .byline {
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+/* Front page */
+:root[lang='en'] .rail-box h3 {
+  font-size: 12.5px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+:root[lang='en'] .lead-kicker {
+  background: transparent;
+  color: var(--accent);
+  padding: 0;
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+:root[lang='en'] .lead h1 {
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  line-height: 1.1;
+  word-break: normal;
+}
+
+:root[lang='en'] .deck {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-style: italic;
+}
+
+:root[lang='en'] .lead-cols {
+  hyphens: auto;
+}
+
+:root[lang='en'] .brief h4,
+:root[lang='en'] .dispatch h3,
+:root[lang='en'] .np-title,
+:root[lang='en'] .episode-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+}
+
+/* ハンコ → 罫線で囲んだ告知枠 */
+:root[lang='en'] .stamp-box {
+  transform: none;
+  border: 1px solid var(--rule);
+  border-width: 2px 0 1px;
+  background: transparent;
+  color: var(--ink);
+  font-family: var(--font-label);
+}
+
+:root[lang='en'] .stamp-box .s1 {
+  font-family: var(--font-label);
+  font-weight: 800;
+  letter-spacing: 0.14em;
+}
+
+:root[lang='en'] .stamp-box .s2 {
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+/* On Air box */
+:root[lang='en'] .wireless {
+  border: 1px solid var(--rule);
+  border-top-width: 3px;
+}
+
+/* Classifieds: 中央揃え・大小混在 → 左揃えの英字クラシファイド */
+:root[lang='en'] .ad {
+  text-align: left;
+  background: transparent;
+}
+
+:root[lang='en'] .ad h3 {
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  line-height: 1.35;
+  text-transform: uppercase;
+}
+
+:root[lang='en'] .ad-cat {
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* Display ad */
+:root[lang='en'] .display-ad-inner {
+  border: 1px solid var(--rule);
+}
+
+:root[lang='en'] .ad-eyebrow {
+  letter-spacing: 0.2em;
+  text-indent: 0.2em;
+}
+
+:root[lang='en'] .ad-catch {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+
+:root[lang='en'] .display-ad h2 {
+  letter-spacing: -0.01em;
+}
+
+/* Colophon */
+:root[lang='en'] .colo-title {
+  font-family: var(--font-masthead);
+  font-weight: 400;
+  letter-spacing: 0;
+}
+
+:root[lang='en'] .colo-box dt {
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
 }

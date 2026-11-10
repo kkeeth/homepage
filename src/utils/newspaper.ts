@@ -102,14 +102,35 @@ export function editionDate(locale: string, now = new Date()) {
     }).format(now);
     return { date: `${western}（${era}）`, weekday };
   }
+  // 英字紙の日付欄: "TOKYO, TUESDAY, NOVEMBER 10, 2026"（大文字化は CSS 側）
   return {
     date: new Intl.DateTimeFormat('en-US', {
+      weekday: 'long',
       year: 'numeric',
       month: 'long',
       day: 'numeric',
     }).format(now),
-    weekday: new Intl.DateTimeFormat('en-US', { weekday: 'long' }).format(now),
+    weekday: '',
   };
+}
+
+/** 5 → "V"（英字紙の "VOL. CLXXV" 表記用） */
+export function toRoman(value: number): string {
+  if (!Number.isInteger(value) || value <= 0) return String(value);
+  const table: [number, string][] = [
+    [1000, 'M'], [900, 'CM'], [500, 'D'], [400, 'CD'],
+    [100, 'C'], [90, 'XC'], [50, 'L'], [40, 'XL'],
+    [10, 'X'], [9, 'IX'], [5, 'V'], [4, 'IV'], [1, 'I'],
+  ];
+  let rest = value;
+  let result = '';
+  for (const [num, sym] of table) {
+    while (rest >= num) {
+      result += sym;
+      rest -= num;
+    }
+  }
+  return result;
 }
 
 /** 15 時までは朝刊、それ以降は夕刊 */
