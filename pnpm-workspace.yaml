@@ -1,0 +1,6 @@
+allowBuilds:
+  '@firebase/util': true
+  esbuild: true
+  protobufjs: false
+minimumReleaseAgeExclude:
+  - '@mt-planning/reading-tracker@0.1.1'

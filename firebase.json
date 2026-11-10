@@ -1,14 +1,18 @@
 {
   "hosting": {
     "public": "docs",
-    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
     "headers": [
       {
         "source": "**",
         "headers": [
           {
             "key": "Content-Security-Policy",
-            "value": "default-src 'self'; script-src 'self' 'sha256-TxMtcNqIkgP8y6agrM2PB6EnYJWUebRHX31NygBg6Ig=' 'sha256-CiZt+iWkZPh9x255G1MeP60QFgJD7wJq2GBR5Mvmefk=' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' https: data:; connect-src 'self' data: https://*.googleapis.com https://*.firebaseio.com wss://*.firebaseio.com https://*.firebaseapp.com https://rss.art19.com https://firestore.googleapis.com https://www.google-analytics.com https://www.googletagmanager.com https://*.workers.dev https://script.google.com https://script.googleusercontent.com; media-src 'self' https:; frame-src 'self'"
+            "value": "default-src 'self'; script-src 'self' 'sha256-TxMtcNqIkgP8y6agrM2PB6EnYJWUebRHX31NygBg6Ig=' 'sha256-CiZt+iWkZPh9x255G1MeP60QFgJD7wJq2GBR5Mvmefk=' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' https: data:; connect-src 'self' data: https://rss.art19.com https://www.google-analytics.com https://www.googletagmanager.com https://script.google.com https://script.googleusercontent.com https://*.workers.dev; media-src 'self' https:; frame-src 'self'"
           },
           {
             "key": "X-Content-Type-Options",
@@ -31,18 +35,5 @@
         "destination": "/index.html"
       }
     ]
-  },
-  "firestore": {
-    "rules": "firestore.rules"
-  },
-  "emulators": {
-    "firestore": {
-      "port": 8080
-    },
-    "ui": {
-      "enabled": true,
-      "port": 4000
-    },
-    "singleProjectMode": true
   }
 }

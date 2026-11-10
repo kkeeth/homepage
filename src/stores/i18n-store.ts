@@ -20,8 +20,8 @@ function getSavedLocale(): Locale {
   return saved && saved in translations ? (saved as Locale) : 'ja';
 }
 
-// 見出しフォントを言語ごとに切り替えるため <html lang> を同期する
-function syncHtmlLang(locale: Locale): void {
+/** <html lang> に反映し、CSS で言語ごとの紙面デザインを切り替える */
+function applyDocumentLocale(locale: Locale): void {
   document.documentElement.lang = locale;
 }
 
@@ -42,7 +42,7 @@ const i18nStore = observable({
     if (locale in translations) {
       this.currentLocale = locale as Locale;
       localStorage.setItem(STORAGE_KEY, locale);
-      syncHtmlLang(this.currentLocale);
+      applyDocumentLocale(this.currentLocale);
       this.trigger('locale-changed');
     }
   },
@@ -52,6 +52,6 @@ const i18nStore = observable({
   },
 }) as unknown as I18nStore;
 
-syncHtmlLang(i18nStore.currentLocale);
+applyDocumentLocale(i18nStore.currentLocale);
 
 export default i18nStore;

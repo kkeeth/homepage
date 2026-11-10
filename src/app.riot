@@ -1,20 +1,14 @@
 <app>
-  <sl-alert class="welcome-toast" variant="success" closable duration="4000">
-    <sl-icon slot="icon" name="person-check-fill"></sl-icon>
-    {state.welcomeMsg}
-  </sl-alert>
-
   <div class={'container page-' + (state.activePage || 'home')}>
+    <div class="sheet">
     <router>
       <my-header>
-        <nav slot="menu-nav" class="nav desktop-nav">
-          <ul>
-            <li each={page in state.pages} if={!page.hidden}>
-              <a
-                class={this.state.activePage === page.componentName ? 'active' : '' }
-                href={page.path}>{page.label}</a>
-            </li>
-          </ul>
+        <nav slot="menu-nav" class="nav desktop-nav sections" aria-label={t("newspaper.nav.label")}>
+          <a
+            each={(page, index) in navPages()}
+            class={state.activePage === page.componentName ? 'active' : '' }
+            aria-current={state.activePage === page.componentName ? 'page' : null}
+            href={page.path}>{t("newspaper.nav." + page.componentName)}</a>
         </nav>
         <button type="button" slot="menu-button" class="menu-toggle" onclick={ openMenu }>
           <sl-icon name="list" class="hamburger"></sl-icon>
@@ -24,11 +18,11 @@
       <sl-drawer placement="end" class="nav-drawer">
         <nav class="nav mobile-nav">
           <ul>
-            <li each={page in state.pages} if={!page.hidden}>
+            <li each={(page, index) in navPages()}>
               <a
-                class={this.state.activePage === page.componentName ? 'active' : '' }
+                class={state.activePage === page.componentName ? 'active' : '' }
                 href={page.path}
-                onclick={closeMenu}>{page.label}</a>
+                onclick={closeMenu}>{t("newspaper.nav." + page.componentName)}</a>
             </li>
           </ul>
         </nav>
@@ -48,6 +42,7 @@
         </route>
       </div>
     </router>
+    </div>
   </div>
 
   <script>
@@ -61,13 +56,8 @@
     import Podcast from '@/pages/podcast.riot'
     import About from '@/pages/about.riot'
     import Contact from '@/pages/contact.riot'
-    import Login from '@/pages/login.riot'
-    import Account from '@/pages/account.riot'
-    import Terms from '@/pages/terms.riot'
     import Privacy from '@/pages/privacy.riot'
-    import Tokushoho from '@/pages/tokushoho.riot'
     import i18nStore from '@/stores/i18n-store';
-    import authStore from '@/stores/auth-store';
 
     export default {
       components : {
@@ -81,17 +71,12 @@
         Podcast,
         About,
         Contact,
-        Login,
-        Account,
-        Terms,
         Privacy,
-        Tokushoho,
       },
       state: {
         pages,
         showNotFound: false,
         activePage: null,
-        welcomeMsg: '',
       },
       onBeforeMount() {
         this.anyRouteStream = route('(.*)')
@@ -101,15 +86,10 @@
           await this.onAnyRoute(path)
           // ページ移動時に画面上部へスクロール
           window.scrollTo({ top: 0, behavior: 'instant' })
-          // ログイン直後のウェルカムトースト（router.push 後に発火）
-          const justLoggedIn = sessionStorage.getItem('justLoggedIn');
-          if (justLoggedIn) {
-            sessionStorage.removeItem('justLoggedIn');
-            const name = authStore.user?.displayName
-              || authStore.user?.email?.split('@')[0];
-            if (name) this.showWelcomeToast(name);
-          }
         })
+      },
+      navPages() {
+        return pages.filter(p => !p.hidden)
       },
       async onAnyRoute(path) {
         if (!path.pathname) {
@@ -121,20 +101,6 @@
         if (redirects[path.pathname]) {
           router.push(redirects[path.pathname]);
           return;
-        }
-
-        // Route guards: auth が必要なルートは初期化完了を待つ
-        if (path.pathname === '/account' || path.pathname === '/login') {
-          await authStore.ready();
-          const isLoggedIn = authStore.isLoggedIn();
-          if (path.pathname === '/account' && !isLoggedIn) {
-            router.push('/login');
-            return;
-          }
-          if (path.pathname === '/login' && isLoggedIn) {
-            router.push('/');
-            return;
-          }
         }
 
         const foundPage = pages.find(p => match(path.pathname, toRegexp(p.path)))
@@ -149,12 +115,6 @@
         i18nStore.on('locale-changed', () => {
           this.update()
         })
-      },
-      showWelcomeToast(name) {
-        const msg = i18nStore.t('auth.welcome').replace('%s', name);
-        this.update({ welcomeMsg: msg });
-        const el = this.$('.welcome-toast');
-        if (el?.toast) el.toast();
       },
       onBeforeUnmount() {
         this.anyRouteStream.end()
@@ -173,13 +133,54 @@
       margin: 0 auto;
     }
 
-    .nav-drawer {
-      margin-top: 100px;
+    /* 面案内 */
+    .sections {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      padding: 8px 0 9px;
+    }
+
+    .sections a {
+      font-size: 13px;
+      letter-spacing: 0.1em;
+      text-decoration: none;
+      font-weight: 700;
+      color: var(--ink);
+      padding: 2px 16px;
+      border-right: 1px solid var(--ink-faint);
+      white-space: nowrap;
+    }
+
+    .sections a:last-child {
+      border-right: 0;
+    }
+
+    .sections a:hover,
+    .sections a.active {
+      color: var(--accent);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    .menu-toggle {
+      display: none;
+      background: none;
+      border: 1.5px solid var(--rule);
+      color: var(--ink);
+      font-size: 1.5rem;
+      padding: 2px 6px;
+      align-items: center;
+      cursor: pointer;
+    }
+
+    .nav-drawer::part(panel) {
+      background: var(--paper);
+      border-left: 3px double var(--rule);
     }
 
     .nav-drawer::part(body) {
-      padding-top: 2rem;
-      padding-left: 5rem;
+      padding: 2rem 2.5rem;
     }
 
     .mobile-nav ul {
@@ -189,31 +190,37 @@
 
     .mobile-nav ul li {
       list-style-type: none;
-      margin-bottom: 2rem;
+      border-bottom: 1px dotted var(--ink-faint);
     }
 
     .mobile-nav ul li a {
       text-decoration: none;
       display: block;
-      width: 100%;
-      color: var(--text-color);
-      font-size: 1.5rem;
-      transition: color 0.3s ease;
+      padding: 0.9rem 0;
+      color: var(--ink);
+      font-family: var(--font-display);
+      font-weight: 900;
+      font-size: 1.25rem;
+      letter-spacing: 0.08em;
     }
 
-    .menu-toggle {
-      display: flex;
-      background: none;
-      font-size: 2rem;
-      align-items: center;
+    .mobile-nav ul li a.active {
+      color: var(--accent);
     }
 
     @media (max-width: 768px) {
+      .desktop-nav {
+        display: none;
+      }
+
+      .menu-toggle {
+        display: flex;
+      }
+
       .nav-drawer social-links {
         position: absolute;
         bottom: 2rem;
       }
     }
-
   </style>
 </app>

@@ -1,142 +1,303 @@
 <my-header>
-  <header class="header">
-    <div class="header-container">
-      <div class="logo">
-        <a href="/" class="logo-icon">
-          <img src="/images/myself.png" alt="Website logo" />
-        </a>
+  <header class="masthead-wrap">
+
+    <div class="masthead">
+      <div class="ear">
+        <h4>{t("newspaper.masthead.weatherTitle")}</h4>
+        <span class="big"><raw html={t("newspaper.masthead.weather")} /></span>
+        <p>{t("newspaper.masthead.weatherNote")}</p>
       </div>
+
+      <div class="mast-center">
+        <p class="mast-yomi">{t("newspaper.masthead.yomi")}</p>
+        <a href="/" class="mast-link">
+          <h1 class="mast-jp">{t("newspaper.masthead.title")}<span class="fm">.fm</span></h1>
+        </a>
+        <p class="mast-tag">
+          {t("newspaper.masthead.tagline1")}<span class="dot">―</span>{t("newspaper.masthead.tagline2")}
+        </p>
+        <p class="mast-sub">{t("newspaper.masthead.sub")}</p>
+      </div>
+
+      <a class="ear" href={state.latest ? '/episodes/' + latestId() : '/episodes'}>
+        <h4>{t("newspaper.masthead.latestTitle")}</h4>
+        <span class="big" if={state.latest}>
+          {latestLabel()}<br>{t("newspaper.masthead.latestOnAir")}
+        </span>
+        <span class="big" if={!state.latest}>{t("newspaper.masthead.latestLoading")}</span>
+        <p if={state.latest}>「{latestTitle()}」{state.latest.pubDate}{latestDuration() ? '・' + latestDuration() : ''}</p>
+      </a>
+    </div>
+
+    <div class="topstrip">
+      <span class="l">{issueLabel()}</span>
+      <span class="c"><b>{t("newspaper.topstrip.dateline")}{state.edition.date}</b><template if={state.edition.weekday}>　{state.edition.weekday}</template></span>
+      <span class="r">
+        <span class="cho">{state.morning ? t("newspaper.topstrip.morning") : t("newspaper.topstrip.evening")}</span>
+        　{t("newspaper.topstrip.issued")}
+      </span>
+    </div>
+    <div class="double-rule"></div>
+
+    <div class="sections-row">
+      <slot name="menu-nav" />
       <div class="header-actions">
-        <slot name="menu-nav" />
         <slot name="menu-button" />
         <language-switcher />
       </div>
     </div>
   </header>
 
+  <script>
+    import i18nStore from '@/stores/i18n-store';
+    import {
+      getFeed,
+      editionDate,
+      isMorningEdition,
+      parseSeason,
+      episodeLabel,
+      episodeId,
+      stripSeasonPrefix,
+      formatDurationLong,
+      toRoman,
+    } from '@/utils/newspaper';
+
+    export default {
+      t: i18nStore.t.bind(i18nStore),
+      state: {
+        edition: editionDate(i18nStore.currentLocale),
+        morning: isMorningEdition(),
+        latest: null,
+      },
+      async onMounted() {
+        this._onLocaleChanged = () => {
+          this.update({ edition: editionDate(i18nStore.currentLocale) });
+        };
+        i18nStore.on('locale-changed', this._onLocaleChanged);
+
+        try {
+          const episodes = await getFeed();
+          if (episodes[0]) this.update({ latest: episodes[0] });
+        } catch (error) {
+          console.error('Failed to load feed for masthead:', error);
+        }
+      },
+      onBeforeUnmount() {
+        i18nStore.off('locale-changed', this._onLocaleChanged);
+      },
+      issueLabel() {
+        const parsed = this.state.latest && parseSeason(this.state.latest);
+        if (!parsed) return '';
+        return this.t('newspaper.topstrip.issue')
+          .replace('%roman', toRoman(Number(parsed.season)))
+          .replace('%season', parsed.season)
+          .replace('%num', parsed.number);
+      },
+      latestLabel() {
+        return episodeLabel(this.state.latest, i18nStore.currentLocale);
+      },
+      latestTitle() {
+        return stripSeasonPrefix(this.state.latest.title);
+      },
+      latestId() {
+        return episodeId(this.state.latest);
+      },
+      latestDuration() {
+        return formatDurationLong(this.state.latest.duration, i18nStore.currentLocale);
+      },
+    }
+  </script>
+
   <style>
-    .header {
-      background-color: var(--warm-white);
-      box-shadow: 0px 2px 8px rgba(0, 0, 0, .25);
-      position: sticky;
-      top: 0;
-      right: 0;
-      z-index: 100;
-      overflow: hidden;
-      transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    .masthead-wrap {
+      color: var(--ink);
     }
 
-    .header-container {
-      max-width: 1000px;
-      margin: 0 auto;
-      padding: 1rem;
+    /* 上段 日付欄 */
+    .topstrip {
       display: flex;
       justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      font-size: 11.5px;
+      letter-spacing: 0.08em;
+      color: var(--ink-soft);
+      border-top: 1px solid var(--rule);
+      padding: 6px 2px 6px;
+    }
+
+    .topstrip > span {
+      flex: 1 1 0;
+    }
+
+    .topstrip .c {
+      text-align: center;
+    }
+
+    .topstrip .r {
+      text-align: right;
+    }
+
+    .topstrip b {
+      color: var(--ink);
+    }
+
+    .cho {
+      border: 1.5px solid var(--rule);
+      padding: 0 7px;
+      font-weight: 800;
+      color: var(--ink);
+    }
+
+    /* 題字 */
+    .masthead {
+      display: grid;
+      grid-template-columns: 172px 1fr 172px;
+      gap: 18px;
+      align-items: stretch;
+      padding: 8px 0 14px;
+    }
+
+    .ear {
+      border: 1px solid var(--rule);
+      padding: 10px 11px 9px;
+      font-size: 11.8px;
+      line-height: 1.6;
+      color: var(--ink-soft);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      text-decoration: none;
+    }
+
+    a.ear:hover {
+      background: var(--accent-soft);
+    }
+
+    .ear h4 {
+      margin: 0 0 6px;
+      font-size: 11px;
+      letter-spacing: 0.22em;
+      text-align: center;
+      border-bottom: 1px solid var(--rule);
+      padding-bottom: 5px;
+      color: var(--ink);
+      font-weight: 800;
+    }
+
+    .ear .big {
+      font-family: var(--font-display);
+      font-weight: 900;
+      font-size: 19px;
+      color: var(--ink);
+      line-height: 1.35;
+      text-align: center;
+    }
+
+    .ear p {
+      margin: 5px 0 0;
+    }
+
+    .mast-center {
+      text-align: center;
+      min-width: 0;
+    }
+
+    .mast-link {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .mast-yomi {
+      font-size: 11px;
+      letter-spacing: 0.52em;
+      text-indent: 0.52em;
+      color: var(--ink-faint);
+      margin: 0;
+    }
+
+    .mast-jp {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: clamp(32px, 5.6vw, 64px);
+      line-height: 1.1;
+      letter-spacing: 0.08em;
+      margin: 4px 0 0;
+      white-space: nowrap;
+    }
+
+    .mast-jp .fm {
+      font-size: 0.5em;
+    }
+
+    .mast-tag {
+      margin: 8px auto 0;
+      font-size: clamp(12px, 1.5vw, 14px);
+      font-weight: 500;
+      font-style: italic;
+      letter-spacing: 0.06em;
+      color: var(--ink-soft);
+    }
+
+    .mast-tag .dot {
+      color: var(--accent);
+      padding: 0 0.3em;
+    }
+
+    .mast-sub {
+      margin: 4px 0 0;
+      font-size: 11.5px;
+      letter-spacing: 0.14em;
+      color: var(--ink-faint);
+    }
+
+    /* 面案内 + 言語切替 */
+    .sections-row {
+      display: flex;
       align-items: center;
+      gap: 8px;
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .sections-row > [slot='menu-nav'],
+    .sections-row nav {
+      flex: 1;
     }
 
     .header-actions {
       display: flex;
       align-items: center;
-      gap: .5rem;
+      gap: 0.25rem;
+      margin-left: auto;
     }
 
-    .hamburger {
-      display: none;
-    }
-
-    .logo {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-    }
-
-    .logo-icon {
-      display: block;
-      width: 3.5rem;
-      height: 3.5rem;
-      border-radius: 50%;
-      transform: rotate(-5deg);
-      overflow: hidden;
-    }
-
-    .logo-icon img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    .nav a {
-      color: var(--navy-600);
-      text-decoration: none;
-      font-weight: 500;
-      transition: color 0.2s;
-      position: relative;
-    }
-
-    .nav a:hover {
-      color: var(--navy-800);
-    }
-
-    .nav a.active::after,
-    .nav a:hover::after {
-      content: '';
-      position: absolute;
-      bottom: -4px;
-      left: 0;
-      right: 0;
-      height: 2px;
-      background: var(--sl-color-primary-600);
-      border-radius: 1px;
-    }
-
-    .desktop-nav ul {
-      display: flex;
-      list-style-type: none;
-      margin: 0;
-      padding: 0;
-    }
-
-    .desktop-nav ul li {
-      min-width: 78px;
-      text-align: center;
-    }
-
-    .desktop-nav ul li + li {
-      margin-left: 1.5rem;
-    }
-
-    .desktop-nav ul li a {
-      color: var(--text-color);
-      text-decoration: none;
-      font-weight: 400;
-      font-size: 1rem;
-      transition: color 0.3s ease, font-weight 0.3s ease, font-size 0.3s ease;
-    }
-
-    .desktop-nav ul li a.active,
-    .desktop-nav ul li a:hover {
-      color: var(--sl-color-primary-600);
-      font-weight: 700;
-      transition: color 0.3s ease, text-decoration 0.3s ease, font-weight 0.3s ease;
-    }
-
-    @media (max-width: 768px) {
-      .header-container {
-        padding: 0.5rem 1rem;
+    @media (max-width: 760px) {
+      .masthead {
+        grid-template-columns: 1fr 1fr;
       }
 
-      .logo-icon {
-        width: 3rem;
-        height: 3rem;
+      .mast-center {
+        grid-column: 1 / -1;
+        grid-row: 1;
       }
 
-      .desktop-nav {
+      .mast-jp {
+        white-space: normal;
+      }
+    }
+
+    @media (max-width: 520px) {
+      .topstrip {
+        justify-content: center;
+        text-align: center;
+      }
+
+      .topstrip .r {
+        text-align: center;
+      }
+
+      .ear p {
         display: none;
-      }
-
-      .hamburger {
-        display: block;
       }
     }
   </style>

@@ -36,21 +36,9 @@ export default [
     componentName: 'contact',
   },
   {
-    path: '/terms',
-    label: 'TERMS',
-    componentName: 'terms',
-    hidden: true,
-  },
-  {
     path: '/privacy',
     label: 'PRIVACY',
     componentName: 'privacy',
-    hidden: true,
-  },
-  {
-    path: '/tokushoho',
-    label: 'TOKUSHOHO',
-    componentName: 'tokushoho',
     hidden: true,
   },
 ];

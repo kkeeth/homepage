@@ -1,290 +1,1233 @@
 <home>
   <div class="home">
-    <!-- Hero Section -->
-    <hero-section if={state.latestEpisodes[0]} link={state.latestEpisodes[0]} />
+    <p class="status" if={state.loading}>{t("newspaper.front.loading")}</p>
+    <p class="status" if={state.error}>{t("newspaper.front.loadError")}</p>
 
-    <!-- News Section -->
-    <section class="news-section" if={state.news.length}>
-      <div class="section-content">
-        <h2 class="section-title">{t("pages.home.news.title")}</h2>
-
-        <ul class="news-list">
-          <li each={item in state.news} key={item.id} class="news-item">
-            <time class="news-date" datetime={item.date.replaceAll('.', '-')}>{item.date}</time>
-            <a
-              if={item.url}
-              href={item.url}
-              target={isExternal(item.url) ? '_blank' : null}
-              rel={isExternal(item.url) ? 'noopener noreferrer' : null}
-              class="news-text news-link"
-            >
-              {t(`pages.home.news.items.${item.id}`)}
-              <sl-icon name={isExternal(item.url) ? 'arrow-up-right' : 'arrow-right'}></sl-icon>
-            </a>
-            <span if={!item.url} class="news-text">{t(`pages.home.news.items.${item.id}`)}</span>
-          </li>
-        </ul>
-      </div>
-    </section>
-
-    <!-- Latest Episodes Section -->
-    <section class="episodes-section">
-      <div class="section-content">
-        <h2 class="section-title">{t("pages.home.episodes.latest.title")}</h2>
-
-        <episode-list program-episodes={state.latestEpisodes} show-more={true} />
-      </div>
-    </section>
-
-    <!-- Other Episodes - Compact List -->
-    <section class="other-programs-section">
-      <div class="section-content">
-        <h2 class="section-title">{t("pages.home.episodes.other.title")}</h2>
-
-        <div class="other-programs-list">
-          <a
-            each={program in state.otherPrograms}
-            key={program.id}
-            href={program.listen.spotify || program.listen.apple || '#'}
-            target="_blank"
-            class="other-programs-item"
-          >
-            <img src={program.artworkUrl} alt={program.title} class="other-programs-artwork" />
-            <h3 class="other-programs-name">{program.title}</h3>
-            <span class="other-programs-meta">{t("pages.home.categories." + program.category)} · {program.episodes}{t("pages.home.program.episodesCount")}</span>
-          </a>
+    <!-- 一面 -->
+    <div class="front">
+      <aside class="rail-left">
+        <div class="rail-box">
+          <h3>{t("newspaper.front.aboutTitle")}</h3>
+          <p>{t("newspaper.front.aboutText1")}</p>
+          <p>{t("newspaper.front.aboutText2")}</p>
         </div>
+
+        <div class="rail-box">
+          <h3>{t("newspaper.front.editorTitle")}</h3>
+          <p><b>{t("newspaper.front.editorName")}</b> ― {t("newspaper.front.editorText")}</p>
+          <p class="rail-more"><a href="/about">{t("newspaper.front.editorMore")}</a></p>
+        </div>
+
+        <div class="rail-box">
+          <h3>{t("newspaper.front.platformsTitle")}</h3>
+          <ul class="platform-list">
+            <li each={platform in state.platforms} key={platform.name}>
+              <a href={platform.url} target="_blank" rel="noopener noreferrer">
+                <span class="pl-name">{platform.name}</span>
+                <span class="pl-note">{t("newspaper.front.free")}</span>
+              </a>
+            </li>
+          </ul>
+          <p class="rail-note">{t("newspaper.front.platformsNote")}</p>
+        </div>
+      </aside>
+
+      <article class="lead" if={state.lead}>
+        <p class="lead-kicker">{t("newspaper.front.leadKicker")}</p>
+        <h1>{title(state.lead)}</h1>
+        <p class="deck" if={state.leadDeck}>{state.leadDeck}</p>
+        <div class="byline-row">
+          <span class="byline">{t("newspaper.front.bylinePrefix")}<b>{t("newspaper.front.bylineName")}</b>{t("newspaper.front.bylineRole")}</span>
+          <span class="byline">{meta(state.lead)}</span>
+        </div>
+
+        <figure class="photo" if={state.lead.imageUrl}>
+          <div class="photo-frame">
+            <img src={state.lead.imageUrl} alt={title(state.lead)} width="1080" height="1080" loading="lazy" />
+          </div>
+          <figcaption>
+            {t("newspaper.front.artworkCaption")}<span class="credit">{t("newspaper.front.artworkCredit")}</span>
+          </figcaption>
+        </figure>
+
+        <div class="lead-cols">
+          <raw html={state.leadBody} />
+          <p class="continued">{t("newspaper.front.continued")}</p>
+          <p class="continued"><a href={'/episodes/' + id(state.lead)}>{t("newspaper.front.readMore")}</a></p>
+        </div>
+      </article>
+
+      <aside class="rail-right">
+        <div class="rail-box">
+          <h3>{t("newspaper.front.briefsTitle")}</h3>
+          <div class="brief" each={episode in state.briefs} key={episode.link}>
+            <span class="b-date">{episode.pubDate}</span>
+            <h4><a href={'/episodes/' + id(episode)}>{title(episode)}</a></h4>
+            <p>{episode.description}</p>
+          </div>
+          <div class="stamp-box" aria-hidden="true">
+            <span class="s1">{t("newspaper.front.stamp1")}</span>
+            <span class="s2">{t("newspaper.front.stamp2")}</span>
+          </div>
+        </div>
+      </aside>
+    </div>
+
+    <!-- 放送欄（ラジオ欄風プレイヤー） -->
+    <section class="wireless" aria-label={t("newspaper.player.title")} if={state.nowPlaying}>
+      <div class="wireless-head">
+        <h2>{t("newspaper.player.title")} <span class="sub">{t("newspaper.player.sub")}</span></h2>
+        <span class={'onair' + (state.playing ? ' live' : '')}>
+          <span class="dot"></span>
+          <span>{state.playing ? t("newspaper.player.onAir") : t("newspaper.player.stopped")}</span>
+        </span>
+      </div>
+
+      <div class="player-grid">
+        <button
+          class={'play-btn' + (state.playing ? ' playing' : '')}
+          type="button"
+          aria-label={state.playing ? t("newspaper.player.pause") : t("newspaper.player.play")}
+          onclick={togglePlay}>
+          <svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3.8v16.4c0 .9 1 1.5 1.8 1L21 13a1.2 1.2 0 0 0 0-2L7.8 2.9C7 2.4 6 3 6 3.8Z"/></svg>
+          <svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.5 4h3.6v16H6.5zM13.9 4h3.6v16h-3.6z"/></svg>
+        </button>
+
+        <div class="now-playing">
+          <p class="np-kicker">
+            {state.nowIndex === 0 ? t("newspaper.player.latest") : label(state.nowPlaying)}
+            <button class="back-latest" type="button" if={state.nowIndex !== 0} onclick={() => listen(0)}>{t("newspaper.player.backToLatest")}</button>
+          </p>
+          <p class="np-title">{title(state.nowPlaying)}</p>
+          <p class="np-meta">{meta(state.nowPlaying)}</p>
+          <div class="seek-row">
+            <span class="time">{clock(state.position)}</span>
+            <input
+              class="seek"
+              type="range"
+              min="0"
+              max={state.duration || 0}
+              step="1"
+              value={state.position}
+              aria-label={t("newspaper.player.seek")}
+              oninput={onSeek} />
+            <span class="time">{clock(state.duration)}</span>
+          </div>
+          <div class={'wave' + (state.playing ? ' playing' : '')} aria-hidden="true">
+            <i each={(h, index) in state.wave} style={'height:' + h + '%;animation-delay:' + ((index % 12) * 0.09) + 's;animation-duration:' + (0.7 + (index % 5) * 0.13) + 's'}></i>
+          </div>
+        </div>
+
+        <div class="skip-group">
+          <button class="skip-btn" type="button" onclick={() => skip(-15)}>{t("newspaper.player.back")}</button>
+          <button class="skip-btn" type="button" onclick={() => skip(15)}>{t("newspaper.player.forward")}</button>
+        </div>
+      </div>
+
+      <p class="player-note" if={!state.audioError}>{t("newspaper.player.note")}</p>
+      <p class="player-note error" if={state.audioError}>{t("newspaper.player.error")}</p>
+
+      <audio
+        preload="none"
+        ontimeupdate={onTimeUpdate}
+        onloadedmetadata={onLoadedMetadata}
+        onplay={onPlay}
+        onpause={onPause}
+        onended={onPause}
+        onerror={onAudioError}></audio>
+    </section>
+
+    <!-- 最新の回 -->
+    <section class="dispatches" if={state.dispatches.length}>
+      <div class="sec-head">
+        <h2>{t("newspaper.dispatches.title")}</h2>
+        <span class="sub">{t("newspaper.dispatches.sub")}</span>
+        <span class="fill"></span>
+        <span class="pg">{t("newspaper.dispatches.page")}</span>
+      </div>
+      <div class="dispatch-grid">
+        <article class="dispatch" each={item in state.dispatches} key={item.episode.link}>
+          <p class="d-kicker">{meta(item.episode)}</p>
+          <h3><a href={'/episodes/' + id(item.episode)}>{title(item.episode)}</a></h3>
+          <p class="byline">{t("newspaper.front.bylinePrefix")}<b>{t("newspaper.front.bylineName")}</b></p>
+          <p class="dropcap">{item.episode.description}</p>
+          <button class="set-btn" type="button" if={item.episode.audioUrl} onclick={() => listen(item.index)}>
+            {t("newspaper.dispatches.listen")}
+          </button>
+        </article>
+      </div>
+      <p class="all-eps"><a href="/episodes">{t("newspaper.dispatches.all")}</a></p>
+    </section>
+
+    <!-- ほかの番組（三行広告風） -->
+    <section class="classifieds">
+      <div class="sec-head">
+        <h2>{t("newspaper.classifieds.title")}</h2>
+        <span class="sub">{t("newspaper.classifieds.sub")}</span>
+        <span class="fill"></span>
+        <span class="pg">{t("newspaper.classifieds.page")}</span>
+      </div>
+      <p class="class-note">{t("newspaper.classifieds.note")}</p>
+      <div class="class-grid">
+        <div each={(program, index) in state.otherPrograms} key={program.id} class={'ad ad-' + index}>
+          <p class="ad-cat">{t("pages.home.categories." + program.category)} ・ {episodesCount(program.episodes)}</p>
+          <h3>{program.title}</h3>
+          <p>{program.description}</p>
+          <a href={program.listen.spotify || program.listen.apple || '#'} target="_blank" rel="noopener noreferrer">{t("newspaper.classifieds.listen")}</a>
+        </div>
+        <div class="ad ad-board">
+          <p class="ad-cat">{t("newspaper.classifieds.boardCategory")}</p>
+          <h3>{t("newspaper.classifieds.boardTitle")}</h3>
+          <p><raw html={t("newspaper.classifieds.boardText")} /></p>
+          <a href="https://x.com/kuwahara_jsri" target="_blank" rel="noopener noreferrer">{t("newspaper.classifieds.boardLink")}</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- 全面広告 -->
+    <section class="display-ad">
+      <div class="display-ad-inner">
+        <p class="ad-eyebrow">{t("newspaper.displayAd.eyebrow")}</p>
+        <p class="ad-catch">{t("newspaper.displayAd.catch")}</p>
+        <h2>{t("newspaper.displayAd.title")}</h2>
+        <p class="ad-copy">{t("newspaper.displayAd.copy")}</p>
+        <a class="ad-cta" href="/contact">{t("newspaper.displayAd.cta")}</a>
+        <p class="ad-fine">{t("newspaper.displayAd.fine")}</p>
       </div>
     </section>
   </div>
 
   <script>
-    import { fetchRSSFeed, getLatestEpisodes } from '@/utils/rss';
-    import { OTHER_PROGRAMS, RSS_FEED_URL, SUBSTACK_RSS_URL } from '@/constants/links';
-    import { NEWS } from '@/constants/news';
+    import { PODCAST_PLATFORMS, OTHER_PROGRAMS } from '@/constants/links';
     import i18nStore from '@/stores/i18n-store';
+    import {
+      getFeed,
+      stripSeasonPrefix,
+      episodeLabel,
+      episodeId,
+      formatDurationLong,
+      durationToSeconds,
+      formatClock,
+      splitShowNotes,
+    } from '@/utils/newspaper';
+
+    const WAVE = [38, 62, 45, 80, 55, 92, 48, 70, 34, 85, 58, 96, 42, 66, 78, 50, 88, 36, 60, 74, 44, 82, 52, 68, 94, 40, 56, 72, 46, 84, 62, 38, 76, 54, 90, 48, 64, 36, 70, 58, 86, 42, 60, 78, 50, 68];
 
     export default {
       t: i18nStore.t.bind(i18nStore),
-      isExternal(url) {
-        return /^https?:\/\//.test(url);
+      state: {
+        loading: true,
+        error: false,
+        episodes: [],
+        lead: null,
+        leadDeck: '',
+        leadBody: '',
+        briefs: [],
+        dispatches: [],
+        platforms: PODCAST_PLATFORMS.filter(p => p.icon !== 'rss'),
+        otherPrograms: OTHER_PROGRAMS,
+        wave: WAVE,
+        nowIndex: 0,
+        nowPlaying: null,
+        playing: false,
+        position: 0,
+        duration: 0,
+        audioError: false,
       },
-      async onBeforeMount() {
+      async onMounted() {
+        this._onLocaleChanged = () => this.update();
+        i18nStore.on('locale-changed', this._onLocaleChanged);
+
         try {
-          const [art19, substack] = await Promise.allSettled([
-            fetchRSSFeed(RSS_FEED_URL),
-            fetchRSSFeed(SUBSTACK_RSS_URL),
-          ]);
-          const episodes = [
-            ...(art19.status === 'fulfilled' ? art19.value : []),
-            ...(substack.status === 'fulfilled' ? substack.value : []),
-          ].sort((a, b) => b.pubDateObj.getTime() - a.pubDateObj.getTime());
-          this.update({ latestEpisodes: getLatestEpisodes(episodes, 3) });
+          const episodes = await getFeed();
+          const { deck, body } = episodes[0] ? splitShowNotes(episodes[0].fullDescription) : { deck: '', body: '' };
+          this.update({
+            leadDeck: deck,
+            leadBody: body,
+            loading: false,
+            episodes,
+            lead: episodes[0] || null,
+            dispatches: episodes.slice(1, 3).map((episode, i) => ({ episode, index: i + 1 })),
+            briefs: episodes.slice(3, 7),
+            nowIndex: 0,
+            nowPlaying: episodes[0] || null,
+            duration: episodes[0] ? durationToSeconds(episodes[0].duration) : 0,
+          });
         } catch (error) {
           console.error('Failed to load RSS feed:', error);
+          this.update({ loading: false, error: true });
         }
       },
-      state: {
-        latestEpisodes: [],
-        otherPrograms: OTHER_PROGRAMS,
-        news: NEWS.slice(0, 5),
+      onBeforeUnmount() {
+        i18nStore.off('locale-changed', this._onLocaleChanged);
+        const audio = this.audio();
+        if (audio) audio.pause();
+      },
+
+      // ── 表示用 ──
+      title(episode) {
+        return stripSeasonPrefix(episode.title);
+      },
+      label(episode) {
+        return episodeLabel(episode, i18nStore.currentLocale);
+      },
+      id(episode) {
+        return episodeId(episode);
+      },
+      meta(episode) {
+        const locale = i18nStore.currentLocale;
+        return [episodeLabel(episode, locale), episode.pubDate, formatDurationLong(episode.duration, locale)]
+          .filter(Boolean)
+          .join(' ・ ');
+      },
+      clock(seconds) {
+        return formatClock(seconds);
+      },
+      episodesCount(count) {
+        return this.t('newspaper.classifieds.episodes').replace('%s', count);
+      },
+
+      // ── 放送欄 ──
+      audio() {
+        return this.$('audio');
+      },
+      ensureSource() {
+        const audio = this.audio();
+        const src = this.state.nowPlaying?.audioUrl;
+        if (audio && src && audio.getAttribute('src') !== src) {
+          audio.setAttribute('src', src);
+        }
+        return audio;
+      },
+      async togglePlay() {
+        const audio = this.ensureSource();
+        if (!audio) return;
+        if (audio.paused) {
+          try {
+            this.update({ audioError: false });
+            await audio.play();
+          } catch (error) {
+            console.error('Failed to play audio:', error);
+            this.update({ audioError: true, playing: false });
+          }
+        } else {
+          audio.pause();
+        }
+      },
+      async listen(index) {
+        const episode = this.state.episodes[index];
+        if (!episode) return;
+        const audio = this.audio();
+        if (audio) audio.pause();
+        this.update({
+          nowIndex: index,
+          nowPlaying: episode,
+          position: 0,
+          duration: durationToSeconds(episode.duration),
+          audioError: false,
+        });
+        const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        this.$('.wireless')?.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'center' });
+        await this.togglePlay();
+      },
+      skip(seconds) {
+        const audio = this.ensureSource();
+        if (!audio) return;
+        const max = audio.duration || this.state.duration || 0;
+        audio.currentTime = Math.min(max, Math.max(0, (audio.currentTime || 0) + seconds));
+        this.update({ position: audio.currentTime });
+      },
+      onSeek(e) {
+        const audio = this.ensureSource();
+        const value = Number(e.target.value);
+        if (audio) audio.currentTime = value;
+        this.update({ position: value });
+      },
+      onTimeUpdate(e) {
+        this.update({ position: e.target.currentTime });
+      },
+      onLoadedMetadata(e) {
+        if (Number.isFinite(e.target.duration)) {
+          this.update({ duration: e.target.duration });
+        }
+      },
+      onPlay() {
+        this.update({ playing: true });
+      },
+      onPause() {
+        this.update({ playing: false });
+      },
+      onAudioError() {
+        if (this.audio()?.getAttribute('src')) {
+          this.update({ audioError: true, playing: false });
+        }
       },
     }
   </script>
 
   <style>
     .home {
-      min-height: 100vh;
-      background: var(--warm-white);
-      color: var(--charcoal);
+      color: var(--ink);
     }
 
-    /* News Section */
-    .news-section {
-      padding: 4rem 0 1rem;
-      background: var(--warm-white);
+    .status {
+      text-align: center;
+      font-size: 13px;
+      color: var(--ink-faint);
+      padding: 2rem 0 0;
+      letter-spacing: 0.1em;
     }
 
-    .news-list {
+    a {
+      color: inherit;
+    }
+
+    /* グローバルの section 指定（grid 中央寄せ）を打ち消す */
+    .wireless,
+    .dispatches,
+    .classifieds,
+    .display-ad {
+      display: block;
+    }
+
+    /* 一面 */
+    .front {
+      display: grid;
+      grid-template-columns: 218px minmax(0, 1fr) 252px;
+      margin-top: 20px;
+    }
+
+    .rail-left {
+      padding-right: 18px;
+      border-right: 1px solid var(--rule);
+    }
+
+    .lead {
+      padding: 0 22px;
+      min-width: 0;
+    }
+
+    .rail-right {
+      padding-left: 18px;
+      border-left: 1px solid var(--rule);
+    }
+
+    .rail-box {
+      margin-bottom: 22px;
+    }
+
+    .rail-box h3 {
+      margin: 0 0 9px;
+      font-family: var(--font-display);
+      font-weight: 900;
+      font-size: 15px;
+      letter-spacing: 0.02em;
+      text-align: left;
+      border-top: 4px solid var(--rule);
+      padding: 7px 0 2px;
+    }
+
+    .rail-box p {
+      font-size: 12.8px;
+      line-height: 1.78;
+      margin: 0 0 0.7em;
+      text-align: justify;
+    }
+
+    .rail-more a,
+    .brief h4 a,
+    .dispatch h3 a,
+    .continued a {
+      text-decoration: none;
+    }
+
+    .rail-more a:hover,
+    .brief h4 a:hover,
+    .dispatch h3 a:hover,
+    .continued a:hover {
+      color: var(--accent);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    .rail-more {
+      text-align: right;
+      font-size: 11.5px !important;
+    }
+
+    .rail-note {
+      margin-top: 8px !important;
+      font-size: 11.5px !important;
+      color: var(--ink-faint);
+    }
+
+    .platform-list {
       list-style: none;
       margin: 0;
       padding: 0;
     }
 
-    .news-item {
+    .platform-list li {
+      border-bottom: 1px dotted var(--ink-faint);
+    }
+
+    .platform-list li:last-child {
+      border-bottom: 0;
+    }
+
+    .platform-list a {
       display: flex;
-      gap: 2rem;
+      justify-content: space-between;
       align-items: baseline;
-      padding: 1rem 0;
-      border-top: 1px solid var(--light-gray);
-    }
-
-    .news-item:last-child {
-      border-bottom: 1px solid var(--light-gray);
-    }
-
-    .news-date {
-      flex-shrink: 0;
-      width: 6.5rem;
-      font-size: 0.8125rem;
-      font-weight: 600;
-      letter-spacing: 0.05em;
-      color: var(--misty-gray);
-      font-family: var(--font-sans);
-    }
-
-    .news-text {
-      font-size: 0.9375rem;
-      line-height: 1.7;
-      color: var(--charcoal);
-    }
-
-    .news-link {
+      gap: 8px;
+      padding: 7px 1px;
       text-decoration: none;
-      transition: color 0.2s ease;
     }
 
-    .news-link:hover {
-      color: var(--rain-blue);
+    .platform-list a:hover .pl-name {
+      color: var(--accent);
+      text-decoration: underline;
+      text-underline-offset: 3px;
     }
 
-    .news-link sl-icon {
-      color: var(--rain-blue);
-      font-size: 0.8125rem;
-      vertical-align: -0.1em;
-      margin-left: 0.25rem;
+    .pl-name {
+      font-weight: 800;
+      font-size: 13.5px;
     }
 
-    /* Other Programs Section */
-    .other-programs-section {
-      padding: 4rem 0;
-      background: var(--warm-white);
-      border-top: 1px solid var(--light-gray);
+    .pl-note {
+      font-size: 10.5px;
+      color: var(--ink-faint);
+      letter-spacing: 0.06em;
     }
 
-    .other-programs-list {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 1rem;
+    .lead-kicker {
+      display: inline-block;
+      font-size: 11.5px;
+      letter-spacing: 0.08em;
+      color: var(--paper);
+      background: var(--accent);
+      padding: 2px 8px;
+      margin: 0 0 10px;
+      font-weight: 800;
     }
 
-    @media (min-width: 960px) {
-      .other-programs-list {
-        grid-template-columns: repeat(5, 1fr);
-      }
+    .lead h1 {
+      margin: 0;
+      font-family: var(--font-display);
+      font-weight: 900;
+      font-size: clamp(32px, 4.8vw, 52px);
+      line-height: 1.12;
+      letter-spacing: -0.02em;
+      word-break: auto-phrase;
+      text-wrap: balance;
     }
 
-    .other-programs-item {
+    .deck {
+      font-size: clamp(15px, 1.9vw, 17px);
+      font-weight: 700;
+      color: var(--ink);
+      line-height: 1.6;
+      margin: 12px 0 0;
+    }
+
+    .byline-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 10px;
+      flex-wrap: wrap;
+      padding: 8px 0 0;
+      margin: 12px 0 14px;
+      border-top: 1px solid var(--rule);
+      font-size: 11.5px;
+      letter-spacing: 0.06em;
+    }
+
+    .photo {
+      margin: 0 0 14px;
+    }
+
+    .photo-frame {
+      background: var(--paper-deep);
+    }
+
+    .photo-frame img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    .photo figcaption {
       display: flex;
       flex-direction: column;
-      align-items: center;
-      gap: 0.75rem;
-      padding: 1.25rem 1rem;
-      background: var(--warm-white);
-      border: 1px solid var(--light-gray);
-      border-radius: 0.75rem;
-      text-decoration: none;
-      color: var(--charcoal);
-      text-align: center;
-      transition: all 0.2s ease;
+      font-size: 11.5px;
+      line-height: 1.6;
+      color: var(--ink-soft);
+      padding: 6px 0 0;
     }
 
-    .other-programs-item:hover {
-      border-color: var(--rain-blue);
-      transform: translateY(-2px);
+    .credit {
+      order: -1;
+      align-self: flex-end;
+      font-size: 10px;
+      letter-spacing: 0.06em;
+      color: var(--ink-faint);
     }
 
-    .other-programs-artwork {
-      width: 80px;
-      height: 80px;
-      border-radius: 12px;
-      object-fit: cover;
-      flex-shrink: 0;
+    .lead-cols {
+      column-count: 2;
+      column-gap: 26px;
+      column-rule: 1px solid rgba(122, 106, 77, 0.4);
+      font-size: 13.8px;
+      overflow-wrap: anywhere;
     }
 
-    .other-programs-name {
-      font-size: 0.875rem;
-      font-weight: 600;
-      color: var(--charcoal);
+    .lead-cols p {
+      margin: 0 0 0.85em;
+      text-align: justify;
+    }
+
+    .lead-cols ul {
+      margin: 0 0 0.85em;
+      padding-left: 1.2em;
+    }
+
+    .lead-cols a {
+      color: var(--accent);
+    }
+
+    .continued {
+      font-size: 11.5px;
+      color: var(--ink-faint);
+      text-align: right;
       margin: 0;
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
+    }
+
+    .brief {
+      padding: 9px 0 10px;
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .brief:first-of-type {
+      padding-top: 2px;
+    }
+
+    .b-date {
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      color: var(--accent);
+      font-weight: 800;
+    }
+
+    .brief h4 {
+      margin: 2px 0 3px;
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 14.5px;
+      line-height: 1.5;
+    }
+
+    .brief p {
+      font-size: 12.3px;
+      line-height: 1.72;
+      margin: 0;
+      color: var(--ink-soft);
+      text-align: justify;
+    }
+
+    .stamp-box {
+      border: 2px solid var(--accent);
+      color: var(--accent);
+      text-align: center;
+      padding: 10px 8px 9px;
+      transform: rotate(-1.6deg);
+      margin: 16px 4px 4px;
+      background: var(--accent-soft);
+    }
+
+    .stamp-box .s1 {
+      font-family: var(--font-display);
+      font-weight: 900;
+      font-size: 15px;
+      letter-spacing: 0.18em;
+      display: block;
+    }
+
+    .stamp-box .s2 {
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      display: block;
+      margin-top: 2px;
+    }
+
+    /* 放送欄 */
+    .wireless {
+      margin-top: 26px;
+      border: 3px double var(--rule);
+      padding: 14px clamp(12px, 2.6vw, 26px) 16px;
+      background: var(--box-bg) !important;
+    }
+
+    .wireless-head {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      border-bottom: 1px solid var(--rule);
+      padding-bottom: 8px;
+      margin-bottom: 12px;
+    }
+
+    .wireless-head h2 {
+      margin: 0;
+      font-family: var(--font-display);
+      font-weight: 900;
+      font-size: clamp(18px, 2.5vw, 23px);
+      letter-spacing: 0.08em;
+    }
+
+    .wireless-head h2::before {
+      content: '■ ';
+      color: var(--accent);
+      font-size: 0.7em;
+      vertical-align: 0.2em;
+    }
+
+    .wireless-head .sub {
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      color: var(--ink-faint);
+      font-family: var(--font-body);
+      font-weight: 600;
+    }
+
+    .onair {
+      font-size: 11px;
+      letter-spacing: 0.16em;
+      color: var(--ink-faint);
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      font-weight: 700;
+    }
+
+    .onair .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      border: 1.5px solid var(--ink-faint);
+      display: inline-block;
+    }
+
+    .onair.live {
+      color: var(--accent);
+    }
+
+    .onair.live .dot {
+      background: var(--accent);
+      border-color: var(--accent);
+      animation: blink 1.1s steps(2, start) infinite;
+    }
+
+    @keyframes blink {
+      to {
+        visibility: hidden;
+      }
+    }
+
+    .player-grid {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr) auto;
+      gap: clamp(12px, 2.4vw, 24px);
+      align-items: center;
+    }
+
+    .play-btn {
+      width: 74px;
+      height: 74px;
+      border-radius: 50%;
+      border: 2.5px solid var(--rule);
+      background: var(--paper);
+      color: var(--ink);
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+      transition: transform 0.12s ease, background 0.15s ease;
+    }
+
+    .play-btn:hover {
+      background: var(--accent-soft);
+    }
+
+    .play-btn:active {
+      transform: scale(0.96);
+    }
+
+    .play-btn svg {
+      width: 30px;
+      height: 30px;
+      fill: currentColor;
+    }
+
+    .play-btn .icon-pause,
+    .play-btn.playing .icon-play {
+      display: none;
+    }
+
+    .play-btn.playing .icon-pause {
+      display: block;
+    }
+
+    .np-kicker {
+      font-size: 11px;
+      letter-spacing: 0.16em;
+      color: var(--accent);
+      font-weight: 800;
+      margin: 0 0 2px;
+    }
+
+    .back-latest {
+      margin-left: 10px;
+      font: inherit;
+      font-size: 10.5px;
+      letter-spacing: 0.08em;
+      padding: 1px 8px;
+      border: 1px solid var(--accent);
+      background: transparent;
+      color: var(--accent);
+      cursor: pointer;
+    }
+
+    .back-latest:hover {
+      background: var(--accent);
+      color: var(--paper);
+    }
+
+    .np-title {
+      margin: 0;
+      font-family: var(--font-display);
+      font-weight: 900;
+      font-size: clamp(17px, 2.6vw, 24px);
+      line-height: 1.35;
+      overflow-wrap: anywhere;
+    }
+
+    .np-meta {
+      margin: 3px 0 0;
+      font-size: 12px;
+      color: var(--ink-faint);
+      letter-spacing: 0.05em;
+    }
+
+    .seek-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .time {
+      font-size: 12px;
+      letter-spacing: 0.05em;
+      min-width: 44px;
+      text-align: center;
+      color: var(--ink-soft);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .seek {
+      flex: 1;
+      accent-color: var(--accent);
+      cursor: pointer;
+      margin: 0;
+    }
+
+    .skip-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .skip-btn,
+    .set-btn {
+      font-family: inherit;
+      border: 1.5px solid var(--rule);
+      background: var(--paper);
+      color: var(--ink);
+      cursor: pointer;
+      letter-spacing: 0.04em;
+    }
+
+    .skip-btn {
+      font-size: 11.5px;
+      padding: 6px 10px;
+      white-space: nowrap;
+    }
+
+    .skip-btn:hover {
+      background: var(--accent-soft);
+    }
+
+    .wave {
+      display: flex;
+      align-items: flex-end;
+      gap: 2.5px;
+      height: 30px;
+      margin-top: 10px;
+      border-top: 1px dotted var(--ink-faint);
+      padding-top: 8px;
       overflow: hidden;
-      line-height: 1.4;
     }
 
-    .other-programs-meta {
-      font-size: 0.75rem;
-      color: var(--misty-gray);
+    .wave i {
+      flex: 1 1 0;
+      min-width: 2px;
+      background: var(--ink-soft);
+      opacity: 0.55;
+      transform-origin: bottom;
     }
 
-    /* Modern Animations */
-    @keyframes gentle-float {
-      0%, 100% { transform: translateY(0px); }
-      50% { transform: translateY(-10px); }
+    .wave.playing i {
+      animation: eq 0.9s ease-in-out infinite alternate;
     }
 
-    @keyframes gentle-rotate {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-
-    @keyframes fade-in-up {
-      0% {
-        opacity: 0;
-        transform: translateY(30px);
+    @keyframes eq {
+      from {
+        transform: scaleY(0.55);
       }
-      100% {
-        opacity: 1;
-        transform: translateY(0px);
+      to {
+        transform: scaleY(1);
       }
     }
 
-    @keyframes sound-wave {
-      0%, 100% { transform: translateY(-50%) scaleY(1); }
-      50% { transform: translateY(-50%) scaleY(1.5); }
+    .player-note {
+      margin: 12px 0 0;
+      font-size: 11.5px;
+      color: var(--ink-faint);
+      border-top: 1px dotted var(--ink-faint);
+      padding-top: 8px;
+      line-height: 1.65;
     }
 
-    @keyframes bounce {
-      0%, 100% { transform: translateY(0px); }
-      50% { transform: translateY(-10px); }
+    .player-note.error {
+      color: var(--accent);
     }
 
-    @keyframes bubble-bounce {
-      0%, 100% { transform: translateY(0px) rotate(var(--rotation, 0deg)); }
-      50% { transform: translateY(-5px) rotate(var(--rotation, 0deg)); }
+    /* 最新の回 */
+    .dispatches,
+    .classifieds {
+      margin-top: 30px;
     }
 
-    @media (max-width: 480px) {
-      .news-item {
-        flex-direction: column;
-        gap: 0.25rem;
+    .dispatch-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .dispatch {
+      padding: 2px 22px 6px 0;
+      font-size: 13.8px;
+    }
+
+    .dispatch + .dispatch {
+      padding: 2px 0 6px 22px;
+      border-left: 1px solid var(--rule);
+    }
+
+    .d-kicker {
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      color: var(--accent);
+      font-weight: 800;
+      margin: 0 0 6px;
+    }
+
+    .dispatch h3 {
+      margin: 0 0 8px;
+      font-family: var(--font-display);
+      font-weight: 900;
+      font-size: clamp(21px, 3vw, 28px);
+      line-height: 1.42;
+    }
+
+    .dispatch .byline {
+      margin: 0 0 8px;
+    }
+
+    .dispatch .dropcap {
+      margin: 0 0 14px;
+      text-align: justify;
+    }
+
+    .set-btn {
+      font-weight: 700;
+      font-size: 13px;
+      padding: 8px 14px;
+    }
+
+    .set-btn:hover {
+      background: var(--ink);
+      color: var(--paper);
+    }
+
+    .all-eps {
+      text-align: center;
+      margin: 16px 0 0;
+      border-top: 1px solid var(--rule);
+      border-bottom: 1px solid var(--rule);
+      padding: 8px 0 9px;
+      font-size: 12.5px;
+      letter-spacing: 0.05em;
+    }
+
+    .all-eps a,
+    .ad a {
+      text-decoration: none;
+      font-weight: 700;
+    }
+
+    .all-eps a:hover,
+    .ad a:hover {
+      color: var(--accent);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    /* ほかの番組 */
+    .class-note {
+      text-align: center;
+      font-size: 12.5px;
+      color: var(--ink-soft);
+      margin: 0 0 14px;
+    }
+
+    .class-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      border-top: 1px solid var(--rule);
+      border-left: 1px solid var(--rule);
+    }
+
+    .ad {
+      border-right: 1px solid var(--rule);
+      border-bottom: 1px solid var(--rule);
+      padding: 14px 16px 13px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .ad-cat {
+      margin: 0;
+      font-size: 10.5px;
+      letter-spacing: 0.14em;
+      color: var(--ink-faint);
+    }
+
+    .ad h3 {
+      margin: 0;
+      line-height: 1.42;
+      font-family: var(--font-display);
+      font-weight: 900;
+      font-size: 20px;
+    }
+
+    .ad p {
+      margin: 0;
+      font-size: 12.5px;
+      line-height: 1.65;
+      color: var(--ink-soft);
+    }
+
+    .ad a {
+      margin-top: auto;
+      padding-top: 6px;
+      font-size: 11.5px;
+      letter-spacing: 0.06em;
+    }
+
+    /* 三行広告らしく、枠ごとに見出しの大きさと地色を変える */
+    .ad-0 h3 {
+      font-size: 23px;
+    }
+
+    .ad-1 h3 {
+      font-size: 21px;
+      letter-spacing: 0.08em;
+    }
+
+    .ad-3 h3 {
+      font-size: 17.5px;
+      line-height: 1.55;
+    }
+
+    .ad-4 h3 {
+      font-size: 22px;
+    }
+
+    .ad-board h3 {
+      letter-spacing: 0.1em;
+    }
+
+    .ad-1,
+    .ad-4 {
+      background: var(--box-bg);
+    }
+
+    /* 全面広告 */
+    .display-ad {
+      margin-top: 30px;
+      border: 1px solid var(--rule);
+      padding: 5px;
+    }
+
+    .display-ad-inner {
+      border: 3px double var(--rule);
+      text-align: center;
+      padding: clamp(20px, 4vw, 38px) clamp(16px, 5vw, 60px);
+    }
+
+    .ad-eyebrow {
+      margin: 0;
+      font-size: 10.5px;
+      letter-spacing: 0.4em;
+      text-indent: 0.4em;
+      color: var(--ink-faint);
+    }
+
+    .ad-catch {
+      font-size: clamp(14px, 2.2vw, 19px);
+      margin: 10px 0 0;
+      color: var(--ink-soft);
+      letter-spacing: 0.1em;
+      font-weight: 700;
+    }
+
+    .display-ad h2 {
+      margin: 6px 0 0;
+      font-family: var(--font-display);
+      font-weight: 900;
+      font-size: clamp(26px, 4.6vw, 42px);
+      letter-spacing: 0.03em;
+      line-height: 1.3;
+    }
+
+    .ad-copy {
+      margin: 12px auto 0;
+      max-width: 36em;
+      font-size: 14px;
+      line-height: 1.85;
+    }
+
+    .ad-cta {
+      display: inline-block;
+      margin-top: 18px;
+      border: 2px solid var(--rule);
+      padding: 10px 22px;
+      font-weight: 800;
+      font-size: 14.5px;
+      letter-spacing: 0.05em;
+      text-decoration: none;
+      background: var(--paper);
+      color: var(--ink);
+    }
+
+    .ad-cta:hover {
+      background: var(--ink);
+      color: var(--paper);
+    }
+
+    .ad-fine {
+      margin: 12px 0 0;
+      font-size: 10.5px;
+      letter-spacing: 0.18em;
+      color: var(--ink-faint);
+    }
+
+    @media (max-width: 1020px) {
+      .front {
+        grid-template-columns: 200px minmax(0, 1fr);
       }
 
-      .other-programs-list {
+      .rail-right {
+        grid-column: 1 / -1;
+        border-left: 0;
+        border-top: 3px double var(--rule);
+        padding: 18px 0 0;
+        margin-top: 22px;
+      }
+
+      .class-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 760px) {
+      .front {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .rail-left {
+        border-right: 0;
+        padding-right: 0;
+        order: 2;
+        margin-top: 22px;
+        border-top: 3px double var(--rule);
+        padding-top: 18px;
+      }
+
+      .lead {
+        padding: 0;
+        order: 1;
+      }
+
+      .rail-right {
+        order: 3;
+      }
+
+      .lead-cols {
+        column-count: 1;
+      }
+
+      .dispatch-grid {
         grid-template-columns: 1fr;
       }
 
-      .other-programs-item {
+      .dispatch {
+        padding: 2px 0 14px;
+      }
+
+      .dispatch + .dispatch {
+        padding: 16px 0 6px;
+        border-left: 0;
+        border-top: 1px solid var(--rule);
+      }
+
+      .player-grid {
+        grid-template-columns: auto minmax(0, 1fr);
+      }
+
+      .skip-group {
+        grid-column: 1 / -1;
         flex-direction: row;
-        text-align: left;
-        padding: 0.75rem 1rem;
       }
 
-      .other-programs-artwork {
-        width: 48px;
-        height: 48px;
-        border-radius: 8px;
+      .skip-btn {
+        flex: 1;
+      }
+    }
+
+    @media (max-width: 520px) {
+      .class-grid {
+        grid-template-columns: 1fr;
       }
 
-      .other-programs-name {
-        font-size: 0.9375rem;
-        -webkit-line-clamp: 1;
-        white-space: nowrap;
-        display: block;
-        overflow: hidden;
-        text-overflow: ellipsis;
+      .play-btn {
+        width: 62px;
+        height: 62px;
       }
     }
   </style>

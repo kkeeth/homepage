@@ -15,7 +15,7 @@
 - Riot.js (SPA)
 - Vite (ビルド)
 - Shoelace (UI コンポーネント)
-- Firebase (Hosting / Functions / Firestore)
+- Firebase Hosting
 - i18n: `src/locales/ja.json` / `en.json`
 
 ## Commands
@@ -31,11 +31,8 @@
 - `src/pages/` — ページコンポーネント (.riot)
 - `src/components/` — 共通コンポーネント (.riot)
 - `src/stores/` — 状態管理 (.ts)
-- `src/services/` — Firebase 等の外部サービス
 - `src/locales/` — i18n 翻訳ファイル
 - `src/constants/` — 定数定義
-- `functions/` — Firebase Cloud Functions
-- `workers/` — Cloudflare Workers
 
 ## i18n Rules
 

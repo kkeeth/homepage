@@ -4,6 +4,7 @@
 
       <!-- Left Column: Info -->
       <div class="contact-info">
+        <span class="section-label">{t("pages.contact.label")}</span>
         <h1 class="contact-title">{t("pages.contact.title")}</h1>
 
         <div class="contact-description">
@@ -140,7 +141,7 @@
       },
 
       onMounted() {
-        // profile の依頼ボタン経由なら「出演・登壇・協賛のご依頼」を初期選択
+        // about の依頼ボタン経由なら「出演・登壇・協賛のご依頼」を初期選択
         try {
           if (sessionStorage.getItem('contactTheme') === 'request') {
             sessionStorage.removeItem('contactTheme');
@@ -204,7 +205,7 @@
       display: grid;
       grid-template-columns: 1fr 1.2fr;
       gap: 4rem;
-      max-width: 1000px;
+      max-width: 1200px;
       width: 100%;
       align-items: start;
     }
@@ -221,17 +222,18 @@
       color: var(--rain-blue);
       letter-spacing: 0.12em;
       margin-bottom: 0.75rem;
-      font-family: var(--font-sans);
+      font-family: monospace;
     }
 
     .contact-title {
-      font-size: 4.5rem;
-      font-weight: var(--heading-weight);
-      font-family: var(--font-heading);
+      font-size: min(4.5rem, 5.5vw);
+      white-space: nowrap;
+      font-weight: 900;
+      font-style: italic;
       color: var(--charcoal);
-      line-height: 1.25;
+      line-height: 1;
       margin-bottom: 2rem;
-      letter-spacing: 0.02em;
+      letter-spacing: -0.02em;
     }
 
     .contact-description {
@@ -287,7 +289,7 @@
       color: var(--rain-blue);
       text-decoration: none;
       letter-spacing: 0.08em;
-      font-family: var(--font-sans);
+      font-family: monospace;
       transition: color 0.2s ease;
     }
 
@@ -299,7 +301,7 @@
     .response-note p {
       font-size: 0.8rem;
       color: var(--misty-gray);
-      font-family: var(--font-sans);
+      font-family: monospace;
       line-height: 1.8;
     }
 
