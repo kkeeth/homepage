@@ -9,7 +9,7 @@ export const SUBSTACK_ARCHIVE_URL =
 
 // Podcast ページ Hero 画像
 // TODO: 仮のイラスト。Shure SM7B + ヘッドホンの写真に差し替える (public/images/ に置いてパスを変更)
-export const PODCAST_HERO_IMAGE = '/images/podcast-mic.svg';
+export const PODCAST_HERO_IMAGE = '/images/podcast-mic.jpg';
 
 // ソーシャルメディアリンク
 export const SOCIAL_LINKS = [
@@ -111,6 +111,12 @@ export const OUTPUT_LINKS = [
 // 登壇・出演・協賛・著書 (新しい順)
 // url が無い項目はリンクなしで表示
 export const APPEARANCES = [
+  {
+    id: 'nack5PsaSpecial',
+    year: '2026',
+    type: 'talk',
+    url: 'https://www.nack5.co.jp/information/596/',
+  },
   {
     id: 'rsa2026s2',
     year: '2026',

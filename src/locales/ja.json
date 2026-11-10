@@ -69,12 +69,12 @@
     "about": {
       "fullName": "桑原聖仁",
       "nameRoman": "Kiyohito “Keeth” Kuwahara",
-      "description1": "こんにちは！Keeth です．<a href=\"https://kaminashi.jp/\" target=\"_blank\" rel=\"noopener noreferrer\">株式会社カミナシ</a>で Engineering HR として技術広報・採用広報に従事しています．著書に<a href=\"https://www.c-r.com/book/detail/1350\" target=\"_blank\" rel=\"noopener noreferrer\">『Riot.jsで簡単Webアプリ開発』</a>があります．",
+      "description1": "こんにちは！Keeth です．<a href=\"https://openprop.co.jp/\" target=\"_blank\" rel=\"noopener noreferrer\">OpenProp株式会社</a>で Engineering Manager を務めています．著書に<a href=\"https://www.c-r.com/book/detail/1350\" target=\"_blank\" rel=\"noopener noreferrer\">『Riot.jsで簡単Webアプリ開発』</a>があります．",
       "description2": "2020年3月にポッドキャストを始め，2024年9月からは<a href=\"/podcast\">「雨宿りとWEBの小噺.fm」</a>として配信しています．エンジニアの採用支援やパーソナルコーチングにも取り組んでいます．",
       "roles": {
-        "engineeringHr": {
-          "title": "Engineering HR",
-          "description": "<a href=\"https://kaminashi.jp/\" target=\"_blank\" rel=\"noopener noreferrer\">株式会社カミナシ</a>で技術広報・採用広報"
+        "engineeringManager": {
+          "title": "Engineering Manager",
+          "description": "<a href=\"https://openprop.co.jp/\" target=\"_blank\" rel=\"noopener noreferrer\">OpenProp株式会社</a>でエンジニアリングマネジメント"
         },
         "riot": {
           "title": "Riot.js Collaborator",
@@ -95,7 +95,7 @@
         "paragraph1": "2013年に株式会社エスキュービズムへ入社し，プログラマとして EC サイトの開発・保守からキャリアを始めました．やがてプロジェクトリーダーやプロジェクトマネージャーとして，上流工程からシステム開発全体に関わるようになります．",
         "paragraph2": "2015年にレプラホーン株式会社へ移り，EC サイトの保守をプロジェクトマネージャーとして，開発をフロントエンドエンジニアとして担当しました．2017年には株式会社ゆめみに入社し，API や Web アプリケーションの新規開発・保守・追加開発に携わります．",
         "paragraph3": "2020年はいろいろなことが重なった年でした．3月にゆめみの取締役に就任し，同じ月にポッドキャストを始め，7月には『Riot.jsで簡単Webアプリ開発』を出版しました．2022年からは執行役員を務めました．",
-        "paragraph4": "2024年に株式会社カミナシへ入社．エンジニアリングマネージャーとして「カミナシ従業員」のプロダクト開発チームの評価や生産性向上に取り組み，現在は Engineering HR を担当しています．",
+        "paragraph4": "2024年に株式会社カミナシへ入社．エンジニアリングマネージャーとして「カミナシ従業員」のプロダクト開発チームの評価や生産性向上に取り組み，その後は Engineering HR として技術広報・採用広報を担当しました．2026年11月に OpenProp株式会社へ入社し，Engineering Manager を務めています．",
         "paragraph5": "プライベートでは一児の父．仕事と配信と子育てを行ったり来たりしながら，p5.js でコードから絵を描くジェネラティブアートも楽しんでいます（作品は <a href=\"https://openprocessing.org/user/299354\" target=\"_blank\" rel=\"noopener noreferrer\">OpenProcessing</a> で公開中）．",
         "timelineTitle": "略歴",
         "now": "現在",
@@ -103,10 +103,6 @@
           "sqbizm": {
             "title": "株式会社エスキュービズム 入社",
             "description": "プログラマとして EC サイトの開発・保守に従事．"
-          },
-          "sqbizmTech": {
-            "title": "株式会社エスキュービズム・テクノロジーに社名変更",
-            "description": "プロジェクトリーダー，プロジェクトマネージャーとして上流工程からシステム開発全体に携わる．"
           },
           "leprechaun": {
             "title": "レプラホーン株式会社 入社",
@@ -118,7 +114,7 @@
           },
           "yumemiDirector": {
             "title": "株式会社ゆめみ 「チャレンジ取締役」制度を利用し，技術担当取締役就任",
-            "description": ""
+            "description": "エンジニアの採用加速，組織開発に従事．"
           },
           "podcast": {
             "title": "ポッドキャスト配信開始",
@@ -130,15 +126,15 @@
           },
           "yumemiExecutive": {
             "title": "株式会社ゆめみ 取締役退任，執行役員就任",
-            "description": ""
+            "description": "引き続きエンジニアの採用加速，採用広報に従事．"
           },
           "kaminashi": {
             "title": "株式会社カミナシ 入社",
-            "description": "エンジニアリングマネージャーとして「カミナシ従業員」プロダクト開発のエンジニアチームの評価・生産性向上等に務める．"
+            "description": "エンジニアリングマネージャーとして「カミナシ従業員」プロダクト開発のエンジニアチームの評価・生産性向上等に務める．のちに Engineering HR として技術広報・採用広報を担当．"
           },
-          "engineeringHr": {
-            "title": "Engineering HR",
-            "description": "株式会社カミナシで Engineering HR を担当．"
+          "openprop": {
+            "title": "OpenProp株式会社 入社",
+            "description": "Engineering Manager として従事．"
           }
         }
       },
@@ -197,6 +193,7 @@
           "audition": "オーディション"
         },
         "items": {
+          "nack5PsaSpecial": "NACK5 特番「Podcast Star Award NACK5 RADIO SPECIAL」（番組進行）",
           "rsa2026s2": "Radio Star Audition 2026 2nd Season（ファイナリスト・第6位）",
           "techDebtCon2026": "技術的負債に向き合うConference 2026（個人スポンサー）",
           "wcpd": "WEB CREATOR PODCAST DAY",
@@ -216,8 +213,8 @@
         "longLabel": "長い紹介文",
         "copy": "コピー",
         "copied": "コピーしました",
-        "short": "桑原聖仁（Keeth）。株式会社カミナシの Engineering HR。Riot.js コラボレーター。2020年からポッドキャストを配信しており，現在は「雨宿りとWEBの小噺.fm」など6つの番組を運営している。",
-        "long": "桑原聖仁（Keeth）。株式会社カミナシの Engineering HR。Riot.js のコラボレーター。著書に『Riot.jsで簡単Webアプリ開発』（シーアンドアール研究所，2020年）。2020年3月にポッドキャストを始め，現在は「雨宿りとWEBの小噺.fm」など6つの番組を運営している。エンジニアの採用支援やパーソナルコーチング，プログラミング教育にも携わり，p5.js を使ったジェネラティブアートの制作も続けている。"
+        "short": "桑原聖仁（Keeth）。OpenProp株式会社の Engineering Manager。Riot.js コラボレーター。2020年からポッドキャストを配信しており，現在は「雨宿りとWEBの小噺.fm」など6つの番組を運営している。",
+        "long": "桑原聖仁（Keeth）。OpenProp株式会社の Engineering Manager。Riot.js のコラボレーター。著書に『Riot.jsで簡単Webアプリ開発』（シーアンドアール研究所，2020年）。2020年3月にポッドキャストを始め，現在は「雨宿りとWEBの小噺.fm」など6つの番組を運営している。エンジニアの採用支援やパーソナルコーチング，プログラミング教育にも携わり，p5.js を使ったジェネラティブアートの制作も続けている。"
       },
       "request": {
         "title": "出演・登壇・協賛のご依頼",

@@ -68,12 +68,12 @@
     "about": {
       "fullName": "Kiyohito Kuwahara",
       "nameRoman": "",
-      "description1": "Hi! I'm Keeth. I work in Engineering HR at <a href=\"https://kaminashi.jp/\" target=\"_blank\" rel=\"noopener noreferrer\">Kaminashi Inc.</a>, focusing on tech branding and recruitment marketing. I'm also the author of <a href=\"https://www.c-r.com/book/detail/1350\" target=\"_blank\" rel=\"noopener noreferrer\">\"Riot.jsで簡単Webアプリ開発\"</a> (Easy Web App Development with Riot.js).",
+      "description1": "Hi! I'm Keeth. I'm an Engineering Manager at <a href=\"https://openprop.co.jp/\" target=\"_blank\" rel=\"noopener noreferrer\">OpenProp Inc.</a> I'm also the author of <a href=\"https://www.c-r.com/book/detail/1350\" target=\"_blank\" rel=\"noopener noreferrer\">\"Riot.jsで簡単Webアプリ開発\"</a> (Easy Web App Development with Riot.js).",
       "description2": "I started podcasting in March 2020, and since September 2024 the show has been <a href=\"/podcast\">'Amayadori to WEB no Kobanashi.fm'</a>. I also support engineering recruiting and do personal coaching.",
       "roles": {
-        "engineeringHr": {
-          "title": "Engineering HR",
-          "description": "Tech branding and recruitment marketing at <a href=\"https://kaminashi.jp/\" target=\"_blank\" rel=\"noopener noreferrer\">Kaminashi Inc.</a>"
+        "engineeringManager": {
+          "title": "Engineering Manager",
+          "description": "Engineering management at <a href=\"https://openprop.co.jp/\" target=\"_blank\" rel=\"noopener noreferrer\">OpenProp Inc.</a>"
         },
         "riot": {
           "title": "Riot.js Collaborator",
@@ -94,7 +94,7 @@
         "paragraph1": "I started my career in 2013 at S-cubism Inc., developing and maintaining e-commerce sites as a programmer. Over time I moved into project leader and project manager roles, working across the whole development process from requirements onward.",
         "paragraph2": "In 2015 I joined Leprechaun Inc., maintaining e-commerce sites as a project manager and building them as a frontend engineer. In 2017 I joined YUMEMI Inc., where I worked on new development, maintenance and enhancement of APIs and web applications.",
         "paragraph3": "2020 was a big year. In March I became a board director at YUMEMI and, the same month, started podcasting. In July I published my book, \"Riot.jsで簡単Webアプリ開発\". From 2022 I served as an executive officer.",
-        "paragraph4": "In 2024 I joined Kaminashi Inc. As an engineering manager I worked on evaluation and productivity for the product team behind \"Kaminashi Employee\", and I now work in Engineering HR.",
+        "paragraph4": "In 2024 I joined Kaminashi Inc. As an engineering manager I worked on evaluation and productivity for the product team behind \"Kaminashi Employee\", and later moved to Engineering HR, working on tech branding and recruitment marketing. In November 2026 I joined OpenProp Inc. as an Engineering Manager.",
         "paragraph5": "Outside of work, I am a father of one. Between work, podcasting and parenting, I also enjoy drawing generative art with code using p5.js (my works are on <a href=\"https://openprocessing.org/user/299354\" target=\"_blank\" rel=\"noopener noreferrer\">OpenProcessing</a>).",
         "timelineTitle": "Career",
         "now": "Now",
@@ -102,10 +102,6 @@
           "sqbizm": {
             "title": "Joined S-cubism Inc.",
             "description": "Developed and maintained e-commerce sites as a programmer."
-          },
-          "sqbizmTech": {
-            "title": "Company renamed to S-cubism Technology Inc.",
-            "description": "Worked across the whole development process as a project leader and project manager."
           },
           "leprechaun": {
             "title": "Joined Leprechaun Inc.",
@@ -117,7 +113,7 @@
           },
           "yumemiDirector": {
             "title": "Board Director of Technology through the “Challenge Director” Program, YUMEMI Inc.",
-            "description": ""
+            "description": "Worked on accelerating engineer hiring and organizational development."
           },
           "podcast": {
             "title": "Started podcasting",
@@ -129,15 +125,15 @@
           },
           "yumemiExecutive": {
             "title": "Stepped down as Board Director, became Executive Officer at YUMEMI Inc.",
-            "description": ""
+            "description": "Continued to work on accelerating engineer hiring and recruitment marketing."
           },
           "kaminashi": {
             "title": "Joined Kaminashi Inc.",
-            "description": "As an engineering manager, worked on evaluation and productivity for the \"Kaminashi Employee\" product engineering team."
+            "description": "As an engineering manager, worked on evaluation and productivity for the \"Kaminashi Employee\" product engineering team. Later worked in Engineering HR on tech branding and recruitment marketing."
           },
-          "engineeringHr": {
-            "title": "Engineering HR",
-            "description": "Working in Engineering HR at Kaminashi Inc."
+          "openprop": {
+            "title": "Joined OpenProp Inc.",
+            "description": "Working as an Engineering Manager."
           }
         }
       },
@@ -196,6 +192,7 @@
           "audition": "Audition"
         },
         "items": {
+          "nack5PsaSpecial": "NACK5 special program \"Podcast Star Award NACK5 RADIO SPECIAL\" (Co-host)",
           "rsa2026s2": "Radio Star Audition 2026 2nd Season (Finalist, 6th place)",
           "techDebtCon2026": "Technical Debt Conference 2026 (Individual Sponsor)",
           "wcpd": "WEB CREATOR PODCAST DAY",
@@ -215,8 +212,8 @@
         "longLabel": "Long bio",
         "copy": "Copy",
         "copied": "Copied",
-        "short": "Kiyohito \"Keeth\" Kuwahara works in Engineering HR at Kaminashi Inc. and is a Riot.js collaborator. Keeth has been podcasting since 2020 and now runs six shows, including 'Amayadori to WEB no Kobanashi.fm'.",
-        "long": "Kiyohito \"Keeth\" Kuwahara works in Engineering HR at Kaminashi Inc. and is a Riot.js collaborator and the author of \"Riot.jsで簡単Webアプリ開発\" (C&R Institute, 2020). Keeth started podcasting in March 2020 and now runs six shows, including 'Amayadori to WEB no Kobanashi.fm', while also working on engineering recruiting, personal coaching and programming education and creating generative art with p5.js."
+        "short": "Kiyohito \"Keeth\" Kuwahara is an Engineering Manager at OpenProp Inc. and a Riot.js collaborator. Keeth has been podcasting since 2020 and now runs six shows, including 'Amayadori to WEB no Kobanashi.fm'.",
+        "long": "Kiyohito \"Keeth\" Kuwahara is an Engineering Manager at OpenProp Inc., a Riot.js collaborator and the author of \"Riot.jsで簡単Webアプリ開発\" (C&R Institute, 2020). Keeth started podcasting in March 2020 and now runs six shows, including 'Amayadori to WEB no Kobanashi.fm', while also working on engineering recruiting, personal coaching and programming education and creating generative art with p5.js."
       },
       "request": {
         "title": "Appearance, Talk & Sponsorship Requests",
