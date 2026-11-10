@@ -51,10 +51,10 @@
     import pages from './pages'
     import Home from '@/pages/home.riot'
     import Episodes from '@/pages/episodes.riot'
-    import Info from '@/pages/info.riot'
-    import Profile from '@/pages/profile.riot'
-    import Contact from '@/pages/contact.riot'
     import EpisodeDetail from '@/pages/episode-detail.riot'
+    import Podcast from '@/pages/podcast.riot'
+    import About from '@/pages/about.riot'
+    import Contact from '@/pages/contact.riot'
     import Privacy from '@/pages/privacy.riot'
     import i18nStore from '@/stores/i18n-store';
 
@@ -65,10 +65,10 @@
         NotFound,
         Home,
         Episodes,
-        Info,
-        Profile,
-        Contact,
         EpisodeDetail,
+        Podcast,
+        About,
+        Contact,
         Privacy,
       },
       state: {
@@ -92,6 +92,13 @@
       async onAnyRoute(path) {
         if (!path.pathname) {
           return
+        }
+
+        // 旧 URL は新しいパスへ
+        const redirects = { '/profile': '/about', '/info': '/podcast' };
+        if (redirects[path.pathname]) {
+          router.push(redirects[path.pathname]);
+          return;
         }
 
         const foundPage = pages.find(p => match(path.pathname, toRegexp(p.path)))

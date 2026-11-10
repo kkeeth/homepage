@@ -1,5 +1,10 @@
 // RSSフィードのURL
+// ART19: メインの公開フィード (CORS 対応済み、直接 fetch 可)
 export const RSS_FEED_URL = 'https://rss.art19.com/kkeethengineers';
+
+// Podcast ページ Hero 画像
+// TODO: 仮のイラスト。Shure SM7B + ヘッドホンの写真に差し替える (public/images/ に置いてパスを変更)
+export const PODCAST_HERO_IMAGE = '/images/podcast-mic.svg';
 
 // ソーシャルメディアリンク
 export const SOCIAL_LINKS = [
@@ -58,18 +63,6 @@ export const PODCAST_PLATFORMS = [
   },
 ];
 
-// 自分のスキルセット
-export const MY_SKILLS = [
-  'Riot.js',
-  'React',
-  'Node.js',
-  'TypeScript',
-  'Podcasting',
-  'Recruiting Support',
-  'Personal Coaching',
-  'Programming Education',
-];
-
 // Output セクション用リンク
 export const OUTPUT_LINKS = [
   {
@@ -107,6 +100,92 @@ export const OUTPUT_LINKS = [
     icon: 'palette',
     url: 'https://openprocessing.org/user/299354',
     linkText: 'View',
+  },
+];
+
+// 登壇・出演・協賛・著書 (新しい順)
+// url が無い項目はリンクなしで表示
+export const APPEARANCES = [
+  {
+    id: 'rsa2026s2',
+    year: '2026',
+    type: 'audition',
+    url: 'https://mudia.tv/project/radio_star_audition_2026_02',
+  },
+  {
+    id: 'techDebtCon2026',
+    year: '2026',
+    type: 'sponsor',
+    url: 'https://technical-debt-con.findy-tools.io/2026#sponsors',
+  },
+  {
+    id: 'wcpd',
+    year: '2025, 2026',
+    type: 'talk',
+    url: 'https://webcreator-podcast-day.com/',
+  },
+  {
+    id: 'psa2026',
+    year: '2026',
+    type: 'sponsor',
+    url: 'https://podcastar.jp/psa2026',
+  },
+  {
+    id: 'lectureReact',
+    year: '2025',
+    type: 'lecture',
+    url: 'https://vantan-techford-slide.vercel.app/',
+  },
+  {
+    id: 'psa2025',
+    year: '2025',
+    type: 'sponsor',
+    url: 'https://podcastar.jp/podcaststaraward',
+  },
+  {
+    id: 'lectureP5',
+    year: '2023 – 2025',
+    type: 'lecture',
+    url: 'https://vantan-techford-p5js-slide.vercel.app/',
+  },
+  {
+    id: 'advisory',
+    year: '2023 –',
+    type: 'advisory',
+  },
+  {
+    id: 'riotBook',
+    year: '2020',
+    type: 'book',
+    url: 'https://www.c-r.com/book/detail/1350',
+  },
+];
+
+// Support セクション用リンク (支援サイト)
+export const SUPPORT_LINKS = [
+  {
+    name: 'githubSponsors',
+    icon: 'heart-fill',
+    url: 'https://github.com/sponsors/kkeeth',
+    linkText: 'Sponsor',
+  },
+  {
+    name: 'ofuse',
+    icon: 'envelope-heart',
+    url: 'https://ofuse.me/kkeeth',
+    linkText: 'OFUSE',
+  },
+  {
+    name: 'buyMeACoffee',
+    icon: 'cup-hot',
+    url: 'https://buymeacoffee.com/kkeeth',
+    linkText: 'Coffee',
+  },
+  {
+    name: 'substack',
+    icon: 'star-fill',
+    url: 'https://kkeeth.substack.com/subscribe',
+    linkText: 'Subscribe',
   },
 ];
 

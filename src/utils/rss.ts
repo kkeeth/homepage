@@ -41,10 +41,16 @@ export async function fetchRSSFeed(url: string): Promise<Episode[]> {
 }
 
 export function parseRSSFeed(xmlText: string): Episode[] {
-  // Art19 フィードの <enclosure ...//>  のような不正な自己閉じタグを修正
-  const sanitizedXml = xmlText.replace(/\/\/>/g, '/>');
   const parser = new DOMParser();
-  const xmlDoc = parser.parseFromString(sanitizedXml, 'text/xml');
+  const xmlDoc = parser.parseFromString(xmlText, 'text/xml');
+
+  // text/xml は厳格なため、未エスケープの & 等があるとフィード全体が
+  // parsererror になり item が 0 件で silent fail する。検知してログを残す。
+  const parseError = xmlDoc.querySelector('parsererror');
+  if (parseError) {
+    console.error('[parseRSSFeed] XML parse error:', parseError.textContent?.slice(0, 300));
+    return [];
+  }
 
   const items = xmlDoc.querySelectorAll('item');
   const episodes: Episode[] = [];

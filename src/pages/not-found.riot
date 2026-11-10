@@ -2,25 +2,46 @@
   <div class="not-found-page">
     <!-- Rain Background -->
     <div class="rain-bg">
-      <div class="raindrop" each={i in Array(8)} style="left: {Math.random() * 100}%; animation-delay: {Math.random() * 3}s;"></div>
+      <div
+        class="raindrop"
+        each={i in Array(20)}
+        style="left: {Math.random() * 100}%; animation-delay: {Math.random() * 3}s; animation-duration: {2 + Math.random() * 2}s;"
+      ></div>
     </div>
 
     <div class="container">
-      <div class="umbrella-icon">☂</div>
+      <p class="error-label">{t("notFound.label")}</p>
+
+      <div class="error-code" aria-label="404">
+        <span class="digit" aria-hidden="true">4</span>
+        <span class="umbrella-icon" aria-hidden="true">☂</span>
+        <span class="digit" aria-hidden="true">4</span>
+      </div>
+
       <h1>{t("notFound.title")}</h1>
-      <p class="not-found-message">
-        {t("notFound.message")}
-      </p>
-      <sl-button
-        href="/"
-        size="large"
-        variant="primary"
-        pill
-        class="home-btn"
-      >
-        <span class="btn-icon">🏠</span>
-        {t("notFound.backHome")}
-      </sl-button>
+      <p class="not-found-message">{t("notFound.message")}</p>
+
+      <div class="actions">
+        <sl-button
+          href="/"
+          size="large"
+          variant="primary"
+          pill
+          class="home-btn"
+        >
+          {t("notFound.backHome")}
+        </sl-button>
+        <sl-button
+          href="/episodes"
+          size="large"
+          variant="default"
+          pill
+          outline
+          class="episodes-btn"
+        >
+          {t("notFound.viewEpisodes")}
+        </sl-button>
+      </div>
     </div>
   </div>
 
@@ -52,53 +73,87 @@
 
     .raindrop {
       position: absolute;
-      top: -10px;
+      top: -20px;
       width: 2px;
-      height: 20px;
+      height: 18px;
       background: var(--rain-blue);
-      opacity: 0.4;
       border-radius: 0 0 50% 50%;
       animation: falling-rain 3s linear infinite;
-      opacity: 0.6;
+      opacity: 0.5;
     }
 
     .container {
-      padding: 4rem;
+      padding: 4rem 2rem;
       text-align: center;
       position: relative;
       z-index: 2;
       max-width: 720px;
     }
 
-    .umbrella-icon {
-      font-size: 4rem;
-      color: var(--umbrella-blue);
+    .error-label {
+      font-size: 0.9rem;
+      font-weight: 700;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--warm-amber);
+      margin-bottom: 0.5rem;
+    }
+
+    .error-code {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      line-height: 1;
       margin-bottom: 1.5rem;
+      user-select: none;
+    }
+
+    .digit {
+      font-size: clamp(6rem, 20vw, 10rem);
+      font-weight: 900;
+      color: var(--warm-white);
+      text-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+    }
+
+    .umbrella-icon {
+      font-size: clamp(4.5rem, 15vw, 7.5rem);
+      color: var(--umbrella-blue);
       animation: gentle-sway 4s ease-in-out infinite;
-      opacity: 0.8;
+      transform-origin: bottom center;
+      text-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
     }
 
     h1 {
-      font-size: 2.5rem;
+      font-size: 1.8rem;
       font-weight: 800;
       margin-bottom: 1rem;
       text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
     }
 
     .not-found-message {
-      font-size: 1.2rem;
+      white-space: pre-line;
+      font-size: 1.1rem;
       color: var(--white-90);
-      margin-bottom: 2rem;
-      line-height: 1.6;
+      margin-bottom: 2.5rem;
+      line-height: 1.8;
       text-shadow: 0 1px 5px rgba(0, 0, 0, 0.3);
+    }
+
+    .actions {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 1rem;
     }
 
     .home-btn::part(base) {
       background: var(--warm-amber);
       border: 2px solid var(--white-20);
-      padding: 1rem 2rem;
+      padding: 0 1.5rem;
       font-weight: 600;
-      font-size: 1.1rem;
+      font-size: 1.05rem;
       box-shadow: 0 4px 20px rgba(255, 152, 0, 0.3);
       transition: all 0.3s ease;
     }
@@ -109,21 +164,33 @@
       box-shadow: 0 8px 30px rgba(255, 152, 0, 0.4);
     }
 
-    .btn-icon {
-      margin-right: 0.5rem;
+    .episodes-btn::part(base) {
+      background: transparent;
+      border: 2px solid var(--white-20);
+      color: var(--warm-white);
+      padding: 0 1.5rem;
+      font-weight: 600;
+      font-size: 1.05rem;
+      transition: all 0.3s ease;
+    }
+
+    .episodes-btn:hover::part(base) {
+      background: var(--white-10);
+      border-color: var(--white-80);
+      transform: translateY(-2px);
     }
 
     /* Animations */
     @keyframes falling-rain {
       0% {
-        transform: translateY(-10px);
+        transform: translateY(-20px);
         opacity: 0;
       }
       10% {
-        opacity: 0.6;
+        opacity: 0.5;
       }
       90% {
-        opacity: 0.6;
+        opacity: 0.5;
       }
       100% {
         transform: translateY(calc(100vh + 20px));
@@ -133,28 +200,40 @@
 
     @keyframes gentle-sway {
       0%, 100% {
-        transform: rotate(-3deg);
+        transform: rotate(-4deg);
       }
       50% {
-        transform: rotate(3deg);
+        transform: rotate(4deg);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .raindrop,
+      .umbrella-icon {
+        animation: none;
       }
     }
 
     @media (max-width: 768px) {
       .container {
-        padding: 2rem;
+        padding: 3rem 1.5rem;
       }
 
       h1 {
-        font-size: 2rem;
-      }
-
-      .umbrella-icon {
-        font-size: 3rem;
+        font-size: 1.4rem;
       }
 
       .not-found-message {
         font-size: 1rem;
+      }
+
+      .actions {
+        flex-direction: column;
+      }
+
+      .actions sl-button {
+        width: 100%;
+        max-width: 320px;
       }
     }
   </style>

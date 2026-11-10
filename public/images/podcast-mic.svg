@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 400" role="img" aria-label="Microphone and headphones">
+  <!-- 仮画像: SM7B + ヘッドホンの写真に差し替え予定 (src/constants/links.js の PODCAST_HERO_IMAGE) -->
+  <rect width="300" height="400" fill="#34495e"/>
+
+  <!-- boom arm -->
+  <g stroke="#7f8c8d" stroke-width="8" stroke-linecap="round" fill="none">
+    <path d="M300 40 L205 95"/>
+    <path d="M205 95 L180 118"/>
+  </g>
+  <circle cx="205" cy="95" r="9" fill="#95a5a6"/>
+
+  <!-- yoke mount -->
+  <path d="M110 150 L110 128 Q110 116 122 116 L178 116 Q190 116 190 128 L190 150"
+        fill="none" stroke="#95a5a6" stroke-width="8" stroke-linecap="round"/>
+  <circle cx="110" cy="176" r="10" fill="#95a5a6"/>
+  <circle cx="190" cy="176" r="10" fill="#95a5a6"/>
+
+  <!-- mic body (SM7B-like) -->
+  <rect x="118" y="140" width="64" height="150" rx="14" fill="#1f2d3a"/>
+  <!-- windscreen -->
+  <rect x="112" y="130" width="76" height="84" rx="30" fill="#2c3e50"/>
+  <g stroke="#3d566e" stroke-width="3">
+    <line x1="124" y1="152" x2="176" y2="152"/>
+    <line x1="120" y1="166" x2="180" y2="166"/>
+    <line x1="120" y1="180" x2="180" y2="180"/>
+    <line x1="120" y1="194" x2="180" y2="194"/>
+  </g>
+  <!-- badge band -->
+  <rect x="118" y="226" width="64" height="10" fill="#3498db"/>
+  <!-- XLR end -->
+  <rect x="130" y="290" width="40" height="18" rx="4" fill="#1f2d3a"/>
+  <path d="M150 308 Q150 340 120 352 Q90 364 90 400" fill="none" stroke="#1f2d3a" stroke-width="6"/>
+
+  <!-- headphones -->
+  <g transform="translate(206 262) rotate(-12)">
+    <path d="M0 70 L0 40 Q0 0 40 0 Q80 0 80 40 L80 70" fill="none" stroke="#ff9800" stroke-width="9" stroke-linecap="round"/>
+    <rect x="-12" y="58" width="26" height="46" rx="10" fill="#f8f9fa"/>
+    <rect x="66" y="58" width="26" height="46" rx="10" fill="#f8f9fa"/>
+  </g>
+
+  <!-- on air light -->
+  <circle cx="42" cy="48" r="7" fill="#ff9800"/>
+  <text x="56" y="53" font-family="sans-serif" font-size="14" font-weight="700" letter-spacing="3" fill="#f8f9fa">ON AIR</text>
+</svg>

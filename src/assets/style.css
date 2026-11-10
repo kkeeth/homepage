@@ -17,6 +17,11 @@
   --font-display: 'Zen Old Mincho', 'Shippori Mincho B1', 'Hiragino Mincho ProN',
     serif;
 
+  /* main 側ページ (about / podcast) が参照する書体トークン → 新聞の書体に対応づける */
+  --font-sans: var(--font-body);
+  --font-heading: var(--font-display);
+  --heading-weight: 900;
+
   /* Legacy tokens → newspaper palette (既存ページはこの対応表で一括で新聞調になる) */
   --charcoal: var(--ink);
   --warm-gray: var(--ink-soft);

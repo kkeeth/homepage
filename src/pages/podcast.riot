@@ -1,18 +1,44 @@
-<info>
-  <div class="info-page">
+<podcast>
+  <div class="podcast-page">
     <!-- Hero: Editorial Split (dark photo + white text) -->
     <section class="hero">
       <div class="hero-photo">
-        <img src="https://picsum.photos/800/600" alt="kkeeth" />
+        <img src={state.heroImage} alt={t("pages.podcast.hero.imageAlt")} />
       </div>
       <div class="hero-text">
-        <span class="section-label hero-label-light">// ABOUT THE SHOW</span>
-        <h1 class="page-title hero-title-light">{t("pages.info.hero.title")}</h1>
-        <p class="hero-description">{t("pages.info.concept.description1")}</p>
-        <p class="hero-description">{t("pages.info.concept.description2")}</p>
+        <h1 class="page-title hero-title-light">{t("pages.podcast.hero.title")}</h1>
+        <p class="hero-description">{t("pages.podcast.concept.description1")}</p>
+        <p class="hero-description">{t("pages.podcast.concept.description2")}</p>
         <div class="hero-label-row">
           <span class="hero-line"></span>
-          <span class="hero-label-text">{t("pages.info.hero.label")}</span>
+          <span class="hero-label-text">{t("pages.podcast.hero.label")}</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Story: Why Amayadori + Platform Links -->
+    <section class="story-section">
+      <div class="story-layout">
+        <div class="story-left">
+          <h2 class="section-title">{t("pages.podcast.story.title")}</h2>
+        </div>
+        <div class="story-right">
+          <p class="story-text"><raw html={t("pages.podcast.story.description1")} /></p>
+          <p class="story-text"><raw html={t("pages.podcast.story.description2")} /></p>
+
+          <div class="platform-links">
+            <a
+              each={platform in state.platforms}
+              key={platform.name}
+              href={platform.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="platform-link platform-{platform.name.split(' ')[0].toLowerCase()}"
+            >
+              <sl-icon name={platform.icon}></sl-icon>
+              <span>{platform.name}</span>
+            </a>
+          </div>
         </div>
       </div>
     </section>
@@ -21,11 +47,10 @@
     <section class="personality">
       <div class="section-inner personality-inner">
         <div class="personality-info">
-          <span class="section-label">// HOST</span>
-          <h3 class="personality-name">{t("pages.info.personality.name")}</h3>
-          <p class="personality-role-text">{t("pages.info.personality.title")}</p>
-          <p class="personality-desc">{t("pages.info.personality.description")}</p>
-          <a href="/profile" class="profile-link">{t("pages.info.personality.profileLink")} →</a>
+          <h3 class="personality-name">{t("pages.podcast.personality.name")}</h3>
+          <p class="personality-role-text">{t("pages.podcast.personality.title")}</p>
+          <p class="personality-desc">{t("pages.podcast.personality.description")}</p>
+          <a href="/about" class="profile-link">{t("pages.podcast.personality.profileLink")} →</a>
         </div>
       </div>
     </section>
@@ -33,10 +58,9 @@
     <!-- Topics: Simple Tag List -->
     <section class="themes">
       <div class="section-inner themes-inner">
-        <span class="section-label">// {t("pages.info.concept.title")}</span>
-        <h2 class="section-title">{t("pages.info.topics.title")}</h2>
+        <h2 class="section-title">{t("pages.podcast.topics.title")}</h2>
         <div class="tag-list">
-          <span each={topic in state.topics} class="tag"><sl-icon name={topic.icon}></sl-icon>{"\u00A0" + topic.label}</span>
+          <span each={topic in state.topics} class="tag">{topic.label}</span>
         </div>
       </div>
     </section>
@@ -44,8 +68,7 @@
     <!-- Timeline: Vertical with line + dots -->
     <section class="evolution">
       <div class="section-inner">
-        <span class="section-label">// TIMELINE</span>
-        <h2 class="section-title">{t("pages.info.timeline.title")}</h2>
+        <h2 class="section-title">{t("pages.podcast.timeline.title")}</h2>
         <div class="timeline">
           <div each={item in state.timelineItems} key={item.id} class="timeline-item">
             <span class="timeline-year">{item.year}</span>
@@ -61,63 +84,45 @@
       </div>
     </section>
 
-    <!-- Stats: Clean Bordered Cards -->
-    <section class="stats-section">
-      <div class="section-inner">
-        <span class="section-label">// STATS</span>
-        <div class="stats-row">
-          <div class="stat-item" each={stat in state.stats} key={stat.num}>
-            <span class="stat-value">{stat.value}</span>
-            <span class="stat-label">{stat.label}</span>
-          </div>
-        </div>
-      </div>
-    </section>
   </div>
 
   <script>
+    import { PODCAST_HERO_IMAGE, PODCAST_PLATFORMS } from '@/constants/links';
     import i18nStore from '@/stores/i18n-store';
 
     export default {
       t: i18nStore.t.bind(i18nStore),
       state: {
         timelineItems: [],
-        stats: [],
         topics: [],
+        platforms: PODCAST_PLATFORMS,
+        heroImage: PODCAST_HERO_IMAGE,
       },
       onBeforeUpdate(_, state) {
-        const timelineKeys = ['2020', '2021', '2022', '2023', '2024', '2025'];
+        const timelineKeys = ['2020', '2021', '2022', '2024', '2025', '2026'];
         state.timelineItems = timelineKeys.map((key, i) => ({
           id: i + 1,
-          year: this.t(`pages.info.timeline.items.${key}.year`),
-          title: this.t(`pages.info.timeline.items.${key}.title`),
-          description: this.t(`pages.info.timeline.items.${key}.description`),
-        }));
-
-        const statKeys = ['episodes', 'plays', 'years', 'programs'];
-        state.stats = statKeys.map((key, i) => ({
-          num: String(i + 1).padStart(2, '0'),
-          value: this.t(`pages.info.achievements.${key}.value`),
-          label: this.t(`pages.info.achievements.${key}.label`),
+          year: this.t(`pages.podcast.timeline.items.${key}.year`),
+          title: this.t(`pages.podcast.timeline.items.${key}.title`),
+          description: this.t(`pages.podcast.timeline.items.${key}.description`),
         }));
 
         const topicKeys = ['frontend', 'backend', 'libraries', 'career', 'daily', 'creative', 'community', 'genai'];
         state.topics = topicKeys.map((key, i) => ({
-          label: this.t(`pages.info.topics.items.${key}.label`),
-          icon: this.t(`pages.info.topics.items.${key}.icon`),
+          label: this.t(`pages.podcast.topics.items.${key}.label`),
         }));
       },
     }
   </script>
 
   <style>
-    .info-page {
+    .podcast-page {
       background: var(--warm-white);
       min-height: 100vh;
     }
 
     .section-inner {
-      max-width: 1200px;
+      max-width: 1000px;
       margin: 0 auto;
     }
 
@@ -189,7 +194,68 @@
       letter-spacing: 0.15em;
       color: var(--misty-gray);
       text-transform: uppercase;
-      font-family: monospace;
+      font-family: var(--font-sans);
+    }
+
+    /* ===== Story: Why Amayadori ===== */
+    .story-section {
+      padding: 5rem 4rem;
+      background: var(--cream);
+    }
+
+    .story-layout {
+      max-width: 1000px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: 4rem;
+      align-items: start;
+    }
+
+    .story-right {
+    }
+
+    .story-text {
+      font-size: 1rem;
+      line-height: 1.8;
+      color: var(--misty-gray);
+      margin-bottom: 1rem;
+    }
+
+    .platform-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-top: 2rem;
+    }
+
+    .platform-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.25rem 0.5rem;
+      border-radius: .5rem;
+      text-decoration: none;
+      color: var(--warm-white);
+      font-size: 0.875rem;
+      font-weight: 500;
+      font-style: normal;
+      transition: all 0.2s ease;
+    }
+
+    .platform-apple { background-color: #A855F7; }
+    .platform-spotify { background-color: #1DB954; }
+    .platform-amazon { background-color: #FF9900; }
+    .platform-youtube { background-color: #FF0000; }
+    .platform-rss { background-color: #F97316; }
+
+    .platform-link:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 12px rgba(66, 153, 225, 0.15);
+    }
+
+    .platform-link sl-icon {
+      font-size: 1rem;
     }
 
     /* ===== Timeline: Vertical with line + dots ===== */
@@ -252,7 +318,7 @@
       font-weight: 700;
       letter-spacing: 0.1em;
       color: var(--rain-blue);
-      font-family: monospace;
+      font-family: var(--font-sans);
       padding-top: 0.25rem;
       text-align: right;
     }
@@ -268,43 +334,6 @@
       font-size: 0.875rem;
       line-height: 1.6;
       color: var(--misty-gray);
-    }
-
-    /* ===== Stats: Clean Bordered Cards ===== */
-    .stats-section {
-      padding: 4rem 4rem;
-    }
-
-    .stats-row {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 1rem;
-      margin-top: 1rem;
-    }
-
-    .stat-item {
-      border: 1px solid var(--light-gray);
-      border-radius: 1rem;
-      padding: 2rem 1.5rem;
-      text-align: center;
-    }
-
-    .stat-value {
-      display: block;
-      font-size: 2rem;
-      font-weight: 800;
-      color: var(--charcoal);
-      margin-bottom: 0.25rem;
-    }
-
-    .stat-label {
-      display: block;
-      font-size: 0.7rem;
-      font-weight: 600;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--misty-gray);
-      font-family: monospace;
     }
 
     /* ===== Personality: Brief Host ===== */
@@ -343,7 +372,7 @@
       text-decoration: none;
       font-weight: 700;
       font-size: 0.875rem;
-      font-family: monospace;
+      font-family: var(--font-sans);
       transition: color 0.2s ease;
     }
 
@@ -406,6 +435,15 @@
         padding: 2.5rem 1.5rem;
       }
 
+      .story-section {
+        padding: 4rem 2rem;
+      }
+
+      .story-layout {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+
       .evolution {
         padding: 4rem 2rem;
       }
@@ -413,14 +451,6 @@
       .timeline-item {
         grid-template-columns: 60px 20px 1fr;
         gap: 1rem;
-      }
-
-      .stats-section {
-        padding: 3rem 2rem;
-      }
-
-      .stats-row {
-        grid-template-columns: repeat(2, 1fr);
       }
 
       .personality {
@@ -435,6 +465,10 @@
     @media (max-width: 480px) {
       .hero-text {
         padding: 2rem 1.5rem;
+      }
+
+      .story-section {
+        padding: 3rem 1.5rem;
       }
 
       .evolution {
@@ -455,22 +489,6 @@
         font-size: 0.75rem;
       }
 
-      .stats-section {
-        padding: 3rem 1.5rem;
-      }
-
-      .stats-row {
-        gap: 0.75rem;
-      }
-
-      .stat-item {
-        padding: 1.5rem 1rem;
-      }
-
-      .stat-value {
-        font-size: 1.5rem;
-      }
-
       .personality {
         padding: 3rem 1.5rem;
       }
@@ -480,4 +498,4 @@
       }
     }
   </style>
-</info>
+</podcast>

@@ -5,6 +5,7 @@ import { RSS_FEED_URL } from '@/constants/links';
 interface RSSEpisode {
   title: string;
   description: string;
+  fullDescription?: string;
   pubDate: string;
   link: string;
   imageUrl?: string;
@@ -26,17 +27,33 @@ export interface Episode {
   duration: string;
   season: string;
   episodeNum: string;
+  /** 検索用: タイトル + 概要全文を正規化したもの */
+  searchText: string;
+}
+
+// 全角/半角・大文字/小文字の違いを吸収する
+function normalize(text: string): string {
+  return text.normalize('NFKC').toLowerCase();
+}
+
+function stripHtml(html: string): string {
+  return html.replace(/<[^>]*>/g, ' ');
 }
 
 interface EpisodeStore extends ObservableInstance<unknown> {
   allEpisodes: Episode[];
+  filteredEpisodes: Episode[];
   displayedEpisodes: Episode[];
+  query: string;
   isLoading: boolean;
   isInitialized: boolean;
   currentPage: number;
   pageSize: number;
   loadAllEpisodes(): Promise<void>;
   setPage(page: number, pageSize?: number): void;
+  setQuery(query: string): void;
+  getQuery(): string;
+  getLatestEpisode(): Episode | null;
   getDisplayedEpisodes(): Episode[];
   getTotalCount(): number;
   getCurrentPage(): number;
@@ -49,7 +66,9 @@ interface EpisodeStore extends ObservableInstance<unknown> {
 
 const episodeStore = observable({
   allEpisodes: [] as Episode[],
+  filteredEpisodes: [] as Episode[],
   displayedEpisodes: [] as Episode[],
+  query: '',
   isLoading: false,
   isInitialized: false,
   currentPage: 1,
@@ -79,6 +98,7 @@ const episodeStore = observable({
           duration: String((30 + i * 2) * 60),
           season: String(Math.floor(i / 10) + 1),
           episodeNum: String((i % 10) + 1),
+          searchText: normalize(`サンプルエピソード ${i + 1}`),
         })).reverse();
         this.allEpisodes = fallback;
       } else {
@@ -102,11 +122,15 @@ const episodeStore = observable({
             duration: episode.duration,
             season: episode.season,
             episodeNum: episode.episodeNum,
+            searchText: normalize(
+              `${episode.title} ${stripHtml(episode.fullDescription ?? episode.description)}`,
+            ),
           }),
         );
       }
 
       // 初期表示はページ1でカット（pageSizeは後から画面側で変更可能）
+      this.filteredEpisodes = this.allEpisodes;
       this.displayedEpisodes = this.allEpisodes.slice(0, this.pageSize);
       this.isInitialized = true;
 
@@ -125,7 +149,7 @@ const episodeStore = observable({
     if (!this.isInitialized) return;
 
     const safePageSize = Math.max(1, Number(pageSize) || DEFAULT_PAGE_SIZE);
-    const total = this.allEpisodes.length;
+    const total = this.filteredEpisodes.length;
     const totalPages = Math.max(1, Math.ceil(total / safePageSize));
     const safePage = Math.min(Math.max(1, Number(page) || 1), totalPages);
 
@@ -134,9 +158,29 @@ const episodeStore = observable({
 
     this.pageSize = safePageSize;
     this.currentPage = safePage;
-    this.displayedEpisodes = this.allEpisodes.slice(start, end);
+    this.displayedEpisodes = this.filteredEpisodes.slice(start, end);
 
     this.trigger('episodes-updated');
+  },
+
+  // スペース区切りの AND 検索。空文字で全件に戻す
+  setQuery(this: EpisodeStore, query: string): void {
+    this.query = query.trim();
+    const terms = normalize(this.query).split(/\s+/).filter(Boolean);
+    this.filteredEpisodes = terms.length
+      ? this.allEpisodes.filter((episode) =>
+          terms.every((term) => episode.searchText.includes(term)),
+        )
+      : this.allEpisodes;
+    this.setPage(1);
+  },
+
+  getQuery(this: EpisodeStore): string {
+    return this.query;
+  },
+
+  getLatestEpisode(this: EpisodeStore): Episode | null {
+    return this.allEpisodes[0] ?? null;
   },
 
   getDisplayedEpisodes(this: EpisodeStore): Episode[] {
@@ -144,7 +188,7 @@ const episodeStore = observable({
   },
 
   getTotalCount(this: EpisodeStore): number {
-    return this.allEpisodes.length;
+    return this.filteredEpisodes.length;
   },
 
   getCurrentPage(this: EpisodeStore): number {
@@ -170,7 +214,9 @@ const episodeStore = observable({
 
   reset(this: EpisodeStore): void {
     this.allEpisodes = [];
+    this.filteredEpisodes = [];
     this.displayedEpisodes = [];
+    this.query = '';
     this.isLoading = false;
     this.isInitialized = false;
     this.currentPage = 1;

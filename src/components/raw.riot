@@ -1,8 +1,10 @@
 <raw>
   <script>
+    import { sanitizeHtml } from '@/utils/sanitize';
+
     export default {
       setInnerHTML() {
-        this.root.innerHTML = this.props.html;
+        this.root.innerHTML = sanitizeHtml(this.props.html ?? '');
       },
       onMounted() {
         this.setInnerHTML();

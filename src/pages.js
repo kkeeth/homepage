@@ -16,14 +16,14 @@ export default [
     hidden: true,
   },
   {
-    path: '/info',
-    label: 'INFO',
-    componentName: 'info',
+    path: '/podcast',
+    label: 'PODCAST',
+    componentName: 'podcast',
   },
   {
-    path: '/profile',
-    label: 'PROFILE',
-    componentName: 'profile',
+    path: '/about',
+    label: 'ABOUT',
+    componentName: 'about',
   },
   {
     path: '/contact',

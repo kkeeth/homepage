@@ -1,0 +1,721 @@
+<about>
+  <div class="about-page">
+    <!-- Hero: イラスト + 自己紹介 -->
+    <section class="hero">
+      <div class="hero-layout">
+        <div class="hero-illustration">
+          <img src="/images/myself.png" alt={t("pages.about.illustrationAlt")} />
+        </div>
+        <div class="hero-text">
+          <h1 class="page-title">{t("pages.about.fullName")}</h1>
+          <p class="name-roman" if={t("pages.about.nameRoman")}>{t("pages.about.nameRoman")}</p>
+          <p class="about-description"><raw html={t("pages.about.description1")} /></p>
+          <p class="about-description"><raw html={t("pages.about.description2")} /></p>
+          <ul class="hero-roles">
+            <li each={id in state.roles} key={id} class="hero-role">
+              <span class="hero-role-title">{t(`pages.about.roles.${id}.title`)}</span>
+              <span class="hero-role-desc"><raw html={t(`pages.about.roles.${id}.description`)} /></span>
+            </li>
+          </ul>
+          <div class="hero-actions">
+            <social-links />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Story: これまでの歩み + 略歴 -->
+    <section class="story-section" id="story">
+      <div class="section-inner">
+        <h2 class="section-title">{t("pages.about.story.sectionTitle")}</h2>
+        <div class="story-layout">
+          <div class="story-text">
+            <p each={key in state.storyParagraphs} key={key}><raw html={t(`pages.about.story.${key}`)} /></p>
+          </div>
+          <div class="story-photo">
+            <img src="/images/mypicture.jpeg" alt={t("pages.about.fullName")} />
+          </div>
+        </div>
+
+        <h3 class="sub-title">{t("pages.about.story.timelineTitle")}</h3>
+        <ol class="career-list">
+          <li each={item in state.career} key={item.id} class="career-item">
+            <span class="career-date">{item.date || t("pages.about.story.now")}</span>
+            <div class="career-marker"><span class="career-dot"></span></div>
+            <div class="career-body">
+              <h4>{t(`pages.about.story.items.${item.id}.title`)}</h4>
+              <p if={t(`pages.about.story.items.${item.id}.description`)}>{t(`pages.about.story.items.${item.id}.description`)}</p>
+            </div>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- Values: 大切にしていること -->
+    <section class="values-section">
+      <div class="section-inner">
+        <h2 class="section-title">{t("pages.about.values.sectionTitle")}</h2>
+        <div class="values-grid">
+          <div each={value in state.values} key={value.id} class="value-item">
+            <h3>{t(`pages.about.values.items.${value.id}.title`)}</h3>
+            <p>{t(`pages.about.values.items.${value.id}.description`)}</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Activities: 登壇・講師・協賛など -->
+    <section class="appearances-section">
+      <div class="section-inner">
+        <h2 class="section-title">{t("pages.about.appearances.sectionTitle")}</h2>
+        <ul class="appearance-list">
+          <li each={item in state.appearances} key={item.id} class="appearance-item">
+            <span class="appearance-year">{item.year || '—'}</span>
+            <span class="appearance-type">{t(`pages.about.appearances.types.${item.type}`)}</span>
+            <a if={item.url} href={item.url} target="_blank" rel="noopener noreferrer" class="appearance-title appearance-link">
+              {t(`pages.about.appearances.items.${item.id}`)}
+              <sl-icon name="arrow-up-right"></sl-icon>
+            </a>
+            <span if={!item.url} class="appearance-title">{t(`pages.about.appearances.items.${item.id}`)}</span>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Output Section -->
+    <section class="output-section">
+      <div class="section-inner">
+        <h2 class="section-title">{t("pages.about.output.sectionTitle")}</h2>
+        <div class="link-list">
+          <a each={output in state.outputs} href={output.url} target="_blank" rel="noopener noreferrer" class="link-row">
+            <span class="link-name">{t(`pages.about.output.${output.name}.title`)}<span class="link-arrow">↗</span></span>
+            <span class="link-desc">{t(`pages.about.output.${output.name}.description`)}</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Support Section -->
+    <section class="output-section">
+      <div class="section-inner">
+        <h2 class="section-title">{t("pages.about.support.sectionTitle")}</h2>
+        <p class="section-description">{t("pages.about.support.description")}</p>
+        <div class="link-list">
+          <a each={support in state.supports} href={support.url} target="_blank" rel="noopener noreferrer" class="link-row">
+            <span class="link-name">{t(`pages.about.support.${support.name}.title`)}<span class="link-arrow">↗</span></span>
+            <span class="link-desc">{t(`pages.about.support.${support.name}.description`)}</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Bio Section: 紹介用テキスト (コピー可) -->
+    <section class="bio-section">
+      <div class="section-inner">
+        <h2 class="section-title">{t("pages.about.bio.sectionTitle")}</h2>
+        <p class="section-description">{t("pages.about.bio.description")}</p>
+        <div class="bio-grid">
+          <div each={kind in ['short', 'long']} key={kind} class="bio-card">
+            <div class="bio-card-header">
+              <h3>{t(`pages.about.bio.${kind}Label`)}</h3>
+              <button type="button" class="copy-button" onclick={() => copyBio(kind)}>
+                <sl-icon name={state.copied === kind ? 'check2' : 'clipboard'}></sl-icon>
+                {state.copied === kind ? t("pages.about.bio.copied") : t("pages.about.bio.copy")}
+              </button>
+            </div>
+            <p class="bio-text">{t(`pages.about.bio.${kind}`)}</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Request CTA -->
+    <section class="request-section">
+      <div class="section-inner">
+        <h2 class="section-title">{t("pages.about.request.title")}</h2>
+        <p class="section-description">{t("pages.about.request.description")}</p>
+        <a href="/contact" class="request-button" onclick={presetRequestTheme}>{t("pages.about.request.button")} →</a>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    import { OUTPUT_LINKS, SUPPORT_LINKS, APPEARANCES } from '@/constants/links';
+    import i18nStore from '@/stores/i18n-store';
+
+    export default {
+      t: i18nStore.t.bind(i18nStore),
+      state: {
+        storyParagraphs: ['paragraph1', 'paragraph2', 'paragraph3', 'paragraph4', 'paragraph5'],
+        // 略歴 (date なしは「現在」表示)
+        career: [
+          { id: 'sqbizm', date: '2013.04' },
+          { id: 'sqbizmTech', date: '2014.04' },
+          { id: 'leprechaun', date: '2015.11' },
+          { id: 'yumemi', date: '2017.09' },
+          { id: 'yumemiDirector', date: '2020.03' },
+          { id: 'podcast', date: '2020.03' },
+          { id: 'book', date: '2020.07' },
+          { id: 'yumemiExecutive', date: '2022.09' },
+          { id: 'kaminashi', date: '2024.04' },
+          { id: 'engineeringHr', date: null },
+        ],
+        // 今も続けている肩書き (年つきの出来事は appearances へ)
+        roles: ['engineeringHr', 'riot', 'podcaster', 'generativeArtist'],
+        values: [
+          { id: 'approachable', icon: 'chat-heart' },
+          { id: 'shelter', icon: 'umbrella' },
+          { id: 'voice', icon: 'mic' },
+        ],
+        outputs: OUTPUT_LINKS,
+        supports: SUPPORT_LINKS,
+        appearances: APPEARANCES,
+        copied: null,
+      },
+      async copyBio(kind) {
+        try {
+          await navigator.clipboard.writeText(this.t(`pages.about.bio.${kind}`));
+          this.update({ copied: kind });
+          clearTimeout(this.copiedTimer);
+          this.copiedTimer = setTimeout(() => this.update({ copied: null }), 2000);
+        } catch (error) {
+          console.error('Failed to copy bio:', error);
+        }
+      },
+      // contact ページで「出演・登壇・協賛のご依頼」を初期選択させる
+      // (@riotjs/route はクエリ付き URL にマッチしないため sessionStorage で受け渡す)
+      presetRequestTheme() {
+        try {
+          sessionStorage.setItem('contactTheme', 'request');
+        } catch (error) {
+          // storage が使えない環境では初期選択なしで遷移
+        }
+      },
+      onBeforeUnmount() {
+        clearTimeout(this.copiedTimer);
+      },
+    }
+  </script>
+
+  <style>
+    .about-page {
+      background: var(--warm-white);
+      min-height: 100vh;
+    }
+
+    /* ヘッダー・トップと同じ幅に揃える */
+    .section-inner {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .section-description {
+      font-size: 0.9375rem;
+      line-height: 1.8;
+      color: var(--misty-gray);
+      margin-bottom: 1.5rem;
+    }
+
+    .sub-title {
+      font-size: 1.5rem;
+      font-weight: var(--heading-weight);
+      font-family: var(--font-heading);
+      color: var(--charcoal);
+      margin: 4rem 0 2rem;
+    }
+
+    /* ===== Hero ===== */
+    .hero {
+      padding: 5rem 4rem;
+    }
+
+    .hero-layout {
+      max-width: 1000px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1.3fr;
+      gap: 4rem;
+      align-items: center;
+    }
+
+    .hero-illustration img {
+      width: 100%;
+      max-width: 420px;
+      display: block;
+      margin: 0 auto;
+    }
+
+    .name-roman {
+      margin: -1.25rem 0 2rem;
+      font-size: 0.9375rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      color: var(--misty-gray);
+      font-family: var(--font-sans);
+    }
+
+    .hero-roles {
+      list-style: none;
+      margin: 2.5rem 0 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    /* ドットは肩書きの行だけに付け、補足は肩書きの 1 文字目に揃える */
+    .hero-role {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+      padding-left: 1.25rem;
+    }
+
+    .hero-role::before {
+      content: '';
+      position: absolute;
+      left: 0.25rem;
+      top: 0.7em;
+      width: 0.375rem;
+      height: 0.375rem;
+      border-radius: 50%;
+      background: var(--rain-blue);
+    }
+
+    .hero-role-title {
+      font-family: var(--font-heading);
+      font-weight: var(--heading-weight);
+      font-size: 1.0625rem;
+      color: var(--charcoal);
+    }
+
+    .hero-role-desc {
+      font-size: 0.875rem;
+      line-height: 1.7;
+      color: var(--misty-gray);
+    }
+
+    .hero-role-desc a {
+      color: var(--rain-blue);
+      text-underline-offset: 0.2em;
+    }
+
+    .about-description {
+      font-size: 1rem;
+      line-height: 1.8;
+      color: var(--misty-gray);
+      margin-bottom: 1.25rem;
+    }
+
+    .about-description a,
+    .story-text a {
+      color: var(--rain-blue);
+      text-underline-offset: 0.2em;
+    }
+
+    .about-description a:hover,
+    .story-text a:hover {
+      color: var(--deep-rain);
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    /* ===== Story ===== */
+    .story-section {
+      padding: 5rem 4rem;
+      background: var(--cream);
+    }
+
+    .story-layout {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr;
+      gap: 4rem;
+      align-items: start;
+      margin-top: 1rem;
+    }
+
+    .story-text p {
+      font-size: 1rem;
+      line-height: 1.9;
+      color: var(--warm-gray);
+      margin-bottom: 1.25rem;
+    }
+
+    .story-photo img {
+      width: 100%;
+      aspect-ratio: 4 / 5;
+      object-fit: cover;
+      border-radius: 1rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    }
+
+    .career-list {
+      list-style: none;
+      padding: 0;
+    }
+
+    .career-item {
+      display: grid;
+      grid-template-columns: 80px 24px 1fr;
+      gap: 1.5rem;
+      align-items: start;
+      padding-bottom: 2rem;
+    }
+
+    .career-date {
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      color: var(--rain-blue);
+      font-family: var(--font-sans);
+      text-align: right;
+      padding-top: 0.2rem;
+    }
+
+    .career-marker {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      height: 100%;
+    }
+
+    .career-marker::after {
+      content: '';
+      position: absolute;
+      top: 18px;
+      bottom: -2rem;
+      width: 2px;
+      background: var(--light-gray);
+    }
+
+    .career-item:last-child .career-marker::after {
+      display: none;
+    }
+
+    .career-dot {
+      width: 14px;
+      height: 14px;
+      margin-top: 0.25rem;
+      border-radius: 50%;
+      background: var(--rain-blue);
+      border: 3px solid var(--cream);
+      box-shadow: 0 0 0 2px var(--rain-blue);
+      z-index: 1;
+    }
+
+    .career-item:last-child .career-dot {
+      background: var(--warm-amber);
+      box-shadow: 0 0 0 2px var(--warm-amber);
+    }
+
+    .career-body h4 {
+      font-family: var(--font-heading);
+      font-weight: var(--heading-weight);
+      font-size: 1.0625rem;
+      color: var(--charcoal);
+      margin-bottom: 0.25rem;
+    }
+
+    .career-body p {
+      font-size: 0.875rem;
+      line-height: 1.7;
+      color: var(--misty-gray);
+    }
+
+    /* ===== Values ===== */
+    .values-section {
+      padding: 5rem 4rem;
+    }
+
+    .values-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 3rem;
+      margin-top: 2rem;
+    }
+
+    .value-item h3 {
+      font-family: var(--font-heading);
+      font-weight: var(--heading-weight);
+      font-size: 1.25rem;
+      color: var(--charcoal);
+      margin-bottom: 0.75rem;
+    }
+
+    .value-item p {
+      font-size: 0.9375rem;
+      line-height: 1.8;
+      color: var(--misty-gray);
+    }
+
+    /* ===== Appearances ===== */
+    .appearances-section {
+      padding: 5rem 4rem;
+      background: var(--cream);
+    }
+
+    .appearance-list {
+      list-style: none;
+      margin: 2rem 0 0;
+      padding: 0;
+    }
+
+    .appearance-item {
+      display: grid;
+      grid-template-columns: 7rem 8rem 1fr;
+      gap: 1.5rem;
+      align-items: baseline;
+      padding: 1rem 0;
+      border-top: 1px solid var(--light-gray);
+    }
+
+    .appearance-item:last-child {
+      border-bottom: 1px solid var(--light-gray);
+    }
+
+    .appearance-year {
+      font-size: 0.8125rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      color: var(--misty-gray);
+      font-family: var(--font-sans);
+    }
+
+    .appearance-type {
+      font-size: 0.8125rem;
+      font-weight: 600;
+      color: var(--rain-blue);
+    }
+
+    .appearance-title {
+      font-size: 1rem;
+      font-weight: 600;
+      line-height: 1.6;
+      color: var(--charcoal);
+    }
+
+    .appearance-link {
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    .appearance-link:hover {
+      color: var(--rain-blue);
+    }
+
+    .appearance-link sl-icon {
+      color: var(--rain-blue);
+      font-size: 0.8125rem;
+      vertical-align: -0.1em;
+      margin-left: 0.25rem;
+    }
+
+    /* ===== Output / Support ===== */
+    .output-section {
+      padding: 5rem 4rem;
+      border-top: 1px solid var(--light-gray);
+    }
+
+    .link-list {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      column-gap: 3rem;
+      margin-top: 1rem;
+    }
+
+    .link-row {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+      padding: 1rem 0;
+      border-top: 1px solid var(--light-gray);
+      text-decoration: none;
+    }
+
+    .link-name {
+      font-family: var(--font-heading);
+      font-weight: var(--heading-weight);
+      font-size: 1.125rem;
+      color: var(--charcoal);
+      transition: color 0.2s ease;
+    }
+
+    /* 外部リンクの矢印はサイト共通で青 */
+    .link-arrow {
+      margin-left: 0.375rem;
+      color: var(--rain-blue);
+    }
+
+    .link-row:hover .link-name {
+      color: var(--rain-blue);
+    }
+
+    .link-desc {
+      font-size: 0.875rem;
+      line-height: 1.6;
+      color: var(--misty-gray);
+    }
+
+    /* ===== Bio ===== */
+    .bio-section {
+      padding: 5rem 4rem;
+      border-top: 1px solid var(--light-gray);
+    }
+
+    .bio-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.6fr;
+      gap: 3rem;
+      align-items: start;
+    }
+
+    .bio-card {
+      padding-top: 1rem;
+      border-top: 1px solid var(--light-gray);
+    }
+
+    .bio-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.75rem;
+    }
+
+    .bio-card-header h3 {
+      font-size: 0.875rem;
+      font-weight: 700;
+      color: var(--charcoal);
+    }
+
+    .copy-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.375rem;
+      padding: 0.25rem 0.75rem;
+      border: 1px solid var(--rain-blue);
+      border-radius: 2rem;
+      background: transparent;
+      color: var(--rain-blue);
+      font-size: 0.75rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .copy-button:hover {
+      background: var(--rain-blue);
+      color: var(--warm-white);
+    }
+
+    .bio-text {
+      font-size: 0.9375rem;
+      line-height: 1.8;
+      color: var(--misty-gray);
+    }
+
+    /* ===== Request CTA ===== */
+    .request-section {
+      padding: 5rem 4rem;
+      background: var(--cream);
+    }
+
+    .request-button {
+      display: inline-block;
+      padding: 0.75rem 2rem;
+      border-radius: 2rem;
+      background: var(--warm-amber);
+      color: var(--warm-white);
+      font-weight: 700;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .request-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 12px rgba(255, 152, 0, 0.25);
+    }
+
+    /* ===== Responsive ===== */
+    @media (max-width: 768px) {
+      .hero,
+      .story-section,
+      .values-section,
+      .appearances-section,
+      .output-section,
+      .bio-section,
+      .request-section {
+        padding: 4rem 2rem;
+      }
+
+      .hero-layout,
+      .story-layout {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+
+      .hero-illustration img {
+        max-width: 240px;
+      }
+
+      .story-photo {
+        order: -1;
+      }
+
+      .story-photo img {
+        aspect-ratio: 4 / 3;
+      }
+
+      .values-grid,
+      .link-list,
+      .bio-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .values-grid {
+        gap: 2rem;
+      }
+
+      .career-item {
+        grid-template-columns: 64px 20px 1fr;
+        gap: 1rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero,
+      .story-section,
+      .values-section,
+      .appearances-section,
+      .output-section,
+      .bio-section,
+      .request-section {
+        padding: 3rem 1.5rem;
+      }
+
+      .appearance-item {
+        grid-template-columns: auto 1fr;
+        gap: 0.25rem 1rem;
+      }
+
+      .appearance-title {
+        grid-column: 1 / -1;
+      }
+
+      .career-item {
+        grid-template-columns: 56px 16px 1fr;
+        gap: 0.75rem;
+      }
+
+      .career-date {
+        font-size: 0.7rem;
+      }
+    }
+  </style>
+</about>
