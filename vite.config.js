@@ -41,6 +41,22 @@ function shoelaceAssets() {
 export default defineConfig({
   root: process.cwd(),
   plugins: [riot(), shoelaceAssets()],
+  server: {
+    proxy: {
+      // Substack は CORS ヘッダーを返さないため dev サーバー側でプロキシする
+      '/api/rss': {
+        target: 'https://api.substack.com',
+        changeOrigin: true,
+        rewrite: () => '/feed/podcast/3447681/s/407517.rss',
+      },
+      // archive API: 有料限定回のメタデータも含む一覧 (本番は Worker /archive)
+      '/api/archive': {
+        target: 'https://kkeeth.substack.com',
+        changeOrigin: true,
+        rewrite: () => '/api/v1/archive?sort=new&limit=50&section_id=407517',
+      },
+    },
+  },
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),

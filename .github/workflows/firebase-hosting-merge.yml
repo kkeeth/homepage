@@ -34,6 +34,9 @@ jobs:
         run: pnpm i --frozen-lockfile && pnpm build
         env:
           VITE_GAS_URL: ${{ secrets.VITE_GAS_URL }}
+          # Substack の RSS / archive API は CORS 非対応のため Worker 経由で取得
+          VITE_RSS_URL: https://premium-feed.zensin0082.workers.dev/rss
+          VITE_ARCHIVE_URL: https://premium-feed.zensin0082.workers.dev/archive
 
       # 4. Firebase Hosting へデプロイ
       - name: Deploy to Firebase

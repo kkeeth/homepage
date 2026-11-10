@@ -9,13 +9,14 @@
           <span class="episode-date">{state.episode.pubDate}</span>
           <h1 class="episode-title">
             {state.episode.title}
+            <premium-badge show={state.episode.isPremium} />
           </h1>
 
           <!-- Embedded Player -->
-          <div class="player-section">
-            <!-- Fallback: HTML5 audio when the episode has no Art19 link -->
+          <div class="player-section" if={state.episode.audioUrl}>
+            <!-- Substack など Art19 以外の無料回は HTML5 audio -->
             <audio
-              if={!state.episode.link && state.episode.audioUrl}
+              if={!isArt19(state.episode) && state.episode.audioUrl}
               controls
               preload="none"
               src={state.episode.audioUrl}
@@ -23,11 +24,20 @@
             ></audio>
             <!-- Art19 iframe embed -->
             <iframe
-              if={state.episode.link}
+              if={isArt19(state.episode)}
               src={`${state.episode.link}/embed`}
               title="Episode player"
               style="width: 100%; height: 200px; border: 0 none;" scrolling="no"
               sandbox="allow-scripts allow-popups allow-popups-to-escape-sandbox"></iframe>
+          </div>
+
+          <!-- Premium episode (Substack 有料限定): Substack へ誘導 -->
+          <div class="premium-cta" if={!state.episode.audioUrl}>
+            <p class="premium-cta-desc">{t("episode.premiumOnly")}</p>
+            <a href={state.episode.link} target="_blank" rel="noopener noreferrer" class="substack-btn">
+              <sl-icon name="headphones"></sl-icon>
+              {t("episode.listenOnSubstack")}
+            </a>
           </div>
 
           <p class="episode-description">
@@ -36,8 +46,8 @@
         </div>
       </div>
 
-      <!-- Platform Links -->
-      <div class="platforms-section">
+      <!-- Platform Links (only for episodes with audio) -->
+      <div class="platforms-section" if={state.episode.audioUrl}>
         <h3 class="section-label">{t("episode.listenOn")}</h3>
         <div class="platform-icons">
           <a
@@ -89,7 +99,7 @@
 
   <script>
     import { fetchRSSFeed } from '@/utils/rss';
-    import { PODCAST_PLATFORMS, RSS_FEED_URL } from '@/constants/links';
+    import { PODCAST_PLATFORMS, RSS_FEED_URL, SUBSTACK_RSS_URL } from '@/constants/links';
     import i18nStore from '@/stores/i18n-store';
 
     export default {
@@ -117,12 +127,21 @@
       },
       async loadEpisode(episodeId) {
         try {
-          const episodes = await fetchRSSFeed(RSS_FEED_URL);
+          const [art19, substack] = await Promise.allSettled([
+            fetchRSSFeed(RSS_FEED_URL),
+            fetchRSSFeed(SUBSTACK_RSS_URL),
+          ]);
+          if (art19.status === 'rejected' && substack.status === 'rejected') {
+            throw art19.reason;
+          }
+          const episodes = [
+            ...(art19.status === 'fulfilled' ? art19.value : []),
+            ...(substack.status === 'fulfilled' ? substack.value : []),
+          ];
 
           const foundEpisode = episodes.find(ep => {
-            const linkMatch = ep.link && ep.link.includes(episodeId);
-            const titleMatch = ep.title === episodeId;
-            return linkMatch || titleMatch;
+            const slug = this.extractSlugFromLink(ep.link);
+            return slug === episodeId || ep.link?.includes(episodeId) || ep.title === episodeId;
           });
 
           if (foundEpisode) {
@@ -138,6 +157,18 @@
           console.error('Failed to load episode:', error);
           this.update({ loading: false });
         }
+      },
+      /** リンクの最後のパスセグメント（Art19 は UUID、Substack は slug） */
+      extractSlugFromLink(link) {
+        if (!link) return null;
+        try {
+          return new URL(link).pathname.split('/').filter(Boolean).pop() || null;
+        } catch {
+          return null;
+        }
+      },
+      isArt19(episode) {
+        return Boolean(episode?.link && /art19\.com/.test(episode.link));
       },
       getShareText() {
         const title = this.state.episode?.title || '';
@@ -365,6 +396,38 @@
       .episode-description {
         text-align: left;
       }
+    }
+
+    /* Premium (Substack 有料限定) */
+    .premium-cta {
+      margin-bottom: 2rem;
+      padding: 1.5rem;
+      border: 1px solid var(--rule);
+      background: var(--box-bg);
+      text-align: center;
+    }
+
+    .premium-cta-desc {
+      color: var(--text-color);
+      margin: 0 0 1rem;
+      font-size: 0.9375rem;
+    }
+
+    .substack-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.625rem 1.5rem;
+      background: var(--accent);
+      color: var(--on-accent);
+      text-decoration: none;
+      font-size: 0.9375rem;
+      font-weight: 700;
+      transition: background 0.2s ease;
+    }
+
+    .substack-btn:hover {
+      background: var(--ink);
     }
   </style>
 </episode-detail>

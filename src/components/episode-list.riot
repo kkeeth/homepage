@@ -6,6 +6,7 @@
       </div>
       <div class="episode-content-col">
         <span class="episode-badge" if={parseSeasonLabel(episode.title)}>{parseSeasonLabel(episode.title)}</span>
+        <premium-badge show={episode.isPremium} />
         <h3 class="episode-title">
           <a href={"/episodes/" + getEpisodeId(episode)}>{stripSeasonPrefix(episode.title)}</a>
         </h3>
@@ -39,12 +40,12 @@
       t: i18nStore.t.bind(i18nStore),
       truncateText,
       getEpisodeId(episode) {
-        // Extract episode ID from art19 link
+        // リンクの最後のパスセグメント（Substack は slug）。リンクが無ければタイトル
         if (episode.link) {
-          const match = episode.link.match(/episodes\/([a-f0-9-]+)/i);
-          if (match) {
-            return match[1];
-          }
+          try {
+            const segments = new URL(episode.link).pathname.split('/').filter(Boolean);
+            if (segments.length > 0) return segments[segments.length - 1];
+          } catch {}
         }
         // Fallback to encoded title
         return encodeURIComponent(episode.title);

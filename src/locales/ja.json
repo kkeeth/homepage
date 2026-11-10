@@ -433,6 +433,9 @@
       "privacy": "プライバシーポリシー"
     }
   },
+  "membership": {
+    "premiumBadge": "PREMIUM"
+  },
   "newspaper": {
     "topstrip": {
       "morning": "朝刊",
@@ -458,6 +461,7 @@
       "label": "紙面案内",
       "home": "一面",
       "episodes": "バックナンバー",
+      "premium-episodes": "会員限定",
       "podcast": "番組案内",
       "about": "編集長",
       "contact": "おたより",

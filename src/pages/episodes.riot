@@ -112,10 +112,10 @@
       },
       getEpisodeId(episode) {
         if (episode.link) {
-          const match = episode.link.match(/episodes\/([a-f0-9-]+)/i);
-          if (match) {
-            return match[1];
-          }
+          try {
+            const segments = new URL(episode.link).pathname.split('/').filter(Boolean);
+            if (segments.length > 0) return segments[segments.length - 1];
+          } catch {}
         }
         return encodeURIComponent(episode.title);
       },

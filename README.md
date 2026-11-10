@@ -7,6 +7,9 @@ kkeeth の個人サイト + ポッドキャスト「雨宿りと WEB の小噺.f
 - **Frontend**: Riot.js (SPA) + Vite + Shoelace
 - **Hosting**: Firebase Hosting
 - **音声ホスティング**: ART19（パブリック RSS を取得して表示）
+- **会員向け配信**: Substack（有料限定回を含む別番組。`/membership` と一覧に表示）
+- **Workers**: Cloudflare Workers
+  - `workers/premium-feed` — Substack の RSS / archive API に CORS ヘッダーを付けて中継
 - **お問い合わせフォーム**: Google Apps Script
 
 ## Commands
@@ -28,8 +31,11 @@ pnpm ts         # TypeScript 型チェック
 VITE_GAS_URL=https://your-backend-api-url.example.com
 ```
 
+ローカルでは Substack のフィードを Vite の dev サーバーがプロキシする (`/api/rss`, `/api/archive`) ので、Worker を起動する必要はない。
+
 ## Deploy
 
-main へのマージで GitHub Actions が Firebase Hosting に自動デプロイ (WIF 認証、サービスアカウントキー不使用)。
+- **Frontend**: main へのマージで GitHub Actions が Firebase Hosting に自動デプロイ (WIF 認証、サービスアカウントキー不使用)
+- **Workers**: `cd workers/premium-feed && npx wrangler deploy`
 
 **Important:** シークレットは絶対にコミットしないこと。`.env` と `.env.local` は gitignore 済み。

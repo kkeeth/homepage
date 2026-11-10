@@ -1,6 +1,6 @@
 import observable, { type ObservableInstance } from '@riotjs/observable';
 import { fetchRSSFeed } from '@/utils/rss';
-import { RSS_FEED_URL } from '@/constants/links';
+import { RSS_FEED_URL, SUBSTACK_RSS_URL } from '@/constants/links';
 
 interface RSSEpisode {
   title: string;
@@ -12,6 +12,7 @@ interface RSSEpisode {
   duration: string;
   season: string;
   episodeNum: string;
+  isPremium: boolean;
 }
 
 const DEFAULT_PAGE_SIZE = 12;
@@ -27,6 +28,7 @@ export interface Episode {
   duration: string;
   season: string;
   episodeNum: string;
+  isPremium: boolean;
   /** 検索用: タイトル + 概要全文を正規化したもの */
   searchText: string;
 }
@@ -98,11 +100,26 @@ const episodeStore = observable({
           duration: String((30 + i * 2) * 60),
           season: String(Math.floor(i / 10) + 1),
           episodeNum: String((i % 10) + 1),
+          isPremium: false,
           searchText: normalize(`サンプルエピソード ${i + 1}`),
         })).reverse();
         this.allEpisodes = fallback;
       } else {
-        const episodes = (await fetchRSSFeed(RSS_FEED_URL)) as RSSEpisode[];
+        const [art19Result, substackResult] = await Promise.allSettled([
+          fetchRSSFeed(RSS_FEED_URL),
+          fetchRSSFeed(SUBSTACK_RSS_URL),
+        ]);
+        if (substackResult.status === 'rejected') {
+          console.warn('[episode-store] Substack feed unavailable:', substackResult.reason);
+        }
+        const episodes = [
+          ...(art19Result.status === 'fulfilled' ? art19Result.value : []),
+          ...(substackResult.status === 'fulfilled' ? substackResult.value : []),
+        ].sort((a, b) => b.pubDateObj.getTime() - a.pubDateObj.getTime()) as RSSEpisode[];
+
+        if (art19Result.status === 'rejected' && substackResult.status === 'rejected') {
+          throw art19Result.reason;
+        }
 
         this.allEpisodes = episodes.map(
           (episode: RSSEpisode, index: number) => ({
@@ -122,6 +139,7 @@ const episodeStore = observable({
             duration: episode.duration,
             season: episode.season,
             episodeNum: episode.episodeNum,
+            isPremium: episode.isPremium,
             searchText: normalize(
               `${episode.title} ${stripHtml(episode.fullDescription ?? episode.description)}`,
             ),

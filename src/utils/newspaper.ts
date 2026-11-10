@@ -48,10 +48,17 @@ export function episodeLabel(
     : `S${parsed.season} #${parsed.number}`;
 }
 
-/** Art19 のリンクからエピソード ID を取り出す（episode-list と同じ規則） */
+/** エピソード ID: リンクの最後のパスセグメント、無ければタイトル（episode-list と同じ規則） */
 export function episodeId(episode: Pick<Episode, 'link' | 'title'>): string {
-  const match = episode.link?.match(/episodes\/([a-f0-9-]+)/i);
-  return match ? match[1] : encodeURIComponent(episode.title);
+  if (episode.link) {
+    try {
+      const segments = new URL(episode.link).pathname.split('/').filter(Boolean);
+      if (segments.length > 0) return segments[segments.length - 1];
+    } catch {
+      // 不正な URL はタイトルにフォールバック
+    }
+  }
+  return encodeURIComponent(episode.title);
 }
 
 /** "2019" / "33:39" / "0:33:39" → 秒 */

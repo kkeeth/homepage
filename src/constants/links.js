@@ -1,6 +1,11 @@
 // RSSフィードのURL
 // ART19: メインの公開フィード (CORS 対応済み、直接 fetch 可)
 export const RSS_FEED_URL = 'https://rss.art19.com/kkeethengineers';
+// Substack: 会員向け別番組 (CORS プロキシ経由: dev=Vite proxy, 本番=Worker)
+export const SUBSTACK_RSS_URL = import.meta.env.VITE_RSS_URL ?? '/api/rss';
+// Substack archive API: 有料限定回もメタデータを取得できる (一覧表示用)
+export const SUBSTACK_ARCHIVE_URL =
+  import.meta.env.VITE_ARCHIVE_URL ?? '/api/archive';
 
 // Podcast ページ Hero 画像
 // TODO: 仮のイラスト。Shure SM7B + ヘッドホンの写真に差し替える (public/images/ に置いてパスを変更)
@@ -59,7 +64,7 @@ export const PODCAST_PLATFORMS = [
   {
     name: 'RSS Feed',
     icon: 'rss',
-    url: 'https://rss.art19.com/kkeethengineers',
+    url: 'https://api.substack.com/feed/podcast/3447681/s/407517.rss',
   },
 ];
 

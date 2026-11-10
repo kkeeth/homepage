@@ -432,6 +432,9 @@
       "privacy": "Privacy Policy"
     }
   },
+  "membership": {
+    "premiumBadge": "PREMIUM"
+  },
   "newspaper": {
     "topstrip": {
       "morning": "Late Edition",
@@ -457,6 +460,7 @@
       "label": "Sections",
       "home": "Front Page",
       "episodes": "Back Issues",
+      "premium-episodes": "Members",
       "podcast": "About the Show",
       "about": "The Editor",
       "contact": "Letters",

@@ -18,6 +18,7 @@ export interface Episode {
   duration: string;
   season: string;
   episodeNum: string;
+  isPremium: boolean;
 }
 
 function stripHtmlTags(html: string): string {
@@ -96,6 +97,7 @@ export function parseRSSFeed(xmlText: string): Episode[] {
       duration: itunesDuration,
       season: itunesSeason,
       episodeNum: itunesEpisode,
+      isPremium: !audioUrl,
     });
   });
 
@@ -113,3 +115,4 @@ export function getRandomEpisodes(episodes: Episode[], count = 3): Episode[] {
   const shuffled = [...episodes].sort(() => Math.random() - 0.5);
   return shuffled.slice(0, count);
 }
+
