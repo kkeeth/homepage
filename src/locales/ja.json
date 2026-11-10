@@ -41,7 +41,6 @@
       "news": {
         "title": "お知らせ",
         "items": {
-          "nack5PsaSpecial": "NACK5 特番「Podcast Star Award NACK5 RADIO SPECIAL」（番組進行）",
           "rsa2026s2": "Radio Star Audition 2026 2nd Season でファイナリストに選出され，第6位となりました．応援してくださった皆さま，ありがとうございました！",
           "zatsudanDay7": "「雑談系ポッドキャストの日 Vol.7」（トークテーマ「忘れがちなこと」）に参加しました．",
           "wcpd2026": "WEB CREATOR PODCAST DAY 2026 に出演しました．",
@@ -105,10 +104,6 @@
             "title": "株式会社エスキュービズム 入社",
             "description": "プログラマとして EC サイトの開発・保守に従事．"
           },
-          "sqbizmTech": {
-            "title": "株式会社エスキュービズム・テクノロジーに社名変更",
-            "description": "プロジェクトリーダー，プロジェクトマネージャーとして上流工程からシステム開発全体に携わる．"
-          },
           "leprechaun": {
             "title": "レプラホーン株式会社 入社",
             "description": "プロジェクトマネージャーとして EC サイトの保守，フロントエンドエンジニアとして EC サイトの開発に従事．"
@@ -119,7 +114,7 @@
           },
           "yumemiDirector": {
             "title": "株式会社ゆめみ 「チャレンジ取締役」制度を利用し，技術担当取締役就任",
-            "description": ""
+            "description": "エンジニアの採用加速，組織開発に従事．"
           },
           "podcast": {
             "title": "ポッドキャスト配信開始",
@@ -131,7 +126,7 @@
           },
           "yumemiExecutive": {
             "title": "株式会社ゆめみ 取締役退任，執行役員就任",
-            "description": ""
+            "description": "引き続きエンジニアの採用加速，採用広報に従事．"
           },
           "kaminashi": {
             "title": "株式会社カミナシ 入社",
@@ -198,6 +193,7 @@
           "audition": "オーディション"
         },
         "items": {
+          "nack5PsaSpecial": "NACK5 特番「Podcast Star Award NACK5 RADIO SPECIAL」（番組進行）",
           "rsa2026s2": "Radio Star Audition 2026 2nd Season（ファイナリスト・第6位）",
           "techDebtCon2026": "技術的負債に向き合うConference 2026（個人スポンサー）",
           "wcpd": "WEB CREATOR PODCAST DAY",
