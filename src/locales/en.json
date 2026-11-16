@@ -58,7 +58,7 @@
       }
     },
     "premium": {
-      "title": "Amayadori to WEB to Yodan no Kobanashi",
+      "title": "Amayadori to WEB no Yodan",
       "description": "A membership program for those who want to enjoy 'Amayadori to WEB no Kobanashi' even more! We offer exclusive episodes and free public episodes on Substack!",
       "joinCta": "Join on Substack",
       "noEpisodes": "Episodes are coming soon!",
@@ -204,16 +204,6 @@
           "psa2025": "Podcast Star Award",
           "riotBook": "\"Riot.jsで簡単Webアプリ開発\" (C&R Institute)"
         }
-      },
-      "bio": {
-        "sectionTitle": "Bio",
-        "description": "Feel free to use these as-is when introducing me at an event or on a show.",
-        "shortLabel": "Short bio",
-        "longLabel": "Long bio",
-        "copy": "Copy",
-        "copied": "Copied",
-        "short": "Kiyohito \"Keeth\" Kuwahara is an Engineering Manager at OpenProp Inc. and a Riot.js collaborator. Keeth has been podcasting since 2020 and now runs six shows, including 'Amayadori to WEB no Kobanashi.fm'.",
-        "long": "Kiyohito \"Keeth\" Kuwahara is an Engineering Manager at OpenProp Inc., a Riot.js collaborator and the author of \"Riot.jsで簡単Webアプリ開発\" (C&R Institute, 2020). Keeth started podcasting in March 2020 and now runs six shows, including 'Amayadori to WEB no Kobanashi.fm', while also working on engineering recruiting, personal coaching and programming education and creating generative art with p5.js."
       },
       "request": {
         "title": "Appearance, Talk & Sponsorship Requests",
