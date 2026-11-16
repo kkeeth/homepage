@@ -109,26 +109,6 @@
       </div>
     </section>
 
-    <!-- Bio Section: 紹介用テキスト (コピー可) -->
-    <section class="bio-section">
-      <div class="section-inner">
-        <h2 class="section-title">{t("pages.about.bio.sectionTitle")}</h2>
-        <p class="section-description">{t("pages.about.bio.description")}</p>
-        <div class="bio-grid">
-          <div each={kind in ['short', 'long']} key={kind} class="bio-card">
-            <div class="bio-card-header">
-              <h3>{t(`pages.about.bio.${kind}Label`)}</h3>
-              <button type="button" class="copy-button" onclick={() => copyBio(kind)}>
-                <sl-icon name={state.copied === kind ? 'check2' : 'clipboard'}></sl-icon>
-                {state.copied === kind ? t("pages.about.bio.copied") : t("pages.about.bio.copy")}
-              </button>
-            </div>
-            <p class="bio-text">{t(`pages.about.bio.${kind}`)}</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
     <!-- Request CTA -->
     <section class="request-section">
       <div class="section-inner">
@@ -169,17 +149,6 @@
         outputs: OUTPUT_LINKS,
         supports: SUPPORT_LINKS,
         appearances: APPEARANCES,
-        copied: null,
-      },
-      async copyBio(kind) {
-        try {
-          await navigator.clipboard.writeText(this.t(`pages.about.bio.${kind}`));
-          this.update({ copied: kind });
-          clearTimeout(this.copiedTimer);
-          this.copiedTimer = setTimeout(() => this.update({ copied: null }), 2000);
-        } catch (error) {
-          console.error('Failed to copy bio:', error);
-        }
       },
       // contact ページで「出演・登壇・協賛のご依頼」を初期選択させる
       // (@riotjs/route はクエリ付き URL にマッチしないため sessionStorage で受け渡す)
@@ -189,9 +158,6 @@
         } catch (error) {
           // storage が使えない環境では初期選択なしで遷移
         }
-      },
-      onBeforeUnmount() {
-        clearTimeout(this.copiedTimer);
       },
     }
   </script>
@@ -562,63 +528,6 @@
       color: var(--misty-gray);
     }
 
-    /* ===== Bio ===== */
-    .bio-section {
-      padding: 5rem 4rem;
-      border-top: 1px solid var(--light-gray);
-    }
-
-    .bio-grid {
-      display: grid;
-      grid-template-columns: 1fr 1.6fr;
-      gap: 3rem;
-      align-items: start;
-    }
-
-    .bio-card {
-      padding-top: 1rem;
-      border-top: 1px solid var(--light-gray);
-    }
-
-    .bio-card-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 0.75rem;
-    }
-
-    .bio-card-header h3 {
-      font-size: 1rem;
-      font-weight: 700;
-      color: var(--charcoal);
-    }
-
-    .copy-button {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.375rem;
-      padding: 0.25rem 0.75rem;
-      border: 1px solid var(--rain-blue);
-      border-radius: 2rem;
-      background: transparent;
-      color: var(--rain-blue);
-      font-size: 0.75rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.2s ease;
-    }
-
-    .copy-button:hover {
-      background: var(--rain-blue);
-      color: var(--warm-white);
-    }
-
-    .bio-text {
-      font-size: 1rem;
-      line-height: 1.8;
-      color: var(--misty-gray);
-    }
-
     /* ===== Request CTA ===== */
     .request-section {
       padding: 5rem 4rem;
@@ -648,7 +557,6 @@
       .values-section,
       .appearances-section,
       .output-section,
-      .bio-section,
       .request-section {
         padding: 4rem 2rem;
       }
@@ -672,8 +580,7 @@
       }
 
       .values-grid,
-      .link-list,
-      .bio-grid {
+      .link-list {
         grid-template-columns: 1fr;
       }
 
@@ -693,7 +600,6 @@
       .values-section,
       .appearances-section,
       .output-section,
-      .bio-section,
       .request-section {
         padding: 3rem 1.5rem;
       }

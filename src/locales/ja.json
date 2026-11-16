@@ -59,7 +59,7 @@
       }
     },
     "premium": {
-      "title": "雨宿りとWEBと余談の小噺",
+      "title": "雨宿りとWEBの余談",
       "description": "雨宿りとWEBの小噺をもっと楽しみたい方のためのメンバーシッププログラム！　　　　　Substackで限定エピソードや無料公開エピソードを配信中！",
       "joinCta": "Substackでメンバーになる",
       "noEpisodes": "現在準備中です。近日公開予定！",
@@ -156,7 +156,7 @@
         }
       },
       "output": {
-        "sectionTitle": "Output",
+        "sectionTitle": "発信活動",
         "blog": {
           "title": "Blog / Newsletter",
           "description": "技術記事やポッドキャストの裏話、日々の学びを発信"
@@ -206,23 +206,13 @@
           "riotBook": "『Riot.jsで簡単Webアプリ開発』（シーアンドアール研究所）"
         }
       },
-      "bio": {
-        "sectionTitle": "紹介文",
-        "description": "イベントや番組でご紹介いただく際は，こちらをそのままお使いください．",
-        "shortLabel": "短い紹介文",
-        "longLabel": "長い紹介文",
-        "copy": "コピー",
-        "copied": "コピーしました",
-        "short": "桑原聖仁（Keeth）。OpenProp株式会社の Engineering Manager。Riot.js コラボレーター。2020年からポッドキャストを配信しており，現在は「雨宿りとWEBの小噺.fm」など6つの番組を運営している。",
-        "long": "桑原聖仁（Keeth）。OpenProp株式会社の Engineering Manager。Riot.js のコラボレーター。著書に『Riot.jsで簡単Webアプリ開発』（シーアンドアール研究所，2020年）。2020年3月にポッドキャストを始め，現在は「雨宿りとWEBの小噺.fm」など6つの番組を運営している。エンジニアの採用支援やパーソナルコーチング，プログラミング教育にも携わり，p5.js を使ったジェネラティブアートの制作も続けている。"
-      },
       "request": {
         "title": "出演・登壇・協賛のご依頼",
         "description": "ポッドキャストへのゲスト出演，イベントでの登壇，番組への協賛など，お気軽にご相談ください．ちょっとした壁打ちも随時受け付けています．",
         "button": "相談する"
       },
       "support": {
-        "sectionTitle": "Support",
+        "sectionTitle": "ご支援",
         "description": "番組や活動を応援していただける方は，こちらから支援いただけると嬉しいです．",
         "githubSponsors": {
           "title": "GitHub Sponsors",
